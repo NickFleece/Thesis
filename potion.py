@@ -143,6 +143,7 @@ class DataGenerator(tf.keras.utils.Sequence):
 
             openpose_heatmaps_dir = f"{DATA_PATH}/OpenPose_Heatmaps/{c}/{f[:-4]}"
 
+            #TODO: THIS IS INEFFICIENT
             all_heatmaps = []
             heatmap_index = 0
             while (os.path.exists(f"{openpose_heatmaps_dir}/{f[:-4]}_{str(heatmap_index).zfill(12)}_pose_heatmaps.png")):
@@ -154,6 +155,7 @@ class DataGenerator(tf.keras.utils.Sequence):
             U = []
             I = []
             N = []
+
             for i in range(len(self.parts)):
 
                 part_heatmaps = []
@@ -163,6 +165,7 @@ class DataGenerator(tf.keras.utils.Sequence):
 
                 channels = 3
                 concat_heatmap = np.zeros((part_heatmaps[0].shape[0], part_heatmaps[0].shape[1], channels))
+
                 for j in range(len(all_heatmaps)):
                     part_map = part_heatmaps[j]
 
