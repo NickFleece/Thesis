@@ -143,12 +143,8 @@ class DataGenerator(tf.keras.utils.Sequence):
 
             openpose_heatmaps_dir = f"{DATA_PATH}/OpenPose_Heatmaps/{c}/{f[:-4]}"
 
-            #TODO: THIS IS INEFFICIENT
-            all_heatmaps = []
-            heatmap_index = 0
-            while (os.path.exists(f"{openpose_heatmaps_dir}/{f[:-4]}_{str(heatmap_index).zfill(12)}_pose_heatmaps.png")):
-                all_heatmaps.append(plt.imread(f"{openpose_heatmaps_dir}/{f[:-4]}_{str(heatmap_index).zfill(12)}_pose_heatmaps.png"))
-                heatmap_index += 1
+            with open(f"{openpose_heatmaps_dir}/{f[:-4]}.npy", 'rb') as f:
+                all_heatmaps = np.load(f)
 
             slice_size = int(np.asarray(all_heatmaps).shape[2]/25)
 
@@ -227,4 +223,3 @@ class DataGenerator(tf.keras.utils.Sequence):
         # self.df_test = self.df_test.sample(random_state=self.seed, frac=1)
 
 dg = DataGenerator(data, 1, verbose=True)
-dg.__getitem__(0)[0]
