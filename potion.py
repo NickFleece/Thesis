@@ -1,5 +1,9 @@
 # Constants/File Paths
 DATA_PATH = "../../../../nvme_comm_dat/JHMDB_Potion/JHMDB"
+MODEL_SAVE_DIR = "models/first_test_model"
+EPOCHS = 100
+SLICE_INDEX = 1
+BATCH_SIZE = 15
 
 #Imports
 import numpy as np
@@ -9,6 +13,10 @@ import os
 from tqdm import tqdm
 import time
 import pandas as pd
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Conv2D, Flatten, BatchNormalization, GlobalAveragePooling2D, Dropout
+from keras.metrics import categorical_accuracy
+from keras.optimizers import Adam
 
 classes = [
     'kick_ball',
@@ -223,3 +231,48 @@ class DataGenerator(tf.keras.utils.Sequence):
         # self.df_test = self.df_test.sample(random_state=self.seed, frac=1)
 
 dg = DataGenerator(data, 1, verbose=True)
+
+RANDOM_SEED = 123
+model_init = tf.keras.initializers.GlorotNormal(seed=RANDOM_SEED)
+
+model = Sequential() #add model layers
+
+model.add(Conv2D(128, kernel_size=3, strides=(2,2), activation='relu', input_shape=(175,368,496), kernel_initializer=model_init))
+model.add(Dropout(0.25))
+model.add(BatchNormalization())
+model.add(Conv2D(128, kernel_size=3, activation='relu', kernel_initializer=model_init))
+model.add(Dropout(0.25))
+model.add(BatchNormalization())
+
+model.add(Conv2D(256, kernel_size=3, strides=(2,2), activation='relu', kernel_initializer=model_init))
+model.add(Dropout(0.25))
+model.add(BatchNormalization())
+model.add(Conv2D(256, kernel_size=3, activation='relu', kernel_initializer=model_init))
+model.add(Dropout(0.25))
+model.add(BatchNormalization())
+
+model.add(Conv2D(512, kernel_size=3, strides=(2,2), activation='relu', kernel_initializer=model_init))
+model.add(Dropout(0.25))
+model.add(BatchNormalization())
+model.add(Conv2D(512, kernel_size=3, activation='relu', kernel_initializer=model_init))
+model.add(Dropout(0.25))
+model.add(BatchNormalization())
+
+model.add(GlobalAveragePooling2D())
+
+model.add(Flatten())
+model.add(Dense(21, activation='softmax', kernel_initializer=model_init))
+
+model.summary()
+
+model.compile(
+    optimizer=Adam(learning_rate=0.0001),
+    loss='categorical_crossentropy',
+    metrics=[categorical_accuracy]
+)
+
+generator = DataGenerator(data, SLICE_INDEX, batch_size=BATCH_SIZE)
+
+model.fit(x=generator, epochs=EPOCHS, verbose=1)
+
+model.save(MODEL_SAVE_DIR)
