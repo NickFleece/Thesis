@@ -1,5 +1,5 @@
 # Constants/File Paths
-DATA_PATH = "../../nvme_comm_dat/JHMDB_Potion/JHMDB"
+DATA_PATH = "../../../../nvme_comm_dat/JHMDB_Potion/JHMDB"
 
 #Imports
 import numpy as np
