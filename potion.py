@@ -1,11 +1,68 @@
-# Constants
+# Constants/File Paths
 DATA_PATH = "../../nvme_comm_dat/JHMDB_Potion/JHMDB"
 
+#Imports
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import os
+from tqdm import tqdm
+import time
+import pandas as pd
 
+classes = [
+    'kick_ball',
+    'pick',
+    'climb_stairs',
+    'clap',
+    'pullup',
+    'golf',
+    'brush_hair',
+    'catch',
+    'pour',
+    'jump',
+    'swing_baseball',
+    'shoot_bow',
+    'walk',
+    'run',
+    'sit',
+    'throw',
+    'push',
+    'shoot_ball',
+    'stand',
+    'shoot_gun',
+    'wave'
+]
+
+data = []
+pbar = tqdm(total=len(classes))
+for c in classes:
+    pbar.set_description(f"Class: {c}")
+
+    for i in range(1, 4):
+
+        lines = open(f"{DATA_PATH}/splits/{c}_test_split{i}.txt").read().splitlines()
+
+        for L in lines:
+            f, train_or_test = L.split(' ')
+
+            if train_or_test == '1':
+                split = "train"
+
+            else:
+                split = "test"
+
+            data.append({
+                "file": f,
+                "class": c,
+                "split": split,
+                "ind": i
+            })
+
+    pbar.update(1)
+    time.sleep(0.1)
+
+data = pd.DataFrame(data)
 
 class DataGenerator(tf.keras.utils.Sequence):
 
@@ -14,7 +71,6 @@ class DataGenerator(tf.keras.utils.Sequence):
         self.df_train = df.loc[df['ind'] == ind].loc[df['split'] == 'train'].sample(random_state=self.seed, frac=1)
         self.df_test = df.loc[df['ind'] == ind].loc[df['split'] == 'test'].sample(random_state=self.seed, frac=1)
         self.batch_size = batch_size
-        self.video_folder_path = f"/content/drive/MyDrive/School/Thesis/JHMDB/Videos"
         self.verbose = verbose
 
         self.target_class_map = [
@@ -135,10 +191,6 @@ class DataGenerator(tf.keras.utils.Sequence):
             I = np.asarray(I)
             N = np.asarray(N)
 
-            # U = np.load(f"{self.video_folder_path}/{c}/U_heatmaps/{f[:-4]}.npz")['arr_0']
-            # I = np.load(f"{self.video_folder_path}/{c}/I_heatmaps/{f[:-4]}.npz")['arr_0']
-            # N = np.load(f"{self.video_folder_path}/{c}/N_heatmaps/{f[:-4]}.npz")['arr_0']
-
             single_result_arr = []
 
             # go from (x,x,3) to (3,x,x), same idea for the others, just stacking all channels
@@ -170,3 +222,6 @@ class DataGenerator(tf.keras.utils.Sequence):
     def on_epoch_end(self):
         self.df_train = self.df_train.sample(random_state=self.seed, frac=1)
         # self.df_test = self.df_test.sample(random_state=self.seed, frac=1)
+
+dg = DataGenerator(data, 1, verbose=True)
+dg.__getitem__(0)[0]
