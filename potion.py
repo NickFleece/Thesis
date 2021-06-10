@@ -1,22 +1,37 @@
+import os
+# SELECT WHAT GPU TO USE
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
+# ONLY PRINT ERRORS
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
+
 # Constants/File Paths
 DATA_PATH = "../../../../nvme_comm_dat/JHMDB_Potion/JHMDB"
 MODEL_SAVE_DIR = "models/first_test_model"
-EPOCHS = 100
+EPOCHS = 10
 SLICE_INDEX = 1
-BATCH_SIZE = 15
+BATCH_SIZE = 10
+RANDOM_SEED = 123
 
 #Imports
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
-import os
 from tqdm import tqdm
 import time
 import pandas as pd
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, BatchNormalization, GlobalAveragePooling2D, Dropout
-from keras.metrics import categorical_accuracy
-from keras.optimizers import Adam
+from tensorflow.keras.metrics import categorical_accuracy
+from tensorflow.keras.optimizers import Adam
+
+physical_devices = tf.config.list_physical_devices('GPU')
+print("Num GPUs:", len(physical_devices))
+for i in physical_devices:
+    try:
+        tf.config.experimental.set_memory_growth(i, True)
+    except:
+        print("Something went wrong while setting memory growth...")
+        continue
 
 classes = [
     'kick_ball',
@@ -43,9 +58,9 @@ classes = [
 ]
 
 data = []
-pbar = tqdm(total=len(classes))
+#pbar = tqdm(total=len(classes))
 for c in classes:
-    pbar.set_description(f"Class: {c}")
+    #pbar.set_description(f"Class: {c}")
 
     for i in range(1, 4):
 
@@ -67,15 +82,15 @@ for c in classes:
                 "ind": i
             })
 
-    pbar.update(1)
-    time.sleep(0.1)
+    #pbar.update(1)
+    #time.sleep(0.1)
 
 data = pd.DataFrame(data)
 
 class DataGenerator(tf.keras.utils.Sequence):
 
     def __init__(self, df, ind, batch_size=8, verbose=False):
-        self.seed = 15
+        self.seed = RANDOM_SEED
         self.df_train = df.loc[df['ind'] == ind].loc[df['split'] == 'train'].sample(random_state=self.seed, frac=1)
         self.df_test = df.loc[df['ind'] == ind].loc[df['split'] == 'test'].sample(random_state=self.seed, frac=1)
         self.batch_size = batch_size
@@ -150,7 +165,7 @@ class DataGenerator(tf.keras.utils.Sequence):
             c = i[1]['class']
 
             openpose_heatmaps_dir = f"{DATA_PATH}/OpenPose_Heatmaps/{c}/{f[:-4]}"
-
+            
             with open(f"{openpose_heatmaps_dir}/{f[:-4]}.npy", 'rb') as f:
                 all_heatmaps = np.load(f)
 
@@ -182,13 +197,11 @@ class DataGenerator(tf.keras.utils.Sequence):
 
                 for k in range(channels):
                     concat_heatmap[:, :, k] /= concat_heatmap.max()
-
                 Uj = concat_heatmap
                 U.append(concat_heatmap)
 
                 Ij = np.sum(Uj, axis=2)
                 I.append(Ij)
-
                 i3 = np.reshape(Ij, (Ij.shape[0], Ij.shape[1], 1))
                 i3 = np.repeat(i3, 3, axis=2)
                 Nj = Uj/(i3+1)
@@ -211,7 +224,6 @@ class DataGenerator(tf.keras.utils.Sequence):
             for n in N:
                 for j in range(3):
                     single_result_arr.append(n[:, :, j])
-
             result_arr.append(single_result_arr)
 
             single_target = np.zeros(len(self.target_class_map))
@@ -230,9 +242,9 @@ class DataGenerator(tf.keras.utils.Sequence):
         self.df_train = self.df_train.sample(random_state=self.seed, frac=1)
         # self.df_test = self.df_test.sample(random_state=self.seed, frac=1)
 
-dg = DataGenerator(data, 1, verbose=True)
+dg = DataGenerator(data, 1, batch_size=20, verbose=True)
+#print(dg.__getitem__(0))
 
-RANDOM_SEED = 123
 model_init = tf.keras.initializers.GlorotNormal(seed=RANDOM_SEED)
 
 model = Sequential() #add model layers

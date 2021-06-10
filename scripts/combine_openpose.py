@@ -15,11 +15,14 @@ for i in os.listdir(DATA_PATH):
         
         all_heatmaps = []
         heatmap_index = 0
-        while(os.path.exists(heatmaps_folder + "/" + j + "_" + str(heatmap_index).zfill(12) + "_pose_heatmaps.png")):
-            all_heatmaps.append(plt.imread(heatmaps_folder + "/" + j + "_" + str(heatmap_index).zfill(12) + "_pose_heatmaps.png"))
-            heatmap_index += 1
+        #while(os.path.exists(heatmaps_folder + "/" + j + "_" + str(heatmap_index).zfill(12) + "_pose_heatmaps.png")):
+            #all_heatmaps.append(plt.imread(heatmaps_folder + "/" + j + "_" + str(heatmap_index).zfill(12) + "_pose_heatmaps.png"))
+            #heatmap_index += 1
 
-        with open(heatmaps_folder + "/" + j + ".npy", 'wb') as f:
-            np.save(f, np.asarray(all_heatmaps))
+        #with open(heatmaps_folder + "/" + j + ".npy", 'wb') as f:
+            #np.save(f, np.asarray(all_heatmaps))
+        
+        with open(heatmaps_folder + "/" + j + ".npy", 'rb') as f:
+            np.load(f)
 
         pbar.update(1)
