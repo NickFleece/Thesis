@@ -1,4 +1,4 @@
-DATA_PATH = "../../../../../nvme_comm_dat/JHMDB_Potion/JHMDB/OpenPose_Heatmaps"
+DATA_PATH = "../../../../../comm_dat/nfleece/JHMDB/OpenPose_Heatmaps"
 
 import os
 import matplotlib.pyplot as plt
@@ -8,7 +8,7 @@ import threading
 from queue import Queue
 import time
 
-MAX_THREADS = 3
+MAX_THREADS = 16
 pbar = tqdm(total=928)
 q = Queue()
 
@@ -22,7 +22,7 @@ def createnpz(name, hmap_folder):
             plt.imread(hmap_folder + "/" + name + "_" + str(heatmap_index).zfill(12) + "_pose_heatmaps.png"))
         heatmap_index += 1
 
-    with open(hmap_folder + "/" + name + ".npy", 'wb') as f:
+    with open(hmap_folder + "/" + name + ".npz", 'wb') as f:
         np.savez_compressed(f, np.asarray(all_heatmaps))
 
     q.task_done()
