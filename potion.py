@@ -1,15 +1,15 @@
 import os
 # SELECT WHAT GPU TO USE
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
+os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
 # ONLY PRINT ERRORS
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 
 # Constants/File Paths
-DATA_PATH = "../../../../nvme_comm_dat/JHMDB_Potion/JHMDB"
+DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
 MODEL_SAVE_DIR = "models/first_test_model"
-EPOCHS = 10
+EPOCHS = 200
 SLICE_INDEX = 1
-BATCH_SIZE = 10
+BATCH_SIZE = 8
 RANDOM_SEED = 123
 
 #Imports
@@ -158,8 +158,7 @@ class DataGenerator(tf.keras.utils.Sequence):
     def getDataItem(self, f, c):
         openpose_heatmaps_dir = f"{DATA_PATH}/OpenPose_Heatmaps/{c}/{f[:-4]}"
 
-        with open(f"{openpose_heatmaps_dir}/{f[:-4]}.npy", 'rb') as f:
-            all_heatmaps = np.load(f)
+        all_heatmaps = np.load(f"{openpose_heatmaps_dir}/{f[:-4]}.npz")['arr_0']
 
         slice_size = int(np.asarray(all_heatmaps).shape[2] / 25)
 
@@ -187,8 +186,9 @@ class DataGenerator(tf.keras.utils.Sequence):
                     channel_map = part_map * max((-(channels - 1) * (abs(t - step)) + 1), 0)
                     concat_heatmap[:, :, k] += channel_map
 
-            for k in range(channels):
-                concat_heatmap[:, :, k] /= concat_heatmap.max()
+            if not concat_heatmap.max() == 0:
+                for k in range(channels):
+                    concat_heatmap[:, :, k] /= concat_heatmap.max()
             Uj = concat_heatmap
             U.append(concat_heatmap)
 
@@ -229,6 +229,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         result_arr = []
         target = []
 
+        thread_count = 0
         for i in batch_df.iterrows():
             f = i[1]['file']
             c = i[1]['class']
@@ -237,6 +238,11 @@ class DataGenerator(tf.keras.utils.Sequence):
             t = threading.Thread(target=self.getDataItem, args=(f,c))
             t.start()
             self.job_queue.put(t)
+            thread_count += 1
+
+            if thread_count == 2:
+                self.job_queue.join()
+                thread_count = 0
 
         self.job_queue.join()
 
@@ -255,7 +261,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         self.df_train = self.df_train.sample(random_state=self.seed, frac=1)
         # self.df_test = self.df_test.sample(random_state=self.seed, frac=1)
 
-dg = DataGenerator(data, 1, batch_size=20)
+#dg = DataGenerator(data, 1, batch_size=20)
 #print(dg.__getitem__(0))
 
 model_init = tf.keras.initializers.GlorotNormal(seed=RANDOM_SEED)
@@ -298,6 +304,12 @@ model.compile(
 
 generator = DataGenerator(data, SLICE_INDEX, batch_size=BATCH_SIZE)
 
-model.fit(x=generator, epochs=EPOCHS, verbose=1)
+model.fit(
+    x=generator,
+    epochs=EPOCHS,
+    verbose=1,
+    workers=8,
+    use_multiprocessing=True
+)
 
 model.save(MODEL_SAVE_DIR)
