@@ -91,11 +91,11 @@ data = pd.DataFrame(data)
 
 class DataGenerator(tf.keras.utils.Sequence):
 
-    def __init__(self, df, ind, batch_size=8):
+    def __init__(self, df, ind, batch_size=8, train_or_test='train'):
         self.seed = RANDOM_SEED
-        self.df_train = df.loc[df['ind'] == ind].loc[df['split'] == 'train'].sample(random_state=self.seed, frac=1)
-        self.df_test = df.loc[df['ind'] == ind].loc[df['split'] == 'test'].sample(random_state=self.seed, frac=1)
         self.batch_size = batch_size
+
+        self.data_df = df.loc[df['ind'] == ind].loc[df['split'] == train_or_test].sample(random_state=self.seed, frac=1)
 
         self.job_queue = queue.Queue()
         self.result_queue = queue.Queue()
@@ -153,7 +153,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         ]
 
     def __len__(self):
-        return len(self.df_train) // self.batch_size
+        return len(self.data_df) // self.batch_size
 
     def getDataItem(self, f, c):
         openpose_heatmaps_dir = f"{DATA_PATH}/OpenPose_Heatmaps/{c}/{f[:-4]}"
@@ -224,7 +224,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         self.job_queue.task_done()
 
     def __getitem__(self, index):
-        batch_df = self.df_train.iloc[index * self.batch_size: (index + 1) * self.batch_size]
+        batch_df = self.data_df.iloc[index * self.batch_size: (index + 1) * self.batch_size]
 
         result_arr = []
         target = []
@@ -258,8 +258,7 @@ class DataGenerator(tf.keras.utils.Sequence):
         return result_arr, target
 
     def on_epoch_end(self):
-        self.df_train = self.df_train.sample(random_state=self.seed, frac=1)
-        # self.df_test = self.df_test.sample(random_state=self.seed, frac=1)
+        self.data_df = self.data_df.sample(random_state=self.seed, frac=1)
 
 #dg = DataGenerator(data, 1, batch_size=20)
 #print(dg.__getitem__(0))
@@ -303,13 +302,15 @@ model.compile(
 )
 
 generator = DataGenerator(data, SLICE_INDEX, batch_size=BATCH_SIZE)
+val_generator = DataGenerator(data, SLICE_INDEX, batch_size=BATCH_SIZE, train_or_test='test')
 
 model.fit(
     x=generator,
+    validation_data=val_generator,
     epochs=EPOCHS,
     verbose=1,
     workers=8,
-    use_multiprocessing=True
+    use_multiprocessing=True,
 )
 
 model.save(MODEL_SAVE_DIR)
