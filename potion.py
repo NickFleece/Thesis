@@ -16,9 +16,9 @@ RANDOM_SEED = 123
 #Imports
 import numpy as np
 import tensorflow as tf
-import matplotlib.pyplot as plt
-from tqdm import tqdm
-import time
+# import matplotlib.pyplot as plt
+# from tqdm import tqdm
+# import time
 import pandas as pd
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, BatchNormalization, GlobalAveragePooling2D, Dropout
@@ -27,6 +27,7 @@ from tensorflow.keras.optimizers import Adam
 import queue
 import threading
 import pickle
+import random
 
 physical_devices = tf.config.list_physical_devices('GPU')
 print("Num GPUs:", len(physical_devices))
@@ -164,6 +165,8 @@ class DataGenerator(tf.keras.utils.Sequence):
 
         slice_size = int(np.asarray(all_heatmaps).shape[2] / 25)
 
+        flip_img = random.random() > 0.5
+
         U = []
         I = []
         N = []
@@ -192,10 +195,15 @@ class DataGenerator(tf.keras.utils.Sequence):
                 for k in range(channels):
                     concat_heatmap[:, :, k] /= concat_heatmap.max()
             Uj = concat_heatmap
-            U.append(concat_heatmap)
+
+            if flip_img:
+                Uj = np.flip(Uj, axis=1)
+
+            U.append(Uj)
 
             Ij = np.sum(Uj, axis=2)
             I.append(Ij)
+
             i3 = np.reshape(Ij, (Ij.shape[0], Ij.shape[1], 1))
             i3 = np.repeat(i3, 3, axis=2)
             Nj = Uj / (i3 + 1)
@@ -292,7 +300,7 @@ model.add(Dense(21, activation='softmax', kernel_initializer=model_init))
 model.summary()
 
 model.compile(
-    optimizer=Adam(learning_rate=0.0001),
+    optimizer=Adam(learning_rate=0.0005),
     loss='categorical_crossentropy',
     metrics=[categorical_accuracy]
 )
