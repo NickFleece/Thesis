@@ -6,8 +6,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 # Constants/File Paths
 DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
-MODEL_SAVE_DIR = "models/first_test_model"
-EPOCHS = 200
+MODEL_SAVE_DIR = "models/1_test_model"
+HIST_SAVE_DIR = "models/1_test_model_hist.pickle"
+EPOCHS = 100
 SLICE_INDEX = 1
 BATCH_SIZE = 8
 RANDOM_SEED = 123
@@ -25,6 +26,7 @@ from tensorflow.keras.metrics import categorical_accuracy
 from tensorflow.keras.optimizers import Adam
 import queue
 import threading
+import pickle
 
 physical_devices = tf.config.list_physical_devices('GPU')
 print("Num GPUs:", len(physical_devices))
@@ -240,7 +242,7 @@ class DataGenerator(tf.keras.utils.Sequence):
             self.job_queue.put(t)
             thread_count += 1
 
-            if thread_count == 2:
+            if thread_count == 9:
                 self.job_queue.join()
                 thread_count = 0
 
@@ -268,29 +270,23 @@ model_init = tf.keras.initializers.GlorotNormal(seed=RANDOM_SEED)
 model = Sequential() #add model layers
 
 model.add(Conv2D(128, kernel_size=3, strides=(2,2), activation='relu', input_shape=(175,368,496), kernel_initializer=model_init))
-model.add(Dropout(0.25))
 model.add(BatchNormalization())
 model.add(Conv2D(128, kernel_size=3, activation='relu', kernel_initializer=model_init))
-model.add(Dropout(0.25))
 model.add(BatchNormalization())
 
 model.add(Conv2D(256, kernel_size=3, strides=(2,2), activation='relu', kernel_initializer=model_init))
-model.add(Dropout(0.25))
 model.add(BatchNormalization())
 model.add(Conv2D(256, kernel_size=3, activation='relu', kernel_initializer=model_init))
-model.add(Dropout(0.25))
 model.add(BatchNormalization())
 
 model.add(Conv2D(512, kernel_size=3, strides=(2,2), activation='relu', kernel_initializer=model_init))
-model.add(Dropout(0.25))
 model.add(BatchNormalization())
 model.add(Conv2D(512, kernel_size=3, activation='relu', kernel_initializer=model_init))
-model.add(Dropout(0.25))
 model.add(BatchNormalization())
 
 model.add(GlobalAveragePooling2D())
-
-model.add(Flatten())
+#model.add(Dense(512)
+model.add(Dropout(0.8))
 model.add(Dense(21, activation='softmax', kernel_initializer=model_init))
 
 model.summary()
@@ -304,13 +300,15 @@ model.compile(
 generator = DataGenerator(data, SLICE_INDEX, batch_size=BATCH_SIZE)
 val_generator = DataGenerator(data, SLICE_INDEX, batch_size=BATCH_SIZE, train_or_test='test')
 
-model.fit(
+hist = model.fit(
     x=generator,
     validation_data=val_generator,
     epochs=EPOCHS,
     verbose=1,
-    workers=8,
+    workers=3,
     use_multiprocessing=True,
 )
 
 model.save(MODEL_SAVE_DIR)
+with open(HIST_SAVE_DIR, 'wb') as f:
+    pickle.dump(hist.history, f)
