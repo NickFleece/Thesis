@@ -293,14 +293,15 @@ model.add(Conv2D(512, kernel_size=3, activation='relu', kernel_initializer=model
 model.add(BatchNormalization())
 
 model.add(GlobalAveragePooling2D())
-#model.add(Dense(512)
+model.add(Dropout(0.8))
+model.add(Dense(512))
 model.add(Dropout(0.8))
 model.add(Dense(21, activation='softmax', kernel_initializer=model_init))
 
 model.summary()
 
 model.compile(
-    optimizer=Adam(learning_rate=0.0005),
+    optimizer=Adam(learning_rate=0.00005),
     loss='categorical_crossentropy',
     metrics=[categorical_accuracy]
 )
