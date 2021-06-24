@@ -10,7 +10,7 @@ MODEL_SAVE_DIR = "models/2_test_model"
 HIST_SAVE_DIR = "models/2_test_model_hist.pickle"
 EPOCHS = 100
 SLICE_INDEX = 1
-BATCH_SIZE = 8
+BATCH_SIZE = 64
 RANDOM_SEED = 123
 
 #Imports
@@ -251,7 +251,7 @@ class DataGenerator(tf.keras.utils.Sequence):
             self.job_queue.put(t)
             thread_count += 1
 
-            if thread_count == 9:
+            if thread_count == 16:
                 self.job_queue.join()
                 thread_count = 0
 
@@ -317,8 +317,8 @@ hist = model.fit(
     validation_data=val_generator,
     epochs=EPOCHS,
     verbose=1,
-    workers=3,
-    use_multiprocessing=True,
+    # workers=3,
+    # use_multiprocessing=True,
 )
 
 model.save(MODEL_SAVE_DIR)
