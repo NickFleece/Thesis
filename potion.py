@@ -8,9 +8,9 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
 MODEL_SAVE_DIR = "models/2_test_model"
 HIST_SAVE_DIR = "models/2_test_model_hist.pickle"
-EPOCHS = 100
+EPOCHS = 200
 SLICE_INDEX = 1
-BATCH_SIZE = 64
+BATCH_SIZE = 8
 RANDOM_SEED = 123
 
 #Imports
@@ -23,7 +23,7 @@ import pandas as pd
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, BatchNormalization, GlobalAveragePooling2D, Dropout
 from tensorflow.keras.metrics import categorical_accuracy
-from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.regularizers import l2
 import queue
 import threading
@@ -251,7 +251,7 @@ class DataGenerator(tf.keras.utils.Sequence):
             self.job_queue.put(t)
             thread_count += 1
 
-            if thread_count == 16:
+            if thread_count == 18:
                 self.job_queue.join()
                 thread_count = 0
 
@@ -304,7 +304,7 @@ model.add(Dense(21, activation='softmax', kernel_initializer=model_init))
 model.summary()
 
 model.compile(
-    optimizer=Adam(learning_rate=0.00005),
+    optimizer=SGD(learning_rate=0.05, momentum=0.9),
     loss='categorical_crossentropy',
     metrics=[categorical_accuracy]
 )

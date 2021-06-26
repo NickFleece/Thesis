@@ -13,7 +13,7 @@ import time
 import pandas as pd
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Conv2D, Flatten, BatchNormalization, GlobalAveragePooling2D, Dropout
+from tensorflow.keras.layers import Dense, Conv2D, Flatten, BatchNormalization, GlobalAveragePooling2D, Dropout, ReLU
 from tensorflow.keras.metrics import categorical_accuracy
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.regularizers import l2
@@ -28,7 +28,7 @@ MODEL_SAVE_DIR = "models/3_tf_test_model"
 HIST_SAVE_DIR = "models/3_tf_test_model_hist.pickle"
 EPOCHS = 100
 SLICE_INDEX = 1
-BATCH_SIZE = 64
+BATCH_SIZE = 8
 RANDOM_SEED = 123
 NUM_WORKERS = tf.data.AUTOTUNE
 
@@ -94,7 +94,7 @@ parts = [
 ]
 
 data = []
-pbar = tqdm(total=len(classes))
+#pbar = tqdm(total=len(classes))
 for c in classes:
     #pbar.set_description(f"Class: {c}")
 
@@ -118,18 +118,16 @@ for c in classes:
                 "ind": i
             })
 
-    pbar.update(1)
-    time.sleep(0.1)
+    #pbar.update(1)
+    #time.sleep(0.1)
 
 data = pd.DataFrame(data)
 
-train_ds = tf.data.Dataset.from_tensor_slices(
-    data.loc[data['ind'] == SLICE_INDEX].loc[data['split'] == 'train'][["file", "class"]].values
-)
+train_data = data.loc[data['ind'] == SLICE_INDEX].loc[data['split'] == 'train'][["file", "class"]].values
+val_data = data.loc[data['ind'] == SLICE_INDEX].loc[data['split'] == 'test'][["file", "class"]].values
 
-val_ds = tf.data.Dataset.from_tensor_slices(
-    data.loc[data['ind'] == SLICE_INDEX].loc[data['split'] == 'test'][["file", "class"]].values
-)
+train_ds = tf.data.Dataset.from_tensor_slices(train_data)
+val_ds = tf.data.Dataset.from_tensor_slices(val_data)
 
 def process_data(data_tensor):
     data_arr = data_tensor.numpy()
@@ -212,29 +210,35 @@ def process_data(data_tensor):
 def load_data(data_tensor):
     return tf.py_function(process_data, inp=[data_tensor], Tout=[tf.int64, tf.int64])
 
-train_ds = train_ds.map(load_data, num_parallel_calls=NUM_WORKERS)
-val_ds = val_ds.map(load_data, num_parallel_calls=NUM_WORKERS)
+train_ds = train_ds.shuffle(len(train_data), reshuffle_each_iteration=True).map(load_data, num_parallel_calls=NUM_WORKERS).repeat(EPOCHS).batch(BATCH_SIZE)
+val_ds = val_ds.shuffle(len(val_data), reshuffle_each_iteration=True).map(load_data, num_parallel_calls=NUM_WORKERS).repeat(EPOCHS).batch(BATCH_SIZE)
 
-regularizer = l2(0.0005)
+regularizer = l2(0.001)
 
 model_init = tf.keras.initializers.GlorotNormal(seed=RANDOM_SEED)
 
 model = Sequential() #add model layers
 
-model.add(Conv2D(128, kernel_size=3, strides=(2,2), activation='relu', input_shape=(175,368,496), kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
+model.add(Conv2D(128, kernel_size=3, strides=(2,2), input_shape=(175,368,496), kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
 model.add(BatchNormalization())
-model.add(Conv2D(128, kernel_size=3, activation='relu', kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
+model.add(ReLU())
+model.add(Conv2D(128, kernel_size=3, kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
 model.add(BatchNormalization())
+model.add(ReLU())
 
-model.add(Conv2D(256, kernel_size=3, strides=(2,2), activation='relu', kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
+model.add(Conv2D(256, kernel_size=3, strides=(2,2), kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
 model.add(BatchNormalization())
-model.add(Conv2D(256, kernel_size=3, activation='relu', kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
+model.add(ReLU())
+model.add(Conv2D(256, kernel_size=3, kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
 model.add(BatchNormalization())
+model.add(ReLU())
 
-model.add(Conv2D(512, kernel_size=3, strides=(2,2), activation='relu', kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
+model.add(Conv2D(512, kernel_size=3, strides=(2,2), kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
 model.add(BatchNormalization())
-model.add(Conv2D(512, kernel_size=3, activation='relu', kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
+model.add(ReLU())
+model.add(Conv2D(512, kernel_size=3, kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
 model.add(BatchNormalization())
+model.add(ReLU())
 
 model.add(GlobalAveragePooling2D())
 # model.add(Dropout(0.8))
@@ -245,7 +249,7 @@ model.add(Dense(21, activation='softmax', kernel_initializer=model_init))
 model.summary()
 
 model.compile(
-    optimizer=Adam(learning_rate=0.00005),
+    optimizer=Adam(learning_rate=0.0001),
     loss='categorical_crossentropy',
     metrics=[categorical_accuracy]
 )
@@ -255,6 +259,8 @@ hist = model.fit(
     validation_data=val_ds,
     epochs=EPOCHS,
     verbose=1,
+    steps_per_epoch=len(train_data)//BATCH_SIZE,
+    validation_steps=len(val_data)//BATCH_SIZE,
     # workers=3,
     # use_multiprocessing=True,
 )
