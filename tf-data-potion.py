@@ -93,6 +93,36 @@ parts = [
     "RHeel"
 ]
 
+part_side = [
+    "T",
+    "T",
+    "R",
+    "R",
+    "R",
+    "L",
+    "L",
+    "L",
+    "B",
+    "B",
+    "B",
+    "B",
+    "B",
+    "B",
+    "B",
+    "T",
+    "T",
+    "T",
+    "T",
+    "B",
+    "B",
+    "B",
+    "B",
+    "B",
+    "B",
+]
+
+sides = ["T", "B", "L", "R"]
+
 data = []
 #pbar = tqdm(total=len(classes))
 for c in classes:
@@ -141,6 +171,9 @@ def process_data(data_tensor):
     slice_size = int(np.asarray(all_heatmaps).shape[2] / 25)
 
     flip_img = random.random() > 0.5
+    
+    hide_parts = random.random() > 0.2
+    part_to_hide = random.choice(parts)
 
     U = []
     I = []
@@ -156,15 +189,16 @@ def process_data(data_tensor):
         channels = 3
         concat_heatmap = np.zeros((part_heatmaps[0].shape[0], part_heatmaps[0].shape[1], channels))
 
-        for j in range(len(all_heatmaps)):
-            part_map = part_heatmaps[j]
+        if not (part_side[i] == part_to_hide and hide_parts):
+            for j in range(len(all_heatmaps)):
+                part_map = part_heatmaps[j]
 
-            t = (j + 1) / len(all_heatmaps)
+                t = (j + 1) / len(all_heatmaps)
 
-            for k in range(channels):
-                step = (1 / (channels - 1)) * k
-                channel_map = part_map * max((-(channels - 1) * (abs(t - step)) + 1), 0)
-                concat_heatmap[:, :, k] += channel_map
+                for k in range(channels):
+                    step = (1 / (channels - 1)) * k
+                    channel_map = part_map * max((-(channels - 1) * (abs(t - step)) + 1), 0)
+                    concat_heatmap[:, :, k] += channel_map
 
         if not concat_heatmap.max() == 0:
             for k in range(channels):
@@ -173,7 +207,7 @@ def process_data(data_tensor):
 
         if flip_img:
             Uj = np.flip(Uj, axis=1)
-
+        
         U.append(Uj)
 
         Ij = np.sum(Uj, axis=2)
@@ -210,34 +244,34 @@ def process_data(data_tensor):
 def load_data(data_tensor):
     return tf.py_function(process_data, inp=[data_tensor], Tout=[tf.int64, tf.int64])
 
-train_ds = train_ds.shuffle(len(train_data), reshuffle_each_iteration=True).map(load_data, num_parallel_calls=NUM_WORKERS).repeat(EPOCHS).batch(BATCH_SIZE)
-val_ds = val_ds.shuffle(len(val_data), reshuffle_each_iteration=True).map(load_data, num_parallel_calls=NUM_WORKERS).repeat(EPOCHS).batch(BATCH_SIZE)
+train_ds = train_ds.shuffle(len(train_data), reshuffle_each_iteration=True).map(load_data, num_parallel_calls=NUM_WORKERS).batch(BATCH_SIZE)
+val_ds = val_ds.shuffle(len(val_data), reshuffle_each_iteration=True).map(load_data, num_parallel_calls=NUM_WORKERS).batch(BATCH_SIZE)
 
-regularizer = l2(0.001)
+regularizer = l2(0.005)
 
 model_init = tf.keras.initializers.GlorotNormal(seed=RANDOM_SEED)
 
 model = Sequential() #add model layers
 
 model.add(Conv2D(128, kernel_size=3, strides=(2,2), input_shape=(175,368,496), kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization())
+model.add(BatchNormalization(momentum=0.9))
 model.add(ReLU())
 model.add(Conv2D(128, kernel_size=3, kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization())
+model.add(BatchNormalization(momentum=0.9))
 model.add(ReLU())
 
 model.add(Conv2D(256, kernel_size=3, strides=(2,2), kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization())
+model.add(BatchNormalization(momentum=0.9))
 model.add(ReLU())
 model.add(Conv2D(256, kernel_size=3, kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization())
+model.add(BatchNormalization(momentum=0.9))
 model.add(ReLU())
 
 model.add(Conv2D(512, kernel_size=3, strides=(2,2), kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization())
+model.add(BatchNormalization(momentum=0.9))
 model.add(ReLU())
 model.add(Conv2D(512, kernel_size=3, kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization())
+model.add(BatchNormalization(momentum=0.9))
 model.add(ReLU())
 
 model.add(GlobalAveragePooling2D())
@@ -259,8 +293,8 @@ hist = model.fit(
     validation_data=val_ds,
     epochs=EPOCHS,
     verbose=1,
-    steps_per_epoch=len(train_data)//BATCH_SIZE,
-    validation_steps=len(val_data)//BATCH_SIZE,
+    # steps_per_epoch=len(train_data)//BATCH_SIZE,
+    # validation_steps=len(val_data)//BATCH_SIZE,
     # workers=3,
     # use_multiprocessing=True,
 )
