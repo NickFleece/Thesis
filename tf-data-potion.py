@@ -26,9 +26,9 @@ import random
 DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
 MODEL_SAVE_DIR = "models/3_tf_test_model"
 HIST_SAVE_DIR = "models/3_tf_test_model_hist.pickle"
-EPOCHS = 100
+EPOCHS = 200
 SLICE_INDEX = 1
-BATCH_SIZE = 8
+BATCH_SIZE = 16
 RANDOM_SEED = 123
 NUM_WORKERS = tf.data.AUTOTUNE
 
@@ -172,7 +172,7 @@ def process_data(data_tensor):
 
     flip_img = random.random() > 0.5
     
-    hide_parts = random.random() > 0.2
+    hide_parts = random.random() > 0.4
     part_to_hide = random.choice(parts)
 
     U = []
@@ -247,31 +247,31 @@ def load_data(data_tensor):
 train_ds = train_ds.shuffle(len(train_data), reshuffle_each_iteration=True).map(load_data, num_parallel_calls=NUM_WORKERS).batch(BATCH_SIZE)
 val_ds = val_ds.shuffle(len(val_data), reshuffle_each_iteration=True).map(load_data, num_parallel_calls=NUM_WORKERS).batch(BATCH_SIZE)
 
-regularizer = l2(0.005)
+#regularizer = l2(0.005)
 
 model_init = tf.keras.initializers.GlorotNormal(seed=RANDOM_SEED)
 
 model = Sequential() #add model layers
 
-model.add(Conv2D(128, kernel_size=3, strides=(2,2), input_shape=(175,368,496), kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization(momentum=0.9))
+model.add(Conv2D(128, kernel_size=3, strides=(2,2), input_shape=(175,368,496), kernel_initializer=model_init))
+model.add(BatchNormalization())
 model.add(ReLU())
-model.add(Conv2D(128, kernel_size=3, kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization(momentum=0.9))
-model.add(ReLU())
-
-model.add(Conv2D(256, kernel_size=3, strides=(2,2), kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization(momentum=0.9))
-model.add(ReLU())
-model.add(Conv2D(256, kernel_size=3, kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization(momentum=0.9))
+model.add(Conv2D(128, kernel_size=3, kernel_initializer=model_init))
+model.add(BatchNormalization())
 model.add(ReLU())
 
-model.add(Conv2D(512, kernel_size=3, strides=(2,2), kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization(momentum=0.9))
+model.add(Conv2D(256, kernel_size=3, strides=(2,2), kernel_initializer=model_init))
+model.add(BatchNormalization())
 model.add(ReLU())
-model.add(Conv2D(512, kernel_size=3, kernel_initializer=model_init, kernel_regularizer=regularizer, bias_regularizer=regularizer))
-model.add(BatchNormalization(momentum=0.9))
+model.add(Conv2D(256, kernel_size=3, kernel_initializer=model_init))
+model.add(BatchNormalization())
+model.add(ReLU())
+
+model.add(Conv2D(512, kernel_size=3, strides=(2,2), kernel_initializer=model_init))
+model.add(BatchNormalization())
+model.add(ReLU())
+model.add(Conv2D(512, kernel_size=3, kernel_initializer=model_init))
+model.add(BatchNormalization())
 model.add(ReLU())
 
 model.add(GlobalAveragePooling2D())
