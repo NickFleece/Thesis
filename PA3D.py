@@ -1,6 +1,6 @@
 import os
 # SELECT WHAT GPU TO USE
-os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
+os.environ["CUDA_VISIBLE_DEVICES"]="0,2"
 # ONLY PRINT ERRORS
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 
@@ -21,7 +21,7 @@ MODEL_SAVE_DIR = "models/pa3d_1_model"
 HIST_SAVE_DIR = "models/pa3d_1_model_hist.pickle"
 EPOCHS = 200
 SLICE_INDEX = 1
-BATCH_SIZE = 16
+BATCH_SIZE = 2
 RANDOM_SEED = 123
 VIDEO_PADDED_LEN = 40
 NUM_WORKERS = tf.data.AUTOTUNE
@@ -162,11 +162,11 @@ def process_data(data_tensor):
 
     all_heatmaps = []
     for i in range(VIDEO_PADDED_LEN):
-        if not os.path.exists(f"{openpose_heatmaps_dir}/{c}_{str(i).zfill(12)}_pose_heatmaps.png"):
+        if not os.path.exists(f"{openpose_heatmaps_dir}/{f[:-4]}_{str(i).zfill(12)}_pose_heatmaps.png"):
             continue
 
         all_heatmaps.append(
-            np.asarray(Image.open(f"{openpose_heatmaps_dir}/{c}_{str(i).zfill(12)}_pose_heatmaps.png"))
+            np.asarray(Image.open(f"{openpose_heatmaps_dir}/{f[:-4]}_{str(i).zfill(12)}_pose_heatmaps.png"))
         )
 
     img_shape = all_heatmaps[0].shape
@@ -230,7 +230,7 @@ model.add(Dense(21, activation='softmax', kernel_initializer=model_init))
 model.summary()
 
 model.compile(
-    optimizer=Adam(learning_rate=0.0001),
+    optimizer=Adam(learning_rate=0.00001),
     loss='categorical_crossentropy',
     metrics=[categorical_accuracy]
 )

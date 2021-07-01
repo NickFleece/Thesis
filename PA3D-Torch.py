@@ -13,7 +13,8 @@ import torch.optim as optim
 
 from appendix import *
 
-device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+print(device)
 
 # Constants/File Paths
 DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
@@ -64,7 +65,7 @@ class CNN(nn.Module):
         self.final_block = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(512, 10),
+            nn.Linear(512, 21),
             nn.Softmax(dim=1),
         )
 
@@ -141,7 +142,7 @@ def process_data(data):
     target = np.zeros(len(classes))
     target[classes.index(c)] = 1
 
-    result_queue.put((images, target))
+    result_queue.put([images, target])
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(
@@ -168,8 +169,10 @@ for e in range(EPOCHS):
             break
 
     #iterate through batches
+    pbar = tqdm(total=len(batched_train_data))
+    pbar.set_description("No loss yet...")
+    losses = []
     for i in batched_train_data:
-
         optimizer.zero_grad()
 
         batch_data = []
@@ -195,20 +198,27 @@ for e in range(EPOCHS):
         for d in batch_data:
             input = d[0]
             label = d[1]
-            actual_labels.append(label)
+            actual_labels.append(torch.tensor(label).to(device).long())
 
-            input_tensor = torch.from_numpy(np.asarray([input]), device=device).float()
+            input_tensor = torch.from_numpy(np.asarray([input])).to(device).float()
 
             output = cnn_net(input_tensor)
             cnn_outputs.append(output)
 
-            print("Tensor on gpu...")
-            time.sleep(5)
             del input_tensor
             del output
-            print("Tensor off of gpu...")
-            time.sleep(5)
-            break
+
+        loss = criterion(torch.stack(cnn_outputs), torch.stack(actual_labels))
+        loss.backward()
+        optimizer.step()
+        
+        losses.append(loss.item())
+        pbar.set_description(f"Loss: {sum(losses) / len(losses)}")
+        pbar.update(1)
+
+        del cnn_outputs
+        del actual_labels
+        torch.cuda.empty_cache()
 
         break
 

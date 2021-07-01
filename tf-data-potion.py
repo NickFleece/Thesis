@@ -1,6 +1,6 @@
 import os
 # SELECT WHAT GPU TO USE
-os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
+os.environ["CUDA_VISIBLE_DEVICES"]="0,2"
 # ONLY PRINT ERRORS
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
 
@@ -24,8 +24,8 @@ import random
 
 # Constants/File Paths
 DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
-MODEL_SAVE_DIR = "models/3_tf_test_model"
-HIST_SAVE_DIR = "models/3_tf_test_model_hist.pickle"
+MODEL_SAVE_DIR = "models/tf_test_model"
+HIST_SAVE_DIR = "models/tf_test_model_hist.pickle"
 EPOCHS = 200
 SLICE_INDEX = 1
 BATCH_SIZE = 16
@@ -283,7 +283,7 @@ model.add(Dense(21, activation='softmax', kernel_initializer=model_init))
 model.summary()
 
 model.compile(
-    optimizer=Adam(learning_rate=0.0001),
+    optimizer=Adam(learning_rate=0.005),
     loss='categorical_crossentropy',
     metrics=[categorical_accuracy]
 )
