@@ -139,8 +139,9 @@ def process_data(data):
 
     images = np.expand_dims(np.asarray(all_heatmaps), axis=0)
 
-    target = np.zeros(len(classes))
-    target[classes.index(c)] = 1
+    # target = np.zeros(len(classes))
+    # target[classes.index(c)] = 1
+    target = classes.index(c)
 
     result_queue.put([images, target])
 
@@ -198,7 +199,7 @@ for e in range(EPOCHS):
         for d in batch_data:
             input = d[0]
             label = d[1]
-            actual_labels.append(torch.tensor(label).to(device).long())
+            actual_labels.append(label)
 
             input_tensor = torch.from_numpy(np.asarray([input])).to(device).float()
 
@@ -208,7 +209,7 @@ for e in range(EPOCHS):
             del input_tensor
             del output
 
-        loss = criterion(torch.stack(cnn_outputs), torch.stack(actual_labels))
+        loss = criterion(torch.squeeze(torch.stack(cnn_outputs)), torch.tensor(actual_labels).to(device).long())
         loss.backward()
         optimizer.step()
         
