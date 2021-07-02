@@ -220,7 +220,3 @@ for e in range(EPOCHS):
         del cnn_outputs
         del actual_labels
         torch.cuda.empty_cache()
-
-        break
-
-    break
