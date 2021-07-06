@@ -29,7 +29,6 @@ VIDEO_PADDED_LEN = 40
 NUM_WORKERS = 24
 FILTERS_1D = 6
 LEARNING_RATE = 0.0001
-PRINT_INTERVAL = 20
 
 class CNN(nn.Module):
     def __init__(self):
@@ -177,7 +176,6 @@ for e in range(EPOCHS):
     losses = []
     train_correct = 0
     train_total = 0
-    print_count = 0
     for i in batched_train_data:
         optimizer.zero_grad()
 
@@ -224,15 +222,12 @@ for e in range(EPOCHS):
         
         losses.append(loss.item())
 
-        if print_count % PRINT_INTERVAL == 0:
-            print(f"Epoch {e}, batch {print_count} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
-        print_count += 1
-        
         del cnn_outputs
         del actual_labels
         torch.cuda.empty_cache()
 
     train_accuracies.append(train_correct / train_total)
+    print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
 
     if not result_queue.empty():
         print("Something went wrong, result queue not empty... emptying...")
@@ -276,9 +271,8 @@ for e in range(EPOCHS):
 
             thread_count -= 1
 
-        print(f"Epoch {e} Validation Accuracy: {val_correct / len(val_data)}")
-
         val_accuracies.append(val_correct / len(val_data))
+        print(f"Epoch {e} Validation Accuracy: {val_correct / len(val_data)}")
 
 torch.save(cnn_net, MODEL_SAVE_DIR)
 with open(HIST_SAVE_DIR, 'wb') as f:
