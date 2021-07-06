@@ -29,6 +29,7 @@ VIDEO_PADDED_LEN = 40
 NUM_WORKERS = 24
 FILTERS_1D = 6
 LEARNING_RATE = 0.01
+MAX_CACHE = 100
 
 class CNN(nn.Module):
     def __init__(self):
@@ -144,6 +145,27 @@ def process_data(data):
 
     result_queue.put([images, target])
 
+def load_train_data(data_df):
+    data_df = data_df.sample(frac=1)
+
+    threads = []
+    batch_index = 0
+    while True:
+
+        for _, i in data_df.iloc[batch_index * BATCH_SIZE : (batch_index + 1) * BATCH_SIZE].iterrows():
+
+            while len(threads) == NUM_WORKERS or result_queue.qsize() >= MAX_CACHE:
+                threads = [t for t in threads if t.is_alive()]
+
+            t = threading.Thread(target=process_data, args=(i,))
+            t.start()
+            threads.append(t)
+
+        batch_index += 1
+
+        if (batch_index + 1) * BATCH_SIZE > len(data_df):
+            break
+
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(
     cnn_net.parameters(),
@@ -155,49 +177,21 @@ train_accuracies = []
 val_accuracies = []
 for e in range(EPOCHS):
 
-    # Randomize data
-    train_data = train_data.sample(frac=1)
-
-    # Batch the training data
-    batched_train_data = []
-    batch_index = 0
-    while True:
-        batched_train_data.append(
-            train_data.iloc[batch_index * BATCH_SIZE : (batch_index + 1) * BATCH_SIZE]
-        )
-        batch_index += 1
-
-        if (batch_index + 1) * BATCH_SIZE > len(train_data):
-            break
+    threading.Thread(target=load_train_data, args=(train_data))
 
     #iterate through batches
     losses = []
     train_correct = 0
     train_total = 0
-    for i in batched_train_data:
+    for i in range(len(train_data) // BATCH_SIZE):
         optimizer.zero_grad()
-
-        batch_data = []
-        thread_count = 0
-
-        for _, d in i.iterrows():
-
-            if thread_count == NUM_WORKERS:
-                batch_data.append(result_queue.get())
-
-                thread_count -= 1
-
-            t = threading.Thread(target=process_data, args=(d,))
-            t.start()
-            thread_count += 1
-
-        while len(batch_data) != len(i):
-            batch_data.append(result_queue.get())
 
         cnn_outputs = []
         actual_labels = []
 
-        for d in batch_data:
+        for _ in range(BATCH_SIZE):
+            d = result_queue.get()
+
             input = d[0]
             label = d[1]
             actual_labels.append(label)
