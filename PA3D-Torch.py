@@ -18,17 +18,18 @@ device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
 print(device)
 
 # Constants/File Paths
-DATA_PATH = "./JHMDB"
+DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
 MODEL_SAVE_DIR = "models/pa3d_torch_model"
 HIST_SAVE_DIR = "models/pa3d_torch_model_hist.pickle"
-EPOCHS = 200
+EPOCHS = 15
 SLICE_INDEX = 1
 BATCH_SIZE = 8
 RANDOM_SEED = 123
 VIDEO_PADDED_LEN = 40
-NUM_WORKERS = 16
+NUM_WORKERS = 24
 FILTERS_1D = 6
 LEARNING_RATE = 0.0001
+PRINT_INTERVAL = 20
 
 class CNN(nn.Module):
     def __init__(self):
@@ -173,11 +174,10 @@ for e in range(EPOCHS):
             break
 
     #iterate through batches
-    pbar = tqdm(total=len(batched_train_data))
-    pbar.set_description(f"Epoch {e}...")
     losses = []
     train_correct = 0
     train_total = 0
+    print_count = 0
     for i in batched_train_data:
         optimizer.zero_grad()
 
@@ -223,9 +223,11 @@ for e in range(EPOCHS):
         optimizer.step()
         
         losses.append(loss.item())
-        pbar.set_description(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
-        pbar.update(1)
 
+        if print_count % PRINT_INTERVAL == 0:
+            print(f"Epoch {e}, batch {print_count} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
+        print_count += 1
+        
         del cnn_outputs
         del actual_labels
         torch.cuda.empty_cache()
@@ -240,7 +242,6 @@ for e in range(EPOCHS):
     #Test validation
     with torch.no_grad():
 
-        pbar = tqdm(total=len(val_data), desc=f"Val data for epoch {e}")
         val_data = val_data.sample(frac=1)
         thread_count = 0
         val_correct = 0
@@ -258,7 +259,6 @@ for e in range(EPOCHS):
 
                 thread_count -= 1
 
-                pbar.update(1)
 
             t = threading.Thread(target=process_data, args=(d,))
             t.start()
@@ -275,9 +275,8 @@ for e in range(EPOCHS):
             del processed_d
 
             thread_count -= 1
-            pbar.update(1)
 
-        print(f"\nEpoch {e} Validation Accuracy: {val_correct / len(val_data)}")
+        print(f"Epoch {e} Validation Accuracy: {val_correct / len(val_data)}")
 
         val_accuracies.append(val_correct / len(val_data))
 
