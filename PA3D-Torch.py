@@ -177,7 +177,8 @@ train_accuracies = []
 val_accuracies = []
 for e in range(EPOCHS):
 
-    threading.Thread(target=load_train_data, args=(train_data))
+    t = threading.Thread(target=load_train_data, args=(train_data))
+    t.start()
 
     #iterate through batches
     losses = []
