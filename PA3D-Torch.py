@@ -140,8 +140,6 @@ def process_data(data):
 
     images = np.expand_dims(np.asarray(all_heatmaps), axis=0)
 
-    # target = np.zeros(len(classes))
-    # target[classes.index(c)] = 1
     target = classes.index(c)
 
     result_queue.put([images, target])
