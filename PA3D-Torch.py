@@ -10,6 +10,7 @@ import time
 import threading
 import queue
 import torch.optim as optim
+import pickle
 
 from appendix import *
 
@@ -17,7 +18,7 @@ device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
 print(device)
 
 # Constants/File Paths
-DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
+DATA_PATH = "./JHMDB"
 MODEL_SAVE_DIR = "models/pa3d_torch_model"
 HIST_SAVE_DIR = "models/pa3d_torch_model_hist.pickle"
 EPOCHS = 200
@@ -152,6 +153,8 @@ optimizer = optim.SGD(
     momentum=0.9
 )
 
+train_accuracies = []
+val_accuracies = []
 for e in range(EPOCHS):
 
     # Randomize data
@@ -171,8 +174,10 @@ for e in range(EPOCHS):
 
     #iterate through batches
     pbar = tqdm(total=len(batched_train_data))
-    pbar.set_description("No loss yet...")
+    pbar.set_description(f"Epoch {e}...")
     losses = []
+    train_correct = 0
+    train_total = 0
     for i in batched_train_data:
         optimizer.zero_grad()
 
@@ -206,6 +211,10 @@ for e in range(EPOCHS):
             output = cnn_net(input_tensor)
             cnn_outputs.append(output)
 
+            if output.argmax(dim=1).item() == label:
+                train_correct += 1
+            train_total += 1
+
             del input_tensor
             del output
 
@@ -214,9 +223,64 @@ for e in range(EPOCHS):
         optimizer.step()
         
         losses.append(loss.item())
-        pbar.set_description(f"Loss: {sum(losses) / len(losses)}")
+        pbar.set_description(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
         pbar.update(1)
 
         del cnn_outputs
         del actual_labels
         torch.cuda.empty_cache()
+
+    train_accuracies.append(train_correct / train_total)
+
+    if not result_queue.empty():
+        print("Something went wrong, result queue not empty... emptying...")
+        while not result_queue.empty():
+            result_queue.get()
+
+    #Test validation
+    with torch.no_grad():
+
+        pbar = tqdm(total=len(val_data), desc=f"Val data for epoch {e}")
+        val_data = val_data.sample(frac=1)
+        thread_count = 0
+        val_correct = 0
+        for _, d in val_data.iterrows():
+
+            if thread_count == NUM_WORKERS:
+                processed_d, label = result_queue.get()
+                processed_d = torch.from_numpy(np.asarray([processed_d])).to(device).float()
+                pred = cnn_net(processed_d).argmax(dim=1).item()
+
+                if pred == label:
+                    val_correct += 1
+
+                del processed_d
+
+                thread_count -= 1
+
+                pbar.update(1)
+
+            t = threading.Thread(target=process_data, args=(d,))
+            t.start()
+            thread_count += 1
+
+        while not thread_count == 0:
+            processed_d, label = result_queue.get()
+            processed_d = torch.from_numpy(np.asarray([processed_d])).to(device).float()
+            pred = cnn_net(processed_d).argmax(dim=1).item()
+
+            if pred == label:
+                val_correct += 1
+
+            del processed_d
+
+            thread_count -= 1
+            pbar.update(1)
+
+        print(f"\nEpoch {e} Validation Accuracy: {val_correct / len(val_data)}")
+
+        val_accuracies.append(val_correct / len(val_data))
+
+torch.save(cnn_net, MODEL_SAVE_DIR)
+with open(HIST_SAVE_DIR, 'wb') as f:
+    pickle.dump({"Train":train_accuracies, "Val":val_accuracies}, f)
