@@ -14,7 +14,10 @@ import pickle
 
 from appendix import *
 
-device = torch.device("cuda:2" if torch.cuda.is_available() else "cpu")
+os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+cpu = torch.device("cpu")
 print(device)
 
 # Constants/File Paths
@@ -23,13 +26,13 @@ MODEL_SAVE_DIR = "models/pa3d_torch_model"
 HIST_SAVE_DIR = "models/pa3d_torch_model_hist.pickle"
 EPOCHS = 150
 SLICE_INDEX = 1
-BATCH_SIZE = 32
+BATCH_SIZE = 16
 RANDOM_SEED = 123
 VIDEO_PADDED_LEN = 40
-NUM_WORKERS = 24
+NUM_WORKERS = 16
 FILTERS_1D = 6
-LEARNING_RATE = 0.01
-MAX_CACHE = 100
+LEARNING_RATE = 0.005
+MAX_CACHE = BATCH_SIZE
 
 class CNN(nn.Module):
     def __init__(self):
@@ -88,6 +91,7 @@ class CNN(nn.Module):
         return x
 
 cnn_net = CNN()
+cnn_net = nn.DataParallel(cnn_net)
 cnn_net.to(device)
 
 data = []
@@ -183,12 +187,13 @@ for e in range(EPOCHS):
     #iterate through batches
     losses = []
     train_correct = 0
-    train_total = 0
-    for i in range(len(train_data) // BATCH_SIZE):
+    train_total = 1
+    for i in tqdm(range(len(train_data) // BATCH_SIZE)):
         optimizer.zero_grad()
 
         cnn_outputs = []
         actual_labels = []
+        batch = []
 
         for _ in range(BATCH_SIZE):
             d = result_queue.get()
@@ -196,20 +201,21 @@ for e in range(EPOCHS):
             input = d[0]
             label = d[1]
             actual_labels.append(label)
+            batch.append(input)
 
-            input_tensor = torch.from_numpy(np.asarray([input])).to(device).float()
+        
+        input_tensor = torch.from_numpy(np.asarray(batch)).float()
 
-            output = cnn_net(input_tensor)
-            cnn_outputs.append(output)
+        cnn_outputs = cnn_net(input_tensor)
 
-            if output.argmax(dim=1).item() == label:
-                train_correct += 1
-            train_total += 1
+#        for output in cnn_outputs.argmax(dim=1).item():
+#            if output == label:
+#                train_correct += 1
+#            train_total += 1
 
-            del input_tensor
-            del output
+        del input_tensor
 
-        loss = criterion(torch.squeeze(torch.stack(cnn_outputs)), torch.tensor(actual_labels).to(device).long())
+        loss = criterion(cnn_outputs.to(cpu), torch.tensor(actual_labels).to(cpu).long())
         loss.backward()
         optimizer.step()
         
