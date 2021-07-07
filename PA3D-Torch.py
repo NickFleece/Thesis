@@ -96,7 +96,6 @@ cnn_net.to(device)
 
 data = []
 for c in classes:
-    #pbar.set_description(f"Class: {c}")
 
     for i in range(1, 4):
 
