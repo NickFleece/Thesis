@@ -26,13 +26,13 @@ MODEL_SAVE_DIR = "models/pa3d_torch_model"
 HIST_SAVE_DIR = "models/pa3d_torch_model_hist.pickle"
 EPOCHS = 150
 SLICE_INDEX = 1
-BATCH_SIZE = 16
+BATCH_SIZE = 8
 RANDOM_SEED = 123
 VIDEO_PADDED_LEN = 40
 NUM_WORKERS = 16
 FILTERS_1D = 6
-LEARNING_RATE = 0.005
-MAX_CACHE = BATCH_SIZE
+LEARNING_RATE = 0.001
+MAX_CACHE = BATCH_SIZE * 3
 
 class CNN(nn.Module):
     def __init__(self):
@@ -208,11 +208,6 @@ for e in range(EPOCHS):
 
         cnn_outputs = cnn_net(input_tensor)
 
-#        for output in cnn_outputs.argmax(dim=1).item():
-#            if output == label:
-#                train_correct += 1
-#            train_total += 1
-
         del input_tensor
 
         loss = criterion(cnn_outputs.to(cpu), torch.tensor(actual_labels).to(cpu).long())
@@ -220,6 +215,10 @@ for e in range(EPOCHS):
         optimizer.step()
         
         losses.append(loss.item())
+        for output in cnn_outputs.argmax(dim=1).cpu().detach().numpy():
+            if output == label:
+                train_correct += 1
+            train_total += 1
 
         del cnn_outputs
         del actual_labels
