@@ -23,17 +23,17 @@ print(torch.cuda.get_device_name(0))
 
 # Constants/File Paths
 DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
-MODEL_SAVE_DIR = "models/pa3d_torch_model"
-HIST_SAVE_DIR = "models/pa3d_torch_model_hist.pickle"
+MODEL_SAVE_DIR = "models/pa3d_torch_model_2"
+HIST_SAVE_DIR = "models/pa3d_torch_model_hist_2.pickle"
 EPOCHS = 150
 SLICE_INDEX = 1
-BATCH_SIZE = 8
+BATCH_SIZE = 16
 RANDOM_SEED = 123
 VIDEO_PADDED_LEN = 40
-NUM_WORKERS = 12
+NUM_WORKERS = 24
 FILTERS_1D = 6
 LEARNING_RATE = 0.001
-MAX_CACHE = BATCH_SIZE * 3
+MAX_CACHE = BATCH_SIZE * 2
 
 class CNN(nn.Module):
     def __init__(self):
@@ -158,7 +158,7 @@ def load_train_data(data_df):
 
         for _, i in data_df.iloc[batch_index * BATCH_SIZE : (batch_index + 1) * BATCH_SIZE].iterrows():
 
-            while len(threads) == NUM_WORKERS or result_queue.qsize() >= MAX_CACHE:
+            while len(threads) == NUM_WORKERS or (result_queue.qsize() + len(threads)) >= MAX_CACHE:
                 threads = [t for t in threads if t.is_alive()]
 
             t = threading.Thread(target=process_data, args=(i,))
@@ -169,6 +169,19 @@ def load_train_data(data_df):
 
         if (batch_index + 1) * BATCH_SIZE > len(data_df):
             break
+
+def load_val_data(data_df):
+    data_df = data_df.sample(frac=1)
+
+    threads = []
+    for _, i in data_df.iterrows():
+
+        while len(threads) == NUM_WORKERS or (result_queue.qsize() + len(threads)) >= MAX_CACHE:
+            threads = [t for t in threads if t.is_alive()]
+
+        t = threading.Thread(target=process_data, args=(i,))
+        t.start()
+        threads.append(t)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(
@@ -235,39 +248,18 @@ for e in range(EPOCHS):
     #Test validation
     with torch.no_grad():
 
-        val_data = val_data.sample(frac=1)
-        thread_count = 0
         val_correct = 0
-        for _, d in val_data.iterrows():
+        t = threading.Thread(target=load_val_data, args=(val_data,))
+        t.start()
 
-            if thread_count == NUM_WORKERS:
-                processed_d, label = result_queue.get()
-                processed_d = torch.from_numpy(np.asarray([processed_d])).to(device).float()
-                pred = cnn_net(processed_d).argmax(dim=1).item()
-
-                if pred == label:
-                    val_correct += 1
-
-                del processed_d
-
-                thread_count -= 1
-
-
-            t = threading.Thread(target=process_data, args=(d,))
-            t.start()
-            thread_count += 1
-
-        while not thread_count == 0:
+        for _ in range(len(val_data)):
             processed_d, label = result_queue.get()
-            processed_d = torch.from_numpy(np.asarray([processed_d])).to(device).float()
             pred = cnn_net(processed_d).argmax(dim=1).item()
 
             if pred == label:
                 val_correct += 1
 
             del processed_d
-
-            thread_count -= 1
 
         val_accuracies.append(val_correct / len(val_data))
         print(f"Epoch {e} Validation Accuracy: {val_correct / len(val_data)}")
