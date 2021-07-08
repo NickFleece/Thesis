@@ -14,7 +14,7 @@ import pickle
 
 from appendix import *
 
-os.environ["CUDA_VISIBLE_DEVICES"]="2"
+os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -30,10 +30,10 @@ SLICE_INDEX = 1
 BATCH_SIZE = 16
 RANDOM_SEED = 123
 VIDEO_PADDED_LEN = 40
-NUM_WORKERS = 24
+NUM_WORKERS = 25
 FILTERS_1D = 6
 LEARNING_RATE = 0.001
-MAX_CACHE = BATCH_SIZE * 2
+MAX_CACHE = BATCH_SIZE * 3
 
 class CNN(nn.Module):
     def __init__(self):
@@ -252,7 +252,7 @@ for e in range(EPOCHS):
         t = threading.Thread(target=load_val_data, args=(val_data,))
         t.start()
 
-        for _ in range(len(val_data)):
+        for _ in tqdm(range(len(val_data))):
             processed_d, label = result_queue.get()
             pred = cnn_net(processed_d).argmax(dim=1).item()
 
@@ -263,6 +263,8 @@ for e in range(EPOCHS):
 
         val_accuracies.append(val_correct / len(val_data))
         print(f"Epoch {e} Validation Accuracy: {val_correct / len(val_data)}")
+
+    print("-------------------------------------------------")
 
 torch.save(cnn_net, MODEL_SAVE_DIR)
 with open(HIST_SAVE_DIR, 'wb') as f:
