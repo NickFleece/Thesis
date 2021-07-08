@@ -14,11 +14,12 @@ import pickle
 
 from appendix import *
 
-os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
+os.environ["CUDA_VISIBLE_DEVICES"]="2"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
 print(device)
+print(torch.cuda.get_device_name(0))
 
 # Constants/File Paths
 DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
@@ -29,7 +30,7 @@ SLICE_INDEX = 1
 BATCH_SIZE = 8
 RANDOM_SEED = 123
 VIDEO_PADDED_LEN = 40
-NUM_WORKERS = 16
+NUM_WORKERS = 12
 FILTERS_1D = 6
 LEARNING_RATE = 0.001
 MAX_CACHE = BATCH_SIZE * 3
