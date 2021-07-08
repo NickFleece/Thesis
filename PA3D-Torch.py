@@ -254,6 +254,7 @@ for e in range(EPOCHS):
 
         for _ in tqdm(range(len(val_data))):
             processed_d, label = result_queue.get()
+            processed_d = torch.from_numpy(np.asarray([processed_d])).float()
             pred = cnn_net(processed_d).argmax(dim=1).item()
 
             if pred == label:
