@@ -14,7 +14,7 @@ import pickle
 
 from appendix import *
 
-os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
+os.environ["CUDA_VISIBLE_DEVICES"]="2"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -27,14 +27,14 @@ MODEL_SAVE_DIR = "models/pa3d_torch_model_2"
 HIST_SAVE_DIR = "models/pa3d_torch_model_hist_2.pickle"
 EPOCHS = 150
 SLICE_INDEX = 1
-BATCH_SIZE = 16
+BATCH_SIZE = 2
 RANDOM_SEED = 123
 VIDEO_PADDED_LEN = 41
 DILATED_CONV_SIZE = 21 #SHOULD BE: 2 * DILATED_CONV_SIZE - 1 = VIDEO_PADDED_LEN
-NUM_WORKERS = 25
+NUM_WORKERS = 20
 FILTERS_1D = len(parts)
-LEARNING_RATE = 0.0001
-MAX_CACHE = BATCH_SIZE * 3
+LEARNING_RATE = 0.00001
+MAX_CACHE = BATCH_SIZE * 4
 
 class CNN(nn.Module):
     def __init__(self):
