@@ -235,7 +235,7 @@ for e in range(EPOCHS):
 
         del cnn_outputs
         del actual_labels
-        torch.cuda.empty_cache()
+        # torch.cuda.empty_cache()
 
     train_accuracies.append(train_correct / train_total)
     print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
