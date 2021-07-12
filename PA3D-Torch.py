@@ -29,7 +29,8 @@ EPOCHS = 150
 SLICE_INDEX = 1
 BATCH_SIZE = 16
 RANDOM_SEED = 123
-VIDEO_PADDED_LEN = 40
+VIDEO_PADDED_LEN = 41
+DILATED_CONV_SIZE = 21 #SHOULD BE: 2 * DILATED_CONV_SIZE - 1 = VIDEO_PADDED_LEN
 NUM_WORKERS = 25
 FILTERS_1D = len(parts)
 LEARNING_RATE = 0.0001
@@ -41,8 +42,10 @@ class CNN(nn.Module):
 
         self.conv_3d = nn.Conv3d(1, FILTERS_1D, kernel_size=(VIDEO_PADDED_LEN, 1, 1))
 
+        self.conv_3d_dilated = nn.Conv3d(1, FILTERS_1D, dilation=(2,1,1), kernel_size=(DILATED_CONV_SIZE, 1, 1))
+
         self.conv_1_block = nn.Sequential(
-            nn.Conv2d(FILTERS_1D * 25, 128, kernel_size=(3,3), stride=(2,2)),
+            nn.Conv2d(FILTERS_1D * 2 * 25, 128, kernel_size=(3,3), stride=(2,2)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
             nn.Conv2d(128, 128, kernel_size=(3,3)),
@@ -71,22 +74,30 @@ class CNN(nn.Module):
         self.final_block = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(512, 21),
+            nn.Linear(512, len(classes)),
             nn.Softmax(dim=1),
         )
 
-    def forward(self, x):
+    def forward(self, input):
 
-        x = self.conv_3d(x)
+        #3d convolutions
+        x = self.conv_3d(input)
+        y = self.conv_3d_dilated(input)
 
+        #concat dilated and normal
+        x = torch.cat((x,y), dim=1)
+
+        #move it to normal 2d images
         x = torch.split(x, x.shape[4] // 25, dim=4)
         x = torch.cat(x, dim=1)
         x = torch.squeeze(x, dim=2)
 
+        #our simple cnn
         x = self.conv_1_block(x)
         x = self.conv_2_block(x)
         x = self.conv_3_block(x)
 
+        #the fc layers
         x = self.final_block(x)
 
         return x
