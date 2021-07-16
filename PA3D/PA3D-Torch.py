@@ -22,9 +22,9 @@ print(device)
 print(torch.cuda.get_device_name(0))
 
 # Constants/File Paths
-DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
-MODEL_SAVE_DIR = "models/pa3d_torch_model_2"
-HIST_SAVE_DIR = "models/pa3d_torch_model_hist_2.pickle"
+DATA_PATH = "../../../../../comm_dat/nfleece/JHMDB"
+MODEL_SAVE_DIR = "../models/pa3d_torch_model_2"
+HIST_SAVE_DIR = "../models/pa3d_torch_model_hist_2.pickle"
 EPOCHS = 150
 SLICE_INDEX = 1
 BATCH_SIZE = 2

@@ -16,9 +16,9 @@ import pickle
 from PIL import Image
 
 # Constants/File Paths
-DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
-MODEL_SAVE_DIR = "models/pa3d_1_model"
-HIST_SAVE_DIR = "models/pa3d_1_model_hist.pickle"
+DATA_PATH = "../../../../../comm_dat/nfleece/JHMDB"
+MODEL_SAVE_DIR = "../models/pa3d_1_model"
+HIST_SAVE_DIR = "../models/pa3d_1_model_hist.pickle"
 EPOCHS = 200
 SLICE_INDEX = 1
 BATCH_SIZE = 2
