@@ -8,11 +8,12 @@ MODEL_SAVE_DIR = "models/2_test_model"
 HIST_SAVE_DIR = "models/2_test_model_hist.pickle"
 EPOCHS = 200
 SLICE_INDEX = 1
-BATCH_SIZE = 8
+BATCH_SIZE = 1
 RANDOM_SEED = 123
 NUM_WORKERS = 4
 MAX_CACHE = BATCH_SIZE * 1
 THREAD_WAIT_TIME = 1 # in seconds
+LEARNING_RATE = 0.001
 
 #Imports
 import time
@@ -27,6 +28,7 @@ from PIL import Image
 import torch.nn as nn
 import torch.optim as optim
 import torch
+from tqdm import tqdm
 
 from appendix import *
 
@@ -65,7 +67,6 @@ val_data = data.loc[data['ind'] == SLICE_INDEX].loc[data['split'] == 'test'].loc
 result_queue = queue.Queue()
 
 def process_data(data):
-    print("STARTING")
     c = data['class']
     f = data['file']
     
@@ -171,6 +172,19 @@ def load_train_data(data_df):
         if (batch_index + 1) * BATCH_SIZE > len(data_df):
             break
 
+def load_val_data(data_df):
+    data_df = data_df.sample(frac=1)
+    
+    threads = []
+    for _, i in data_df.iterrows():
+        
+        while len(threads) == NUM_WORKERS or (result_queue.qsize() + len(threads)) >= MAX_CACHE:
+            threads = [t for t in threads if t.is_alive()]
+
+        t = threading.Thread(target=process_data, args=(i,))
+        t.start()
+        threads.append(t)
+
 class CNN(nn.Module):
     def __init__(self):
         super().__init__()
@@ -220,9 +234,90 @@ if device != cpu:
     cnn_net = nn.DataParallel(cnn_net)
 cnn_net.to(device)
 
-print(len(train_data))
-t = threading.Thread(target=load_train_data, args=(train_data,))
-t.start()
-for i in range(len(train_data)):
-    print(i)
-    print(result_queue.get())
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(
+    cnn_net.parameters(),
+    lr=LEARNING_RATE,
+    momentum=0.9
+)
+
+train_accuracies = []
+val_accuracies = []
+for e in range(EPOCHS):
+    
+    # start the background train load thread
+    t = threading.Thread(target=load_train_data, args=(train_data,))
+    t.start()
+
+    # iter through batches
+    losses = []
+    train_correct = 0
+    train_total = 0
+    for i in tqdm(range(len(train_data) // BATCH_SIZE)):
+        optimizer.zero_grad()
+
+        cnn_outputs = []
+        actual_labels = []
+        batch = []
+
+        for _ in range(BATCH_SIZE):
+            d = result_queue.get()
+
+            single_input = d[0]
+            label = d[1]
+
+            actual_labels.append(label)
+            batch.append(single_input)
+
+        input_tensor = torch.from_numpy(np.asarray(batch)).float()
+        
+        cnn_outputs = cnn_net(input_tensor)
+
+        del input_tensor
+
+        loss = criterion(cnn_outputs.to(cpu), torch.tensor(actual_labels).to(cpu).long())
+        loss.backward()
+        optimizer.step()
+
+        losses.append(loss.item())
+        for output, label in zip(cnn_outputs.argmax(dim=1).cpu().detach().numpy(), actual_labels):
+            if output == label:
+                train_correct += 1
+            train_total += 1
+
+        del cnn_outputs
+        del actual_labels
+
+    train_accuracies.append(train_correct / train_total)
+    print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
+
+    if not result_queue.empty():
+        print("Something went wrong, result queue not empty... emptying...")
+        while not result_queue.empty():
+            result_queue.get()
+
+    #Validation
+    with torch.no_grad():
+    
+        val_correct = 0
+        t = threading.Thread(target=load_val_data, args=(val_data,))
+        t.start()
+
+        for _ in tqdm(range(len(val_data))):
+            processed_d, label = result_queue.get()
+            processed_d = torch.from_numpy(np.asarray([processed_d])).float()
+            pred = cnn_net(processed_d).argmax(dim=1).item()
+
+            if pred == label:
+                val_correct += 1
+
+            del processed_d
+
+        val_accuracies.append(val_correct / len(val_data))
+        print(f"Epoch {e} Validation Accuract: {val_correct / len(val_data)}")
+
+    print("---------------------------------------------------------------")
+
+torch.save(cnn_net, MODEL_SAVE_DIR)
+with open(HIST_SAVE_DIR, 'wb') as f:
+    pickle.dump({"Train":train_accuracies, "Val":val_accuracies}, f)
