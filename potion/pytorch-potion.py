@@ -3,15 +3,15 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
 
 # Constants/File Paths/Config things
-DATA_PATH = "../../JHMDB"
+DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
 MODEL_SAVE_DIR = "models/2_test_model"
 HIST_SAVE_DIR = "models/2_test_model_hist.pickle"
 EPOCHS = 200
 SLICE_INDEX = 1
-BATCH_SIZE = 1
+BATCH_SIZE = 8
 RANDOM_SEED = 123
-NUM_WORKERS = 4
-MAX_CACHE = BATCH_SIZE * 1
+NUM_WORKERS = 16
+MAX_CACHE = BATCH_SIZE * 3
 THREAD_WAIT_TIME = 1 # in seconds
 LEARNING_RATE = 0.001
 
@@ -61,8 +61,8 @@ for c in classes:
 
 data = pd.DataFrame(data)
 
-train_data = data.loc[data['ind'] == SLICE_INDEX].loc[data['split'] == 'train'].loc[data['class'] == 'brush_hair'][["file", "class"]]
-val_data = data.loc[data['ind'] == SLICE_INDEX].loc[data['split'] == 'test'].loc[data['class'] == 'brush_hair'][["file", "class"]]
+train_data = data.loc[data['ind'] == SLICE_INDEX].loc[data['split'] == 'train'][["file", "class"]]
+val_data = data.loc[data['ind'] == SLICE_INDEX].loc[data['split'] == 'test'][["file", "class"]]
 
 result_queue = queue.Queue()
 
