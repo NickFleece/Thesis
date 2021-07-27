@@ -1,5 +1,5 @@
 # Thesis
-All kinds of work on my thesis
+Working with intermediate pose representations for action recognition.
 
 Notable papers:
 
