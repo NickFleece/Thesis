@@ -213,6 +213,7 @@ class CNN(nn.Module):
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
+            nn.Linear(512, 512),
             nn.Linear(512, len(classes)),
             nn.Softmax(dim=1)
         )
@@ -275,9 +276,14 @@ for e in range(EPOCHS):
 
         del input_tensor
 
-        loss = criterion(cnn_outputs.to(cpu), torch.tensor(actual_labels).to(cpu).long())
+        loss = criterion(cnn_outputs, torch.tensor(actual_labels).to(device).long())
         loss.backward()
         optimizer.step()
+
+        #print(cnn_outputs)
+        print(cnn_outputs.argmax(dim=1))
+        print(torch.tensor(actual_labels).to(device).long())
+        print(loss.item())
 
         losses.append(loss.item())
         for output, label in zip(cnn_outputs.argmax(dim=1).cpu().detach().numpy(), actual_labels):
