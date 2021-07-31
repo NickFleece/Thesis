@@ -13,7 +13,7 @@ RANDOM_SEED = 123
 NUM_WORKERS = BATCH_SIZE * 2
 MAX_CACHE = BATCH_SIZE * 10
 THREAD_WAIT_TIME = 1 # in seconds
-LEARNING_RATE = 0.1
+LEARNING_RATE = 0.01
 
 #Imports
 import time
@@ -215,7 +215,7 @@ class CNN(nn.Module):
             nn.Flatten(),
             nn.Linear(512, 512),
             nn.Linear(512, len(classes)),
-            nn.Softmax(dim=1)
+            #nn.Softmax(dim=1)
         )
 
     def forward(self, i):
@@ -279,11 +279,6 @@ for e in range(EPOCHS):
         loss = criterion(cnn_outputs, torch.tensor(actual_labels).to(device).long())
         loss.backward()
         optimizer.step()
-
-        #print(cnn_outputs)
-        print(cnn_outputs.argmax(dim=1))
-        print(torch.tensor(actual_labels).to(device).long())
-        print(loss.item())
 
         losses.append(loss.item())
         for output, label in zip(cnn_outputs.argmax(dim=1).cpu().detach().numpy(), actual_labels):
