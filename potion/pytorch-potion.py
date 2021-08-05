@@ -8,12 +8,12 @@ MODEL_SAVE_DIR = "models/2_test_model"
 HIST_SAVE_DIR = "models/2_test_model_hist.pickle"
 EPOCHS = 200
 SLICE_INDEX = 1
-BATCH_SIZE = 8
+BATCH_SIZE = 32
 RANDOM_SEED = 123
-NUM_WORKERS = 16
-MAX_CACHE = BATCH_SIZE * 3
+NUM_WORKERS = BATCH_SIZE * 2
+MAX_CACHE = BATCH_SIZE * 10
 THREAD_WAIT_TIME = 1 # in seconds
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.05
 
 #Imports
 import time
@@ -214,13 +214,13 @@ class CNN(nn.Module):
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             nn.Linear(512, len(classes)),
-            nn.Softmax(dim=1)
+            #nn.Softmax(dim=1)
         )
 
-    def forward(self, input):
+    def forward(self, i):
 
         # convolutions
-        x = self.conv_block_1(input)
+        x = self.conv_block_1(i)
         x = self.conv_block_2(x)
         x = self.conv_block_3(x)
 
@@ -238,7 +238,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(
     cnn_net.parameters(),
     lr=LEARNING_RATE,
-    momentum=0.9
+    #momentum=0.9
 )
 
 train_accuracies = []
@@ -275,7 +275,7 @@ for e in range(EPOCHS):
 
         del input_tensor
 
-        loss = criterion(cnn_outputs.to(cpu), torch.tensor(actual_labels).to(cpu).long())
+        loss = criterion(cnn_outputs, torch.tensor(actual_labels).to(device).long())
         loss.backward()
         optimizer.step()
 
