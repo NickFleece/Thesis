@@ -13,7 +13,7 @@ RANDOM_SEED = 123
 NUM_WORKERS = BATCH_SIZE * 2
 MAX_CACHE = BATCH_SIZE * 10
 THREAD_WAIT_TIME = 1 # in seconds
-LEARNING_RATE = 0.01
+LEARNING_RATE = 0.05
 
 #Imports
 import time
@@ -213,7 +213,6 @@ class CNN(nn.Module):
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(512, 512),
             nn.Linear(512, len(classes)),
             #nn.Softmax(dim=1)
         )
@@ -239,7 +238,7 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(
     cnn_net.parameters(),
     lr=LEARNING_RATE,
-    momentum=0.9
+    #momentum=0.9
 )
 
 train_accuracies = []
