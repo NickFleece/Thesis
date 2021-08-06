@@ -11,3 +11,5 @@ Notable papers:
 
 [4] [Depth-Aware Action Recognition: Pose-Motion Encoding through Temporal
 Heatmaps](https://arxiv.org/pdf/2011.13399.pdf)
+
+[5] [Make Skeleton-based Action Recognition Model Smaller, Faster and Better](https://arxiv.org/pdf/1907.09658v8.pdf)
