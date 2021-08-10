@@ -18,12 +18,10 @@ LEARNING_RATE = 0.05
 #Imports
 import time
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
 import queue
 import threading
 import pickle
-import random
 from PIL import Image
 import torch.nn as nn
 import torch.optim as optim
