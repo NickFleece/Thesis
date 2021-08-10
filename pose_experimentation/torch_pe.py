@@ -3,10 +3,10 @@ import os
 os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
 
 # Constants/File Paths/Config things
-DATA_PATH = "../../JHMDB"
+DATA_PATH = "../JHMDB"
 MODEL_SAVE_DIR = "models/2_test_model"
 HIST_SAVE_DIR = "models/2_test_model_hist.pickle"
-EPOCHS = 200
+EPOCHS = 0
 SLICE_INDEX = 1
 BATCH_SIZE = 2
 RANDOM_SEED = 123
@@ -29,6 +29,7 @@ import torch.nn as nn
 import torch.optim as optim
 import torch
 from tqdm import tqdm
+from scipy import ndimage
 
 from appendix import *
 
@@ -86,28 +87,33 @@ def process_data(data):
     all_heatmaps = np.asarray(all_heatmaps)
     slice_size = int(all_heatmaps.shape[2] / 25)
 
-    all_keypoint_speeds = []
+    all_keypoint_speeds = [[], []]
     for i in range(len(parts)):
-        
+
         keypoints = []
         for heatmap in all_heatmaps:
             part_map = heatmap[:, slice_size * i:slice_size * i + slice_size]
-            
+
             keypoint = ndimage.measurements.center_of_mass(part_map)
             keypoints.append(keypoint)
 
-
         keypoints = np.asarray(keypoints)
-        keypoint_speeds = np.diff(keypoints, axis=0)
-        keypoint_speeds = np.pad(keypoint_speeds, ((0,0),(0,1))) 
+        keypoints = np.asarray([keypoints[:, 0], keypoints[:, 1]])
+        keypoint_speeds = np.diff(keypoints, axis=1)
 
-        all_keypoint_speeds.append(keypoint_speeds)
+        all_keypoint_speeds[0].append(keypoint_speeds[0])
+        all_keypoint_speeds[1].append(keypoint_speeds[1])
+        # all_keypoint_speeds.append(keypoint_speeds)
 
     all_keypoint_speeds = np.asarray(all_keypoint_speeds)
     all_keypoint_speeds = all_keypoint_speeds / all_keypoint_speeds.max()
+    while (all_keypoint_speeds.shape[2] != 39):
+        all_keypoint_speeds = np.pad(all_keypoint_speeds, ((0,0),(0,0),(0,1)))
+
+    target = classes.index(c)
 
     result_queue.put([all_keypoint_speeds, target])
-    #return [single_result_arr, target]
+    return [all_keypoint_speeds, target]
 
 def load_train_data(data_df):
     data_df = data_df.sample(frac=1)
@@ -149,39 +155,37 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(175, 128, kernel_size=(3,3), stride=(2,2)),
+            nn.Conv2d(2, 128, kernel_size=(25,3)),
             nn.ReLU(),
-            nn.Conv2d(128, 128, kernel_size=(3,3)),
-            nn.ReLU()
+            nn.BatchNorm2d(128),
+            nn.Dropout(0.25)
         )
 
         self.conv_block_2 = nn.Sequential(
-            nn.Conv2d(128, 256, kernel_size=(3,3), stride=(2,2)),
+            nn.Conv1d(128, 256, kernel_size=(3,), stride=(1,)),
             nn.ReLU(),
-            nn.Conv2d(256, 256, kernel_size=(3,3)),
-            nn.ReLU()
-        )
-
-        self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size=(3,3), stride=(2,2)),
+            nn.BatchNorm1d(256),
+            nn.Dropout(0.25),
+            nn.Conv1d(256, 512, kernel_size=(3,), stride=(1,)),
             nn.ReLU(),
-            nn.Conv2d(512, 512, kernel_size=(3,3)),
-            nn.ReLU()
+            nn.BatchNorm1d(512),
+            nn.Dropout(0.25),
         )
 
         self.fc = nn.Sequential(
-            nn.AdaptiveAvgPool2d((1,1)),
+            nn.AdaptiveAvgPool1d((1,)),
             nn.Flatten(),
+            nn.Linear(512, 512),
+            nn.ReLU(),
             nn.Linear(512, len(classes)),
-            #nn.Softmax(dim=1)
         )
 
     def forward(self, i):
 
         # convolutions
         x = self.conv_block_1(i)
+        x = torch.squeeze(x, dim=2)
         x = self.conv_block_2(x)
-        x = self.conv_block_3(x)
 
         # final flatten & fc layer
         x = self.fc(x)
@@ -191,6 +195,7 @@ class CNN(nn.Module):
 cnn_net = CNN()
 if device != cpu:
     cnn_net = nn.DataParallel(cnn_net)
+cnn_net.double()
 cnn_net.to(device)
 
 criterion = nn.CrossEntropyLoss()
@@ -203,7 +208,7 @@ optimizer = optim.SGD(
 train_accuracies = []
 val_accuracies = []
 for e in range(EPOCHS):
-    
+
     # start the background train load thread
     t = threading.Thread(target=load_train_data, args=(train_data,))
     t.start()
@@ -229,7 +234,7 @@ for e in range(EPOCHS):
             batch.append(single_input)
 
         input_tensor = torch.from_numpy(np.asarray(batch)).float()
-        
+
         cnn_outputs = cnn_net(input_tensor)
 
         del input_tensor
@@ -259,7 +264,7 @@ for e in range(EPOCHS):
 
     #Validation
     with torch.no_grad():
-    
+
         val_correct = 0
         t = threading.Thread(target=load_val_data, args=(val_data,))
         t.start()

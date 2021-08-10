@@ -1,5 +1,5 @@
 # Constants/File Paths/Config things
-DATA_PATH = "../../JHMDB"
+DATA_PATH = "../JHMDB"
 MODEL_SAVE_DIR = "models/2_test_model"
 HIST_SAVE_DIR = "models/2_test_model_hist.pickle"
 EPOCHS = 200
@@ -10,7 +10,6 @@ NUM_WORKERS = BATCH_SIZE * 2
 MAX_CACHE = BATCH_SIZE * 10
 THREAD_WAIT_TIME = 1 # in seconds
 LEARNING_RATE = 0.05
-PADDED_INPUT_LEN = 40
 
 #Imports
 import time
@@ -85,7 +84,7 @@ for _, i in train_data.iterrows():
     all_heatmaps = np.asarray(all_heatmaps)
     slice_size = int(all_heatmaps.shape[2] / 25)
 
-    all_keypoint_speeds = []
+    all_keypoint_speeds = [[],[]]
     for i in range(len(parts)):
         
         keypoints = []
@@ -95,16 +94,16 @@ for _, i in train_data.iterrows():
             keypoint = ndimage.measurements.center_of_mass(part_map)
             keypoints.append(keypoint)
 
-
         keypoints = np.asarray(keypoints)
         keypoints = np.asarray([keypoints[:,0], keypoints[:,1]])
         keypoint_speeds = np.diff(keypoints, axis=1)
-        #keypoint_speeds = np.pad(keypoint_speeds, ((0,0),(0,1))) 
 
-        all_keypoint_speeds.append(keypoint_speeds)
+        all_keypoint_speeds[0].append(keypoint_speeds[0])
+        all_keypoint_speeds[1].append(keypoint_speeds[1])
+        # all_keypoint_speeds.append(keypoint_speeds)
 
     all_keypoint_speeds = np.asarray(all_keypoint_speeds)
     all_keypoint_speeds = all_keypoint_speeds / all_keypoint_speeds.max()
-    print(all_keypoint_speeds.shape)
-
+    while (all_keypoint_speeds.shape[2] != 39):
+        all_keypoint_speeds = np.pad(all_keypoint_speeds, ((0,0),(0,0),(0,1)))
     break
