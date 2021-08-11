@@ -1,19 +1,19 @@
 import os
 # SELECT WHAT GPU TO USE
-os.environ["CUDA_VISIBLE_DEVICES"]="0,1"
+os.environ["CUDA_VISIBLE_DEVICES"]="2"
 
 # Constants/File Paths/Config things
-DATA_PATH = "../JHMDB"
+DATA_PATH = "../../../../comm_dat/nfleece/JHMDB"
 MODEL_SAVE_DIR = "models/2_test_model"
 HIST_SAVE_DIR = "models/2_test_model_hist.pickle"
-EPOCHS = 0
+EPOCHS = 50
 SLICE_INDEX = 1
-BATCH_SIZE = 2
+BATCH_SIZE = 16
 RANDOM_SEED = 123
 NUM_WORKERS = BATCH_SIZE * 2
 MAX_CACHE = BATCH_SIZE * 10
 THREAD_WAIT_TIME = 1 # in seconds
-LEARNING_RATE = 0.05
+LEARNING_RATE = 0.01
 
 #Imports
 import time
@@ -252,8 +252,6 @@ for e in range(EPOCHS):
             if output == label:
                 train_correct += 1
             train_total += 1
-
-        print(train_correct / train_total)
 
         del cnn_outputs
         del actual_labels
