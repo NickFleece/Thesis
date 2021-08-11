@@ -8,12 +8,12 @@ MODEL_SAVE_DIR = "models/2_test_model"
 HIST_SAVE_DIR = "models/2_test_model_hist.pickle"
 EPOCHS = 50
 SLICE_INDEX = 1
-BATCH_SIZE = 16
+BATCH_SIZE = 32
 RANDOM_SEED = 123
 NUM_WORKERS = BATCH_SIZE * 2
 MAX_CACHE = BATCH_SIZE * 10
 THREAD_WAIT_TIME = 1 # in seconds
-LEARNING_RATE = 0.01
+LEARNING_RATE = 0.1
 
 #Imports
 import time
@@ -163,24 +163,25 @@ class CNN(nn.Module):
             nn.Conv2d(2, 128, kernel_size=(25,3)),
             nn.ReLU(),
             nn.BatchNorm2d(128),
-            nn.Dropout(0.25)
+            nn.Dropout(0.3)
         )
 
         self.conv_block_2 = nn.Sequential(
             nn.Conv1d(128, 256, kernel_size=(3,), stride=(1,)),
             nn.ReLU(),
             nn.BatchNorm1d(256),
-            nn.Dropout(0.25),
+            nn.Dropout(0.3),
             nn.Conv1d(256, 512, kernel_size=(3,), stride=(1,)),
             nn.ReLU(),
             nn.BatchNorm1d(512),
-            nn.Dropout(0.25),
+            nn.Dropout(0.3),
         )
 
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool1d((1,)),
             nn.Flatten(),
             nn.Linear(512, 512),
+            nn.Dropout(0.5),
             nn.ReLU(),
             nn.Linear(512, len(classes)),
         )
@@ -282,7 +283,7 @@ for e in range(EPOCHS):
             del processed_d
 
         val_accuracies.append(val_correct / len(val_data))
-        print(f"Epoch {e} Validation Accuract: {val_correct / len(val_data)}")
+        print(f"Epoch {e} Validation Accuracy: {val_correct / len(val_data)}")
 
     print("---------------------------------------------------------------")
 
