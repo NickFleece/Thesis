@@ -22,6 +22,7 @@ import pandas as pd
 import queue
 import threading
 import pickle
+import matplotlib.pyplot as plt
 from PIL import Image
 import torch.nn as nn
 import torch.optim as optim
@@ -93,19 +94,25 @@ def process_data(data):
             part_map = heatmap[:, slice_size * i:slice_size * i + slice_size]
 
             keypoint = ndimage.measurements.center_of_mass(part_map)
+
             keypoints.append(keypoint)
 
+        #move the channel to the 2nd shape input, get the speeds of the keypoints
         keypoints = np.asarray(keypoints)
         keypoints = np.asarray([keypoints[:, 0], keypoints[:, 1]])
         keypoint_speeds = np.diff(keypoints, axis=1)
+
+        #have to clean up some nan values
+        keypoint_speeds = np.nan_to_num(keypoint_speeds)
 
         all_keypoint_speeds[0].append(keypoint_speeds[0])
         all_keypoint_speeds[1].append(keypoint_speeds[1])
         # all_keypoint_speeds.append(keypoint_speeds)
 
+    #pad the input to 39 len, normalize it
     all_keypoint_speeds = np.asarray(all_keypoint_speeds)
     all_keypoint_speeds = all_keypoint_speeds / all_keypoint_speeds.max()
-    while (all_keypoint_speeds.shape[2] != 39):
+    while all_keypoint_speeds.shape[2] != 39:
         all_keypoint_speeds = np.pad(all_keypoint_speeds, ((0,0),(0,0),(0,1)))
 
     target = classes.index(c)
@@ -187,13 +194,12 @@ class CNN(nn.Module):
 
         # final flatten & fc layer
         x = self.fc(x)
-
         return x
 
 cnn_net = CNN()
 if device != cpu:
     cnn_net = nn.DataParallel(cnn_net)
-cnn_net.double()
+# cnn_net.double()
 cnn_net.to(device)
 
 criterion = nn.CrossEntropyLoss()
