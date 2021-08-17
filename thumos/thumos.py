@@ -33,8 +33,8 @@ for i in os.listdir(BASE_DIR):
     # print(j['categories'][0]['skeleton'])
 
     vector_keypoints = []
-    for x, c in zip(j['annotations'], range(len(j['annotations']))):
-        # print(c)
+    for c in range(len(j['annotations'])):
+        x = j['annotations'][c]
         keypoints = list(divide_chunks(x['keypoints'],3))
 
         # plt.figure(figsize=(15,15))
@@ -64,25 +64,60 @@ for i in os.listdir(BASE_DIR):
 
     vector_keypoints = np.asarray(vector_keypoints)
 
-    print("----------")
-    vec_1 = vector_keypoints[:,1][0]
-    vec_2 = vector_keypoints[:,1][1]
+    # print(vector_keypoints[:,0].shape)
 
-    unit_vec_1 = vec_1 / np.linalg.norm(vec_1)
-    unit_vec_2 = vec_2 / np.linalg.norm(vec_2)
+    all_vector_movements = []
+    for c in range(len(skeleton_indices)):
+        vector_movements_one_joint = []
+        for v in range(len(vector_keypoints)):
+            if v == 0:
+                continue
 
-    ang1 = np.arctan2(*unit_vec_1[::-1])
-    ang2 = np.arctan2(*unit_vec_2[::-1])
-    angle = (ang2 - ang1) % (2 * np.pi)
-    if angle > np.pi:
-        angle = angle - (2*np.pi)
-    angle = angle / np.pi
+            prev_index = v - 1
+            prev_vector = None
+            while prev_index > 0:
+                if vector_keypoints[:,c][prev_index][0] is not None:
+                    prev_vector = vector_keypoints[:,c][prev_index]
+                    break
+                prev_index -= 1
 
-    # print(angle)
-    #
-    # plt.plot([0,unit_vec_1[0]], [0, unit_vec_1[1]], label="one")
-    # plt.plot([0,unit_vec_2[0]], [0, unit_vec_2[1]], label="two")
-    # plt.legend()
-    # plt.show()
+            if prev_vector is None or vector_keypoints[:,c][v][0] is None:
+                vector_movements_one_joint.append([0.0, 0.0])
+                continue
+
+            vec_1 = vector_keypoints[:,c][prev_index]
+            vec_2 = vector_keypoints[:,c][v]
+
+            unit_vec_1 = vec_1 / np.linalg.norm(vec_1)
+            unit_vec_2 = vec_2 / np.linalg.norm(vec_2)
+
+            ang1 = np.arctan2(*unit_vec_1[::-1])
+            ang2 = np.arctan2(*unit_vec_2[::-1])
+            angle = (ang2 - ang1) % (2 * np.pi)
+            if angle > np.pi:
+                angle = angle - (2*np.pi)
+            angle = angle / np.pi
+
+            magnitude_vec_1 = np.linalg.norm(vec_1)
+            magnitude_vec_2 = np.linalg.norm(vec_2)
+
+            magnitude_change = (magnitude_vec_2 / magnitude_vec_1) - 1
+
+            vector_movements_one_joint.append([angle, magnitude_change])
+
+            # print(f"{angle}, {magnitude_change}")
+
+            # plt.plot([0,vec_1[0]], [0, vec_1[1]], label="one")
+            # plt.plot([0,vec_2[0]], [0, vec_2[1]], label="two")
+            # plt.legend()
+            # plt.show()
+
+        all_vector_movements.append(vector_movements_one_joint)
+
+    all_vector_movements = np.asarray(all_vector_movements)
+
+    # plt.figure()
+    # plt.imshow(all_vector_movements) # have to add a 0 to make it 3 channels if you want visualizations
+    # plt.savefig('hist.png')
 
     break
