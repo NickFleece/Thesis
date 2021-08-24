@@ -6,6 +6,7 @@ import pandas as pd
 import time
 import threading
 import argparse
+import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--env')
@@ -49,12 +50,13 @@ def process_data (f):
     with open(f"{BASE_DIR}/{f}", 'rb') as infile:
         j = json.load(infile)
 
-    f_skeleton_indices = []
-    for i in skeleton:
-        f_skeleton_indices.append([
-            j['categories'][0]['keypoints'].index(i[0]),
-            j['categories'][0]['keypoints'].index(i[1])
-        ])
+    #f_skeleton_indices = []
+    #for i in skeleton:
+    #    f_skeleton_indices.append([
+    #        j['categories'][0]['keypoints'].index(i[0]),
+    #        j['categories'][0]['keypoints'].index(i[1])
+    #    ])
+    f_skeleton_indices = j['categories'][0]['skeleton']
 
     main_person = []
     for x in j['annotation_sequences']:
@@ -68,7 +70,7 @@ def process_data (f):
         #Not main person
         if not x['id'] in main_person:
             continue
-
+        
         keypoints = list(divide_chunks(x['keypoints'], 3))
 
         vector_keypoints_one_frame = []
@@ -83,7 +85,7 @@ def process_data (f):
             vector_keypoints_one_frame.append(vector_keypoint)
 
         vector_keypoints.append(vector_keypoints_one_frame)
-
+    
     vector_keypoints = np.asarray(vector_keypoints)
 
     all_vector_movements = []
@@ -142,7 +144,6 @@ data = pd.DataFrame({"file":files, "class":classes})
 
 threads = []
 for _, d in tqdm(data.iterrows(), total=len(data)):
-    #vector_movements = process_data(d['file'])
     t = threading.Thread(target=process_data, args=(d['file'],))
     t.start()
     threads.append(t)
