@@ -5,8 +5,10 @@ import matplotlib.pyplot as plt
 import cv2
 import numpy as np
 import pandas as pd
+import time
 
-BASE_DIR = "C:/Users/Nick/Desktop/School/Thesis/THUMOS14_skeletons/training"
+BASE_DIR = "/media/nick/External Boi/THUMOS14_skeletons/training"
+JSON_EXPORT_DIR = "/media/nick/External Boi/THUMOS_JOINT_ROTATIONS"
 
 vidcap = cv2.VideoCapture("C:/Users/Nick/Desktop/School/Thesis/THUMOS14_skeletons/videos/v_BaseballPitch_g01_c01.avi")
 _, frame = vidcap.read()
@@ -40,8 +42,6 @@ def process_data (f):
     with open(f"{BASE_DIR}/{f}", 'rb') as f:
         j = json.load(f)
 
-
-
     f_skeleton_indices = []
     for i in skeleton:
         f_skeleton_indices.append([
@@ -49,15 +49,25 @@ def process_data (f):
             j['categories'][0]['keypoints'].index(i[1])
         ])
 
+    main_person = []
+    for x in j['annotation_sequences']:
+        if len(x['annotation_ids']) > len(main_person):
+            main_person = x['annotation_ids']
+
     vector_keypoints = []
-    for c in tqdm(range(len(j['annotations']))):
+    for c in range(len(j['annotations'])):
         x = j['annotations'][c]
+        
+        #Not main person
+        if not x['id'] in main_person:
+            continue
+
         keypoints = list(divide_chunks(x['keypoints'], 3))
 
-        plt.figure(figsize=(15,15))
-        plt.grid()
-        plt.xlim((0,320))
-        plt.ylim((0,240))
+        # plt.figure(figsize=(15,15))
+        # plt.grid()
+        # plt.xlim((0,320))
+        # plt.ylim((240,0))
         # plt.imshow(frame)
 
         vector_keypoints_one_frame = []
@@ -83,16 +93,15 @@ def process_data (f):
         _, frame = vidcap.read()
 
         # plt.show()
-        plt.savefig(f"test/{c}.png")
-        plt.close()
+        # plt.savefig(f"./test/{c}.png")
+        # plt.close()
 
-        # vector_keypoints.append(vector_keypoints_one_frame)
+        vector_keypoints.append(vector_keypoints_one_frame)
 
-    return
     vector_keypoints = np.asarray(vector_keypoints)
 
     all_vector_movements = []
-    for c in range(len(skeleton_indices)):
+    for c in range(len(f_skeleton_indices)):
         vector_movements_one_joint = []
         for v in range(len(vector_keypoints)):
             if v == 0:
@@ -140,13 +149,14 @@ files = os.listdir(BASE_DIR)
 classes = []
 for f in files:
     classes.append(f.split('_')[1])
-data = pd.DataFrame({"file":files, "class":classes})[2000:]
+data = pd.DataFrame({"file":files, "class":classes})
 
-process_data('v_Bowling_g25_c02.json')
+for _, d in tqdm(data.iterrows(), total=len(data)):
+    vector_movements = process_data(d['file'])
+    with open(f"{JSON_EXPORT_DIR}/{d['file']}", 'w') as f:
+        json.dump(vector_movements.tolist(), f)
 
-# for _, d in tqdm(data.iterrows(), total=len(data)):
-#     try:
-#         process_data(d['file'])
-#     except:
-#         print(d)
-#         break
+# d = process_data('v_Bowling_g25_c02.json')
+# plt.figure()
+# plt.imshow(d)
+# plt.savefig("hist.png")
