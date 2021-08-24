@@ -2,16 +2,12 @@ import json
 import os
 from tqdm import tqdm
 import matplotlib.pyplot as plt
-import cv2
 import numpy as np
 import pandas as pd
 import time
 
-BASE_DIR = "/media/nick/External Boi/THUMOS14_skeletons/training"
-JSON_EXPORT_DIR = "/media/nick/External Boi/THUMOS_JOINT_ROTATIONS"
-
-vidcap = cv2.VideoCapture("C:/Users/Nick/Desktop/School/Thesis/THUMOS14_skeletons/videos/v_BaseballPitch_g01_c01.avi")
-_, frame = vidcap.read()
+BASE_DIR = "/comm_dat/THUMOS14_skeletons/training"
+JSON_EXPORT_DIR = "/comm_dat/nfleece/THUMOS_JOINT_ROTATIONS"
 
 skeleton = [
     ["ankler", "heelr"],
@@ -64,17 +60,8 @@ def process_data (f):
 
         keypoints = list(divide_chunks(x['keypoints'], 3))
 
-        # plt.figure(figsize=(15,15))
-        # plt.grid()
-        # plt.xlim((0,320))
-        # plt.ylim((240,0))
-        # plt.imshow(frame)
-
         vector_keypoints_one_frame = []
         for s in f_skeleton_indices:
-            # print('---')
-            # print(s[0])
-            # print(s[1])
             if keypoints[s[0] - 1][2] == 0 or keypoints[s[1] - 1][2] == 0:
                 vector_keypoints_one_frame.append([None, None])
                 continue
@@ -84,17 +71,8 @@ def process_data (f):
                                (240 - skeleton_keypoints[1][1]) - (240 - skeleton_keypoints[0][1])]
             vector_keypoints_one_frame.append(vector_keypoint)
 
-            # plt.plot([keypoints[s[0] - 1][0], keypoints[s[1] - 1][0]], [240 - keypoints[s[0] - 1][1], 240 - keypoints[s[1] - 1][1]])
-            # plt.plot([0,vector_keypoint[0]], [0,vector_keypoint[1]])
-
         for k in keypoints:
             plt.scatter(k[0], k[1])
-
-        _, frame = vidcap.read()
-
-        # plt.show()
-        # plt.savefig(f"./test/{c}.png")
-        # plt.close()
 
         vector_keypoints.append(vector_keypoints_one_frame)
 
@@ -155,8 +133,3 @@ for _, d in tqdm(data.iterrows(), total=len(data)):
     vector_movements = process_data(d['file'])
     with open(f"{JSON_EXPORT_DIR}/{d['file']}", 'w') as f:
         json.dump(vector_movements.tolist(), f)
-
-# d = process_data('v_Bowling_g25_c02.json')
-# plt.figure()
-# plt.imshow(d)
-# plt.savefig("hist.png")
