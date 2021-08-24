@@ -1,13 +1,24 @@
 import json
 import os
 from tqdm import tqdm
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import time
+import threading
+import argparse
 
-BASE_DIR = "/comm_dat/THUMOS14_skeletons/training"
-JSON_EXPORT_DIR = "/comm_dat/nfleece/THUMOS_JOINT_ROTATIONS"
+parser = argparse.ArgumentParser()
+parser.add_argument('--env')
+args = parser.parse_args()
+
+if args.env == 'dev':
+    BASE_DIR = "/media/nick/External Boi/THUMOS14_skeletons/training"
+    JSON_EXPORT_DIR = "/media/nick/External Boi/THUMOS_JOINT_ROTATIONS"
+    MAX_THREADS = 1
+else:
+    BASE_DIR = "/comm_dat/THUMOS14_skeletons/training"
+    JSON_EXPORT_DIR = "/comm_dat/nfleece/THUMOS_JOINT_ROTATIONS"
+    MAX_THREADS = 15
 
 skeleton = [
     ["ankler", "heelr"],
@@ -71,9 +82,6 @@ def process_data (f):
                                (240 - skeleton_keypoints[1][1]) - (240 - skeleton_keypoints[0][1])]
             vector_keypoints_one_frame.append(vector_keypoint)
 
-        for k in keypoints:
-            plt.scatter(k[0], k[1])
-
         vector_keypoints.append(vector_keypoints_one_frame)
 
     vector_keypoints = np.asarray(vector_keypoints)
@@ -121,6 +129,9 @@ def process_data (f):
 
     all_vector_movements = np.asarray(all_vector_movements)
 
+    with open(f"{JSON_EXPORT_DIR}/{d['file']}", 'w') as f:
+        json.dump(all_vector_movements.tolist(), f)
+
     return all_vector_movements
 
 files = os.listdir(BASE_DIR)
@@ -129,7 +140,12 @@ for f in files:
     classes.append(f.split('_')[1])
 data = pd.DataFrame({"file":files, "class":classes})
 
+threads = []
 for _, d in tqdm(data.iterrows(), total=len(data)):
-    vector_movements = process_data(d['file'])
-    with open(f"{JSON_EXPORT_DIR}/{d['file']}", 'w') as f:
-        json.dump(vector_movements.tolist(), f)
+    #vector_movements = process_data(d['file'])
+    t = threading.Thread(target=process_data, args=(d['file'],))
+    t.start()
+    threads.append(t)
+
+    while len(threads) == MAX_THREADS:
+        threads = [t for t in threads if t.is_alive()]
