@@ -19,7 +19,7 @@ if args.env == 'dev':
 else:
     BASE_DIR = "/comm_dat/THUMOS14_skeletons/training"
     JSON_EXPORT_DIR = "/comm_dat/nfleece/THUMOS_JOINT_ROTATIONS"
-    MAX_THREADS = 15
+    MAX_THREADS = 30
 
 skeleton = [
     ["ankler", "heelr"],
@@ -47,8 +47,8 @@ def divide_chunks(l, n):
 
 def process_data (f):
 
-    with open(f"{BASE_DIR}/{f}", 'rb') as f:
-        j = json.load(f)
+    with open(f"{BASE_DIR}/{f}", 'rb') as infile:
+        j = json.load(infile)
 
     #f_skeleton_indices = []
     #for i in skeleton:
@@ -131,8 +131,8 @@ def process_data (f):
 
     all_vector_movements = np.asarray(all_vector_movements)
 
-    with open(f"{JSON_EXPORT_DIR}/{d['file']}", 'w') as f:
-        json.dump(all_vector_movements.tolist(), f)
+    with open(f"{JSON_EXPORT_DIR}/{f}", 'w') as outfile:
+        json.dump(all_vector_movements.tolist(), outfile)
 
     print(all_vector_movements.shape)
 
