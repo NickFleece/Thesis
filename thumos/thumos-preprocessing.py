@@ -16,6 +16,10 @@ if args.env == 'dev':
     BASE_DIR = "/media/nick/External Boi/THUMOS14_skeletons/training"
     JSON_EXPORT_DIR = "/media/nick/External Boi/THUMOS_JOINT_ROTATIONS"
     MAX_THREADS = 1
+elif args.env == 'pc':
+    BASE_DIR = "D:/THUMOS14_skeletons/training"
+    JSON_EXPORT_DIR = "D:/THUMOS_JOINT_ROTATIONS"
+    MAX_THREADS = 5
 else:
     BASE_DIR = "/comm_dat/THUMOS14_skeletons/training"
     JSON_EXPORT_DIR = "/comm_dat/nfleece/THUMOS_JOINT_ROTATIONS"
