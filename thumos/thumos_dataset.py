@@ -8,6 +8,7 @@ from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--env')
+parser.add_argument('--test')
 args = parser.parse_args()
 
 if args.env == 'dev':
@@ -41,11 +42,20 @@ def process_data_row (row):
     with open(f"{JSON_DIR}/{row['file']}", 'r') as jsonfile:
         jsondata = np.asarray(json.load(jsonfile))
 
-    print(jsondata.shape)
+    #pad to 900 frames (longest in dataset)
+    jsondata = np.pad(jsondata, [(0,0), (0,900-jsondata.shape[1]), (0,0)])
+
+    # reshape from channel last to channel first
+    newjsondata = []
+    for i in range(jsondata.shape[2]):
+        newjsondata.append(jsondata[:,:,i])
+    jsondata = np.asarray(newjsondata)
+
+    data_queue.put([jsondata, classes.index(row['class'])])
 
 def load_data (data):
     threads = []
-    for _, d in tqdm(data.iterrows(), total=len(data)):
+    for _, d in data.iterrows():
 
         while len(threads) == MAX_THREADS:
             threads = [t for t in threads if t.is_alive()]
@@ -53,19 +63,11 @@ def load_data (data):
         t = threading.Thread(target=process_data_row, args=(d,))
         t.start()
         threads.append(t)
-        break
 
-    # while len(threads) != 0:
-    #     threads = [t for t in threads if t.is_alive()]
-    # data_queue.put(None)
-    #
-    # all_processed_data = []
-    # while True:
-    #     processed_data = data_queue.get()
-    #     if processed_data is None:
-    #         break
-    #     all_processed_data.append(processed_data)
+    while len(threads) != 0:
+        threads = [t for t in threads if t.is_alive()]
+    data_queue.put(None)
 
-    # all_processed_data = pd.DataFrame(all_processed_data)
 
-load_data(all_joint_files)
+if args.test == 'y':
+    load_data(all_joint_files)
