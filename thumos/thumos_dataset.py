@@ -35,7 +35,7 @@ MAX_PADDED_LEN = 900
 train = pd.read_csv(f"{BASE_DIR}train_data.csv")
 test = pd.read_csv(f"{BASE_DIR}test_data.csv")
 
-classes = train['class'].value_counts().keys()
+classes = train['class'].value_counts().keys().tolist()
 
 data_queue = queue.Queue()
 
