@@ -138,7 +138,7 @@ def process_data (f):
     with open(f"{JSON_EXPORT_DIR}/{f}", 'w') as outfile:
         json.dump(all_vector_movements.tolist(), outfile)
 
-    print(all_vector_movements.shape)
+    # print(all_vector_movements.shape)
 
     return all_vector_movements
 

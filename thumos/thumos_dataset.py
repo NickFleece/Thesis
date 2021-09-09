@@ -55,6 +55,9 @@ def process_data_row (row):
     data_queue.put([jsondata, classes.index(row['class']), row['file']])
 
 def load_data (data):
+    #randomize :)
+    data = data.sample(frac=1)
+
     threads = []
     for _, d in data.iterrows():
 
