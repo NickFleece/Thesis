@@ -52,7 +52,7 @@ def process_data_row (row):
         newjsondata.append(jsondata[:,:,i])
     jsondata = np.asarray(newjsondata)
 
-    data_queue.put([jsondata, classes.index(row['class'])])
+    data_queue.put([jsondata, classes.index(row['class']), row['file']])
 
 def load_data (data):
     threads = []
