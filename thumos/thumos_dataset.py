@@ -19,6 +19,10 @@ elif args.env == 'pc':
     JSON_DIR = "D:/THUMOS_JOINT_ROTATIONS"
     BASE_DIR = "D:/"
     MAX_THREADS = 5
+elif args.env == 'razor':
+    JSON_DIR = "/comm_dat/DATA/nfleece/THUMOS_JOINT_ROTATIONS"
+    BASE_DIR = "/comm_dat/DATA/nfleece/"
+    MAX_THREADS = 15
 else:
     JSON_DIR = "/comm_dat/nfleece/THUMOS_JOINT_ROTATIONS"
     BASE_DIR = "/comm_dat/nfleece/"
