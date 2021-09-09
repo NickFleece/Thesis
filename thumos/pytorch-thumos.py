@@ -93,7 +93,6 @@ for e in range(EPOCHS):
         for _ in range(BATCH_SIZE):
             d = data_queue.get()
 
-            #TODO FIX THIS END CONDITION
             if d is None:
                 done = True
                 break
@@ -103,10 +102,6 @@ for e in range(EPOCHS):
 
             actual_labels.append(label)
             batch.append(single_input)
-
-        # TODO FIX THIS END CONDITION
-        if done:
-            break
 
         input_tensor = torch.from_numpy(np.asarray(batch)).float()
 
@@ -127,6 +122,9 @@ for e in range(EPOCHS):
         del input_tensor
         del cnn_outputs
         del actual_labels
+
+        if done:
+            break
 
     pbar.close()
 
