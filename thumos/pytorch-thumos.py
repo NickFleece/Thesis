@@ -3,11 +3,11 @@ from thumos_dataset import *
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import pickle
 
 LEARNING_RATE = 0.1
 EPOCHS = 200
 BATCH_SIZE = 32
-
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -74,7 +74,7 @@ val_accuracies = []
 for e in range(EPOCHS):
 
     # start the background train load thread
-    t = threading.Thread(target=load_data, args=(all_joint_files,))
+    t = threading.Thread(target=load_data, args=(train,))
     t.start()
 
     losses = []
@@ -138,3 +138,47 @@ for e in range(EPOCHS):
         while not data_queue.empty():
             data_queue.get()
 
+    with torch.no_grad():
+
+        val_correct = 0
+
+        t = threading.Thread(target=load_data, args=(test,))
+        t.start()
+
+        pbar = tqdm()
+        count = 0
+        while True:
+            d = data_queue.get()
+
+            if d is None:
+                break
+
+            processed_d = torch.from_numpy(np.asarray([d[0]])).float()
+            label = d[1]
+
+            pred = cnn_net(processed_d).argmax(dim=1).item()
+
+            if pred == label:
+                val_correct += 1
+
+            del processed_d
+
+            pbar.update(1)
+
+            count += 1
+            pbar.set_description(str(val_correct / count))
+
+        val_accuracies.append(val_correct / len(test))
+        print(f"Epoch {e} Validation Accuract: {val_correct / len(test)}")
+
+    print("---------------------------------------------------------------")
+
+    torch.save({
+        'epoch': e,
+        'model_state_dict': cnn_net.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'loss': losses,
+    }, f"{MODEL_SAVE_DIR}/m1_{e}")
+
+with open(f"{MODEL_SAVE_DIR}/hist", 'wb') as f:
+    pickle.dump({"Train":train_accuracies, "Val":val_accuracies}, f)

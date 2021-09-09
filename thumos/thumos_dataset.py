@@ -24,17 +24,14 @@ else:
     BASE_DIR = "/comm_dat/nfleece/"
     MAX_THREADS = 15
 
+MODEL_SAVE_DIR = f"{BASE_DIR}/models"
+
 MAX_PADDED_LEN = 900
 
-all_files = pd.read_csv(f"{BASE_DIR}file_joint_data.csv")
-file_counts = all_files.loc[all_files['has_joints'] == True][['class', 'has_joints']].groupby('class', as_index=False).agg('count')
+train = pd.read_csv(f"{BASE_DIR}train_data.csv")
+test = pd.read_csv(f"{BASE_DIR}test_data.csv")
 
-classes = []
-for _, d in file_counts.iterrows():
-    if d['has_joints'] > 50:
-        classes.append(d['class'])
-
-all_joint_files = all_files.loc[all_files['class'].isin(classes)].loc[all_files['has_joints'] == True][['file', 'class']]
+classes = train['class'].value_counts().keys()
 
 data_queue = queue.Queue()
 
@@ -68,6 +65,6 @@ def load_data (data):
         threads = [t for t in threads if t.is_alive()]
     data_queue.put(None)
 
-
 if args.test == 'y':
-    load_data(all_joint_files)
+    load_data(train)
+    load_data(test)
