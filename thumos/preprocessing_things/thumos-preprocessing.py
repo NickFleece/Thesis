@@ -20,10 +20,10 @@ elif args.env == 'pc':
     BASE_DIR = "D:/THUMOS14_skeletons/training"
     JSON_EXPORT_DIR = "D:/THUMOS_JOINT_ROTATIONS"
     MAX_THREADS = 5
-else:
-    BASE_DIR = "/comm_dat/THUMOS14_skeletons/training"
+elif args.env == 'alpha':
+    BASE_DIR = "/comm_dat/nfleece/THUMOS14_skeletons/training"
     JSON_EXPORT_DIR = "/comm_dat/nfleece/THUMOS_JOINT_ROTATIONS"
-    MAX_THREADS = 30
+    MAX_THREADS = 16
 
 skeleton = [
     ["ankler", "heelr"],
@@ -135,6 +135,11 @@ def process_data (f):
 
     all_vector_movements = np.asarray(all_vector_movements)
 
+    if all_vector_movements.shape[0] != 16:
+        print(f)
+        print(j['categories'][0])
+    return None
+
     with open(f"{JSON_EXPORT_DIR}/{f}", 'w') as outfile:
         json.dump(all_vector_movements.tolist(), outfile)
 
@@ -153,6 +158,6 @@ for _, d in tqdm(data.iterrows(), total=len(data)):
     t = threading.Thread(target=process_data, args=(d['file'],))
     t.start()
     threads.append(t)
-
+    
     while len(threads) == MAX_THREADS:
         threads = [t for t in threads if t.is_alive()]
