@@ -36,6 +36,8 @@ skeleton = [
     ["hipl", "kneel"],
     ["hipr", "shoulderr"],
     ["hipl", "shoulderl"],
+    ["hipl", "hipr"],
+    ["shoulderl", "shoulderr"],
     ["shoulderr", "elbowr"],
     ["shoulderl", "elbowl"],
     ["elbowr", "wristr"],
@@ -54,13 +56,14 @@ def process_data (f):
     with open(f"{BASE_DIR}/{f}", 'rb') as infile:
         j = json.load(infile)
 
-    #f_skeleton_indices = []
-    #for i in skeleton:
-    #    f_skeleton_indices.append([
-    #        j['categories'][0]['keypoints'].index(i[0]),
-    #        j['categories'][0]['keypoints'].index(i[1])
-    #    ])
-    f_skeleton_indices = j['categories'][0]['skeleton']
+    f_skeleton_indices = []
+    for i in skeleton:
+       f_skeleton_indices.append([
+           j['categories'][0]['keypoints'].index(i[0]) + 1,
+           j['categories'][0]['keypoints'].index(i[1]) + 1
+       ])
+    # idk why i was using this directly
+    # f_skeleton_indices = j['categories'][0]['skeleton']
 
     main_person = []
     for x in j['annotation_sequences']:
@@ -78,15 +81,20 @@ def process_data (f):
         keypoints = list(divide_chunks(x['keypoints'], 3))
 
         vector_keypoints_one_frame = []
+        # plt.figure()
+        # plt.xlim(320)
+        # plt.ylim(240)
         for s in f_skeleton_indices:
             if keypoints[s[0] - 1][2] == 0 or keypoints[s[1] - 1][2] == 0:
                 vector_keypoints_one_frame.append([None, None])
                 continue
 
             skeleton_keypoints = [keypoints[s[0] - 1][:2], keypoints[s[1] - 1][:2]]
+            # plt.plot([skeleton_keypoints[0][0], skeleton_keypoints[1][0]], [skeleton_keypoints[0][1], skeleton_keypoints[1][1]])
             vector_keypoint = [skeleton_keypoints[1][0] - skeleton_keypoints[0][0],
                                (240 - skeleton_keypoints[1][1]) - (240 - skeleton_keypoints[0][1])]
             vector_keypoints_one_frame.append(vector_keypoint)
+        # plt.show()
 
         vector_keypoints.append(vector_keypoints_one_frame)
     
@@ -135,10 +143,11 @@ def process_data (f):
 
     all_vector_movements = np.asarray(all_vector_movements)
 
-    if all_vector_movements.shape[0] != 16:
-        print(f)
-        print(j['categories'][0])
-    return None
+    # if all_vector_movements.shape[0] != 18:
+    #     print(f)
+    #     print(j['categories'][0])
+    #     return None
+    # return 1
 
     with open(f"{JSON_EXPORT_DIR}/{f}", 'w') as outfile:
         json.dump(all_vector_movements.tolist(), outfile)
@@ -153,11 +162,16 @@ for f in files:
     classes.append(f.split('_')[1])
 data = pd.DataFrame({"file":files, "class":classes})
 
+# process_data('v_Bowling_g25_c02.json')
+# process_data('v_Archery_g03_c01.json')
+
 threads = []
 for _, d in tqdm(data.iterrows(), total=len(data)):
+    # if process_data(d['file']) is None: break
+
     t = threading.Thread(target=process_data, args=(d['file'],))
     t.start()
     threads.append(t)
-    
+
     while len(threads) == MAX_THREADS:
         threads = [t for t in threads if t.is_alive()]
