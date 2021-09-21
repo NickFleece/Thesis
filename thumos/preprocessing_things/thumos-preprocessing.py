@@ -23,7 +23,7 @@ elif args.env == 'pc':
 elif args.env == 'alpha':
     BASE_DIR = "/comm_dat/nfleece/THUMOS14_skeletons/training"
     JSON_EXPORT_DIR = "/comm_dat/nfleece/THUMOS_JOINT_ROTATIONS"
-    MAX_THREADS = 16
+    MAX_THREADS = 32
 
 skeleton = [
     ["ankler", "heelr"],
@@ -143,8 +143,8 @@ def process_data (f):
 
     all_vector_movements = np.asarray(all_vector_movements)
 
-    # if all_vector_movements.shape[0] != 18:
-    #     print(f)
+    if all_vector_movements.shape[0] != 18:
+        print(f)
     #     print(j['categories'][0])
     #     return None
     # return 1
