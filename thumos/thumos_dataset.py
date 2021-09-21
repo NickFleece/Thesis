@@ -26,9 +26,9 @@ elif args.env == 'razor':
 else:
     JSON_DIR = "/comm_dat/nfleece/THUMOS_JOINT_ROTATIONS"
     BASE_DIR = "/comm_dat/nfleece/"
-    MAX_THREADS = 15
+    MAX_THREADS = 16
 
-MODEL_SAVE_DIR = f"{BASE_DIR}/models"
+MODEL_SAVE_DIR = f"{BASE_DIR}models"
 
 MAX_PADDED_LEN = 900
 

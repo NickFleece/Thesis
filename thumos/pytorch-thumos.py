@@ -1,11 +1,17 @@
 from thumos_dataset import *
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import pickle
+import time
 
-LEARNING_RATE = 0.1
+VERSION = 2
+
+LEARNING_RATE = 0.01
 EPOCHS = 200
 BATCH_SIZE = 32
 
@@ -19,23 +25,35 @@ class CNN(nn.Module):
 
         self.conv_block_1 = nn.Sequential(
             nn.Conv2d(2, 128, kernel_size=(3,3)),
+            nn.BatchNorm2d(128),
             nn.ReLU(),
+            nn.Dropout(0.8),
             nn.Conv2d(128, 128, kernel_size=(3, 3)),
-            nn.ReLU()
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+            nn.Dropout(0.8),
         )
 
         self.conv_block_2 = nn.Sequential(
             nn.Conv2d(128, 256, kernel_size=(3,3)),
+            nn.BatchNorm2d(256),
             nn.ReLU(),
+            nn.Dropout(0.8),
             nn.Conv2d(256, 256, kernel_size=(3,3)),
-            nn.ReLU()
+            nn.BatchNorm2d(256),
+            nn.ReLU(),
+            nn.Dropout(0.8),
         )
 
         self.conv_block_3 = nn.Sequential(
             nn.Conv2d(256, 512, kernel_size=(3,3)),
+            nn.BatchNorm2d(512),
             nn.ReLU(),
+            nn.Dropout(0.8),
             nn.Conv2d(512, 512, kernel_size=(3,3)),
-            nn.ReLU()
+            nn.BatchNorm2d(512),
+            nn.ReLU(),
+            nn.Dropout(0.8),
         )
 
         self.fc = nn.Sequential(
@@ -63,7 +81,7 @@ if device != cpu:
 cnn_net.to(device)
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(
+optimizer = optim.Adam(
     cnn_net.parameters(),
     lr=LEARNING_RATE,
     #momentum=0.9
@@ -166,8 +184,10 @@ for e in range(EPOCHS):
             count += 1
             pbar.set_description(str(val_correct / count))
 
+        time.sleep(1)
+
         val_accuracies.append(val_correct / len(test))
-        print(f"Epoch {e} Validation Accuract: {val_correct / len(test)}")
+        print(f"Epoch {e} Validation Accuracy: {val_correct / len(test)}")
 
     print("---------------------------------------------------------------")
 
@@ -176,7 +196,7 @@ for e in range(EPOCHS):
         'model_state_dict': cnn_net.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': losses,
-    }, f"{MODEL_SAVE_DIR}/m1_{e}")
+    }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")
 
-with open(f"{MODEL_SAVE_DIR}/hist", 'wb') as f:
+with open(f"{MODEL_SAVE_DIR}/m_{VERSION}/hist", 'wb') as f:
     pickle.dump({"Train":train_accuracies, "Val":val_accuracies}, f)

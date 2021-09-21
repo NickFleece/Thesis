@@ -62,92 +62,106 @@ def process_data (f):
            j['categories'][0]['keypoints'].index(i[0]) + 1,
            j['categories'][0]['keypoints'].index(i[1]) + 1
        ])
-    # idk why i was using this directly
+    # idk why i was using this directly, causes issues with other keypoint formats
     # f_skeleton_indices = j['categories'][0]['skeleton']
 
-    main_person = []
+    #main_person = []
+    #for x in j['annotation_sequences']:
+    #    if len(x['annotation_ids']) > len(main_person):
+    #        main_person = x['annotation_ids']
+
+    people = []
     for x in j['annotation_sequences']:
-        if len(x['annotation_ids']) > len(main_person):
-            main_person = x['annotation_ids']
+        people.append(x['annotation_ids'])
 
-    vector_keypoints = []
-    for c in range(len(j['annotations'])):
-        x = j['annotations'][c]
+
+    people_movements = []
+    for person in people:
+        vector_keypoints = []
+        for c in range(len(j['annotations'])):
+            x = j['annotations'][c]
+            
+            #Not main person
+            if not x['id'] in main_person:
+                continue
+            
+            keypoints = list(divide_chunks(x['keypoints'], 3))
+
+            vector_keypoints_one_frame = []
+            # plt.figure()
+            # plt.xlim(320)
+            # plt.ylim(240)
+            for s in f_skeleton_indices:
+                if keypoints[s[0] - 1][2] == 0 or keypoints[s[1] - 1][2] == 0:
+                    vector_keypoints_one_frame.append([None, None])
+                    continue
+
+                skeleton_keypoints = [keypoints[s[0] - 1][:2], keypoints[s[1] - 1][:2]]
+                # plt.plot([skeleton_keypoints[0][0], skeleton_keypoints[1][0]], [skeleton_keypoints[0][1], skeleton_keypoints[1][1]])
+                vector_keypoint = [skeleton_keypoints[1][0] - skeleton_keypoints[0][0],
+                                   (240 - skeleton_keypoints[1][1]) - (240 - skeleton_keypoints[0][1])]
+                vector_keypoints_one_frame.append(vector_keypoint)
+            # plt.show()
+
+            vector_keypoints.append(vector_keypoints_one_frame)
         
-        #Not main person
-        if not x['id'] in main_person:
-            continue
-        
-        keypoints = list(divide_chunks(x['keypoints'], 3))
+        vector_keypoints = np.asarray(vector_keypoints)
 
-        vector_keypoints_one_frame = []
-        # plt.figure()
-        # plt.xlim(320)
-        # plt.ylim(240)
-        for s in f_skeleton_indices:
-            if keypoints[s[0] - 1][2] == 0 or keypoints[s[1] - 1][2] == 0:
-                vector_keypoints_one_frame.append([None, None])
-                continue
+        all_vector_movements = []
+        for c in range(len(f_skeleton_indices)):
+            vector_movements_one_joint = []
+            for v in range(len(vector_keypoints)):
+                if v == 0:
+                    continue
 
-            skeleton_keypoints = [keypoints[s[0] - 1][:2], keypoints[s[1] - 1][:2]]
-            # plt.plot([skeleton_keypoints[0][0], skeleton_keypoints[1][0]], [skeleton_keypoints[0][1], skeleton_keypoints[1][1]])
-            vector_keypoint = [skeleton_keypoints[1][0] - skeleton_keypoints[0][0],
-                               (240 - skeleton_keypoints[1][1]) - (240 - skeleton_keypoints[0][1])]
-            vector_keypoints_one_frame.append(vector_keypoint)
-        # plt.show()
+                prev_index = v - 1
+                prev_vector = None
+                while prev_index > 0:
+                    if vector_keypoints[:, c][prev_index][0] is not None:
+                        prev_vector = vector_keypoints[:, c][prev_index]
+                        break
+                    prev_index -= 1
 
-        vector_keypoints.append(vector_keypoints_one_frame)
-    
-    vector_keypoints = np.asarray(vector_keypoints)
+                if prev_vector is None or vector_keypoints[:, c][v][0] is None:
+                    vector_movements_one_joint.append([0.0, 0.0])
+                    continue
 
-    all_vector_movements = []
-    for c in range(len(f_skeleton_indices)):
-        vector_movements_one_joint = []
-        for v in range(len(vector_keypoints)):
-            if v == 0:
-                continue
+                vec_1 = vector_keypoints[:, c][prev_index]
+                vec_2 = vector_keypoints[:, c][v]
 
-            prev_index = v - 1
-            prev_vector = None
-            while prev_index > 0:
-                if vector_keypoints[:, c][prev_index][0] is not None:
-                    prev_vector = vector_keypoints[:, c][prev_index]
-                    break
-                prev_index -= 1
+                unit_vec_1 = vec_1 / np.linalg.norm(vec_1)
+                unit_vec_2 = vec_2 / np.linalg.norm(vec_2)
 
-            if prev_vector is None or vector_keypoints[:, c][v][0] is None:
-                vector_movements_one_joint.append([0.0, 0.0])
-                continue
+                ang1 = np.arctan2(*unit_vec_1[::-1])
+                ang2 = np.arctan2(*unit_vec_2[::-1])
+                angle = (ang2 - ang1) % (2 * np.pi)
+                if angle > np.pi:
+                    angle = angle - (2 * np.pi)
+                angle = angle / np.pi
 
-            vec_1 = vector_keypoints[:, c][prev_index]
-            vec_2 = vector_keypoints[:, c][v]
+                magnitude_vec_1 = np.linalg.norm(vec_1)
+                magnitude_vec_2 = np.linalg.norm(vec_2)
 
-            unit_vec_1 = vec_1 / np.linalg.norm(vec_1)
-            unit_vec_2 = vec_2 / np.linalg.norm(vec_2)
+                magnitude_change = (magnitude_vec_2 / magnitude_vec_1) - 1
 
-            ang1 = np.arctan2(*unit_vec_1[::-1])
-            ang2 = np.arctan2(*unit_vec_2[::-1])
-            angle = (ang2 - ang1) % (2 * np.pi)
-            if angle > np.pi:
-                angle = angle - (2 * np.pi)
-            angle = angle / np.pi
+                vector_movements_one_joint.append([angle, magnitude_change])
 
-            magnitude_vec_1 = np.linalg.norm(vec_1)
-            magnitude_vec_2 = np.linalg.norm(vec_2)
+            all_vector_movements.append(vector_movements_one_joint)
 
-            magnitude_change = (magnitude_vec_2 / magnitude_vec_1) - 1
+        people_movements.append(np.asarray(all_vector_movements))
 
-            vector_movements_one_joint.append([angle, magnitude_change])
+    main_person_index = 0
+    people_movements_sum = np.sum(people_movements, axis=1)
+    for person_movement_index in range(len(people_movements)):
+        if person_movement_sum[person_movement_index] > person_movement_sum[main_person_index]:
+            max_person_movement = person_movement_index
 
-        all_vector_movements.append(vector_movements_one_joint)
+    all_vector_movements = people_movements[main_person_index]
 
-    all_vector_movements = np.asarray(all_vector_movements)
-
+    #this is if something goes wrong
     if all_vector_movements.shape[0] != 18:
+        print("SOMETHING WENT WRONG")
         print(f)
-    #     print(j['categories'][0])
-    #     return None
-    # return 1
 
     with open(f"{JSON_EXPORT_DIR}/{f}", 'w') as outfile:
         json.dump(all_vector_movements.tolist(), outfile)
