@@ -17,6 +17,7 @@ with open(f"{MODEL_DIR}/hist", 'rb') as hist_file:
     hist = pickle.load(hist_file)
 
 plt.figure()
+plt.ylim((0,1))
 plt.plot(range(len(hist['Train'])), hist['Train'])
 plt.plot(range(len(hist['Val'])), hist['Val'])
 plt.savefig(f"hist_figure_m_{version}")
