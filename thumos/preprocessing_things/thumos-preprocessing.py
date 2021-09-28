@@ -23,7 +23,7 @@ elif args.env == 'pc':
 elif args.env == 'alpha':
     BASE_DIR = "/comm_dat/nfleece/THUMOS14_skeletons/training"
     JSON_EXPORT_DIR = "/comm_dat/nfleece/THUMOS_JOINT_ROTATIONS"
-    MAX_THREADS = 32
+    MAX_THREADS = 64
 
 skeleton = [
     ["ankler", "heelr"],
@@ -74,6 +74,7 @@ def process_data (f):
     for x in j['annotation_sequences']:
         people.append(x['annotation_ids'])
 
+    if people == []: people = [[]]
 
     people_movements = []
     for person in people:
@@ -81,8 +82,8 @@ def process_data (f):
         for c in range(len(j['annotations'])):
             x = j['annotations'][c]
             
-            #Not main person
-            if not x['id'] in main_person:
+            #Not the person we want
+            if not x['id'] in person:
                 continue
             
             keypoints = list(divide_chunks(x['keypoints'], 3))
@@ -150,18 +151,19 @@ def process_data (f):
 
         people_movements.append(np.asarray(all_vector_movements))
 
-    main_person_index = 0
-    people_movements_sum = np.sum(people_movements, axis=1)
-    for person_movement_index in range(len(people_movements)):
-        if person_movement_sum[person_movement_index] > person_movement_sum[main_person_index]:
-            max_person_movement = person_movement_index
+    all_vector_movements = np.array([])
+    #people_movements_sum = np.sum(people_movements, axis=1)
+    for person_movement in people_movements:
+        if np.sum(np.absolute(person_movement)) > np.sum(np.absolute(all_vector_movements)):
+            all_vector_movements = person_movement
 
-    all_vector_movements = people_movements[main_person_index]
+    #all_vector_movements = people_movements[main_person_index]
 
     #this is if something goes wrong
-    if all_vector_movements.shape[0] != 18:
-        print("SOMETHING WENT WRONG")
-        print(f)
+    #if all_vector_movements.shape == (0,):
+    #    print(f"File: {f} has no skeleton data, exiting")
+    #    print(people_movements)
+    #    return
 
     with open(f"{JSON_EXPORT_DIR}/{f}", 'w') as outfile:
         json.dump(all_vector_movements.tolist(), outfile)
@@ -183,9 +185,12 @@ threads = []
 for _, d in tqdm(data.iterrows(), total=len(data)):
     # if process_data(d['file']) is None: break
 
+    process_data('v_RockClimbingIndoor_g25_c05.json')
+    break
+
     t = threading.Thread(target=process_data, args=(d['file'],))
     t.start()
     threads.append(t)
-
+    
     while len(threads) == MAX_THREADS:
         threads = [t for t in threads if t.is_alive()]

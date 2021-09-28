@@ -31,10 +31,13 @@ TRAIN_TEST_SPLIT = 0.8
 all_files = pd.read_csv(f"{BASE_DIR}file_joint_data.csv")
 file_counts = all_files.loc[all_files['has_joints'] == True][['class', 'has_joints']].groupby('class', as_index=False).agg('count')
 
+print("Classes and counts:")
 classes = []
 for _, d in file_counts.iterrows():
     if d['has_joints'] > 50:
         classes.append(d['class'])
+        print(f"{d['has_joints']} - {d['class']}")
+print("--- END ---")
 
 all_joint_files = all_files.loc[all_files['class'].isin(classes)].loc[all_files['has_joints'] == True][['file', 'class']]
 

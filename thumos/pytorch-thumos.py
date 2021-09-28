@@ -9,7 +9,7 @@ import torch.optim as optim
 import pickle
 import time
 
-VERSION = 2
+VERSION = 3
 
 LEARNING_RATE = 0.01
 EPOCHS = 200
@@ -27,39 +27,43 @@ class CNN(nn.Module):
             nn.Conv2d(2, 128, kernel_size=(3,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            nn.Dropout(0.5),
             nn.Conv2d(128, 128, kernel_size=(3, 3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            nn.Dropout(0.5),
         )
 
         self.conv_block_2 = nn.Sequential(
             nn.Conv2d(128, 256, kernel_size=(3,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            nn.Dropout(0.5),
             nn.Conv2d(256, 256, kernel_size=(3,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            nn.Dropout(0.5),
         )
 
         self.conv_block_3 = nn.Sequential(
             nn.Conv2d(256, 512, kernel_size=(3,3)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            nn.Dropout(0.5),
             nn.Conv2d(512, 512, kernel_size=(3,3)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            nn.Dropout(0.5),
         )
 
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(512, len(classes)),
+            nn.Dropout(0.5),
+            nn.Linear(256,256),
+            nn.ReLU(),
+            nn.Dropout(0.5),
+            nn.Linear(256, len(classes)),
             #nn.Softmax(dim=1)
         )
 
@@ -68,7 +72,7 @@ class CNN(nn.Module):
         # convolutions
         x = self.conv_block_1(i)
         x = self.conv_block_2(x)
-        x = self.conv_block_3(x)
+        #x = self.conv_block_3(x)
 
         # final flatten & fc layer
         x = self.fc(x)
@@ -121,6 +125,8 @@ for e in range(EPOCHS):
             actual_labels.append(label)
             batch.append(single_input)
 
+        if len(batch) == 0: break
+
         input_tensor = torch.from_numpy(np.asarray(batch)).float()
 
         cnn_outputs = cnn_net(input_tensor)
@@ -141,8 +147,7 @@ for e in range(EPOCHS):
         del cnn_outputs
         del actual_labels
 
-        if done:
-            break
+        if done: break
 
     pbar.close()
 
@@ -184,6 +189,7 @@ for e in range(EPOCHS):
             count += 1
             pbar.set_description(str(val_correct / count))
 
+        pbar.close()
         time.sleep(1)
 
         val_accuracies.append(val_correct / len(test))

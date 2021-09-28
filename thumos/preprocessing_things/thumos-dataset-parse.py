@@ -42,7 +42,7 @@ def process_data_row (row):
     with open(f"{JSON_DIR}/{row['file']}", 'r') as jsonfile:
         jsondata = np.asarray(json.load(jsonfile))
     has_joints = True
-    if jsondata.shape == (16,0):
+    if jsondata.shape == (0,):
         has_joints = False
 
     data_queue.put({

@@ -44,6 +44,8 @@ def process_data_row (row):
         jsondata = np.asarray(json.load(jsonfile))
 
     #pad to 900 frames (longest in dataset)
+    if jsondata.shape == (0,):
+        print(row)
     jsondata = np.pad(jsondata, [(0,0), (0,900-jsondata.shape[1]), (0,0)])
 
     # reshape from channel last to channel first
