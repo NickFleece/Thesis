@@ -89,20 +89,20 @@ def process_data (f):
             keypoints = list(divide_chunks(x['keypoints'], 3))
 
             vector_keypoints_one_frame = []
-            # plt.figure()
-            # plt.xlim(320)
-            # plt.ylim(240)
+            plt.figure()
+            plt.xlim(320)
+            plt.ylim(240)
             for s in f_skeleton_indices:
                 if keypoints[s[0] - 1][2] == 0 or keypoints[s[1] - 1][2] == 0:
                     vector_keypoints_one_frame.append([None, None])
                     continue
 
                 skeleton_keypoints = [keypoints[s[0] - 1][:2], keypoints[s[1] - 1][:2]]
-                # plt.plot([skeleton_keypoints[0][0], skeleton_keypoints[1][0]], [skeleton_keypoints[0][1], skeleton_keypoints[1][1]])
+                plt.plot([skeleton_keypoints[0][0], skeleton_keypoints[1][0]], [skeleton_keypoints[0][1], skeleton_keypoints[1][1]])
                 vector_keypoint = [skeleton_keypoints[1][0] - skeleton_keypoints[0][0],
                                    (240 - skeleton_keypoints[1][1]) - (240 - skeleton_keypoints[0][1])]
                 vector_keypoints_one_frame.append(vector_keypoint)
-            # plt.show()
+            plt.savefig("TEST.png")
 
             vector_keypoints.append(vector_keypoints_one_frame)
         

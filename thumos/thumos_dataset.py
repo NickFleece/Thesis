@@ -69,6 +69,7 @@ def load_data (data):
         t = threading.Thread(target=process_data_row, args=(d,))
         t.start()
         threads.append(t)
+    break
 
     while len(threads) != 0:
         threads = [t for t in threads if t.is_alive()]

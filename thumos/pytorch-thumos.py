@@ -27,33 +27,33 @@ class CNN(nn.Module):
             nn.Conv2d(2, 128, kernel_size=(3,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.Dropout(0.5),
+            nn.Dropout(0.8),
             nn.Conv2d(128, 128, kernel_size=(3, 3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.Dropout(0.5),
+            nn.Dropout(0.8),
         )
 
         self.conv_block_2 = nn.Sequential(
             nn.Conv2d(128, 256, kernel_size=(3,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            nn.Dropout(0.5),
+            nn.Dropout(0.8),
             nn.Conv2d(256, 256, kernel_size=(3,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            nn.Dropout(0.5),
+            nn.Dropout(0.8),
         )
 
         self.conv_block_3 = nn.Sequential(
             nn.Conv2d(256, 512, kernel_size=(3,3)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
-            nn.Dropout(0.5),
+            nn.Dropout(0.8),
             nn.Conv2d(512, 512, kernel_size=(3,3)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
-            nn.Dropout(0.5),
+            nn.Dropout(0.8),
         )
 
         self.fc = nn.Sequential(
@@ -62,7 +62,7 @@ class CNN(nn.Module):
             #nn.Dropout(0.5),
             #nn.Linear(512,512),
             #nn.ReLU(),
-            nn.Dropout(0.5),
+            #nn.Dropout(0.8),
             nn.Linear(512, len(classes)),
             #nn.Softmax(dim=1)
         )
