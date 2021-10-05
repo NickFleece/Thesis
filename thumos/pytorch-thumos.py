@@ -1,7 +1,7 @@
 from thumos_dataset import *
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import torch
 import torch.nn as nn
@@ -11,7 +11,7 @@ import time
 
 VERSION = 3
 
-LEARNING_RATE = 0.01
+LEARNING_RATE = 0.1
 EPOCHS = 200
 BATCH_SIZE = 32
 
@@ -59,11 +59,11 @@ class CNN(nn.Module):
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
+            #nn.Dropout(0.5),
+            #nn.Linear(512,512),
+            #nn.ReLU(),
             nn.Dropout(0.5),
-            nn.Linear(256,256),
-            nn.ReLU(),
-            nn.Dropout(0.5),
-            nn.Linear(256, len(classes)),
+            nn.Linear(512, len(classes)),
             #nn.Softmax(dim=1)
         )
 
@@ -72,7 +72,7 @@ class CNN(nn.Module):
         # convolutions
         x = self.conv_block_1(i)
         x = self.conv_block_2(x)
-        #x = self.conv_block_3(x)
+        x = self.conv_block_3(x)
 
         # final flatten & fc layer
         x = self.fc(x)
