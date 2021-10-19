@@ -9,9 +9,14 @@ import torch.optim as optim
 import pickle
 import time
 
-VERSION = 3
+VERSION = args.version
+if VERSION is None:
+    raise Exception('You should provide a version number!') 
 
-LEARNING_RATE = 0.1
+if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
+    os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
+
+LEARNING_RATE = 0.01
 EPOCHS = 200
 BATCH_SIZE = 32
 
@@ -27,7 +32,7 @@ class CNN(nn.Module):
             nn.Conv2d(2, 128, kernel_size=(3,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            #nn.Dropout(0.8),
             nn.Conv2d(128, 128, kernel_size=(3, 3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
@@ -38,7 +43,7 @@ class CNN(nn.Module):
             nn.Conv2d(128, 256, kernel_size=(3,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            #nn.Dropout(0.8),
             nn.Conv2d(256, 256, kernel_size=(3,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
@@ -49,7 +54,7 @@ class CNN(nn.Module):
             nn.Conv2d(256, 512, kernel_size=(3,3)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            #nn.Dropout(0.8),
             nn.Conv2d(512, 512, kernel_size=(3,3)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
@@ -82,6 +87,13 @@ class CNN(nn.Module):
 cnn_net = CNN()
 if device != cpu:
     cnn_net = nn.DataParallel(cnn_net)
+
+checkpoint = args.load_checkpoint
+if not checkpoint is None:
+    cnn_net.load_state_dict(torch.load(f"{MODEL_SAVE_DIR}/m_{VERSION}/{checkpoint}"))
+else:
+    checkpoint = 0
+
 cnn_net.to(device)
 
 criterion = nn.CrossEntropyLoss()
@@ -93,7 +105,7 @@ optimizer = optim.Adam(
 
 train_accuracies = []
 val_accuracies = []
-for e in range(EPOCHS):
+for e in range(checkpoint, EPOCHS):
 
     # start the background train load thread
     t = threading.Thread(target=load_data, args=(train,))

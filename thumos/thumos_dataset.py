@@ -5,10 +5,13 @@ import queue
 import numpy as np
 import json
 from tqdm import tqdm
+import random
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--env')
 parser.add_argument('--test')
+parser.add_argument('--load_checkpoint')
+parser.add_argument('--version')
 args = parser.parse_args()
 
 if args.env == 'dev':
@@ -40,6 +43,9 @@ classes = train['class'].value_counts().keys().tolist()
 data_queue = queue.Queue()
 
 def process_data_row (row):
+    
+    transform_random = random.random()
+
     with open(f"{JSON_DIR}/{row['file']}", 'r') as jsonfile:
         jsondata = np.asarray(json.load(jsonfile))
 
@@ -53,6 +59,10 @@ def process_data_row (row):
     for i in range(jsondata.shape[2]):
         newjsondata.append(jsondata[:,:,i])
     jsondata = np.asarray(newjsondata)
+
+    # 50% chance of flipping image, swapping right and left joints
+    if transform_random > 0.5: 
+        jsondata[0] = jsondata[0] * -1
 
     data_queue.put([jsondata, classes.index(row['class']), row['file']])
 
@@ -69,8 +79,6 @@ def load_data (data):
         t = threading.Thread(target=process_data_row, args=(d,))
         t.start()
         threads.append(t)
-    break
-
     while len(threads) != 0:
         threads = [t for t in threads if t.is_alive()]
     data_queue.put(None)
