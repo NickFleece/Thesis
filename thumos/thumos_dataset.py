@@ -60,6 +60,9 @@ def process_data_row (row):
         newjsondata.append(jsondata[:,:,i])
     jsondata = np.asarray(newjsondata)
 
+    if jsondata.shape != (2,18,900):
+        print(f"Wrong shape: {row['file']}, {jsondata.shape}")
+
     # 50% chance of flipping image, swapping right and left joints
     if transform_random > 0.5: 
         jsondata[0] = jsondata[0] * -1
@@ -70,6 +73,8 @@ def load_data (data):
     #randomize :)
     data = data.sample(frac=1)
 
+    if args.test == 'y': pbar = tqdm(total=len(data))
+
     threads = []
     for _, d in data.iterrows():
 
@@ -79,6 +84,9 @@ def load_data (data):
         t = threading.Thread(target=process_data_row, args=(d,))
         t.start()
         threads.append(t)
+
+        if args.test == 'y': pbar.update(1)
+
     while len(threads) != 0:
         threads = [t for t in threads if t.is_alive()]
     data_queue.put(None)
