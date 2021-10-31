@@ -12,6 +12,8 @@ version = args.version
 
 if args.env == 'alpha':
     MODEL_DIR = f"/comm_dat/nfleece/models/m_{version}"
+elif args.env == 'razor':
+    MODEL_DIR = f"/comm_dat/DATA/nfleece/models/m_{version}"
 
 with open(f"{MODEL_DIR}/hist", 'rb') as hist_file:
     hist = pickle.load(hist_file)
