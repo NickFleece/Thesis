@@ -1,7 +1,7 @@
 from thumos_dataset import *
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 import torch
 import torch.nn as nn
@@ -17,7 +17,7 @@ if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
     os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
 
 LEARNING_RATE = 0.01
-EPOCHS = 200
+EPOCHS = 400
 BATCH_SIZE = 32
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -36,7 +36,7 @@ class CNN(nn.Module):
             nn.Conv2d(128, 128, kernel_size=(3, 3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            nn.Dropout(0.5),
         )
 
         self.conv_block_2 = nn.Sequential(
@@ -47,7 +47,7 @@ class CNN(nn.Module):
             nn.Conv2d(256, 256, kernel_size=(3,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            nn.Dropout(0.5),
         )
 
         self.conv_block_3 = nn.Sequential(
@@ -58,14 +58,14 @@ class CNN(nn.Module):
             nn.Conv2d(512, 512, kernel_size=(3,3)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
-            nn.Dropout(0.8),
+            nn.Dropout(0.5),
         )
 
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             #nn.Dropout(0.5),
-            #nn.Linear(512,512),
+            nn.Linear(512,512),
             #nn.ReLU(),
             #nn.Dropout(0.8),
             nn.Linear(512, len(classes)),
@@ -216,5 +216,5 @@ for e in range(checkpoint, EPOCHS):
         'loss': losses,
     }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")
 
-with open(f"{MODEL_SAVE_DIR}/m_{VERSION}/hist", 'wb') as f:
-    pickle.dump({"Train":train_accuracies, "Val":val_accuracies}, f)
+    with open(f"{MODEL_SAVE_DIR}/m_{VERSION}/hist", 'wb') as f:
+        pickle.dump({"Train":train_accuracies, "Val":val_accuracies}, f)
