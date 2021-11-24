@@ -26,6 +26,10 @@ elif args.env == 'razor':
     JSON_DIR = "/comm_dat/DATA/nfleece/THUMOS_JOINT_ROTATIONS"
     BASE_DIR = "/comm_dat/DATA/nfleece/"
     MAX_THREADS = 15
+elif args.env == 'dev_usb':
+    JSON_DIR = "/media/nick/MY USB/ThesisData/THUMOS_JOINT_ROTATIONS"
+    BASE_DIR = "/media/nick/MY USB/ThesisData/"
+    MAX_THREADS = 4
 else:
     JSON_DIR = "/comm_dat/nfleece/THUMOS_JOINT_ROTATIONS"
     BASE_DIR = "/comm_dat/nfleece/"
