@@ -110,7 +110,7 @@ for date in os.listdir(FRAMES_DIR):
                     "path_to_video_segment":[f"{date}/{json_file[:-5]}"],
                     "start_frame":[f"{str(first_image).zfill(5)}.jpg"],
                     "end_frame":[f"{str(last_image).zfill(5)}.jpg"],
-                    "enclosing_bbox":[[x_1, y_1, x_2, y_2]],
+                    "enclosing_bbox":f"{min_x} {min_y} {max_x} {max_y}",
                     "activity_class_id":[ACTIVITIES[category]],
                     "activity_class_name":[category]
                 }), ignore_index=True)
