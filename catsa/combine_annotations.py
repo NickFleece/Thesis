@@ -32,6 +32,9 @@ csv_annotations = pd.DataFrame({
     "activity_class_name":[]
 })
 
+if os.path.exists(f"{FRAMES_DIR}/annotations.csv"):
+    os.remove(f"{FRAMES_DIR}/annotations.csv")
+
 for date in os.listdir(FRAMES_DIR):
     json_files = [f for f in os.listdir(f"{FRAMES_DIR}/{date}") if '.json' in f]
     for json_file in json_files:
@@ -43,7 +46,11 @@ for date in os.listdir(FRAMES_DIR):
         for frame_annotation in json_frame_annotations:
 
             if len(json_annotations[frame_annotation]['annotations']) > 1:
-                print("wtf?")
+                print("--------")
+                print("Two annotations on one frame?")
+                print(date)
+                print(json_file)
+                
                 print(json_annotations[frame_annotation]['annotations'])
                 continue
             if len(json_annotations[frame_annotation]['annotations']) == 0:
@@ -97,17 +104,16 @@ for date in os.listdir(FRAMES_DIR):
 
                 #debugging purposes
                 if first_image == last_image:
-                    print("\n")
-                    print(first_image)
-                    print(last_image)
-                    print(annotation_actions[category].keys())
+                    print("--------")
                     print("Class only has one image!")
+                    print("frame: " + str(first_image))
                     print(date)
                     print(json_file)
                     print(category)
 
                 csv_annotations = csv_annotations.append(pd.DataFrame({
-                    "path_to_video_segment":[f"{date}/{json_file[:-5]}"],
+                    "path_to_video_segment":[f"{date}/{json_file[12:-5]}"],
+                    "camera":[json_file[12:14]],
                     "start_frame":[f"{str(first_image).zfill(5)}.jpg"],
                     "end_frame":[f"{str(last_image).zfill(5)}.jpg"],
                     "enclosing_bbox":f"{min_x} {min_y} {max_x} {max_y}",
