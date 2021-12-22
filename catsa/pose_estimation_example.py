@@ -10,7 +10,8 @@ import imageio
 
 INPUT_SIZE=256
 
-base_path = "/media/nick/External Boi/CATSA"
+# base_path = "/media/nick/External Boi/CATSA"
+base_path = "H:/CATSA"
 model_file = f"{base_path}/pose_model.tflite"
 video_file = f"{base_path}/CATSA_DATA/FP(2668)_y2021m07d28h10m00s00.wmv"
 
@@ -24,8 +25,8 @@ for _ in range(100):
     _, frame = cap.read()
     gif_frames.append(frame)
 
-gif_frames = np.asarray(gif_frames)
-imageio.mimsave(f"{base_path}/test.gif", gif_frames, fps=15)
+# gif_frames = np.asarray(gif_frames)
+# imageio.mimsave(f"{base_path}/test.gif", gif_frames, fps=15)
 
 frame_shape = frame.shape
 frame_height = frame_shape[0]
@@ -39,8 +40,8 @@ resized_frame = tf.image.resize_with_pad([frame], INPUT_SIZE, INPUT_SIZE)
 
 #plt.imshow(resized_frame)
 #plt.savefig("frame_resized.png")
-plt.imshow(frame)
-plt.savefig(f"{base_path}/frame.png")
+# plt.imshow(frame)
+# plt.savefig(f"{base_path}/frame.png")
 
 interpreter = tf.lite.Interpreter(model_path=model_file)
 interpreter.allocate_tensors()
@@ -75,4 +76,4 @@ plt.imshow(frame)
 for keypoint in keypoints[0][0]:
     print(keypoint)
     plt.scatter([keypoint[1]*frame.shape[0]],[keypoint[0]*frame.shape[1]],c='green',s=100)
-plt.savefig("{base_path}/test.png")
+plt.savefig(f"{base_path}/test.png")
