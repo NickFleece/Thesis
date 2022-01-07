@@ -11,14 +11,14 @@ args = parser.parse_args()
 
 ALL_DATES = {
     "0": [
-        # "y2021m07d19h19m00s00",
-        # "y2021m07d21h18m00s00",
-        # "y2021m07d27h07m00s00",
-        # "y2021m07d28h08m00s00",
+        "y2021m07d19h19m00s00",
+        "y2021m07d21h18m00s00",
+        "y2021m07d27h07m00s00",
+        "y2021m07d28h08m00s00",
         "y2021m07d28h10m00s00",
         "y2021m07d29h08m00s00",
         "y2021m07d30h13m00s00",
-        # "y2021m07d30h19m00s00",
+        "y2021m07d30h19m00s00",
         "y2021m08d02h06m00s00",
         "y2021m08d02h13m00s00"
     ],
@@ -59,7 +59,8 @@ for date in DATES:
 curr_file = 0
 threads = []
 for date in DATES:
-    os.mkdir(f"{EXPORT_DIR}/{date}")
+    if not os.path.exists(f"{EXPORT_DIR}/{date}"):
+        os.mkdir(f"{EXPORT_DIR}/{date}")
 
     for video_file in os.listdir(f"{VIDEO_FOLDER}/{date}"):
         curr_file += 1
