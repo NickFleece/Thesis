@@ -16,7 +16,8 @@ EXPORT_DIR = "H:/CATSA/CATSA_DATA_SEGMENTED" #dir to export segmented videos to,
 #dir that contains all videos
 ALL_VIDEOS_FOLDER = {
     0:"H:/CATSA/CATSA_DATA",
-    1:"H:/CATSA/CATSA_videos_24Nov21"
+    1:"H:/CATSA/CATSA_videos_24Nov21",
+    2:"H:/CATSA/CATSA_videos_11Jan22",
 }
 
 # Camera angle prefixes, first is the prefix of the video, second is the prefix the exported video will have, is usually simpler
@@ -28,6 +29,12 @@ ALL_CAMERA_ANGLE_PREFIXES = {
             ["RP(2670)", "RP"]
         ],
     1:
+        [
+            ["YYC_NPS-V_N_SB1_FD1(2667)", "FD"],
+            ["YYC_NPS-V_N_SB1_FP(2668)", "FP"],
+            ["YYC_NPS-V_N_SB1_RP(2670)", "RP"]
+        ],
+    2:
         [
             ["YYC_NPS-V_N_SB1_FD1(2667)", "FD"],
             ["YYC_NPS-V_N_SB1_FP(2668)", "FP"],
@@ -48,5 +55,6 @@ for split in splits.iterrows():
     Path(f"{EXPORT_DIR}/{split['File']}").mkdir(parents=True, exist_ok=True)
 
     for camera_prefix in CAMERA_ANGLE_PREFIXES:
+        pbar.set_description(f"{camera_prefix[0]}_{split['File']}.wmv; {split['Car_Start']} to {split['Car_End']}")
         os.system(f"ffmpeg -y -hide_banner -loglevel error -to {split['Car_End']} -i \"{VIDEOS_FOLDER}/{camera_prefix[0]}_{split['File']}.wmv\" -ss {split['Car_Start']} -c copy \"{EXPORT_DIR}/{split['File']}/{camera_prefix[1]}_{split['Car_Index']}.wmv\"")
         pbar.update(1)
