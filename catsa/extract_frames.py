@@ -62,7 +62,7 @@ VIDEO_FOLDER = ALL_VIDEO_FOLDERS[args.env]
 
 ALL_EXPORT_DIR = {
     "home":"H:/CATSA/CATSA_FRAMES",
-    "wrnch":"/nvme_com_dat/CATSA/CATSA_DATA_SEGMENTED"
+    "wrnch":"/nvme_comm_dat/CATSA/CATSA_DATA_SEGMENTED"
 }
 EXPORT_DIR = ALL_EXPORT_DIR[args.env]
 

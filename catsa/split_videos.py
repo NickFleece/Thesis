@@ -10,14 +10,14 @@ parser.add_argument('--dataset_index', required=True)
 
 args = parser.parse_args()
 
-SPLIT_CSV_FILE = "H:/CATSA/car_splits.csv" #dir of the csv split file
-EXPORT_DIR = "H:/CATSA/CATSA_DATA_SEGMENTED" #dir to export segmented videos to, they will be exported in folders according to date
+SPLIT_CSV_FILE = "/nvme_comm_dat/CATSA/car_splits.csv" #dir of the csv split file
+EXPORT_DIR = "/nvme_comm_dat/CATSA/CATSA_DATA_SEGMENTED" #dir to export segmented videos to, they will be exported in folders according to date
 
 #dir that contains all videos
 ALL_VIDEOS_FOLDER = {
     0:"H:/CATSA/CATSA_DATA",
     1:"H:/CATSA/CATSA_videos_24Nov21",
-    2:"H:/CATSA/CATSA_videos_11Jan22",
+    2:"/nvme_comm_dat/CATSA/CATSA_videos_7Jan22",
 }
 
 # Camera angle prefixes, first is the prefix of the video, second is the prefix the exported video will have, is usually simpler
