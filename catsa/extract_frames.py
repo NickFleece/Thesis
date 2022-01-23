@@ -56,7 +56,7 @@ DATES = ALL_DATES[args.dataset_index]
 ALL_VIDEO_FOLDERS = {
     "home":"H:/CATSA/CATSA_DATA_SEGMENTED",
     "laptop":"/media/nick/Thesis/CATSA/CATSA_DATA_SEGMENTED",
-    "wrnch":"/nvme_comm_dat/CATSA/CATSA_DATA_SEGMENTED"
+    "wrnch":"/nvme_comm_dat/CATSA/CATSA_DATA_SEGMENTED",
 }
 VIDEO_FOLDER = ALL_VIDEO_FOLDERS[args.env]
 
