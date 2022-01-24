@@ -1,43 +1,43 @@
 import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
-
 import cv2
 import matplotlib.pyplot as plt
-import tensorflow as tf
 
-VIDEOS_DIR = "H:/ntu_dataset/nturgb+d_rgb"
-POSE_MODEL_DIR = "H:/ntu_dataset/pose_model.tflite"
+SKELETON_FILES_DIR = "H:/nturgbd_skeletons_s001_to_s017/nturgb+d_skeletons"
+VIDEO_FILES_DIR = "H:/ntu_dataset/nturgb+d_rgb"
 
-interpreter = tf.lite.Interpreter(model_path=model_file)
-interpreter.allocate_tensors()
+for i in os.listdir(SKELETON_FILES_DIR):
 
-def movenet(input_image):
-    """Runs detection on an input image.
+    cap = cv2.VideoCapture(f"{VIDEO_FILES_DIR}/{i[:-9]}_rgb.avi")
 
-    Args:
-      input_image: A [1, height, width, 3] tensor represents the input image
-        pixels. Note that the height/width should already be resized and match the
-        expected input resolution of the model before passing into this function.
-
-    Returns:
-      A [1, 1, 17, 3] float numpy array representing the predicted keypoint
-      coordinates and scores.
-    """
-    # TF Lite format expects tensor type of uint8.
-    input_image = tf.cast(input_image, dtype=tf.uint8)
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-    interpreter.set_tensor(input_details[0]['index'], input_image.numpy())
-    # Invoke inference.
-    interpreter.invoke()
-    # Get the model prediction.
-    keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
-    return keypoints_with_scores
-
-for i in os.listdir(VIDEOS_DIR):
-    print(i)
-    cap = cv2.VideoCapture(f"{VIDEOS_DIR}/{i}")
     _, frame = cap.read()
+
     plt.imshow(frame)
     plt.show()
+
+    with open(f"{SKELETON_FILES_DIR}/{i}") as f:
+        num_frames = int(f.readline())
+        for frame in range(num_frames):
+
+            num_people = int(f.readline())
+            
+            for person in range(num_people):
+                plt.figure()
+                plt.ylim((-2.5,2.5))
+                plt.xlim((-2.5,2.5))
+
+                random_details = f.readline()
+                num_points = int(f.readline())
+
+                skeleton_points = []
+
+                for _ in range(num_points):
+
+                    point = f.readline().split(" ")[:2]
+                    for p in range(len(point)): point[p] = float(point[p])
+                    plt.scatter(point[0], point[1])
+
+                plt.show()
+            break
+        break
+
     break

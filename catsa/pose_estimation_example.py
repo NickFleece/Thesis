@@ -76,4 +76,5 @@ plt.imshow(frame)
 for keypoint in keypoints[0][0]:
     print(keypoint)
     plt.scatter([keypoint[1]*frame.shape[0]],[keypoint[0]*frame.shape[1]],c='green',s=100)
-plt.savefig(f"{base_path}/test.png")
+# plt.savefig(f"{base_path}/test.png")
+plt.show()
