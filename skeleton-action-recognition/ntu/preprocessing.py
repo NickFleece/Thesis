@@ -20,11 +20,16 @@ EXPORT_DIR = f"{BASE_DIR}/ntu_processed_skeleton_data"
 
 from ntu_skeleton_config import BONE_CONNECTIONS
 
-for i in tqdm(os.listdir(SKELETON_FILES_DIR)):
+pbar = tqdm(total = len(os.listdir(SKELETON_FILES_DIR)))
+
+for i in os.listdir(SKELETON_FILES_DIR):
 
     if i[:-9] in IGNORE_FILES: continue
 
     with open(f"{SKELETON_FILES_DIR}/{i}") as f:
+
+        pbar.set_description(i)
+
         num_frames = int(f.readline())
         for frame in range(num_frames):
 
@@ -87,32 +92,40 @@ for i in tqdm(os.listdir(SKELETON_FILES_DIR)):
                 # plt.plot([0,bone_vector[0]],[0,bone_vector[1]])
                 # plt.plot([0,prev_bone_vector[0]],[0,prev_bone_vector[1]])
 
-                #calculate the magnitude difference
-                #taking the ratio increase from the previous bone to this one
-                #minus one to give a reduction in size a negative value
-                magnitude_change = (np.linalg.norm(bone_vector) / np.linalg.norm(prev_bone_vector)) - 1
+                # if one of the bones is at 0,0 it causes nan and inf issues, for now just put 0,0 and move on
+                if np.linalg.norm(bone_vector) == 0 or np.linalg.norm(prev_bone_vector) == 0:
+                    one_frame_bone_movements.append([0,0])
 
-                #now calculating the angle between the two vectors
-                prev_bone_unit_vector = prev_bone_vector / np.linalg.norm(prev_bone_vector)
-                bone_unit_vector = bone_vector / np.linalg.norm(bone_vector)
+                else:
+                    #calculate the magnitude difference
+                    #taking the ratio increase from the previous bone to this one
+                    #minus one to give a reduction in size a negative value
+                    magnitude_change = (np.linalg.norm(bone_vector) / np.linalg.norm(prev_bone_vector)) - 1
 
-                prev_bone_angle = np.arctan2(*prev_bone_unit_vector[::-1])
-                bone_angle = np.arctan2(*bone_unit_vector[::-1])
-                angle = (bone_angle - prev_bone_angle) % (2 * np.pi)
-                if angle > np.pi:
-                    angle = angle - (2 * np.pi)
-                angle = angle / np.pi
+                    #now calculating the angle between the two vectors
+                    prev_bone_unit_vector = prev_bone_vector / np.linalg.norm(prev_bone_vector)
+                    bone_unit_vector = bone_vector / np.linalg.norm(bone_vector)
 
-                one_frame_bone_movements.append([angle, magnitude_change, 0]) #note: for visualization, can add a 0 here to the last channel to fill rgb
+                    prev_bone_angle = np.arctan2(*prev_bone_unit_vector[::-1])
+                    bone_angle = np.arctan2(*bone_unit_vector[::-1])
+                    angle = (bone_angle - prev_bone_angle) % (2 * np.pi)
+                    if angle > np.pi:
+                        angle = angle - (2 * np.pi)
+                    angle = angle / np.pi
+
+                    one_frame_bone_movements.append([angle, magnitude_change]) #note: for visualization, can add a 0 here to the last channel to fill rgb
 
             one_person_bone_movements.append(one_frame_bone_movements)
 
             # plt.show()
-        
-        one_person_bone_movements = np.rot90(np.asarray(one_person_bone_movements))
 
+        if one_person_bone_movements == []: continue
+
+        one_person_bone_movements = np.rot90(np.asarray(one_person_bone_movements))
         bone_movements[person] = one_person_bone_movements.tolist()
 
     # export the bone movements to a json (not sure if a more efficient data type)
     with open(f"{EXPORT_DIR}/{i[:-9]}.json", 'w') as outfile:
         json.dump(bone_movements, outfile)
+    
+    pbar.update(1)
