@@ -13,6 +13,48 @@ ALL_FRAMES_DIR = {
 }
 FRAMES_DIR = ALL_FRAMES_DIR[args.env]
 
+ALL_DATES = [
+    #0
+    "y2021m07d19h19m00s00",
+    "y2021m07d21h18m00s00",
+    "y2021m07d27h07m00s00",
+    "y2021m07d28h08m00s00",
+    "y2021m07d28h10m00s00",
+    "y2021m07d29h08m00s00",
+    "y2021m07d30h13m00s00",
+    "y2021m07d30h19m00s00",
+    "y2021m08d02h06m00s00",
+    "y2021m08d02h13m00s00",
+
+    #1
+    "y2021m11d08h08m00s00",
+    "y2021m11d09h08m00s00",
+    "y2021m11d09h20m00s00",
+    "y2021m11d10h19m00s00",
+    "y2021m11d12h07m00s00",
+    "y2021m11d13h19m00s00",
+    "y2021m11d15h09m00s00",
+    "y2021m11d16h11m00s00",
+    "y2021m11d17h07m00s00",
+    "y2021m11d17h11m00s00",
+    
+    #2
+    "y2021m12d13h16m00s00",
+    "y2021m12d14h13m00s00",
+    "y2021m12d15h18m00s00",
+    "y2021m12d16h12m00s00",
+    "y2021m12d17h08m00s00",
+    "y2021m12d18h11m00s00",
+    "y2021m12d19h15m00s00",
+    "y2021m12d20h06m00s00",
+    "y2021m12d21h13m00s00",
+    "y2021m12d22h10m00s00",
+    "y2021m12d23h19m00s00",
+    "y2021m12d24h14m00s00",
+    "y2021m12d27h17m00s00",
+    "y2021m12d28h06m00s00"
+]
+
 ACTIVITIES = {
     "background":0,
     "roof-top-sides":1,
@@ -35,7 +77,7 @@ csv_annotations = pd.DataFrame({
 if os.path.exists(f"{FRAMES_DIR}/annotations.csv"):
     os.remove(f"{FRAMES_DIR}/annotations.csv")
 
-for date in os.listdir(FRAMES_DIR):
+for date in ALL_DATES:
     json_files = [f for f in os.listdir(f"{FRAMES_DIR}/{date}") if '.json' in f]
     for json_file in json_files:
         with open(f"{FRAMES_DIR}/{date}/{json_file}") as f:

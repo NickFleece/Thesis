@@ -22,8 +22,10 @@ count = 0
 for _, annotation in annotations.iterrows():
 
     count += 1
-    print(f"{count} / {len(annotations)}")
+    print(f"{count} / {len(annotations)} - {count / len(annotations)}")
     print(annotation)
+
+    if count < 1051: continue
 
     fig = plt.figure()
 
@@ -33,8 +35,8 @@ for _, annotation in annotations.iterrows():
     images = []
 
     bbox = annotation['enclosing_bbox'].split(" ")
-    x_1 = int(bbox[0])
-    y_1 = int(bbox[1])
+    x_1 = max(int(bbox[0]), 0)
+    y_1 = max(int(bbox[1]), 0)
     x_2 = int(bbox[2])
     y_2 = int(bbox[3])
 
@@ -44,5 +46,5 @@ for _, annotation in annotations.iterrows():
         images.append([plt.imshow(image, animated=True)])
 
     ani = animation.ArtistAnimation(fig, images, interval=1)
-    plt.title(f"{annotation['path_to_video_segment']} - {annotation['activity_class_name']}")
+    plt.title(f"{count} - {annotation['path_to_video_segment']} - {annotation['activity_class_name']}")
     plt.show()
