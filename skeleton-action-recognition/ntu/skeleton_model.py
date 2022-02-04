@@ -2,14 +2,12 @@ import os
 import json
 import numpy as np
 from tqdm import tqdm
-import pandas as pd
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import pickle
-import sklearn
 import argparse
 from sklearn.model_selection import train_test_split
+import time
 
 #random state for consistency
 RANDOM_STATE = 42
@@ -21,9 +19,13 @@ parser.add_argument('--version', required=True)
 args = parser.parse_args()
 
 BASE_DIR = args.drive_dir
+VERSION = args.version
 
 PROCESSED_SKELETON_FILES_DIR = f"{BASE_DIR}/ntu_processed_skeleton_data"
 MODEL_SAVE_DIR = f"{BASE_DIR}/models"
+
+if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
+    os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
 
 # maximum amount of frames in a single video
 MAX_FRAMES = 299
@@ -33,7 +35,7 @@ classes = []
 
 print("Loading data into memory...")
 
-for json_path in os.listdir(PROCESSED_SKELETON_FILES_DIR)[:1000]:
+for json_path in os.listdir(PROCESSED_SKELETON_FILES_DIR)[:500]:
     with open(f"{PROCESSED_SKELETON_FILES_DIR}/{json_path}", 'rb') as f:
         skeleton_json = json.load(f)
 
@@ -173,7 +175,12 @@ for e in range(checkpoint, EPOCHS):
     batch_predicted = []
     batch_actual = []
 
+    pbar = tqdm(total=len(X_train))
+    optimizer.zero_grad()
+
     for X, y in zip(X_train, y_train):
+
+        pbar.update(1)
 
         input_tensor = torch.from_numpy(np.asarray([X])).float()
 
@@ -198,9 +205,68 @@ for e in range(checkpoint, EPOCHS):
                     train_correct += 1
                 train_total += 1
             
-            print(f"{train_correct / train_total}% Correct :)")
+            pbar.set_description(f"{(train_correct / train_total) * 100}% Correct :)")
 
             batch_predicted = []
             batch_actual = []
 
+            optimizer.zero_grad()
+    
+    if len(batch_predicted) != 0:
+        batch_predicted = torch.cat(batch_predicted)
+
+        loss = criterion(
+            batch_predicted,
+            torch.tensor(batch_actual).to(device).long())
+        loss.backward()
+        optimizer.step()
+
+        losses.append(loss.item())
+
+        for output, label in zip(batch_predicted.argmax(dim=1).cpu().detach().numpy(), batch_actual):
+            if output == label:
+                train_correct += 1
+            train_total += 1
+        
+        pbar.set_description(f"{(train_correct / train_total) * 100}% Training Correct :)")
+
+    pbar.close()
+
+    train_accuracies.append(train_correct / train_total)
+    print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
+
+    with torch.no_grad():
+
+        val_correct = 0
+
+        pbar = tqdm(total=len(X_test))
+        count = 0
+
+        for X, y in zip(X_test, y_test):
+
+            pbar.update(1)
+
+            input_tensor = torch.from_numpy(np.asarray([X])).float()
+
+            pred = cnn_net(input_tensor).argmax(dim=1).item()
+
+            if pred == y:
+                val_correct += 1
+            
+            count += 1
+            pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
+
+        pbar.close()
+        time.sleep(1)
+
+        val_accuracies.append(val_correct / len(y_test))
+        print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
+
     print("---------------------------------------------------------------")
+
+    torch.save({
+        'epoch': e,
+        'model_state_dict': cnn_net.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'loss': losses,
+    }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")
