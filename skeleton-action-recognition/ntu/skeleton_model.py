@@ -63,9 +63,9 @@ for json_path in all_data_files:
 X_train, X_test, y_train, y_test = train_test_split(data, classes, test_size=0.2, random_state=RANDOM_STATE, stratify=classes)
 
 # HYPERPARAMETERS:
-LEARNING_RATE = 0.01
+LEARNING_RATE = 0.001
 EPOCHS = 100
-BATCH_SIZE = 32
+BATCH_SIZE = 16
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -125,7 +125,7 @@ class CNN(nn.Module):
 
         split = torch.split(i, 1, dim=1)
 
-        hn = torch.zeros((1,1,200))
+        hn = torch.zeros((1,1,200)).to(device)
 
         for person in split:
             person = torch.squeeze(person, dim=0)
@@ -152,7 +152,7 @@ if device != cpu:
 
 checkpoint = args.load_checkpoint
 if not checkpoint is None:
-    cnn_net.load_state_dict(torch.load(f"{MODEL_SAVE_DIR}/m_{VERSION}/{checkpoint}"))
+    cnn_net.load_state_dict(torch.load(f"{MODEL_SAVE_DIR}/m_{VERSION}/{checkpoint}")['model_state_dict'])
 else:
     checkpoint = 0
 
@@ -168,7 +168,7 @@ optimizer = optim.Adam(
 train_accuracies = []
 val_accuracies = []
 
-for e in range(checkpoint, EPOCHS):
+for e in range(int(checkpoint), EPOCHS):
 
     losses = []
     train_correct = 0
@@ -184,9 +184,11 @@ for e in range(checkpoint, EPOCHS):
 
         pbar.update(1)
 
-        input_tensor = torch.from_numpy(np.asarray([load_data(X)])).float()
+        input_tensor = torch.from_numpy(np.asarray([load_data(X)])).float().to(device)
 
         cnn_output = cnn_net(input_tensor)
+
+        del input_tensor
 
         batch_actual.append(int(y))
         batch_predicted.append(cnn_output)
@@ -213,7 +215,9 @@ for e in range(checkpoint, EPOCHS):
             batch_actual = []
 
             optimizer.zero_grad()
-    
+
+        for d in batch_predicted: del d
+
     if len(batch_predicted) != 0:
         batch_predicted = torch.cat(batch_predicted)
 
@@ -252,7 +256,7 @@ for e in range(checkpoint, EPOCHS):
 
             pred = cnn_net(input_tensor).argmax(dim=1).item()
 
-            if pred == y:
+            if pred == int(y):
                 val_correct += 1
             
             count += 1
