@@ -35,7 +35,7 @@ classes = []
 
 print("Loading data into memory...")
 
-for json_path in os.listdir(PROCESSED_SKELETON_FILES_DIR)[:500]:
+for json_path in os.listdir(PROCESSED_SKELETON_FILES_DIR):
     with open(f"{PROCESSED_SKELETON_FILES_DIR}/{json_path}", 'rb') as f:
         skeleton_json = json.load(f)
 
