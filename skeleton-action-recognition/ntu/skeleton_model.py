@@ -30,16 +30,9 @@ if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
 # maximum amount of frames in a single video
 MAX_FRAMES = 299
 
-data = []
-classes = []
-
-print("Loading data into memory...")
-
-for json_path in os.listdir(PROCESSED_SKELETON_FILES_DIR):
+def load_data(json_path):
     with open(f"{PROCESSED_SKELETON_FILES_DIR}/{json_path}", 'rb') as f:
-        skeleton_json = json.load(f)
-
-    json_class = json_path[:-5].split("A")[1].strip("0")
+            skeleton_json = json.load(f)
 
     final_skeleton_json = []
     for person in skeleton_json.keys():
@@ -55,7 +48,16 @@ for json_path in os.listdir(PROCESSED_SKELETON_FILES_DIR):
         
         final_skeleton_json.append(new_person_skeleton_json.tolist())
 
-    data.append(final_skeleton_json)
+    return final_skeleton_json
+
+data = []
+classes = []
+
+all_data_files = os.listdir(PROCESSED_SKELETON_FILES_DIR)
+for json_path in all_data_files:
+    json_class = json_path[:-5].split("A")[1].strip("0")
+
+    data.append(json_path)
     classes.append(json_class)
 
 X_train, X_test, y_train, y_test = train_test_split(data, classes, test_size=0.2, random_state=RANDOM_STATE, stratify=classes)
@@ -182,7 +184,7 @@ for e in range(checkpoint, EPOCHS):
 
         pbar.update(1)
 
-        input_tensor = torch.from_numpy(np.asarray([X])).float()
+        input_tensor = torch.from_numpy(np.asarray([load_data(X)])).float()
 
         cnn_output = cnn_net(input_tensor)
 
@@ -246,7 +248,7 @@ for e in range(checkpoint, EPOCHS):
 
             pbar.update(1)
 
-            input_tensor = torch.from_numpy(np.asarray([X])).float()
+            input_tensor = torch.from_numpy(np.asarray([load_data(X)])).float()
 
             pred = cnn_net(input_tensor).argmax(dim=1).item()
 
