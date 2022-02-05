@@ -3,17 +3,17 @@ import argparse
 import imageio
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import matplotlib
 import numpy as np
+import cv2
+
+matplotlib.use('TKAgg')
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--env', required=True)
+parser.add_argument('--frames_folder', required=True)
 args = parser.parse_args()
 
-ALL_FRAMES_DIR = {
-    "home":"H:/CATSA/CATSA_FRAMES",
-    "wrnch":"/nvme_com_dat/CATSA/CATSA_DATA_SEGMENTED"
-}
-FRAMES_DIR = ALL_FRAMES_DIR[args.env]
+FRAMES_DIR = args.frames_folder
 
 annotations = pd.read_csv(f"{FRAMES_DIR}/annotations.csv")
 
@@ -25,7 +25,7 @@ for _, annotation in annotations.iterrows():
     print(f"{count} / {len(annotations)} - {count / len(annotations)}")
     print(annotation)
 
-    if count < 1051: continue
+    if count < 1560: continue
 
     fig = plt.figure()
 
