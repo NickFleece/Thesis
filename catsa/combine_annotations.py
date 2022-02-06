@@ -4,14 +4,11 @@ import argparse
 import os
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--env', required=True)
+parser.add_argument('--frames_folder', required=True)
 args = parser.parse_args()
 
-ALL_FRAMES_DIR = {
-    "home":"H:/CATSA/CATSA_FRAMES",
-    "wrnch":"/nvme_com_dat/CATSA/CATSA_DATA_SEGMENTED"
-}
-FRAMES_DIR = ALL_FRAMES_DIR[args.env]
+FRAMES_DIR = args.frames_folder
+
 
 ALL_DATES = [
     #0
@@ -119,6 +116,7 @@ for date in ALL_DATES:
                 max_y = 0
 
                 for a in annotation_actions[category][instance]:
+
                     a_annotation = a['annotations'][0]
 
                     name = int(a['name'][:-4])
@@ -132,7 +130,9 @@ for date in ALL_DATES:
                     x_1 = int(a_annotation['x'])
                     y_1 = int(a_annotation['y'])
                     x_2 = x_1 + int(a_annotation['width'])
-                    y_2 = x_1 + int(a_annotation['height'])
+                    y_2 = y_1 + int(a_annotation['height'])
+
+                    if int(a_annotation['width']) < 15 or int(a_annotation['height']) < 15: continue
 
                     if x_1 < min_x:
                         min_x = x_1
