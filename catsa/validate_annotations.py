@@ -25,7 +25,7 @@ for _, annotation in annotations.iterrows():
     print(f"{count} / {len(annotations)} - {count / len(annotations)}")
     print(annotation)
 
-    if count < 2845: continue
+    if count < 3186: continue
 
     fig = plt.figure()
 
