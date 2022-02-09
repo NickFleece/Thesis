@@ -152,6 +152,7 @@ for date in ALL_DATES:
                     print(date)
                     print(json_file)
                     print(category)
+                    continue
 
                 csv_annotations = csv_annotations.append(pd.DataFrame({
                     "path_to_video_segment":[f"{date}/{json_file[12:-5]}"],
