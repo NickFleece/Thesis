@@ -8,6 +8,7 @@ import torch.optim as optim
 import argparse
 from sklearn.model_selection import train_test_split
 import time
+from ntu_skeleton_config import THREE_PERSON_SKELETON_FILES
 
 #random state for consistency
 RANDOM_STATE = 42
@@ -32,14 +33,14 @@ MAX_FRAMES = 299
 
 def load_data(json_path):
     with open(f"{PROCESSED_SKELETON_FILES_DIR}/{json_path}", 'rb') as f:
-            skeleton_json = json.load(f)
+        skeleton_json = json.load(f)
 
     final_skeleton_json = []
     for person in skeleton_json.keys():
         
         person_skeleton_json = np.asarray(skeleton_json[person])
         person_skeleton_json = np.pad(person_skeleton_json, [(0,0), (0,MAX_FRAMES-person_skeleton_json.shape[1]), (0,0)])
-        
+
         # channel last to channel first
         new_person_skeleton_json = []
         for i in range(person_skeleton_json.shape[2]):
@@ -48,6 +49,15 @@ def load_data(json_path):
         
         final_skeleton_json.append(new_person_skeleton_json.tolist())
 
+    # 1 person, add second person padding
+    if len(final_skeleton_json) == 1:
+        final_skeleton_json.append(np.zeros(np.asarray(final_skeleton_json).shape[1:]).tolist())
+
+    if np.asarray(final_skeleton_json).shape != (2,2,24,299):
+        print(json_path)
+        print(skeleton_json.keys())
+        for person in skeleton_json.keys(): print(np.asarray(skeleton_json[person]).shape)
+
     return final_skeleton_json
 
 data = []
@@ -55,6 +65,8 @@ classes = []
 
 all_data_files = os.listdir(PROCESSED_SKELETON_FILES_DIR)
 for json_path in all_data_files:
+    if json_path in THREE_PERSON_SKELETON_FILES: continue
+
     json_class = json_path[:-5].split("A")[1].strip("0")
 
     data.append(json_path)
@@ -125,10 +137,10 @@ class CNN(nn.Module):
 
         split = torch.split(i, 1, dim=1)
 
-        hn = torch.zeros((1,1,200)).to(device)
+        hn = torch.zeros((1,BATCH_SIZE,200)).to(device)
 
         for person in split:
-            person = torch.squeeze(person, dim=0)
+            person = torch.squeeze(person, dim=1)
 
             #convolutions
             x = self.conv_block_1(person)
@@ -174,7 +186,7 @@ for e in range(int(checkpoint), EPOCHS):
     train_correct = 0
     train_total = 0
 
-    batch_predicted = []
+    batch_input = []
     batch_actual = []
 
     pbar = tqdm(total=len(X_train))
@@ -184,17 +196,12 @@ for e in range(int(checkpoint), EPOCHS):
 
         pbar.update(1)
 
-        input_tensor = torch.from_numpy(np.asarray([load_data(X)])).float().to(device)
-
-        cnn_output = cnn_net(input_tensor)
-
-        del input_tensor
-
+        batch_input.append(load_data(X))
         batch_actual.append(int(y))
-        batch_predicted.append(cnn_output)
 
-        if len(batch_predicted) == BATCH_SIZE:
-            batch_predicted = torch.cat(batch_predicted)
+        if len(batch_input) == BATCH_SIZE:
+            input_tensor = torch.from_numpy(np.asarray(batch_input)).float().to(device)
+            batch_predicted = cnn_net(input_tensor)
 
             loss = criterion(
                 batch_predicted,
@@ -211,15 +218,14 @@ for e in range(int(checkpoint), EPOCHS):
             
             pbar.set_description(f"{(train_correct / train_total) * 100}% Correct :)")
 
-            batch_predicted = []
+            batch_input = []
             batch_actual = []
 
             optimizer.zero_grad()
 
-        for d in batch_predicted: del d
-
     if len(batch_predicted) != 0:
-        batch_predicted = torch.cat(batch_predicted)
+        input_tensor = torch.from_numpy(np.asarray(batch_input)).float().to(device)
+        batch_predicted = cnn_net(input_tensor)
 
         loss = criterion(
             batch_predicted,
