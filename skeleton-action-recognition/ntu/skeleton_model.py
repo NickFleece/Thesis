@@ -1,4 +1,6 @@
 import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
 import json
 import numpy as np
 from tqdm import tqdm
@@ -134,17 +136,12 @@ class CNN(nn.Module):
         )
 
     def forward(self, i):
-
         split = torch.split(i, 1, dim=1)
 
         hn = torch.zeros((1,BATCH_SIZE,200)).to(device)
 
-        print(split[0].shape)
-        print(split[1].shape)
-
         for person in split:
             person = torch.squeeze(person, dim=1)
-            print(person.shape)
 
             #convolutions
             x = self.conv_block_1(person)
@@ -153,8 +150,6 @@ class CNN(nn.Module):
 
             #final flatten & fc layer
             person_cnn_output = self.fc(x)
-
-            print(person_cnn_output.shape)
 
             rnn_input = torch.unsqueeze(person_cnn_output, dim=0)
 
