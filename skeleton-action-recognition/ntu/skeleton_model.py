@@ -77,7 +77,7 @@ for json_path in all_data_files:
 X_train, X_test, y_train, y_test = train_test_split(data, classes, test_size=0.2, random_state=RANDOM_STATE, stratify=classes)
 
 # HYPERPARAMETERS:
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.0003
 EPOCHS = 100
 BATCH_SIZE = 16
 
@@ -128,7 +128,7 @@ class CNN(nn.Module):
             #nn.Softmax(dim=1)
         )
 
-        self.rnn = nn.RNN(100, 200)
+        self.rnn = nn.RNN(100, 200, dropout=0.5, num_layers=3)
 
         self.final_fc = nn.Sequential(
             nn.Linear(200, 60),
@@ -138,7 +138,7 @@ class CNN(nn.Module):
     def forward(self, i):
         split = torch.split(i, 1, dim=1)
 
-        hn = torch.zeros((1,BATCH_SIZE,200)).to(device)
+        hn = torch.zeros((3,i.shape[0],200)).to(device)
 
         for person in split:
             person = torch.squeeze(person, dim=1)
@@ -224,7 +224,7 @@ for e in range(int(checkpoint), EPOCHS):
 
             optimizer.zero_grad()
 
-    if len(batch_predicted) != 0:
+    if len(batch_input) != 0:
         input_tensor = torch.from_numpy(np.asarray(batch_input)).float().to(device)
         batch_predicted = cnn_net(input_tensor)
 
