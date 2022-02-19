@@ -144,7 +144,7 @@ val_accuracies = []
 
 for e in range(int(checkpoint), EPOCHS):
 
-    #shuffle datasets
+    #shuffle dataset
     X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
 
     losses = []
