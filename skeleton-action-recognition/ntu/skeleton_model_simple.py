@@ -90,39 +90,15 @@ class CNN(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(4, 128, kernel_size=(3,3)),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.Conv2d(128, 128, kernel_size=(3, 3)),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.Dropout(0.5),
-        )
-
-        self.conv_block_2 = nn.Sequential(
-            nn.Conv2d(128, 256, kernel_size=(3,3)),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            nn.Conv2d(256, 256, kernel_size=(3,3)),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            nn.Dropout(0.5),
-        )
-
-        self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size=(3,3)),
-            nn.BatchNorm2d(512),
-            nn.ReLU(),
-            nn.Conv2d(512, 512, kernel_size=(3,3)),
-            nn.BatchNorm2d(512),
-            nn.ReLU(),
-            nn.Dropout(0.5),
+        self.rnn = nn.Sequential(
+            nn.Flatten(),
+            # nn.RNN(
+            #     100,
+            #     200
+            # ),
         )
 
         self.fc = nn.Sequential(
-            nn.AdaptiveAvgPool2d((1,1)),
-            nn.Flatten(),
             nn.Linear(512,512),
             nn.Dropout(0.5),
             nn.ReLU(),
@@ -133,13 +109,12 @@ class CNN(nn.Module):
     def forward(self, i):
 
         #convolutions
-        x = self.conv_block_1(i)
-        x = self.conv_block_2(x)
-        x = self.conv_block_3(x)
+        x = self.rnn(x)
+        print(x.shape)
 
-        x = self.fc(x)
+        # x = self.fc(x)
 
-        return x
+        # return x
 
 cnn_net = CNN()
 if device != cpu:
