@@ -55,13 +55,18 @@ def load_data(json_path):
     if len(final_skeleton_json) == 1:
         final_skeleton_json.append(np.zeros(np.asarray(final_skeleton_json).shape[1:]).tolist())
 
-    # reshape from (2,2,24,299) to (4,24,299)
-    #final_combined_json = []
-    #for person in final_skeleton_json:
-    #    for channel in person:
-    #        final_combined_json.append(channel)
+    # reshape from (2,2,24,299) to (299, 96)
+    joint_combined_json = []
+    for person in final_skeleton_json:
+       for channel in person:
+           for joint in channel:
+               joint_combined_json.append(joint)
+    joint_combined_json = np.asarray(joint_combined_json)
 
-    return final_skeleton_json
+    final_json = []
+    for i in range(joint_combined_json.shape[1]): final_json.append(joint_combined_json[:,i])
+
+    return final_json
 
 data = []
 classes = []
@@ -93,14 +98,14 @@ class CNN(nn.Module):
         self.flatten = nn.Flatten(start_dim=2)
 
         self.rnn = nn.RNN(
-           14352,
-           2000,
+           96,
+           1000,
            #num_layers=2,
            batch_first=True
         )
 
         self.fc = nn.Sequential(
-            nn.Linear(2000,1000),
+            nn.Linear(1000,1000),
             #nn.Dropout(0.5),
             nn.ReLU(),
             nn.Linear(1000, 60),
@@ -108,9 +113,7 @@ class CNN(nn.Module):
         )
 
     def forward(self, i):
-        
-        x = self.flatten(i)
-        x, _ = self.rnn(x)
+        x, _ = self.rnn(i)
         x = x[:,-1]
         x = self.fc(x)
 
