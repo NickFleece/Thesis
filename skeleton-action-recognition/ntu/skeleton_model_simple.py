@@ -9,6 +9,7 @@ import torch.nn as nn
 import torch.optim as optim
 import argparse
 from sklearn.model_selection import train_test_split
+from sklearn.utils import shuffle
 import time
 from ntu_skeleton_config import THREE_PERSON_SKELETON_FILES
 
@@ -83,7 +84,7 @@ for json_path in all_data_files:
 X_train, X_test, y_train, y_test = train_test_split(data, classes, test_size=0.2, random_state=RANDOM_STATE, stratify=classes)
 
 # HYPERPARAMETERS:
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.01
 EPOCHS = 100
 BATCH_SIZE = 64
 
@@ -142,6 +143,9 @@ train_accuracies = []
 val_accuracies = []
 
 for e in range(int(checkpoint), EPOCHS):
+
+    #shuffle datasets
+    X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
 
     losses = []
     train_correct = 0
