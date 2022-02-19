@@ -108,13 +108,17 @@ class CNN(nn.Module):
 
     def forward(self, i):
 
-        #convolutions
-        x = self.rnn(i)
-        print(x.shape)
+        split = torch.split(i, 1, dim=1)
 
-        # x = self.fc(x)
+        hn = torch.zeros((2, i.shape[0], 1000)).to(device)
 
-        # return x
+        for person in split():
+            x = self.flatten(person)
+            x, hn = self.rnn(x, hn)
+        
+        x = self.fc(x)
+
+        return x
 
 cnn_net = CNN()
 if device != cpu:
