@@ -1,5 +1,5 @@
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import json
 import numpy as np
@@ -48,7 +48,7 @@ def load_data(json_path):
         for i in range(person_skeleton_json.shape[2]):
             new_person_skeleton_json.append(person_skeleton_json[:,:,i])
         new_person_skeleton_json = np.asarray(new_person_skeleton_json)
-        
+       
         final_skeleton_json.append(new_person_skeleton_json.tolist())
 
     # 1 person, add second person padding
@@ -56,12 +56,12 @@ def load_data(json_path):
         final_skeleton_json.append(np.zeros(np.asarray(final_skeleton_json).shape[1:]).tolist())
 
     # reshape from (2,2,24,299) to (4,24,299)
-    final_combined_json = []
-    for person in final_skeleton_json:
-        for channel in person:
-            final_combined_json.append(channel)
+    #final_combined_json = []
+    #for person in final_skeleton_json:
+    #    for channel in person:
+    #        final_combined_json.append(channel)
 
-    return final_combined_json
+    return final_skeleton_json
 
 data = []
 classes = []
@@ -78,9 +78,9 @@ for json_path in all_data_files:
 X_train, X_test, y_train, y_test = train_test_split(data, classes, test_size=0.2, random_state=RANDOM_STATE, stratify=classes)
 
 # HYPERPARAMETERS:
-LEARNING_RATE = 0.005
+LEARNING_RATE = 0.001
 EPOCHS = 100
-BATCH_SIZE = 16
+BATCH_SIZE = 64
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -90,32 +90,28 @@ class CNN(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.flatten = nn.Flatten()
+        self.flatten = nn.Flatten(start_dim=2)
 
         self.rnn = nn.RNN(
-           28704,
-           1000,
-           num_layers=2
+           14352,
+           2000,
+           #num_layers=2,
+           batch_first=True
         )
 
         self.fc = nn.Sequential(
-            nn.Linear(1000,512),
-            nn.Dropout(0.5),
+            nn.Linear(2000,1000),
+            #nn.Dropout(0.5),
             nn.ReLU(),
-            nn.Linear(512, 60),
+            nn.Linear(1000, 60),
             nn.Softmax(dim=1)
         )
 
     def forward(self, i):
-
-        split = torch.split(i, 1, dim=1)
-
-        hn = torch.zeros((2, i.shape[0], 1000)).to(device)
-
-        for person in split():
-            x = self.flatten(person)
-            x, hn = self.rnn(x, hn)
         
+        x = self.flatten(i)
+        x, _ = self.rnn(x)
+        x = x[:,-1]
         x = self.fc(x)
 
         return x
