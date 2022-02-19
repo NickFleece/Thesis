@@ -140,7 +140,7 @@ class CNN(nn.Module):
         x = self.conv_block_3(x)
         x = self.fc(x)
 
-        return torch.squeeze(x, dim=0)
+        return x
 
 cnn_net = CNN()
 if device != cpu:
@@ -189,6 +189,7 @@ for e in range(int(checkpoint), EPOCHS):
         if len(batch_input) == BATCH_SIZE:
             input_tensor = torch.from_numpy(np.asarray(batch_input)).float().to(device)
             batch_predicted = cnn_net(input_tensor)
+            print(batch_predicted.shape)
 
             loss = criterion(
                 batch_predicted,
@@ -247,7 +248,7 @@ for e in range(int(checkpoint), EPOCHS):
 
             input_tensor = torch.from_numpy(np.asarray([load_data(X)])).float()
 
-            pred = cnn_net(input_tensor).argmax().item()
+            pred = cnn_net(input_tensor).argmax(dim=1).item()
 
             if pred == int(y):
                 val_correct += 1
