@@ -37,30 +37,32 @@ def load_data(json_path):
     with open(f"{PROCESSED_SKELETON_FILES_DIR}/{json_path}", 'rb') as f:
         skeleton_json = json.load(f)
 
-    final_skeleton_json = []
+    person_combined_skeleton_json = []
     for person in skeleton_json.keys():
         
         person_skeleton_json = np.asarray(skeleton_json[person])
         person_skeleton_json = np.pad(person_skeleton_json, [(0,0), (0,MAX_FRAMES-person_skeleton_json.shape[1]), (0,0)])
-
-        # channel last to channel first
-        new_person_skeleton_json = []
-        for i in range(person_skeleton_json.shape[2]):
-            new_person_skeleton_json.append(person_skeleton_json[:,:,i])
-        new_person_skeleton_json = np.asarray(new_person_skeleton_json)
         
-        final_skeleton_json.append(new_person_skeleton_json.tolist())
+        person_combined_skeleton_json.append(person_skeleton_json.tolist())
 
     # 1 person, add second person padding
-    if len(final_skeleton_json) == 1:
-        final_skeleton_json.append(np.zeros(np.asarray(final_skeleton_json).shape[1:]).tolist())
+    if len(person_combined_skeleton_json) == 1:
+        person_combined_skeleton_json.append(np.zeros(np.asarray(person_combined_skeleton_json).shape[1:]).tolist())
+    person_combined_skeleton_json = np.asarray(person_combined_skeleton_json)
 
-    if np.asarray(final_skeleton_json).shape != (2,2,24,299):
-        print(json_path)
-        print(skeleton_json.keys())
-        for person in skeleton_json.keys(): print(np.asarray(skeleton_json[person]).shape)
+    #reshape from (2,2,24,299) to (2,48,299)
+    final_json = []
+    for person in person_combined_skeleton_json:
+        for joint in person:
+            final_json.append(joint)
+    final_json = np.asarray(final_json)
 
-    return final_skeleton_json
+    # channel last to channel first
+    channel_first_final_json = []
+    for i in range(final_json.shape[2]):
+        channel_first_final_json.append(final_json[:,:,i])
+
+    return channel_first_final_json
 
 data = []
 classes = []
@@ -124,38 +126,18 @@ class CNN(nn.Module):
             nn.Flatten(),
             nn.Linear(512,512),
             nn.ReLU(),
+            nn.Linear(512,512),
+            nn.ReLU(),
             nn.Linear(512, 100),
-            #nn.Softmax(dim=1)
-        )
-
-        self.rnn = nn.RNN(100, 200, dropout=0.5, num_layers=3)
-
-        self.final_fc = nn.Sequential(
-            nn.Linear(200, 60),
-            nn.Softmax(dim=2)
+            nn.Softmax(dim=1)
         )
 
     def forward(self, i):
-        split = torch.split(i, 1, dim=1)
-
-        hn = torch.zeros((3,i.shape[0],200)).to(device)
-
-        for person in split:
-            person = torch.squeeze(person, dim=1)
-
-            #convolutions
-            x = self.conv_block_1(person)
-            x = self.conv_block_2(x)
-            x = self.conv_block_3(x)
-
-            #final flatten & fc layer
-            person_cnn_output = self.fc(x)
-
-            rnn_input = torch.unsqueeze(person_cnn_output, dim=0)
-
-            rnn_out, hn = self.rnn(rnn_input, hn)
-
-        x = self.final_fc(rnn_out)
+        
+        x = self.conv_block_1(i)
+        x = self.conv_block_2(x)
+        x = self.conv_block_3(x)
+        x = self.fc(x)
 
         return torch.squeeze(x, dim=0)
 
