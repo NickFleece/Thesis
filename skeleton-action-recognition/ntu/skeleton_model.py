@@ -128,7 +128,7 @@ class CNN(nn.Module):
             nn.ReLU(),
             nn.Linear(512,512),
             nn.ReLU(),
-            nn.Linear(512, 100),
+            nn.Linear(512, 60),
             nn.Softmax(dim=1)
         )
 
@@ -243,7 +243,7 @@ for e in range(int(checkpoint), EPOCHS):
 
             input_tensor = torch.from_numpy(np.asarray([load_data(X)])).float()
 
-            pred = cnn_net(input_tensor).argmax(dim=1).item()
+            pred = cnn_net(input_tensor).argmax().item()
 
             if pred == int(y):
                 val_correct += 1
