@@ -9,6 +9,7 @@ import torch.nn as nn
 import torch.optim as optim
 import argparse
 from sklearn.model_selection import train_test_split
+from sklearn.utils import shuffle
 import time
 from ntu_skeleton_config import THREE_PERSON_SKELETON_FILES
 
