@@ -80,7 +80,7 @@ for json_path in all_data_files:
 X_train, X_test, y_train, y_test = train_test_split(data, classes, test_size=0.2, random_state=RANDOM_STATE, stratify=classes)
 
 # HYPERPARAMETERS:
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.01
 EPOCHS = 100
 BATCH_SIZE = 32
 
