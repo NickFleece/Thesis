@@ -90,16 +90,16 @@ class CNN(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.rnn = nn.Sequential(
-            nn.Flatten(),
-            # nn.RNN(
-            #     100,
-            #     200
-            # ),
+        self.flatten = nn.Flatten()
+
+        self.rnn = nn.RNN(
+           28704,
+           1000,
+           num_layers=2
         )
 
         self.fc = nn.Sequential(
-            nn.Linear(512,512),
+            nn.Linear(1000,512),
             nn.Dropout(0.5),
             nn.ReLU(),
             nn.Linear(512, 60),
@@ -109,7 +109,7 @@ class CNN(nn.Module):
     def forward(self, i):
 
         #convolutions
-        x = self.rnn(x)
+        x = self.rnn(i)
         print(x.shape)
 
         # x = self.fc(x)
