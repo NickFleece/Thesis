@@ -107,7 +107,10 @@ class CNN(nn.Module):
 
         self.fc = nn.Sequential(
             nn.Linear(1000,1000),
-            #nn.Dropout(0.5),
+            nn.ReLU(),
+            nn.Linear(1000,1000),
+            nn.ReLU(),
+            nn.Linear(1000,1000),
             nn.ReLU(),
             nn.Linear(1000, 60),
             nn.Softmax(dim=1)
