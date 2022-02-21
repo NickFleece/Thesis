@@ -80,9 +80,9 @@ for json_path in all_data_files:
 X_train, X_test, y_train, y_test = train_test_split(data, classes, test_size=0.2, random_state=RANDOM_STATE, stratify=classes)
 
 # HYPERPARAMETERS:
-LEARNING_RATE = 0.0002
+LEARNING_RATE = 0.0005
 EPOCHS = 100
-BATCH_SIZE = 32
+BATCH_SIZE = 16
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -189,7 +189,6 @@ for e in range(int(checkpoint), EPOCHS):
         if len(batch_input) == BATCH_SIZE:
             input_tensor = torch.from_numpy(np.asarray(batch_input)).float().to(device)
             batch_predicted = cnn_net(input_tensor)
-            print(batch_predicted.shape)
 
             loss = criterion(
                 batch_predicted,
