@@ -96,7 +96,7 @@ class CNN(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.flatten = nn.Flatten(start_dim=2)
+        self.flatten = nn.Flatten(start_dim=1)
 
         self.rnn = nn.RNN(
            96,
@@ -106,7 +106,7 @@ class CNN(nn.Module):
         )
 
         self.fc = nn.Sequential(
-            nn.Linear(1000,1000),
+            nn.Linear(2000,1000),
             nn.ReLU(),
             nn.Linear(1000,1000),
             nn.ReLU(),
@@ -118,7 +118,7 @@ class CNN(nn.Module):
 
     def forward(self, i):
         x, _ = self.rnn(i)
-        x = x[:,-1]
+        x = self.flatten(x)
         x = self.fc(x)
 
         return x
