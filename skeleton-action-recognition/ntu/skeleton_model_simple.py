@@ -106,7 +106,7 @@ class CNN(nn.Module):
         )
 
         self.fc = nn.Sequential(
-            nn.Linear(2000,1000),
+            nn.Linear(299000,1000),
             nn.ReLU(),
             nn.Linear(1000,1000),
             nn.ReLU(),
