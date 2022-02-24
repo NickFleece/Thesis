@@ -100,6 +100,5 @@ def load_annotations(annotation_row):
 annotation_file = pd.read_csv(f"{args.drive_dir}/CATSA_FRAMES/annotations.csv")
 pbar = tqdm(total=len(annotation_file))
 for _, annotation_row in annotation_file.iterrows():
-    print(annotation_row['path_to_video_segment'])
     load_annotations(annotation_row)
     pbar.update(1)
