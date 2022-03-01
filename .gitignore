@@ -131,3 +131,5 @@ dmypy.json
 .idea/
 jhmdb/
 THUMOS14_skeletons/
+catsa/Bytetrack/
+catsa/kinetics_600_rgb/

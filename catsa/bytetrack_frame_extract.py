@@ -40,6 +40,10 @@ def load_annotations(annotation_row):
         w = float(frame_annotation[4])
         h = float(frame_annotation[5])
 
+        x1 -= 40
+        w += 80
+        h += 40
+
         if x1 < 0:
             w = w + x1
             x1 = 0
@@ -102,3 +106,4 @@ pbar = tqdm(total=len(annotation_file))
 for _, annotation_row in annotation_file.iterrows():
     load_annotations(annotation_row)
     pbar.update(1)
+    
