@@ -94,7 +94,7 @@ NUM_CLASSES = len(unique_classes)
 X_train, X_test, y_train, y_test = train_test_split(data, classes, test_size=0.2, random_state=RANDOM_STATE, stratify=classes)
 
 # HYPERPARAMETERS:
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.0003
 EPOCHS = 100
 BATCH_SIZE = 16
 
