@@ -11,7 +11,7 @@ import argparse
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 import time
-from ntu_skeleton_config import THREE_PERSON_SKELETON_FILES
+from ntu_skeleton_config import THREE_PERSON_SKELETON_FILES, TWO_PERSON_SKELETON_FILES
 
 #random state for consistency
 RANDOM_STATE = 42
@@ -44,19 +44,24 @@ def load_data(json_path):
         person_skeleton_json = np.asarray(skeleton_json[person])
         person_skeleton_json = np.pad(person_skeleton_json, [(0,0), (0,MAX_FRAMES-person_skeleton_json.shape[1]), (0,0)])
         
-        person_combined_skeleton_json.append(person_skeleton_json.tolist())
+        person_combined_skeleton_json.append(person_skeleton_json)
 
-    # 1 person, add second person padding
-    if len(person_combined_skeleton_json) == 1:
-        person_combined_skeleton_json.append(np.zeros(np.asarray(person_combined_skeleton_json).shape[1:]).tolist())
-    person_combined_skeleton_json = np.asarray(person_combined_skeleton_json)
+    if len(person_combined_skeleton_json) != 1:
+        print("Something has gone wrong? More than one skeleton.")
+        return
+    final_json = person_combined_skeleton_json[0]
 
-    #reshape from (2,2,24,299) to (2,48,299)
-    final_json = []
-    for person in person_combined_skeleton_json:
-        for joint in person:
-            final_json.append(joint)
-    final_json = np.asarray(final_json)
+    # # 1 person, add second person padding
+    # if len(person_combined_skeleton_json) == 1:
+    #     person_combined_skeleton_json.append(np.zeros(np.asarray(person_combined_skeleton_json).shape[1:]).tolist())
+    # person_combined_skeleton_json = np.asarray(person_combined_skeleton_json)
+
+    # #reshape from (2,2,24,299) to (2,48,299)
+    # final_json = []
+    # for person in person_combined_skeleton_json:
+    #     for joint in person:
+    #         final_json.append(joint)
+    # final_json = np.asarray(final_json)
 
     # channel last to channel first
     channel_first_final_json = []
@@ -70,12 +75,21 @@ classes = []
 
 all_data_files = os.listdir(PROCESSED_SKELETON_FILES_DIR)
 for json_path in all_data_files:
-    if json_path in THREE_PERSON_SKELETON_FILES: continue
+    # if json_path in TWO_PERSON_SKELETON_FILES: continue
+    # if json_path in THREE_PERSON_SKELETON_FILES: continue
 
-    json_class = json_path[:-5].split("A")[1].strip("0")
+    json_class = int(json_path[:-5].split("A")[1])
+    if int(json_class) > 49: continue
 
     data.append(json_path)
-    classes.append(json_class)
+    classes.append(json_class - 1)
+
+#find number of classes
+unique_classes = []
+for c in classes:
+    if c not in unique_classes:
+        unique_classes.append(c)
+NUM_CLASSES = len(unique_classes)
 
 X_train, X_test, y_train, y_test = train_test_split(data, classes, test_size=0.2, random_state=RANDOM_STATE, stratify=classes)
 
@@ -129,7 +143,7 @@ class CNN(nn.Module):
             nn.ReLU(),
             nn.Linear(512,512),
             nn.ReLU(),
-            nn.Linear(512, 60),
+            nn.Linear(512, NUM_CLASSES),
             nn.Softmax(dim=1)
         )
 
