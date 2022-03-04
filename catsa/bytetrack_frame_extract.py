@@ -51,7 +51,7 @@ def load_annotations(annotation_row):
             h = h + y1
             y1 = 0
 
-        frame_img = Image.open(f"{args.drive_dir}/CATSA_FRAMES/{date}/{file[:-4]}/{str(frame).zfill(5)}.jpg")
+        frame_img = Image.open(f"{args.drive_dir}/CATSA_DATA_SEGMENTED/{date}/{file[:-4]}/{str(frame).zfill(5)}.jpg")
         
         frame_shape = np.asarray(frame_img).shape
         if x1 + w > frame_shape[1]:
@@ -101,7 +101,7 @@ def load_annotations(annotation_row):
 
     return annotation_separated
 
-annotation_file = pd.read_csv(f"{args.drive_dir}/CATSA_FRAMES/annotations.csv")
+annotation_file = pd.read_csv(f"{args.drive_dir}/annotations.csv")
 pbar = tqdm(total=len(annotation_file))
 for _, annotation_row in annotation_file.iterrows():
     load_annotations(annotation_row)
