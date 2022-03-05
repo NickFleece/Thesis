@@ -62,13 +62,15 @@ def get_frames(annotation):
             frames_dir = f"{person_dir}/{person}"
             for frame in os.listdir(frames_dir):
                 frame_arr = np.asarray(iio.imread(f"{frames_dir}/{frame}"))
+
+                frame_arr = frame_arr / np.max(frame_arr)
                 
                 # square and reshape image
                 max_dim = max(frame_arr.shape[0], frame_arr.shape[1])
                 frame_arr = np.pad(frame_arr, ((0, max_dim - frame_arr.shape[0]), (0, max_dim - frame_arr.shape[1]), (0,0)))
                 frame_arr = cv2.resize(frame_arr, (IMAGE_RESHAPE_SIZE,IMAGE_RESHAPE_SIZE))
 
-                person_frames.append(tf.convert_to_tensor(frame_arr))
+                person_frames.append(tf.convert_to_tensor(frame_arr, dtype=tf.float32))
             
             all_frames.append(person_frames)
     
@@ -123,5 +125,4 @@ for e in range(EPOCHS):
 
                     print(sample_preds)
                     break
-        break
     break
