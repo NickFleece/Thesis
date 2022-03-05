@@ -1,3 +1,9 @@
+# HYPERPARAMETERS FOR NETWORK
+LEARNING_RATE = 1e-5
+EPOCHS = 10
+IMAGE_RESHAPE_SIZE = 320
+BATCH_SIZE = 2
+
 import os
 import pandas as pd
 import argparse
@@ -5,6 +11,8 @@ import imageio as iio
 import numpy as np
 import tensorflow as tf
 import tensorflow_hub as hub
+import matplotlib.pyplot as plt
+import cv2
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
@@ -53,7 +61,14 @@ def get_frames(annotation):
             person_frames = []
             frames_dir = f"{person_dir}/{person}"
             for frame in os.listdir(frames_dir):
-                person_frames.append(np.asarray(iio.imread(f"{frames_dir}/{frame}")))
+                frame_arr = np.asarray(iio.imread(f"{frames_dir}/{frame}"))
+                
+                # square and reshape image
+                max_dim = max(frame_arr.shape[0], frame_arr.shape[1])
+                frame_arr = np.pad(frame_arr, ((0, max_dim - frame_arr.shape[0]), (0, max_dim - frame_arr.shape[1]), (0,0)))
+                frame_arr = cv2.resize(frame_arr, (IMAGE_RESHAPE_SIZE,IMAGE_RESHAPE_SIZE))
+
+                person_frames.append(tf.convert_to_tensor(frame_arr))
             
             all_frames.append(person_frames)
     
@@ -61,9 +76,7 @@ def get_frames(annotation):
 
 model_url = "https://tfhub.dev/tensorflow/movinet/a5/base/kinetics-600/classification/3"
 
-encoder = hub.KerasLayer(model_url, trainable=True)
-
-print(type(encoder))
+encoder = hub.KerasLayer(model_url, trainable=True, name="movinet")
 
 inputs = tf.keras.layers.Input(
     shape=[None, 320, 320, 3],
@@ -72,13 +85,43 @@ inputs = tf.keras.layers.Input(
 
 outputs = encoder(dict(image=inputs))
 
-final_dense = tf.keras.layers.Dense(60)(outputs)
+dense_1 = tf.keras.layers.Dense(600)(outputs)
+final_dense = tf.keras.layers.Dense(6)(dense_1)
 
-model = tf.keras.Model(inputs, final_dense, name='movinet')
+model = tf.keras.Model(inputs, final_dense, name='catsa-movinet')
 
 print(model.summary())
 
-example_input = tf.ones([1, 8, 320, 320, 3])
-example_output = model(example_input)
+# Instantiate an optimizer.
+optimizer = tf.keras.optimizers.SGD(learning_rate=LEARNING_RATE)
+# Instantiate a loss function.
+loss_fn = tf.keras.losses.CategoricalCrossentropy()
 
-print(example_output)
+print(annotations.iloc[0])
+for e in range(EPOCHS):
+
+    print(f"\n\nEpoch {e} / {EPOCHS} : {(e / EPOCHS) * 100}")
+
+    #shuffle samples
+    annotations = annotations.sample(frac=1)
+
+    for _, annotation in annotations.iterrows():
+
+        batch = []
+        batch_labels = []
+
+        batch.append(get_frames(annotation))
+        batch_labels.append(annotation['activity_class_id'])
+
+        if len(batch) == BATCH_SIZE:
+
+            with tf.GradientTape() as tape:
+
+                for sample in batch:
+
+                    sample_preds = model(sample)
+
+                    print(sample_preds)
+                    break
+        break
+    break
