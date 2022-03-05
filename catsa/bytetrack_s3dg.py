@@ -13,6 +13,9 @@ import tensorflow as tf
 import tensorflow_hub as hub
 import matplotlib.pyplot as plt
 import cv2
+from tqdm import tqdm
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
@@ -81,7 +84,7 @@ model_url = "https://tfhub.dev/tensorflow/movinet/a5/base/kinetics-600/classific
 encoder = hub.KerasLayer(model_url, trainable=True, name="movinet")
 
 inputs = tf.keras.layers.Input(
-    shape=[None, 320, 320, 3],
+    shape=[None, IMAGE_RESHAPE_SIZE, IMAGE_RESHAPE_SIZE, 3],
     dtype=tf.float32,
     name='image')
 
@@ -99,7 +102,6 @@ optimizer = tf.keras.optimizers.SGD(learning_rate=LEARNING_RATE)
 # Instantiate a loss function.
 loss_fn = tf.keras.losses.CategoricalCrossentropy()
 
-print(annotations.iloc[0])
 for e in range(EPOCHS):
 
     print(f"\n\nEpoch {e} / {EPOCHS} : {(e / EPOCHS) * 100}")
@@ -107,22 +109,25 @@ for e in range(EPOCHS):
     #shuffle samples
     annotations = annotations.sample(frac=1)
 
+    pbar = tqdm(total = len(annotations))
+    
+    batch = []
+    batch_labels = []
     for _, annotation in annotations.iterrows():
 
-        batch = []
-        batch_labels = []
+        pbar.update(1)
 
         batch.append(get_frames(annotation))
         batch_labels.append(annotation['activity_class_id'])
 
         if len(batch) == BATCH_SIZE:
-
+            print("TEST")
             with tf.GradientTape() as tape:
 
                 for sample in batch:
 
-                    sample_preds = model(sample)
-
-                    print(sample_preds)
+                    sample_preds = model([sample[0]])
+                    print("WHAT")
+                    print("THE HECK")
                     break
     break
