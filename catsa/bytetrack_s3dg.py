@@ -16,6 +16,7 @@ import cv2
 from tqdm import tqdm
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
@@ -73,8 +74,9 @@ def get_frames(annotation):
                 frame_arr = np.pad(frame_arr, ((0, max_dim - frame_arr.shape[0]), (0, max_dim - frame_arr.shape[1]), (0,0)))
                 frame_arr = cv2.resize(frame_arr, (IMAGE_RESHAPE_SIZE,IMAGE_RESHAPE_SIZE))
 
-                person_frames.append(tf.convert_to_tensor(frame_arr, dtype=tf.float32))
+                person_frames.append(frame_arr)
             
+            person_frames = tf.convert_to_tensor(np.asarray([person_frames]), dtype=tf.float32)
             all_frames.append(person_frames)
     
     return all_frames
@@ -121,13 +123,13 @@ for e in range(EPOCHS):
         batch_labels.append(annotation['activity_class_id'])
 
         if len(batch) == BATCH_SIZE:
-            print("TEST")
+            print("RUNNING ON BATCH")
             with tf.GradientTape() as tape:
 
                 for sample in batch:
 
-                    sample_preds = model([sample[0]])
-                    print("WHAT")
-                    print("THE HECK")
+                    sample_preds = model(sample[0])
+                    print(sample_preds)
+                    print("SHOULD HAVE PRINTED")
                     break
     break
