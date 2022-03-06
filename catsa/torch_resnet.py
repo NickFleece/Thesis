@@ -153,7 +153,7 @@ class VideoRecognitionModel(nn.Module):
 
 model = VideoRecognitionModel()
 if device != cpu:
-    cnn_net = nn.DataParallel(model)
+    model = nn.DataParallel(model)
 model.to(device)
 
 #training loop
