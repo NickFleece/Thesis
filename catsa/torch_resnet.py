@@ -107,53 +107,43 @@ class VideoRecognitionModel(nn.Module):
 
         self.fc2 = nn.Linear(512, 5)
 
-    def forward(self, batch_sample_input):
+    def forward(self, sample_input):
 
         # ensure the pretrained model is frozen
         self.pretrained_model.requires_grad_ = False
 
-        batch_outputs = []
+        outputs = []
 
-        for sample_input in batch_sample_input:
-
-            outputs = []
-
-            for x in sample_input:
-                print(x.shape)
-
-                # pass input through pretrained resnet module
-                x = self.pretrained_model(x).squeeze()
-
-                # if a batch of size 1 was put through, ensure that the batch is preserved
-                if len(x.shape) == 1:
-                    x = x.unsqueeze(dim=0)
-                
-                # our fc layers we are training
-                x = self.fc1(x)
-                x = F.relu(x)
-
-                outputs.append(x)
-
-            x = torch.cat(outputs)
-
-            x = x.unsqueeze(dim=0)
-
-            # pass through rnn to generate final output
-            x, _ = self.rnn(x)
-            x = x[:,-1]
-
+        for x in sample_input:
             print(x.shape)
 
-            x = self.fc2(x)
-            x = F.softmax(x)
+            # pass input through pretrained resnet module
+            x = self.pretrained_model(x).squeeze()
 
-            batch_outputs.append(x)
-        
-        batch_outputs = torch.cat(batch_outputs)
+            # if a batch of size 1 was put through, ensure that the batch is preserved
+            if len(x.shape) == 1:
+                x = x.unsqueeze(dim=0)
+            
+            # our fc layers we are training
+            x = self.fc1(x)
+            x = F.relu(x)
 
-        print(batch_outputs.shape)
+            outputs.append(x)
 
-        return batch_outputs
+        x = torch.cat(outputs)
+
+        x = x.unsqueeze(dim=0)
+
+        # pass through rnn to generate final output
+        x, _ = self.rnn(x)
+        x = x[:,-1]
+
+        x = self.fc2(x)
+        x = F.softmax(x)
+
+        print(x.shape)
+
+        return x
 
 model = VideoRecognitionModel()
 if device != cpu:
@@ -179,7 +169,7 @@ for e in range(EPOCHS):
 
         if len(batch_samples) == BATCH_SIZE:
 
-            model_out = model(batch_samples)
+            model_out = model(batch_samples[0])
 
             loss = criterion(
                 model_out,
