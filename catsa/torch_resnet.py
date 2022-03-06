@@ -105,7 +105,7 @@ class VideoRecognitionModel(nn.Module):
 
         self.rnn = nn.RNN(512, 50, batch_first=True)
 
-        self.fc2 = nn.Linear(512, 5)
+        self.fc2 = nn.Linear(50, 5)
 
     def forward(self, sample_input):
 
