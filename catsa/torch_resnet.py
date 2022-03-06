@@ -151,9 +151,9 @@ class VideoRecognitionModel(nn.Module):
         return x
 
 model = VideoRecognitionModel()
+model.to(device)
 if device != cpu:
     model = nn.DataParallel(model)
-model.to(device)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(
