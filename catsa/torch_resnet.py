@@ -2,7 +2,7 @@
 LEARNING_RATE = 1e-5
 EPOCHS = 10
 IMAGE_RESHAPE_SIZE = 160
-BATCH_SIZE = 2
+BATCH_SIZE = 8
 
 import os
 import pandas as pd
@@ -17,7 +17,7 @@ import torch.nn as nn
 from torch.nn import functional as F
 import torch
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
