@@ -141,6 +141,8 @@ class VideoRecognitionModel(nn.Module):
             x, _ = self.rnn(x)
             x = x[:,-1]
 
+            print(x.shape)
+
             x = self.fc2(x)
             x = F.softmax(x)
 
