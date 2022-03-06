@@ -146,7 +146,7 @@ for e in range(EPOCHS):
 
     for _, sample in annotations.iterrows():
 
-        model(sample)
+        model(get_frames(sample))
 
         # for person in get_frames(sample):
             
