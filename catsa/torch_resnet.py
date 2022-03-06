@@ -16,6 +16,7 @@ from torchvision.models.video import r3d_18
 import torch.nn as nn
 from torch.nn import functional as F
 import torch
+import torch.optim as optim
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
@@ -159,19 +160,38 @@ if device != cpu:
     model = nn.DataParallel(model)
 model.to(device)
 
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(
+    model.parameters(),
+    lr=LEARNING_RATE
+)
+
 #training loop
 for e in range(EPOCHS):
     print(f"Epoch {e}")
 
     batch_samples = []
+    batch_actual = []
     for _, sample in annotations.iterrows():    
 
         batch_samples.append(get_frames(sample))
+        batch_actual.append(sample['activity_class_id'])
 
         if len(batch_samples) == BATCH_SIZE:
 
             model_out = model(batch_samples)
-            del model_out
+
+            loss = criterion(
+                model_out,
+                torch.tensor(batch_actual).to(device).long()
+            )
+            loss.backward()
+            optimizer.step()
+
+            print(loss.item())
+
             batch_samples = []
+
+            optimizer.zero_grad()
 
     break
