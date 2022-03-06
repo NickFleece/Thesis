@@ -167,8 +167,8 @@ for e in range(EPOCHS):
 
         if len(batch_samples) == BATCH_SIZE:
 
-            model(batch_samples)
+            tensor = model(batch_samples)
+            del tensor
             batch_samples = []
-            break
 
     break
