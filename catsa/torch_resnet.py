@@ -2,7 +2,7 @@
 LEARNING_RATE = 1e-5
 EPOCHS = 10
 IMAGE_RESHAPE_SIZE = 80
-BATCH_SIZE = 1
+BATCH_SIZE = 2
 
 import os
 import pandas as pd
@@ -175,7 +175,10 @@ for e in range(EPOCHS):
 
         if len(batch_samples) == BATCH_SIZE:
 
-            model_out = model(batch_samples[0])
+            model_out = []
+            for sample in batch_samples:
+                model_out.append(model(sample))
+            torch.cat(model_out)
 
             print(model_out.shape)
             loss = criterion(
