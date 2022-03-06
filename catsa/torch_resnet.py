@@ -2,7 +2,7 @@
 LEARNING_RATE = 1e-5
 EPOCHS = 10
 IMAGE_RESHAPE_SIZE = 112
-BATCH_SIZE = 2
+BATCH_SIZE = 1
 
 import os
 import pandas as pd
@@ -88,7 +88,7 @@ def get_frames(annotation):
                 new_person_frames.append(person_frames[:,:,:,i])
             person_frames = np.asarray(new_person_frames)
 
-            person_frames = torch.tensor([person_frames], dtype=torch.float64).to(device)
+            person_frames = torch.tensor([person_frames], dtype=torch.float32).to(device)
             all_frames.append(person_frames)
     
     return all_frames
