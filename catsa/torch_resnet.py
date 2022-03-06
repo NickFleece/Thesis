@@ -17,7 +17,7 @@ import torch.nn as nn
 from torch.nn import functional as F
 import torch
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
@@ -101,7 +101,9 @@ class VideoRecognitionModel(nn.Module):
 
     def forward(self, x):
 
-        x = self.pretrained_model(x)
+        x = self.pretrained_model(x).squeeze()
+        if len(x.shape) == 1:
+            x = x.unsqueeze(dim=0)
         print(x.shape)
 
         return x
