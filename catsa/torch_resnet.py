@@ -167,8 +167,8 @@ for e in range(EPOCHS):
 
         if len(batch_samples) == BATCH_SIZE:
 
-            with model(batch_samples) as model_out:
-                print("DONE!")
+            model_out = model(batch_samples)
+            del model_out
             batch_samples = []
 
     break
