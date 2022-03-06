@@ -105,7 +105,7 @@ class VideoRecognitionModel(nn.Module):
 
         self.rnn = nn.RNN(512, 50, batch_first=True)
 
-        self.fc2 = nn.Linear(50, 6)
+        self.fc2 = nn.Linear(50, 7)
 
     def forward(self, sample_input):
 
@@ -172,8 +172,6 @@ for e in range(EPOCHS):
             model_out = model(batch_samples[0])
 
             print(model_out.shape)
-            print(model_out)
-            print(batch_actual)
             loss = criterion(
                 model_out,
                 torch.tensor(batch_actual).to(device).long()
