@@ -76,7 +76,7 @@ def get_frames(annotation):
 
             person_frames = []
             frames_dir = f"{person_dir}/{person}"
-            for frame in os.listdir(frames_dir):
+            for frame in np.asarray(os.listdir(frames_dir))[::3]:
                 frame_arr = np.asarray(iio.imread(f"{frames_dir}/{frame}"))
 
                 frame_arr = frame_arr / np.max(frame_arr)
