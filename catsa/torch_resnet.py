@@ -158,15 +158,15 @@ model.to(device)
 for e in range(EPOCHS):
     print(f"Epoch {e}")
 
-    for _, sample in annotations.iterrows():
-
-        batch_samples = []
+    batch_samples = []
+    for _, sample in annotations.iterrows():    
 
         batch_samples.append(get_frames(sample))
 
         if len(batch_samples) == BATCH_SIZE:
 
             model(batch_samples)
+            batch_samples = []
             break
-        
+
     break
