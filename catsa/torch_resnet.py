@@ -42,6 +42,11 @@ for _, row in annotation_csv.iterrows():
     annotation_path = row['path_to_video_segment']
     annotation_class = row['activity_class_id']
 
+    # no person detected in annotation
+    if len(os.listdir(f"{BYTETRACK_FRAMES_DIR}/{row['id']}")) == 0:
+        # print(f"No person detected: {row}")
+        continue
+
     if not annotation_path in annotations.keys(): 
         annotations[annotation_path] = {}
     
