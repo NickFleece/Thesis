@@ -19,6 +19,10 @@ import torch
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+cpu = torch.device("cpu")
+print(f"Running on: {device}")
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
 parser.add_argument('--load_checkpoint')
@@ -83,7 +87,7 @@ def get_frames(annotation):
                 new_person_frames.append(person_frames[:,:,:,i])
             person_frames = np.asarray(new_person_frames)
 
-            person_frames = torch.tensor([person_frames], dtype=torch.float32)
+            person_frames = torch.tensor([person_frames], dtype=torch.float32).to(device)
             all_frames.append(person_frames)
     
     return all_frames
@@ -109,6 +113,9 @@ class VideoRecognitionModel(nn.Module):
         return x
 
 model = VideoRecognitionModel()
+if device != cpu:
+    cnn_net = nn.DataParallel(model)
+model.to(device)
 
 #training loop
 for e in range(EPOCHS):
