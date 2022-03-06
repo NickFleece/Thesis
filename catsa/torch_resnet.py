@@ -102,25 +102,35 @@ class VideoRecognitionModel(nn.Module):
         self.fc1 = nn.Linear(512, 512)
         self.fc2 = nn.Linear(512, 5)
 
-        return None
+        self.rnn = nn.RNN(5, 50)
 
-    def forward(self, x):
+    def forward(self, sample_input):
 
-        # ensure the pretrained model is frozen
-        self.pretrained_model.requires_grad_ = False
+        outputs = []
 
-        # pass input through pretrained resnet module
-        x = self.pretrained_model(x).squeeze()
+        for x in sample_input:
+            # ensure the pretrained model is frozen
+            self.pretrained_model.requires_grad_ = False
 
-        # if a batch of size 1 was put through, ensure that the batch is preserved
-        if len(x.shape) == 1:
-            x = x.unsqueeze(dim=0)
-        
-        # our fc layers we are training
-        x = self.fc1(x)
-        x = F.relu(x)
-        x = self.fc2(x)
-        x = F.softmax(x)
+            # pass input through pretrained resnet module
+            x = self.pretrained_model(x).squeeze()
+
+            # if a batch of size 1 was put through, ensure that the batch is preserved
+            if len(x.shape) == 1:
+                x = x.unsqueeze(dim=0)
+            
+            # our fc layers we are training
+            x = self.fc1(x)
+            x = F.relu(x)
+            x = self.fc2(x)
+            x = F.softmax(x)
+
+            outputs.append(x)
+
+        x = torch.cat(outputs)
+
+        # pass through rnn to generate final output
+        # x = self.
         print(x.shape)
 
         return x
@@ -136,9 +146,11 @@ for e in range(EPOCHS):
 
     for _, sample in annotations.iterrows():
 
-        for person in get_frames(sample):
-            
-            model(person)
+        model(sample)
 
-        break
+        # for person in get_frames(sample):
+            
+        #     model(person)
+
+        # break
     break
