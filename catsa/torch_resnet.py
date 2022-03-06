@@ -100,9 +100,10 @@ class VideoRecognitionModel(nn.Module):
         self.pretrained_model = nn.Sequential(*list(r3d_18(pretrained=True, progress=True).children())[:-1])
         
         self.fc1 = nn.Linear(512, 512)
-        self.fc2 = nn.Linear(512, 5)
 
-        self.rnn = nn.RNN(5, 50)
+        self.rnn = nn.RNN(512, 50, batch_first=True)
+
+        self.fc2 = nn.Linear(512, 5)
 
     def forward(self, sample_input):
 
@@ -122,15 +123,19 @@ class VideoRecognitionModel(nn.Module):
             # our fc layers we are training
             x = self.fc1(x)
             x = F.relu(x)
-            x = self.fc2(x)
-            x = F.softmax(x)
 
             outputs.append(x)
 
         x = torch.cat(outputs)
 
+        x.unsqueeze(dim=0)
+
         # pass through rnn to generate final output
-        # x = self.
+        x = self.rnn(x)
+
+        x = self.fc2(x)
+        x = F.softmax(x)
+
         print(x.shape)
 
         return x
