@@ -107,6 +107,9 @@ class VideoRecognitionModel(nn.Module):
 
     def forward(self, batch_sample_input):
 
+        # ensure the pretrained model is frozen
+        self.pretrained_model.requires_grad_ = False
+
         batch_outputs = []
 
         for sample_input in batch_sample_input:
@@ -114,8 +117,7 @@ class VideoRecognitionModel(nn.Module):
             outputs = []
 
             for x in sample_input:
-                # ensure the pretrained model is frozen
-                self.pretrained_model.requires_grad_ = False
+                print(x.shape)
 
                 # pass input through pretrained resnet module
                 x = self.pretrained_model(x).squeeze()
