@@ -182,6 +182,7 @@ for e in range(EPOCHS):
             print(loss.item())
 
             batch_samples = []
+            batch_actual = []
 
             optimizer.zero_grad()
 
