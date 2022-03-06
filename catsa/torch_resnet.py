@@ -105,41 +105,49 @@ class VideoRecognitionModel(nn.Module):
 
         self.fc2 = nn.Linear(512, 5)
 
-    def forward(self, sample_input):
+    def forward(self, batch_sample_input):
 
-        outputs = []
+        batch_outputs = []
 
-        for x in sample_input:
-            # ensure the pretrained model is frozen
-            self.pretrained_model.requires_grad_ = False
+        for sample_input in batch_sample_input:
 
-            # pass input through pretrained resnet module
-            x = self.pretrained_model(x).squeeze()
+            outputs = []
 
-            # if a batch of size 1 was put through, ensure that the batch is preserved
-            if len(x.shape) == 1:
-                x = x.unsqueeze(dim=0)
-            
-            # our fc layers we are training
-            x = self.fc1(x)
-            x = F.relu(x)
+            for x in sample_input:
+                # ensure the pretrained model is frozen
+                self.pretrained_model.requires_grad_ = False
 
-            outputs.append(x)
+                # pass input through pretrained resnet module
+                x = self.pretrained_model(x).squeeze()
 
-        x = torch.cat(outputs)
+                # if a batch of size 1 was put through, ensure that the batch is preserved
+                if len(x.shape) == 1:
+                    x = x.unsqueeze(dim=0)
+                
+                # our fc layers we are training
+                x = self.fc1(x)
+                x = F.relu(x)
 
-        x = x.unsqueeze(dim=0)
+                outputs.append(x)
 
-        # pass through rnn to generate final output
-        x, _ = self.rnn(x)
-        x = x[:,-1]
+            x = torch.cat(outputs)
 
-        x = self.fc2(x)
-        x = F.softmax(x)
+            x = x.unsqueeze(dim=0)
 
-        print(x.shape)
+            # pass through rnn to generate final output
+            x, _ = self.rnn(x)
+            x = x[:,-1]
 
-        return x
+            x = self.fc2(x)
+            x = F.softmax(x)
+
+            batch_outputs.append(x)
+        
+        batch_outputs = torch.cat(batch_outputs)
+
+        print(batch_outputs.shape)
+
+        return batch_outputs
 
 model = VideoRecognitionModel()
 if device != cpu:
@@ -152,11 +160,13 @@ for e in range(EPOCHS):
 
     for _, sample in annotations.iterrows():
 
-        model(get_frames(sample))
+        batch_samples = []
 
-        # for person in get_frames(sample):
-            
-        #     model(person)
+        batch_samples.append(get_frames(sample))
 
-        break
+        if len(batch_samples) == BATCH_SIZE:
+
+            model(batch_samples)
+            break
+        
     break
