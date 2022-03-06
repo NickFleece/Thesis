@@ -152,5 +152,5 @@ for e in range(EPOCHS):
             
         #     model(person)
 
-        # break
+        break
     break
