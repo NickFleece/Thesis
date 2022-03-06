@@ -163,6 +163,7 @@ for e in range(EPOCHS):
     batch_samples = []
     batch_actual = []
     for _, sample in annotations.iterrows():    
+        print(sample)
 
         batch_samples.append(get_frames(sample))
         batch_actual.append(sample['activity_class_id'])
