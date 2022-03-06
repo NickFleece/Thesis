@@ -128,7 +128,7 @@ class VideoRecognitionModel(nn.Module):
 
         x = torch.cat(outputs)
 
-        x.unsqueeze(dim=0)
+        x = x.unsqueeze(dim=0)
 
         # pass through rnn to generate final output
         x = self.rnn(x)
