@@ -98,6 +98,7 @@ class VideoRecognitionModel(nn.Module):
         super(VideoRecognitionModel, self).__init__()
 
         self.pretrained_model = nn.Sequential(*list(r3d_18(pretrained=True, progress=True).children())[:-1])
+        
         self.fc1 = nn.Linear(512, 512)
         self.fc2 = nn.Linear(512, 5)
 
@@ -105,9 +106,21 @@ class VideoRecognitionModel(nn.Module):
 
     def forward(self, x):
 
+        # ensure the pretrained model is frozen
+        self.pretrained_model.requires_grad_ = False
+
+        # pass input through pretrained resnet module
         x = self.pretrained_model(x).squeeze()
+
+        # if a batch of size 1 was put through, ensure that the batch is preserved
         if len(x.shape) == 1:
             x = x.unsqueeze(dim=0)
+        
+        # our fc layers we are training
+        x = self.fc1(x)
+        x = F.relu(x)
+        x = self.fc2(x)
+        x = F.softmax(x)
         print(x.shape)
 
         return x
