@@ -167,6 +167,7 @@ for e in range(EPOCHS):
 
     batch_samples = []
     batch_actual = []
+    pbar = tqdm(total=len(annotations))
     for _, sample in annotations.iterrows():    
         print(sample)
 
@@ -194,5 +195,7 @@ for e in range(EPOCHS):
             batch_actual = []
 
             optimizer.zero_grad()
+        
+        pbar.update(1)
 
     break
