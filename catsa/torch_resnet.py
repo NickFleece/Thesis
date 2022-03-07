@@ -163,8 +163,8 @@ class VideoRecognitionModel(nn.Module):
         return x
 
 model = VideoRecognitionModel()
-model = nn.parallel.DistributedDataParallel(model, device_ids=(0,1), output_device=0)
 model.to(device)
+model = nn.parallel.DistributedDataParallel(model, device_ids=(0,1), output_device=0)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(
