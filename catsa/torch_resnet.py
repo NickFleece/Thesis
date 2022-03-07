@@ -142,6 +142,11 @@ class VideoRecognitionModel(nn.Module):
         # ensure the pretrained model is frozen
         self.pretrained_model.requires_grad_ = False
 
+        print("SHAPE")
+        print(x.shape)
+
+        x = self.pretrained_model(x)
+
         print(x.shape)
 
         # outputs = []
