@@ -199,9 +199,6 @@ for e in range(EPOCHS):
                 model_out.append(model(sample))
             model_out = torch.cat(model_out)
 
-            print(model_out.shape)
-            print(model_out)
-
             loss = criterion(
                 model_out,
                 torch.tensor(batch_actual).to(device).long()
@@ -210,7 +207,7 @@ for e in range(EPOCHS):
             loss.backward()
             optimizer.step()
 
-            print(loss.item())
+            pbar.set_description(loss.item())
 
             batch_samples = []
             batch_actual = []
