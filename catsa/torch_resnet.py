@@ -154,7 +154,7 @@ class VideoRecognitionModel(nn.Module):
         x = self.fc1(x)
         x = F.relu(x)
 
-        print(x.shape)
+        x = x.unsqueeze(dim=0)
 
         # outputs = []
 
@@ -178,12 +178,12 @@ class VideoRecognitionModel(nn.Module):
 
         # x = x.unsqueeze(dim=0)
 
-        # # pass through rnn to generate final output
-        # x, _ = self.rnn(x)
-        # x = x[:,-1]
+        # pass through rnn to generate final output
+        x, _ = self.rnn(x)
+        x = x[:,-1]
 
-        # x = self.fc2(x)
-        # x = F.softmax(x)
+        x = self.fc2(x)
+        x = F.softmax(x)
 
         # print(x.shape)
 
