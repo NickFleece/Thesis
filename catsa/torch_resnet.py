@@ -3,8 +3,8 @@ LEARNING_RATE = 1e-5
 EPOCHS = 10
 IMAGE_RESHAPE_SIZE = 112
 BATCH_SIZE = 2
-FRAME_SUBSAMPLING = 2
-CLIP_LENGTH = 128
+FRAME_SUBSAMPLING = 4
+CLIP_LENGTH = 64
 
 import os
 import pandas as pd
@@ -165,8 +165,8 @@ class VideoRecognitionModel(nn.Module):
 model = VideoRecognitionModel()
 model.to(device)
 
-torch.distributed.init_process_group('nccl')
-model = nn.parallel.DistributedDataParallel(model, device_ids=[0], output_device=1)
+# torch.distributed.init_process_group('nccl')
+# model = nn.parallel.DistributedDataParallel(model, device_ids=[0], output_device=1)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(
