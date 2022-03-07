@@ -88,40 +88,49 @@ def get_frames(annotation):
                 frame_arr = np.pad(frame_arr, ((0, max_dim - frame_arr.shape[0]), (0, max_dim - frame_arr.shape[1]), (0,0)))
                 frame_arr = cv2.resize(frame_arr, (IMAGE_RESHAPE_SIZE,IMAGE_RESHAPE_SIZE))
 
-                person_frames.append(frame_arr)
+                # person_frames.append(frame_arr)
+                all_frames.append(frame_arr)
 
             # person_frames = np.asarray(person_frames)
             
 
             # print(person_frames.shape)
 
-            frame_count = 0
-            cycle = 0
-            while frame_count < len(person_frames):
+            # frame_count = 0
+            # cycle = 0
+            # while frame_count < len(person_frames):
                 
-                new_person_frames = []
-                for i in range(cycle * CLIP_LENGTH, CLIP_LENGTH + cycle * CLIP_LENGTH):
+            #     new_person_frames = []
+            #     for i in range(cycle * CLIP_LENGTH, CLIP_LENGTH + cycle * CLIP_LENGTH):
                     
-                    if frame_count + i > len(person_frames):
-                        new_person_frames.append(np.zeros((IMAGE_RESHAPE_SIZE, IMAGE_RESHAPE_SIZE, 3)))
-                    else:
-                        new_person_frames.append(person_frames[i])
+            #         if frame_count + i > len(person_frames):
+            #             new_person_frames.append(np.zeros((IMAGE_RESHAPE_SIZE, IMAGE_RESHAPE_SIZE, 3)))
+            #         else:
+            #             new_person_frames.append(person_frames[i])
 
-                    frame_count += 1
+            #         frame_count += 1
                 
-                new_person_frames = np.asarray(new_person_frames)
+            #     new_person_frames = np.asarray(new_person_frames)
 
-                channel_first_person_frames = []
-                for i in range(new_person_frames.shape[3]):
-                    channel_first_person_frames.append(new_person_frames[:,:,:,i])
+            #     channel_first_person_frames = []
+            #     for i in range(new_person_frames.shape[3]):
+            #         channel_first_person_frames.append(new_person_frames[:,:,:,i])
 
-                all_frames.append(channel_first_person_frames)
+            #     all_frames.append(channel_first_person_frames)
                 
-                cycle += 1
+            #     cycle += 1
 
-    return torch.tensor(all_frames, dtype=torch.float32).to(device)
+    all_frames = np.asarray(all_frames)
+    channel_first_person_frames = []
+    for i in range(all_frames.shape[3]):
+        channel_first_person_frames.append(all_frames[:,:,:,i])
 
-# get_frames(annotations.iloc[0])
+    return torch.tensor(channel_first_person_frames, dtype=torch.float32).to(device)
+
+# for i in range(len(annotations)):
+#     print(get_frames(annotations.iloc[i]).shape)
+#     break
+    
 # raise Exception()
 
 class VideoRecognitionModel(nn.Module):
@@ -197,12 +206,25 @@ for e in range(EPOCHS):
 
         if len(batch_samples) == BATCH_SIZE:
 
-            model_out = []
+            max_len = 0
             for sample in batch_samples:
-                print(sample.shape)
-                model_out.append(model(sample))
-            model_out = torch.cat(model_out)
+                max_len = max(max_len, sample.shape[1])
+            
+            batch_input = []
+            for sample in batch_samples:
+                batch_input.append(F.pad(sample, (0,0,0,0,0,max_len - sample.shape[1])))
+            batch_input = torch.cat(batch_input)
+
+            print(batch_input.shape)
+            model_out = model(batch_input)
             print(model_out.shape)
+
+            # model_out = []
+            # for sample in batch_samples:
+            #     print(sample.shape)
+            #     model_out.append(model(sample))
+            # model_out = torch.cat(model_out)
+            # print(model_out.shape)
 
             for output, label in zip(model_out.argmax(dim=1).cpu().detach().numpy(), batch_actual):
                 if output == label:
