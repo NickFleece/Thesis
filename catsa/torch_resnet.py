@@ -207,7 +207,7 @@ for e in range(EPOCHS):
             loss.backward()
             optimizer.step()
 
-            pbar.set_description(loss.item())
+            pbar.set_description(str(loss.item()))
 
             batch_samples = []
             batch_actual = []
