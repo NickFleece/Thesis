@@ -214,5 +214,3 @@ for e in range(EPOCHS):
             optimizer.zero_grad()
         
         pbar.update(1)
-
-    break
