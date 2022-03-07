@@ -137,7 +137,7 @@ class VideoRecognitionModel(nn.Module):
 
         self.fc2 = nn.Linear(50, 7)
 
-    def forward(self, sample_input):
+    def forward(self, x):
 
         # ensure the pretrained model is frozen
         self.pretrained_model.requires_grad_ = False
