@@ -164,6 +164,9 @@ class VideoRecognitionModel(nn.Module):
 
 model = VideoRecognitionModel()
 model.to(device)
+
+os.environ['MASTER_ADDR'] = 'localhost'
+os.environ['MASTER_PORT'] = '12355'
 torch.distributed.init_process_group(
     	backend='nccl',
    		init_method='env://',
