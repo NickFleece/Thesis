@@ -208,11 +208,12 @@ for e in range(EPOCHS):
 
             max_len = 0
             for sample in batch_samples:
+                print(sample.shape)
                 max_len = max(max_len, sample.shape[1])
             
             batch_input = []
             for sample in batch_samples:
-                batch_input.append(F.pad(sample, (0,0,0,0,0,max_len - sample.shape[1])))
+                batch_input.append(F.pad(sample, (0,0,0,0,0,max_len - sample.shape[1])).unsqueeze(dim=0))
             batch_input = torch.cat(batch_input)
 
             print(batch_input.shape)
