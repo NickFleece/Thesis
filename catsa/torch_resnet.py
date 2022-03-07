@@ -129,10 +129,10 @@ class VideoRecognitionModel(nn.Module):
     def __init__(self):
         super(VideoRecognitionModel, self).__init__()
 
-        # if device != cpu:
-        #     self.pretrained_model = nn.DataParallel(nn.Sequential(*list(r3d_18(pretrained=True, progress=True).children())[:-1]))
-        # else:
-        self.pretrained_model = nn.Sequential(*list(r3d_18(pretrained=True, progress=True).children())[:-1])
+        if device != cpu:
+            self.pretrained_model = nn.parallel.DistributedDataParallel(nn.Sequential(*list(r3d_18(pretrained=True, progress=True).children())[:-1]))
+        else:
+            self.pretrained_model = nn.Sequential(*list(r3d_18(pretrained=True, progress=True).children())[:-1])
         
         self.fc1 = nn.Linear(512, 512)
 
