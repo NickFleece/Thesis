@@ -169,7 +169,6 @@ for e in range(EPOCHS):
 
             max_len = 0
             for sample in batch_samples:
-                print(sample.shape)
                 max_len = max(max_len, sample.shape[1])
             
             batch_input = []
