@@ -221,8 +221,8 @@ for e in range(EPOCHS):
                 model_out.append(model(sample.to(device)))
             model_out = torch.cat(model_out)
 
-            # print(model_out.shape)
-            # print(model_out)
+            print(model_out.shape)
+            print(model_out)
 
             loss = criterion(
                 model_out,
