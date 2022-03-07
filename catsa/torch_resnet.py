@@ -119,7 +119,7 @@ def get_frames(annotation):
                 
                 cycle += 1
 
-    return torch.tensor(all_frames, dtype=torch.float32)
+    return torch.tensor(all_frames, dtype=torch.float32).to(device)
 
 # get_frames(annotations.iloc[0])
 # raise Exception()
@@ -220,7 +220,8 @@ for e in range(EPOCHS):
 
             model_out = []
             for sample in batch_samples:
-                model_out.append(model(sample.to(device)))
+                print(sample.shape)
+                model_out.append(model(sample))
             model_out = torch.cat(model_out)
 
             print(model_out.shape)
