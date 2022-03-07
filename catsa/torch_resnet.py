@@ -202,6 +202,7 @@ for e in range(EPOCHS):
                 print(sample.shape)
                 model_out.append(model(sample))
             model_out = torch.cat(model_out)
+            print(model_out.shape)
 
             for output, label in zip(model_out.argmax(dim=1).cpu().detach().numpy(), batch_actual):
                 if output == label:
