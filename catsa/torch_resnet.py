@@ -165,7 +165,7 @@ class VideoRecognitionModel(nn.Module):
 model = VideoRecognitionModel()
 model.to(device)
 
-torch.distributed.init_process_group()
+torch.distributed.init_process_group('nccl')
 model = nn.parallel.DistributedDataParallel(model, device_ids=[0], output_device=1)
 
 criterion = nn.CrossEntropyLoss()
