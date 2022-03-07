@@ -142,11 +142,17 @@ class VideoRecognitionModel(nn.Module):
         # ensure the pretrained model is frozen
         self.pretrained_model.requires_grad_ = False
 
-        print("SHAPE")
-        print(x.shape)
+        # print("SHAPE")
+        # print(x.shape)
 
         x = self.pretrained_model(x).squeeze()
 
+        # if a batch of size 1 was put through, ensure that the batch is preserved
+        if len(x.shape) == 1:
+            x = x.unsqueeze(dim=0)
+
+        x = self.fc1(x)
+        x = F.relu(x)
 
         print(x.shape)
 
