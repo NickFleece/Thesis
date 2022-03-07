@@ -145,7 +145,8 @@ class VideoRecognitionModel(nn.Module):
         print("SHAPE")
         print(x.shape)
 
-        x = self.pretrained_model(x)
+        x = self.pretrained_model(x).squeeze()
+
 
         print(x.shape)
 
@@ -201,11 +202,11 @@ for e in range(EPOCHS):
     batch_actual = []
 
     # shuffle annotations
-    annotations = annotations.sample(frac=1)
+    # annotations = annotations.sample(frac=1)
 
     pbar = tqdm(total=len(annotations))
     for _, sample in annotations.iterrows():    
-        print(sample)
+        # print(sample)
 
         batch_samples.append(get_frames(sample))
         batch_actual.append(sample['activity_class_id'])
@@ -224,7 +225,7 @@ for e in range(EPOCHS):
             loss.backward()
             optimizer.step()
 
-            print(loss.item())
+            # print(loss.item())
 
             batch_samples = []
             batch_actual = []
