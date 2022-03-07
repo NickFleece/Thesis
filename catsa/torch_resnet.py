@@ -164,16 +164,7 @@ class VideoRecognitionModel(nn.Module):
 
 model = VideoRecognitionModel()
 model.to(device)
-
-os.environ['MASTER_ADDR'] = 'localhost'
-os.environ['MASTER_PORT'] = '12355'
-torch.distributed.init_process_group(
-    	backend='nccl',
-   		init_method='env://',
-    	world_size=2,
-    	rank=0
-    )
-model = nn.parallel.DistributedDataParallel(model)
+model = nn.DataParallel(model)
 
 # torch.distributed.init_process_group('nccl')
 # model = nn.parallel.DistributedDataParallel(model, device_ids=[0], output_device=1)
