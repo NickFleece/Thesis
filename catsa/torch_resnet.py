@@ -108,7 +108,7 @@ class VideoRecognitionModel(nn.Module):
 
         self.rnn = nn.RNN(512, 50, batch_first=True)
 
-        self.fc2 = nn.Linear(50, 7)
+        self.fc2 = nn.Linear(512, 7)
 
     def forward(self, x):
 
@@ -124,11 +124,10 @@ class VideoRecognitionModel(nn.Module):
         x = self.fc1(x)
         x = F.relu(x)
 
-        x = x.unsqueeze(dim=0)
+        # x = x.unsqueeze(dim=0)
 
-        # pass through rnn to generate final output
-        x, _ = self.rnn(x)
-        x = x[:,-1]
+        # x, _ = self.rnn(x)
+        # x = x[:,-1]
 
         x = self.fc2(x)
         x = F.softmax(x, dim=1)
