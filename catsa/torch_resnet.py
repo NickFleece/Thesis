@@ -216,6 +216,8 @@ for e in range(EPOCHS):
 
         if len(batch_samples) == BATCH_SIZE:
 
+            print(len(batch_samples))
+
             model_out = []
             for sample in batch_samples:
                 model_out.append(model(sample.to(device)))
