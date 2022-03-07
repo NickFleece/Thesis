@@ -2,7 +2,7 @@
 LEARNING_RATE = 1e-5
 EPOCHS = 10
 IMAGE_RESHAPE_SIZE = 112
-BATCH_SIZE = 2
+BATCH_SIZE = 1
 FRAME_SUBSAMPLING = 4
 CLIP_LENGTH = 64
 
@@ -129,7 +129,7 @@ class VideoRecognitionModel(nn.Module):
     def __init__(self):
         super(VideoRecognitionModel, self).__init__()
 
-        self.pretrained_model = nn.DataParallel(nn.Sequential(*list(r3d_18(pretrained=True, progress=True).children())[:-1]))
+        self.pretrained_model = nn.Sequential(*list(r3d_18(pretrained=True, progress=True).children())[:-1])
         
         self.fc1 = nn.Linear(512, 512)
 
@@ -182,7 +182,7 @@ for e in range(EPOCHS):
     batch_actual = []
 
     # shuffle annotations
-    # annotations = annotations.sample(frac=1)
+    annotations = annotations.sample(frac=1)
 
     pbar = tqdm(total=len(annotations))
     for _, sample in annotations.iterrows():    
@@ -206,6 +206,7 @@ for e in range(EPOCHS):
                 model_out,
                 torch.tensor(batch_actual).to(device).long()
             )
+
             loss.backward()
             optimizer.step()
 
