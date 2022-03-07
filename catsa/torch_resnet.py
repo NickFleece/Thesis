@@ -195,7 +195,6 @@ for e in range(EPOCHS):
 
             model_out = []
             for sample in batch_samples:
-                print(sample.shape)
                 model_out.append(model(sample))
             model_out = torch.cat(model_out)
 
