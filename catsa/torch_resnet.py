@@ -184,6 +184,9 @@ for e in range(EPOCHS):
     # shuffle annotations
     annotations = annotations.sample(frac=1)
 
+    train_correct = 0
+    train_total = 0
+
     pbar = tqdm(total=len(annotations))
     for _, sample in annotations.iterrows():    
         # print(sample)
@@ -198,6 +201,11 @@ for e in range(EPOCHS):
                 model_out.append(model(sample))
             model_out = torch.cat(model_out)
 
+            for output, label in zip(model_out.argmax(dim=1).cpu().detach().numpy(), batch_actual):
+                if output == label:
+                    train_correct += 1
+                train_total += 1
+
             loss = criterion(
                 model_out,
                 torch.tensor(batch_actual).to(device).long()
@@ -206,7 +214,7 @@ for e in range(EPOCHS):
             loss.backward()
             optimizer.step()
 
-            pbar.set_description(str(loss.item()))
+            pbar.set_description(f"{str(loss.item())} - {train_correct / train_total}")
 
             batch_samples = []
             batch_actual = []
