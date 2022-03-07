@@ -1,8 +1,8 @@
 # HYPERPARAMETERS FOR NETWORK
-LEARNING_RATE = 1e-5
+LEARNING_RATE = 1e-6
 EPOCHS = 10
 IMAGE_RESHAPE_SIZE = 112
-BATCH_SIZE = 2
+BATCH_SIZE = 1
 FRAME_SUBSAMPLING = 4
 CLIP_LENGTH = 128
 
@@ -21,7 +21,6 @@ import torch
 import torch.optim as optim
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
-os.environ['CUDA_LAUNCH_BLOCKING'] = '1'
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -91,47 +90,12 @@ def get_frames(annotation):
                 # person_frames.append(frame_arr)
                 all_frames.append(frame_arr)
 
-            # person_frames = np.asarray(person_frames)
-            
-
-            # print(person_frames.shape)
-
-            # frame_count = 0
-            # cycle = 0
-            # while frame_count < len(person_frames):
-                
-            #     new_person_frames = []
-            #     for i in range(cycle * CLIP_LENGTH, CLIP_LENGTH + cycle * CLIP_LENGTH):
-                    
-            #         if frame_count + i > len(person_frames):
-            #             new_person_frames.append(np.zeros((IMAGE_RESHAPE_SIZE, IMAGE_RESHAPE_SIZE, 3)))
-            #         else:
-            #             new_person_frames.append(person_frames[i])
-
-            #         frame_count += 1
-                
-            #     new_person_frames = np.asarray(new_person_frames)
-
-            #     channel_first_person_frames = []
-            #     for i in range(new_person_frames.shape[3]):
-            #         channel_first_person_frames.append(new_person_frames[:,:,:,i])
-
-            #     all_frames.append(channel_first_person_frames)
-                
-            #     cycle += 1
-
     all_frames = np.asarray(all_frames)
     channel_first_person_frames = []
     for i in range(all_frames.shape[3]):
         channel_first_person_frames.append(all_frames[:,:,:,i])
 
     return torch.tensor(channel_first_person_frames, dtype=torch.float32).to(device)
-
-# for i in range(len(annotations)):
-#     print(get_frames(annotations.iloc[i]).shape)
-#     break
-    
-# raise Exception()
 
 class VideoRecognitionModel(nn.Module):
 
@@ -173,10 +137,7 @@ class VideoRecognitionModel(nn.Module):
 
 model = VideoRecognitionModel()
 model.to(device)
-model = nn.DataParallel(model)
-
-# torch.distributed.init_process_group('nccl')
-# model = nn.parallel.DistributedDataParallel(model, device_ids=[0], output_device=1)
+# model = nn.DataParallel(model)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(
@@ -216,16 +177,7 @@ for e in range(EPOCHS):
                 batch_input.append(F.pad(sample, (0,0,0,0,0,max_len - sample.shape[1])).unsqueeze(dim=0))
             batch_input = torch.cat(batch_input)
 
-            print(batch_input.shape)
             model_out = model(batch_input)
-            print(model_out.shape)
-
-            # model_out = []
-            # for sample in batch_samples:
-            #     print(sample.shape)
-            #     model_out.append(model(sample))
-            # model_out = torch.cat(model_out)
-            # print(model_out.shape)
 
             for output, label in zip(model_out.argmax(dim=1).cpu().detach().numpy(), batch_actual):
                 if output == label:
