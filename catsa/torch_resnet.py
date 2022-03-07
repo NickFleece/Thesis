@@ -156,36 +156,12 @@ class VideoRecognitionModel(nn.Module):
 
         x = x.unsqueeze(dim=0)
 
-        # outputs = []
-
-        # for x in sample_input:
-        #     print(x.shape)
-
-        #     # pass input through pretrained resnet module
-        #     x = self.pretrained_model(x).squeeze()
-
-        #     # if a batch of size 1 was put through, ensure that the batch is preserved
-        #     if len(x.shape) == 1:
-        #         x = x.unsqueeze(dim=0)
-            
-        #     # our fc layers we are training
-        #     x = self.fc1(x)
-        #     x = F.relu(x)
-
-        #     outputs.append(x)
-
-        # x = torch.cat(outputs)
-
-        # x = x.unsqueeze(dim=0)
-
         # pass through rnn to generate final output
         x, _ = self.rnn(x)
         x = x[:,-1]
 
         x = self.fc2(x)
-        x = F.softmax(x)
-
-        print(x.shape)
+        x = F.softmax(x, dim=1)
 
         return x
 
@@ -217,8 +193,6 @@ for e in range(EPOCHS):
 
         if len(batch_samples) == BATCH_SIZE:
 
-            print(len(batch_samples))
-
             model_out = []
             for sample in batch_samples:
                 print(sample.shape)
@@ -235,7 +209,7 @@ for e in range(EPOCHS):
             loss.backward()
             optimizer.step()
 
-            # print(loss.item())
+            print(loss.item())
 
             batch_samples = []
             batch_actual = []
