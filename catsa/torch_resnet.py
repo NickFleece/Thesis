@@ -1,8 +1,10 @@
 # HYPERPARAMETERS FOR NETWORK
 LEARNING_RATE = 1e-5
 EPOCHS = 10
-IMAGE_RESHAPE_SIZE = 80
+IMAGE_RESHAPE_SIZE = 112
 BATCH_SIZE = 2
+FRAME_SUBSAMPLING = 2
+CLIP_LENGTH = 128
 
 import os
 import pandas as pd
@@ -76,7 +78,7 @@ def get_frames(annotation):
 
             person_frames = []
             frames_dir = f"{person_dir}/{person}"
-            for frame in np.asarray(os.listdir(frames_dir))[::3]:
+            for frame in np.asarray(os.listdir(frames_dir))[::FRAME_SUBSAMPLING]:
                 frame_arr = np.asarray(iio.imread(f"{frames_dir}/{frame}"))
 
                 frame_arr = frame_arr / np.max(frame_arr)
@@ -87,17 +89,40 @@ def get_frames(annotation):
                 frame_arr = cv2.resize(frame_arr, (IMAGE_RESHAPE_SIZE,IMAGE_RESHAPE_SIZE))
 
                 person_frames.append(frame_arr)
-            
-            person_frames = np.asarray(person_frames)
-            new_person_frames = []
-            for i in range(person_frames.shape[3]):
-                new_person_frames.append(person_frames[:,:,:,i])
-            person_frames = np.asarray(new_person_frames)
 
-            person_frames = torch.tensor([person_frames], dtype=torch.float32).to(device)
-            all_frames.append(person_frames)
-    
-    return all_frames
+            # person_frames = np.asarray(person_frames)
+            
+
+            # print(person_frames.shape)
+
+            frame_count = 0
+            cycle = 0
+            while frame_count < len(person_frames):
+                
+                new_person_frames = []
+                for i in range(cycle * CLIP_LENGTH, CLIP_LENGTH + cycle * CLIP_LENGTH):
+                    
+                    if frame_count + i > len(person_frames):
+                        new_person_frames.append(np.zeros((IMAGE_RESHAPE_SIZE, IMAGE_RESHAPE_SIZE, 3)))
+                    else:
+                        new_person_frames.append(person_frames[i])
+
+                    frame_count += 1
+                
+                new_person_frames = np.asarray(new_person_frames)
+
+                channel_first_person_frames = []
+                for i in range(new_person_frames.shape[3]):
+                    channel_first_person_frames.append(new_person_frames[:,:,:,i])
+
+                all_frames.append(channel_first_person_frames)
+                
+                cycle += 1
+
+    return torch.tensor(all_frames, dtype=torch.float32)
+
+# get_frames(annotations.iloc[0])
+# raise Exception()
 
 class VideoRecognitionModel(nn.Module):
 
@@ -117,43 +142,45 @@ class VideoRecognitionModel(nn.Module):
         # ensure the pretrained model is frozen
         self.pretrained_model.requires_grad_ = False
 
-        outputs = []
-
-        for x in sample_input:
-            print(x.shape)
-
-            # pass input through pretrained resnet module
-            x = self.pretrained_model(x).squeeze()
-
-            # if a batch of size 1 was put through, ensure that the batch is preserved
-            if len(x.shape) == 1:
-                x = x.unsqueeze(dim=0)
-            
-            # our fc layers we are training
-            x = self.fc1(x)
-            x = F.relu(x)
-
-            outputs.append(x)
-
-        x = torch.cat(outputs)
-
-        x = x.unsqueeze(dim=0)
-
-        # pass through rnn to generate final output
-        x, _ = self.rnn(x)
-        x = x[:,-1]
-
-        x = self.fc2(x)
-        x = F.softmax(x)
-
         print(x.shape)
+
+        # outputs = []
+
+        # for x in sample_input:
+        #     print(x.shape)
+
+        #     # pass input through pretrained resnet module
+        #     x = self.pretrained_model(x).squeeze()
+
+        #     # if a batch of size 1 was put through, ensure that the batch is preserved
+        #     if len(x.shape) == 1:
+        #         x = x.unsqueeze(dim=0)
+            
+        #     # our fc layers we are training
+        #     x = self.fc1(x)
+        #     x = F.relu(x)
+
+        #     outputs.append(x)
+
+        # x = torch.cat(outputs)
+
+        # x = x.unsqueeze(dim=0)
+
+        # # pass through rnn to generate final output
+        # x, _ = self.rnn(x)
+        # x = x[:,-1]
+
+        # x = self.fc2(x)
+        # x = F.softmax(x)
+
+        # print(x.shape)
 
         return x
 
 model = VideoRecognitionModel()
 model.to(device)
 if device != cpu:
-    model = nn.parallel.DistributedDataParallel(model, device_ids=[0,1])
+    model = nn.DataParallel(model)
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(
@@ -167,6 +194,10 @@ for e in range(EPOCHS):
 
     batch_samples = []
     batch_actual = []
+
+    # shuffle annotations
+    annotations = annotations.sample(frac=1)
+
     pbar = tqdm(total=len(annotations))
     for _, sample in annotations.iterrows():    
         print(sample)
@@ -178,10 +209,9 @@ for e in range(EPOCHS):
 
             model_out = []
             for sample in batch_samples:
-                model_out.append(model(sample))
+                model_out.append(model(sample.to(device)))
             torch.cat(model_out)
 
-            print(model_out.shape)
             loss = criterion(
                 model_out,
                 torch.tensor(batch_actual).to(device).long()
