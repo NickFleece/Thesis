@@ -214,7 +214,7 @@ for e in range(EPOCHS):
             loss.backward()
             optimizer.step()
 
-            pbar.set_description(f"{str(loss.item())} - {train_correct / train_total}")
+            pbar.set_description(f"{str(loss.item())} - {(train_correct / train_total) * 100}")
 
             batch_samples = []
             batch_actual = []
