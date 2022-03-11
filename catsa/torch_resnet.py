@@ -66,7 +66,38 @@ for file in annotations.keys():
         })])
 annotations = new_annotations
 
-def get_frames(annotation):
+def subsampleDataset(data):
+
+    #shuffle data
+    data = data.sample(frac=1)
+
+    labels = [
+        0,
+        # 1, #not used, 79 samples
+        2,
+        3,
+        # 4, #not used, 41 samples
+        5,
+        # 6 #not used, 88 samples
+    ]
+
+    min_samples = None
+    label_value_counts = data['activity_class_id'].value_counts()
+    for label in labels:
+        if min_samples == None:
+            min_samples = label_value_counts[label]
+        else:
+            min_samples = min(min_samples, label_value_counts[label])
+    
+    subsampled_data = pd.DataFrame()
+    for label in labels:
+        label_data = data.loc[data['activity_class_id'] == label]
+        label_data = label_data.head(min_samples)
+        subsampled_data = pd.concat([subsampled_data, label_data])
+
+    return subsampled_data
+
+def getFrames(annotation):
 
     all_frames = []
     for id in annotation['annotation_ids']:
@@ -150,8 +181,8 @@ for e in range(EPOCHS):
     batch_samples = []
     batch_actual = []
 
-    # shuffle annotations
-    annotations = annotations.sample(frac=1)
+    # get the subsampled data
+    annotations = subsampleDataset(annotations)
 
     train_correct = 0
     train_total = 0
@@ -160,7 +191,7 @@ for e in range(EPOCHS):
     for _, sample in annotations.iterrows():    
         # print(sample)
 
-        batch_samples.append(get_frames(sample))
+        batch_samples.append(getFrames(sample))
         batch_actual.append(sample['activity_class_id'])
 
         if len(batch_samples) == BATCH_SIZE:
