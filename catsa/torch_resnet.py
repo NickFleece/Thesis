@@ -66,20 +66,20 @@ for file in annotations.keys():
         })])
 annotations = new_annotations
 
+labels = [
+    0,
+    # 1, #not used, 79 samples
+    2,
+    3,
+    # 4, #not used, 41 samples
+    5,
+    # 6 #not used, 88 samples
+]
+
 def subsampleDataset(data):
 
     #shuffle data
     data = data.sample(frac=1)
-
-    labels = [
-        0,
-        # 1, #not used, 79 samples
-        2,
-        3,
-        # 4, #not used, 41 samples
-        5,
-        # 6 #not used, 88 samples
-    ]
 
     min_samples = None
     label_value_counts = data['activity_class_id'].value_counts()
@@ -138,7 +138,7 @@ class VideoRecognitionModel(nn.Module):
 
         self.rnn = nn.RNN(512, 50, batch_first=True)
 
-        self.fc2 = nn.Linear(512, 7)
+        self.fc2 = nn.Linear(512, len(labels))
 
     def forward(self, x):
 
@@ -192,7 +192,7 @@ for e in range(EPOCHS):
         # print(sample)
 
         batch_samples.append(getFrames(sample))
-        batch_actual.append(sample['activity_class_id'])
+        batch_actual.append(labels.index(sample['activity_class_id']))
 
         if len(batch_samples) == BATCH_SIZE:
 
