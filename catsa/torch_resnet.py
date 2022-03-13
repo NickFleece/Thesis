@@ -249,8 +249,6 @@ for e in range(EPOCHS):
             optimizer.zero_grad()
         
         pbar.update(1)
-<<<<<<< HEAD
-=======
     
     pbar.close()
 
@@ -280,4 +278,3 @@ for e in range(EPOCHS):
         print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
     
     print("---------------------------------------------------------------")
->>>>>>> e88b60f87cdcd0d2fd03b5f51a5ad9935f41ce76
