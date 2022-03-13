@@ -18,6 +18,7 @@ import torch.nn as nn
 from torch.nn import functional as F
 import torch
 import torch.optim as optim
+from sklearn.model_selection import train_test_split
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
@@ -66,7 +67,7 @@ for file in annotations.keys():
         })])
 annotations = new_annotations
 
-labels = [
+used_labels = [
     0,
     # 1, #not used, 79 samples
     2,
@@ -76,6 +77,23 @@ labels = [
     # 6 #not used, 88 samples
 ]
 
+def splitDataset(data):
+
+    train_output = pd.DataFrame()
+    test_output = pd.DataFrame()
+    for label in used_labels:
+        label_train, label_test = train_test_split(data.loc[data["activity_class_id"] == label], test_size=0.2)
+
+        train_output = pd.concat([train_output, label_train])
+        test_output = pd.concat([test_output, label_test])
+    
+    print(train_output["activity_class_id"].value_counts())
+    print(test_output["activity_class_id"].value_counts())
+
+    return train_output, test_output
+
+train, test = splitDataset(annotations)
+
 def subsampleDataset(data):
 
     #shuffle data
@@ -83,14 +101,14 @@ def subsampleDataset(data):
 
     min_samples = None
     label_value_counts = data['activity_class_id'].value_counts()
-    for label in labels:
+    for label in used_labels:
         if min_samples == None:
             min_samples = label_value_counts[label]
         else:
             min_samples = min(min_samples, label_value_counts[label])
     
     subsampled_data = pd.DataFrame()
-    for label in labels:
+    for label in used_labels:
         label_data = data.loc[data['activity_class_id'] == label]
         label_data = label_data.head(min_samples)
         subsampled_data = pd.concat([subsampled_data, label_data])
@@ -139,7 +157,7 @@ class VideoRecognitionModel(nn.Module):
 
         self.rnn = nn.RNN(512, 50, batch_first=True)
 
-        self.fc2 = nn.Linear(512, len(labels))
+        self.fc2 = nn.Linear(512, len(used_labels))
 
     def forward(self, x):
 
@@ -183,17 +201,17 @@ for e in range(EPOCHS):
     batch_actual = []
 
     # get the subsampled data
-    annotations = subsampleDataset(annotations)
+    subsampled_train = subsampleDataset(train)
 
+    losses = []
     train_correct = 0
     train_total = 0
 
-    pbar = tqdm(total=len(annotations))
-    for _, sample in annotations.iterrows():    
-        # print(sample)
+    pbar = tqdm(total=len(subsampled_train))
+    for _, sample in subsampled_train.iterrows():
 
         batch_samples.append(getFrames(sample))
-        batch_actual.append(labels.index(sample['activity_class_id']))
+        batch_actual.append(used_labels.index(sample['activity_class_id']))
 
         if len(batch_samples) == BATCH_SIZE:
 
@@ -221,6 +239,8 @@ for e in range(EPOCHS):
             loss.backward()
             optimizer.step()
 
+            losses.append(loss.item())
+
             pbar.set_description(f"{str(loss.item())} - {(train_correct / train_total) * 100}")
 
             batch_samples = []
@@ -229,3 +249,35 @@ for e in range(EPOCHS):
             optimizer.zero_grad()
         
         pbar.update(1)
+<<<<<<< HEAD
+=======
+    
+    pbar.close()
+
+    print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
+
+    with torch.no_grad():
+
+        val_correct = 0
+        count = 0
+
+        pbar = tqdm(total=len(test))
+        for _, sample in test.iterrows():
+
+            sample_frames = getFrames(sample)
+
+            model_out = model(torch.unsqueeze(sample_frames, 0)).agrmax(dim=1).item()
+
+            if model_out == int(sample['activity_class_id']):
+                val_correct += 1
+            
+            count += 1
+            pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
+        
+        pbar.close()
+        time.sleep(1)
+
+        print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
+    
+    print("---------------------------------------------------------------")
+>>>>>>> e88b60f87cdcd0d2fd03b5f51a5ad9935f41ce76
