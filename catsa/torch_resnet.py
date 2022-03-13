@@ -264,7 +264,7 @@ for e in range(EPOCHS):
 
             sample_frames = getFrames(sample)
 
-            model_out = model(torch.unsqueeze(sample_frames, 0)).agrmax(dim=1).item()
+            model_out = model(torch.unsqueeze(sample_frames, 0)).argmax(dim=1).item()
 
             if model_out == int(sample['activity_class_id']):
                 val_correct += 1
