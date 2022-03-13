@@ -19,6 +19,7 @@ from torch.nn import functional as F
 import torch
 import torch.optim as optim
 from sklearn.model_selection import train_test_split
+import time
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
@@ -266,11 +267,15 @@ for e in range(EPOCHS):
 
             model_out = model(torch.unsqueeze(sample_frames, 0)).argmax(dim=1).item()
 
+            print(model_out)
+            print(int(sample['activity_class_id']))
+
             if model_out == int(sample['activity_class_id']):
                 val_correct += 1
             
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
+            pbar.update(1)
         
         pbar.close()
         time.sleep(1)
