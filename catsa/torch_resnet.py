@@ -267,9 +267,6 @@ for e in range(EPOCHS):
 
             model_out = model(torch.unsqueeze(sample_frames, 0)).argmax(dim=1).item()
 
-            print(model_out)
-            print(int(sample['activity_class_id']))
-
             if model_out == int(sample['activity_class_id']):
                 val_correct += 1
             
@@ -280,6 +277,6 @@ for e in range(EPOCHS):
         pbar.close()
         time.sleep(1)
 
-        print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
+        print(f"Epoch {e} Validation Accuracy: {val_correct / len(test)}")
     
     print("---------------------------------------------------------------")
