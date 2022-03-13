@@ -1,5 +1,5 @@
 # HYPERPARAMETERS FOR NETWORK
-LEARNING_RATE = 1e-8
+LEARNING_RATE = 5e-5
 EPOCHS = 100
 IMAGE_RESHAPE_SIZE = 80
 BATCH_SIZE = 1
@@ -95,6 +95,7 @@ def subsampleDataset(data):
         label_data = label_data.head(min_samples)
         subsampled_data = pd.concat([subsampled_data, label_data])
 
+    subsampled_data = subsampled_data.sample(frac=1)
     return subsampled_data
 
 def getFrames(annotation):
