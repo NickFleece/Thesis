@@ -267,6 +267,9 @@ for e in range(EPOCHS):
         val_correct = 0
         count = 0
 
+        val_outputs = []
+        val_actual = []
+
         pbar = tqdm(total=len(test))
         for _, sample in test.iterrows():
 
@@ -274,7 +277,7 @@ for e in range(EPOCHS):
 
             model_out = model(torch.unsqueeze(sample_frames, 0)).argmax(dim=1).item()
 
-            if model_out == int(sample['activity_class_id']):
+            if model_out == used_labels.index(sample['activity_class_id']):
                 val_correct += 1
             
             count += 1
