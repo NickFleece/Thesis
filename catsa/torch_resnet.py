@@ -4,6 +4,7 @@ EPOCHS = 100
 IMAGE_RESHAPE_SIZE = 80
 BATCH_SIZE = 1
 FRAME_SUBSAMPLING = 4
+FLIP_PROB = 0.5
 
 import os
 import pandas as pd
@@ -20,8 +21,9 @@ import torch
 import torch.optim as optim
 from sklearn.model_selection import train_test_split
 import time
+import random
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -87,9 +89,6 @@ def splitDataset(data):
 
         train_output = pd.concat([train_output, label_train])
         test_output = pd.concat([test_output, label_test])
-    
-    print(train_output["activity_class_id"].value_counts())
-    print(test_output["activity_class_id"].value_counts())
 
     return train_output, test_output
 
@@ -120,15 +119,27 @@ def subsampleDataset(data):
 def getFrames(annotation):
 
     all_frames = []
-    for id in annotation['annotation_ids']:
+    annotation_ids = annotation['annotation_ids']
+    random.shuffle(annotation_ids)
+
+    for id in annotation_ids:
 
         person_dir = f"{BYTETRACK_FRAMES_DIR}/{id}"
-        for person in os.listdir(person_dir):
+        person_files = os.listdir(person_dir)
+        random.shuffle(person_files)
+
+        for person in person_files:
 
             person_frames = []
             frames_dir = f"{person_dir}/{person}"
+
+            flip_video = random.random() < FLIP_PROB
+
             for frame in np.asarray(os.listdir(frames_dir))[::FRAME_SUBSAMPLING]:
                 frame_arr = np.asarray(iio.imread(f"{frames_dir}/{frame}"))
+
+                if flip_video:
+                    frame_arr = np.fliplr(frame_arr)
 
                 frame_arr = frame_arr / np.max(frame_arr)
                 
@@ -156,8 +167,6 @@ class VideoRecognitionModel(nn.Module):
         
         self.fc1 = nn.Linear(512, 512)
 
-        self.rnn = nn.RNN(512, 50, batch_first=True)
-
         self.fc2 = nn.Linear(512, len(used_labels))
 
     def forward(self, x):
@@ -171,13 +180,11 @@ class VideoRecognitionModel(nn.Module):
         if len(x.shape) == 1:
             x = x.unsqueeze(dim=0)
 
+        x = F.dropout(0.5)
+
         x = self.fc1(x)
         x = F.relu(x)
-
-        # x = x.unsqueeze(dim=0)
-
-        # x, _ = self.rnn(x)
-        # x = x[:,-1]
+        x = F.dropout(0.5)
 
         x = self.fc2(x)
         x = F.softmax(x, dim=1)
