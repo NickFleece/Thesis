@@ -38,7 +38,11 @@ args = parser.parse_args()
 
 BASE_DIR = args.drive_dir
 BYTETRACK_FRAMES_DIR = f"{BASE_DIR}/ByteTrack_Frames"
+MODEL_SAVE_DIR = f"{BASE_DIR}/catsa_models"
 VERSION = args.version
+
+if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
+    os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
 
 annotation_csv = pd.read_csv(f"{BASE_DIR}/annotations.csv")
 
@@ -250,7 +254,7 @@ for e in range(EPOCHS):
 
             losses.append(loss.item())
 
-            pbar.set_description(f"{str(loss.item())} - {(train_correct / train_total) * 100}")
+            pbar.set_description(f"{str(sum(losses) / len(losses))} - {(train_correct / train_total) * 100}")
 
             batch_samples = []
             batch_actual = []
@@ -296,3 +300,12 @@ for e in range(EPOCHS):
         print(confusion_matrix(val_actual, val_outputs))
     
     print("---------------------------------------------------------------")
+
+    torch.save({
+        'epoch': e,
+        'model_state_dict': model.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'loss': losses,
+        'val_outputs':val_outputs,
+        'val_correct':val_correct
+    }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")
