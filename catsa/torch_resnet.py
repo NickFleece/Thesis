@@ -22,6 +22,7 @@ import torch.optim as optim
 from sklearn.model_selection import train_test_split
 import time
 import random
+from sklearn.metrics import confusion_matrix
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
@@ -280,6 +281,9 @@ for e in range(EPOCHS):
             if model_out == used_labels.index(sample['activity_class_id']):
                 val_correct += 1
             
+            val_outputs.append(model_out)
+            val_actual.append(used_labels.index(sample['activity_class_id']))
+            
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
             pbar.update(1)
@@ -288,5 +292,7 @@ for e in range(EPOCHS):
         time.sleep(1)
 
         print(f"Epoch {e} Validation Accuracy: {val_correct / len(test)}")
+
+        print(confusion_matrix(val_actual, val_outputs))
     
     print("---------------------------------------------------------------")
