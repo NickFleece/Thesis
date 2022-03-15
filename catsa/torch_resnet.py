@@ -180,11 +180,11 @@ class VideoRecognitionModel(nn.Module):
         if len(x.shape) == 1:
             x = x.unsqueeze(dim=0)
 
-        x = F.dropout(x, 0.8)
+        # x = F.dropout(x, 0.8)
 
         x = self.fc1(x)
         x = F.relu(x)
-        x = F.dropout(x, 0.8)
+        # x = F.dropout(x, 0.8)
 
         x = self.fc2(x)
         x = F.softmax(x, dim=1)
