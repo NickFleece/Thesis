@@ -310,5 +310,5 @@ for e in range(EPOCHS):
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': losses,
         'val_outputs':val_outputs,
-        'val_correct':val_correct
+        'val_actual':val_actual
     }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")
