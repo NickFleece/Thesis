@@ -75,6 +75,9 @@ for file in annotations.keys():
         })])
 annotations = new_annotations
 
+# Filter on camera = FP
+annotations = annotations.loc[annotations["camera"] == "FP"]
+
 used_labels = [
     0,
     # 1, #not used, 79 samples
