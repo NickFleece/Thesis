@@ -76,7 +76,7 @@ for file in annotations.keys():
 annotations = new_annotations
 
 # Filter on camera = FP
-annotations = annotations.loc[annotations["camera"] == "FP"]
+annotations = annotations.loc[annotations["camera"] == "FD"]
 
 used_labels = [
     0,
