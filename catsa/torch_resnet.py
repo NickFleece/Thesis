@@ -173,9 +173,9 @@ class VideoRecognitionModel(nn.Module):
 
         self.pretrained_model = nn.Sequential(*list(r3d_18(pretrained=True, progress=True).children())[:-1])
         
-        self.fc1 = nn.Linear(512, 512)
+        self.fc1 = nn.Linear(512, 256)
 
-        self.fc2 = nn.Linear(512, len(used_labels))
+        self.fc2 = nn.Linear(256, len(used_labels))
 
     def forward(self, x):
 
