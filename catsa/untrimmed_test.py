@@ -209,6 +209,7 @@ for _, annotation in annotations.iterrows():
         frames = torch.tensor([channel_first_frames], dtype=torch.float32).to(device)
 
         with torch.no_grad():
+            print(frames.shape)
             predicted_label = model(frames).argmax(dim=1).item()
             print(model(frames))
 
