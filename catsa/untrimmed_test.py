@@ -1,5 +1,5 @@
 IMAGE_RESHAPE_SIZE = 80
-FRAME_SUBSAMPLING = 2
+FRAME_SUBSAMPLING = 4
 
 import torch
 import argparse
@@ -185,7 +185,7 @@ for _, annotation in annotations.iterrows():
         frames = frames[::FRAME_SUBSAMPLING]
 
         reshaped_frames = []
-        for i in range(100):
+        for i in range(50):
             for frame in frames:
                 
                 frame = frame / np.max(frame)
