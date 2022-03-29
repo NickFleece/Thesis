@@ -1,5 +1,5 @@
 IMAGE_RESHAPE_SIZE = 224
-FRAME_SUBSAMPLING = 2
+FRAME_SUBSAMPLING = 1
 
 import torch
 import argparse
