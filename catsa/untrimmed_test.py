@@ -195,6 +195,10 @@ for _, annotation in annotations.iterrows():
 
             reshaped_frames.append(frame)
 
+        while len(reshaped_frames) <= 100:
+
+            reshaped_frames.append(np.zeros((IMAGE_RESHAPE_SIZE, IMAGE_RESHAPE_SIZE, 3)))
+
         frames = np.asarray(reshaped_frames)
 
         channel_first_frames = []
