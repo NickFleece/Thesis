@@ -1,5 +1,5 @@
 IMAGE_RESHAPE_SIZE = 80
-FRAME_SUBSAMPLING = 4
+FRAME_SUBSAMPLING = 2
 
 import torch
 import argparse
@@ -7,12 +7,9 @@ from torch import nn
 from torch.nn import functional as F
 from torchvision.models.video import r3d_18
 from sklearn import metrics
-import os
 import pandas as pd
 import numpy as np
 from PIL import Image
-# import matplotlib.pyplot as plt
-# import matplotlib.animation as animation
 import cv2
 
 
@@ -116,7 +113,12 @@ annotations = annotations.sample(frac=1)
 for _, annotation in annotations.iterrows():
 
     #camera restriction
-    if annotation['camera'] != 'FP': continue
+    # if annotation['camera'] != 'FD': continue
+
+    found_unused_labels = False
+    for i in annotation['activity_class_ids']:
+        if i not in used_labels: found_unused_labels = True
+    if found_unused_labels: continue
 
     bytetrack_annotation_path = f"{args.bytetrack_annotation_dir}/{annotation['date']}/{annotation['segment']}.txt"
 
@@ -206,5 +208,12 @@ for _, annotation in annotations.iterrows():
         if not used_labels[predicted_label] in predicted_labels:
             predicted_labels.append(used_labels[predicted_label])
     
-    print(annotation['activity_class_ids'])
-    print(predicted_labels)
+    actual_labels = annotation['activity_class_ids']
+    if not 0 in predicted_labels and 0 in actual_labels and len(actual_labels) != 1:
+        actual_labels.remove(0)
+
+    predicted_labels.sort()
+    actual_labels.sort()
+    
+    print(f"Predicted: {predicted_labels}")
+    print(f"Actual: {actual_labels}")
