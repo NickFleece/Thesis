@@ -20,7 +20,8 @@ parser.add_argument('--bytetrack_annotation_dir', required=True)
 parser.add_argument('--annotation_file')
 args = parser.parse_args()
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cpu")
 print(f"Running on: {device}")
 
 used_labels = [
