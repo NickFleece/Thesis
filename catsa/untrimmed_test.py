@@ -82,7 +82,7 @@ print("Recall:" + str(recall))
 print("Precision" + str(precision))
 print("\n")
 
-model.load_state_dict(model_data['model_state_dict'])
+print(model.load_state_dict(model_data['model_state_dict']))
 model.eval()
 
 annotation_csv = pd.read_csv(args.annotation_file)
@@ -209,6 +209,7 @@ for _, annotation in annotations.iterrows():
 
         with torch.no_grad():
             predicted_label = model(frames).argmax(dim=1).item()
+            print(model(frames))
 
         if not used_labels[predicted_label] in predicted_labels:
             predicted_labels.append(used_labels[predicted_label])
