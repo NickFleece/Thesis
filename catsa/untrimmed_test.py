@@ -1,5 +1,6 @@
 IMAGE_RESHAPE_SIZE = 80
 FRAME_SUBSAMPLING = 4
+SLIDING_WINDOW_SIZE = 1000
 
 import torch
 import argparse
@@ -11,7 +12,7 @@ import pandas as pd
 import numpy as np
 from PIL import Image
 import cv2
-
+import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--frames_dir', required=True)
@@ -83,7 +84,7 @@ print("Precision" + str(precision))
 print("\n")
 
 print(model.load_state_dict(model_data['model_state_dict']))
-model.eval()
+# model.eval()
 
 annotation_csv = pd.read_csv(args.annotation_file)
 
@@ -109,7 +110,7 @@ for file in annotations.keys():
     })])
 annotations = new_annotations
 
-annotations = annotations.sample(frac=1)
+# annotations = annotations.sample(frac=1)
 
 for _, annotation in annotations.iterrows():
 
@@ -127,11 +128,14 @@ for _, annotation in annotations.iterrows():
         annotation_data = f.readlines()
 
     annotation_separated = {}
+    max_frame_index = 0
     for frame_annotation in annotation_data:
         frame_annotation = frame_annotation.split(',')
 
-        frame = int(frame_annotation[0]) - 1
+        frame_index = int(frame_annotation[0]) - 1
         person_id = int(frame_annotation[1])
+
+        max_frame_index = max(max_frame_index, frame_index)
 
         x1 = float(frame_annotation[2])
         y1 = float(frame_annotation[3])
@@ -149,7 +153,7 @@ for _, annotation in annotations.iterrows():
             h = h + y1
             y1 = 0
 
-        frame_img = Image.open(f"{args.frames_dir}/{annotation['path']}/{str(frame).zfill(5)}.jpg")
+        frame_img = Image.open(f"{args.frames_dir}/{annotation['path']}/{str(frame_index).zfill(5)}.jpg")
         
         frame_shape = np.asarray(frame_img).shape
         if x1 + w > frame_shape[1]:
@@ -158,70 +162,69 @@ for _, annotation in annotations.iterrows():
             h = frame_shape[0] - y1
         
         frame_img = frame_img.crop((x1, y1, x1+w, y1+h))
-        
-        if not person_id in annotation_separated.keys(): annotation_separated[person_id] = []
-        annotation_separated[person_id].append(np.asarray(frame_img))
+
+        if not person_id in annotation_separated.keys(): annotation_separated[person_id] = {}
+        annotation_separated[person_id][frame_index] = np.asarray(frame_img)
 
     for person_id in annotation_separated.keys():
         max_x = 0
         max_y = 0
 
-        for frame in annotation_separated[person_id]:
+        for frame_index in annotation_separated[person_id].keys():
+            frame = annotation_separated[person_id][frame_index]
+            
             max_x = max(frame.shape[1], max_x)
             max_y = max(frame.shape[0], max_y)
         
-        padded_annotations = []
-        for frame in annotation_separated[person_id]:
-            padded_frame = np.pad(frame, ((0,max_y - frame.shape[0]),(0,max_x - frame.shape[1]),(0,0)))
-            padded_annotations.append(padded_frame)
-        annotation_separated[person_id] = padded_annotations
+        new_frames = {}
+        for frame_index in annotation_separated[person_id].keys():
+            frame = annotation_separated[person_id][frame_index]
 
-    predicted_labels = []
-    for person in annotation_separated.keys():
+            new_frame = np.pad(frame, ((0,max_y - frame.shape[0]),(0,max_x - frame.shape[1]),(0,0)))
 
-        frames = np.asarray(annotation_separated[person])
+            new_frame = new_frame / np.max(new_frame)
 
-        #subsample the frames
-        frames = frames[::FRAME_SUBSAMPLING]
+            max_dim = max(new_frame.shape[0], new_frame.shape[1])
+            new_frame = np.pad(new_frame, ((0, max_dim - new_frame.shape[0]), (0, max_dim - new_frame.shape[1]), (0,0)))
+            new_frame = cv2.resize(new_frame, (IMAGE_RESHAPE_SIZE,IMAGE_RESHAPE_SIZE))
 
-        reshaped_frames = []
-        for i in range(50):
-            for frame in frames:
-                
-                frame = frame / np.max(frame)
+            new_frames[frame_index] = new_frame
 
-                max_dim = max(frame.shape[0], frame.shape[1])
-                frame = np.pad(frame, ((0, max_dim - frame.shape[0]), (0, max_dim - frame.shape[1]), (0,0)))
-                frame = cv2.resize(frame, (IMAGE_RESHAPE_SIZE,IMAGE_RESHAPE_SIZE))
+        annotation_separated[person_id] = new_frames
 
-                reshaped_frames.append(frame)
+    #Sliding window
+    predictions = []
+    startFrame = 0
+    while startFrame + SLIDING_WINDOW_SIZE < max_frame_index:
 
-        while len(reshaped_frames) <= 100:
+        sliding_window_frames = []
+        for person in annotation_separated.keys():
 
-            reshaped_frames.append(np.zeros((IMAGE_RESHAPE_SIZE, IMAGE_RESHAPE_SIZE, 3)))
+            for frame_index in annotation_separated[person].keys():
 
-        frames = np.asarray(reshaped_frames)
+                # Outside sliding window
+                if frame_index < startFrame or frame_index > startFrame + SLIDING_WINDOW_SIZE: continue
 
-        channel_first_frames = []
-        for i in range(frames.shape[3]):
-            channel_first_frames.append(frames[:,:,:,i])
+                sliding_window_frames.append(annotation_separated[person][frame_index])
         
-        frames = torch.tensor([channel_first_frames], dtype=torch.float32).to(device)
+        input_frames = np.asarray(sliding_window_frames)[::FRAME_SUBSAMPLING]
 
-        with torch.no_grad():
-            print(frames.shape)
-            predicted_label = model(frames).argmax(dim=1).item()
-            print(model(frames))
+        if input_frames.shape != (0,):
+            channel_first_frames = []
+            for i in range(input_frames.shape[3]):
+                channel_first_frames.append(input_frames[:,:,:,i])
+            input_frames = channel_first_frames
 
-        if not used_labels[predicted_label] in predicted_labels:
-            predicted_labels.append(used_labels[predicted_label])
-    
-    actual_labels = annotation['activity_class_ids']
-    if not 0 in predicted_labels and 0 in actual_labels and len(actual_labels) != 1:
-        actual_labels.remove(0)
+            input_frames = torch.tensor([input_frames], dtype=torch.float32).to(device)
 
-    predicted_labels.sort()
-    actual_labels.sort()
-    
-    print(f"Predicted: {predicted_labels}")
-    print(f"Actual: {actual_labels}")
+            with torch.no_grad():
+                model_out = model(input_frames)
+                print(annotation['activity_class_ids'])
+                print(model_out)
+                print(model_out.argmax(dim=1).item())
+                print("---")
+                # prediction = model(input_frames).argmax(dim=1).item()
+
+        startFrame += SLIDING_WINDOW_SIZE // 10
+
+    print("\n\n\n")
