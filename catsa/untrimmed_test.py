@@ -113,6 +113,9 @@ annotations = new_annotations
 
 # annotations = annotations.sample(frac=1)
 
+correct = 0
+total = 0
+
 for _, annotation in annotations.iterrows():
 
     #camera restriction
@@ -231,4 +234,13 @@ for _, annotation in annotations.iterrows():
         pbar.update(SLIDING_WINDOW_SIZE // 100)
     pbar.close()
 
-    print("\n")
+    predictions.sort()
+    actual = annotation['activity_class_ids']
+    actual.sort()
+
+    if predictions == actual:
+        print("Correct!")
+        correct += 1
+    total += 1
+
+    print(f"{correct/total}% correct...\n")
