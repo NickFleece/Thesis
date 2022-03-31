@@ -1,6 +1,6 @@
-IMAGE_RESHAPE_SIZE = 80
-FRAME_SUBSAMPLING = 4
-SLIDING_WINDOW_SIZE = 1000
+IMAGE_RESHAPE_SIZE = 112
+FRAME_SUBSAMPLING = 2
+SLIDING_WINDOW_SIZE = 200
 
 import torch
 import argparse
@@ -13,6 +13,7 @@ import numpy as np
 from PIL import Image
 import cv2
 import matplotlib.pyplot as plt
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--frames_dir', required=True)
@@ -192,7 +193,9 @@ for _, annotation in annotations.iterrows():
 
         annotation_separated[person_id] = new_frames
 
-    #Sliding window
+
+    pbar = tqdm(total=max_frame_index)
+
     predictions = []
     startFrame = 0
     while startFrame + SLIDING_WINDOW_SIZE < max_frame_index:
@@ -218,13 +221,14 @@ for _, annotation in annotations.iterrows():
             input_frames = torch.tensor([input_frames], dtype=torch.float32).to(device)
 
             with torch.no_grad():
-                model_out = model(input_frames)
-                print(annotation['activity_class_ids'])
-                print(model_out)
-                print(model_out.argmax(dim=1).item())
-                print("---")
-                # prediction = model(input_frames).argmax(dim=1).item()
+                prediction = used_labels[model(input_frames).argmax(dim=1).item()]
+
+                if not prediction in predictions:
+                    predictions.append(prediction)
+                    pbar.set_description(f"Goal: {annotation['activity_class_ids']} - Predicted: {predictions}")
 
         startFrame += SLIDING_WINDOW_SIZE // 10
+        pbar.update(SLIDING_WINDOW_SIZE // 10)
+    pbar.close()
 
-    print("\n\n\n")
+    print("\n")
