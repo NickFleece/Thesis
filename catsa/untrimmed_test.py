@@ -198,7 +198,7 @@ for _, annotation in annotations.iterrows():
 
     predictions = []
     startFrame = 0
-    while startFrame + SLIDING_WINDOW_SIZE < max_frame_index:
+    while startFrame + (SLIDING_WINDOW_SIZE // 10) < max_frame_index:
 
         sliding_window_frames = []
         for person in annotation_separated.keys():
@@ -227,8 +227,8 @@ for _, annotation in annotations.iterrows():
                     predictions.append(prediction)
                     pbar.set_description(f"Goal: {annotation['activity_class_ids']} - Predicted: {predictions}")
 
-        startFrame += SLIDING_WINDOW_SIZE // 10
-        pbar.update(SLIDING_WINDOW_SIZE // 10)
+        startFrame += SLIDING_WINDOW_SIZE // 100
+        pbar.update(SLIDING_WINDOW_SIZE // 100)
     pbar.close()
 
     print("\n")
