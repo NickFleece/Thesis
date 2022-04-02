@@ -1,6 +1,7 @@
 IMAGE_RESHAPE_SIZE = 80
 FRAME_SUBSAMPLING = 4
 SLIDING_WINDOW_SIZE = 256
+SLIDING_WINDOW_STEP = SLIDING_WINDOW_SIZE // 2
 
 import torch
 import argparse
@@ -210,7 +211,7 @@ for annotation_index, annotation in annotations.iterrows():
 
     predictions = []
     startFrame = 0
-    while startFrame + (SLIDING_WINDOW_SIZE // 10) < max_frame_index:
+    while startFrame + (SLIDING_WINDOW_STEP // 2) < max_frame_index:
 
         sliding_window_frames = []
         for person in annotation_separated.keys():
@@ -239,8 +240,8 @@ for annotation_index, annotation in annotations.iterrows():
                     predictions.append(prediction)
                     pbar.set_description(f"Goal: {annotation['activity_class_ids']} - Predicted: {predictions}")
 
-        startFrame += SLIDING_WINDOW_SIZE // 100
-        pbar.update(SLIDING_WINDOW_SIZE // 100)
+        startFrame += SLIDING_WINDOW_STEP
+        pbar.update(SLIDING_WINDOW_STEP)
     pbar.close()
 
     predictions.sort()
