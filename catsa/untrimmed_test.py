@@ -126,7 +126,7 @@ final_actuals = []
 
 for annotation_index, annotation in annotations.iterrows():
 
-    print(f"{annotation_index} / {len(annotations)}")
+    print(f"{total} / {len(annotations)}")
 
     #camera restriction
     # if annotation['camera'] != 'FD': continue
