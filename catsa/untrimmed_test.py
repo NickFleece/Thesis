@@ -14,6 +14,8 @@ from PIL import Image
 import cv2
 import matplotlib.pyplot as plt
 from tqdm import tqdm
+import json
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--frames_dir', required=True)
@@ -22,8 +24,10 @@ parser.add_argument('--bytetrack_annotation_dir', required=True)
 parser.add_argument('--annotation_file')
 args = parser.parse_args()
 
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-device = torch.device("cpu")
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# device = torch.device("cpu")
 print(f"Running on: {device}")
 
 used_labels = [
@@ -115,6 +119,9 @@ annotations = new_annotations
 
 correct = 0
 total = 0
+
+final_predictions = []
+final_actuals = []
 
 for _, annotation in annotations.iterrows():
 
@@ -243,4 +250,10 @@ for _, annotation in annotations.iterrows():
         correct += 1
     total += 1
 
-    print(f"{correct/total}% correct...\n")
+    final_actuals.append(actual)
+    final_predictions.append(predictions)
+
+    print(f"{(correct/total) * 100}% correct...\n")
+
+with open('untrimmed_results.json', 'w') as outfile:
+    json.dump({"actual":final_actuals, "predictions":final_predictions}, outfile)
