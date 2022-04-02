@@ -121,12 +121,15 @@ annotations = new_annotations
 correct = 0
 total = 0
 
+example_count = 0
+
 final_predictions = []
 final_actuals = []
 
 for annotation_index, annotation in annotations.iterrows():
 
-    print(f"{total} / {len(annotations)}")
+    example_count += 1
+    print(f"{example_count} / {len(annotations)}")
 
     #camera restriction
     # if annotation['camera'] != 'FD': continue
