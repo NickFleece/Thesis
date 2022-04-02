@@ -1,5 +1,5 @@
-IMAGE_RESHAPE_SIZE = 80
-FRAME_SUBSAMPLING = 10
+IMAGE_RESHAPE_SIZE = 112
+FRAME_SUBSAMPLING = 5
 SLIDING_WINDOW_SIZE = 1000
 
 import torch
@@ -123,7 +123,9 @@ total = 0
 final_predictions = []
 final_actuals = []
 
-for _, annotation in annotations.iterrows():
+for annotation_index, annotation in annotations.iterrows():
+
+    print(f"{annotation_index} / {len(annotations)}")
 
     #camera restriction
     # if annotation['camera'] != 'FD': continue
