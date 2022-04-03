@@ -85,7 +85,7 @@ used_labels = [
     3,
     # 4, #not used, 41 samples
     5,
-    # 6 #not used, 88 samples
+    6 #not used, 88 samples
 ]
 
 def splitDataset(data):
