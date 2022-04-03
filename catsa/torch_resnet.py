@@ -76,7 +76,9 @@ for file in annotations.keys():
 annotations = new_annotations
 
 # Filter on camera = FP
-annotations = annotations.loc[annotations["camera"] == "FD"]
+#annotations = annotations.loc[annotations["camera"] == "FD"]
+
+print(annotations["activity_class_name"].value_counts())
 
 used_labels = [
     0,
