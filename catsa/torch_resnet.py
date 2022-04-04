@@ -6,12 +6,13 @@ BATCH_SIZE = 1
 FRAME_SUBSAMPLING = 4
 FLIP_PROB = 0.5
 
+#All of the imports needed, matplotlib not required but useful for imshow on frames
 import os
 import pandas as pd
 import argparse
 import imageio as iio
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import cv2
 from tqdm import tqdm
 from torchvision.models.video import r3d_18
