@@ -1,3 +1,8 @@
+# HYPERPARAMETERS:
+LEARNING_RATE = 0.001
+EPOCHS = 1000
+BATCH_SIZE = 32
+
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
@@ -93,11 +98,6 @@ NUM_CLASSES = len(unique_classes)
 
 X_train, X_test, y_train, y_test = train_test_split(data, classes, test_size=0.2, random_state=RANDOM_STATE, stratify=classes)
 
-# HYPERPARAMETERS:
-LEARNING_RATE = 0.001
-EPOCHS = 1000
-BATCH_SIZE = 32
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
 print(f"Running on: {device}")
@@ -107,7 +107,7 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(2, 128, kernel_size=(3,3)),
+            nn.Conv2d(2, 128, kernel_size=(9,9)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
             nn.Conv2d(128, 128, kernel_size=(3, 3)),
