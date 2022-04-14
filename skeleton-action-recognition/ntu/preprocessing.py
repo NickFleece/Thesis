@@ -74,9 +74,9 @@ for i in os.listdir(SKELETON_FILES_DIR):
 
             one_frame_bone_movements = []
 
-            plt.figure()
-            plt.xlim((-5,5))
-            plt.ylim((-5, 5))
+            # plt.figure()
+            # plt.xlim((-5,5))
+            # plt.ylim((-5, 5))
             for bone, prev_bone in zip(person_bones[frame_index], person_bones[frame_index - 1]):
 
                 #set j1 and j2 to be the current bone
@@ -89,7 +89,7 @@ for i in os.listdir(SKELETON_FILES_DIR):
                 j2 = prev_bone[1]
                 prev_bone_vector = [j2[0] - j1[0], j2[1] - j1[1]]
 
-                plt.plot([bone[0][0], bone[1][0]],[bone[0][1], bone[1][1]])
+                # plt.plot([bone[0][0], bone[1][0]],[bone[0][1], bone[1][1]])
                 # plt.plot([0,prev_bone_vector[0]],[0,prev_bone_vector[1]])
 
                 # if one of the bones is at 0,0 it causes nan and inf issues, for now just put 0,0 and move on
@@ -117,8 +117,8 @@ for i in os.listdir(SKELETON_FILES_DIR):
 
             one_person_bone_movements.append(one_frame_bone_movements)
 
-            plt.show()
-            break
+            # plt.show()
+            # break
 
         if one_person_bone_movements == []: continue
 
