@@ -18,8 +18,6 @@ SKELETON_FILES_DIR = f"{BASE_DIR}/nturgbd_skeletons_s001_to_s017/nturgb+d_skelet
 VIDEO_FILES_DIR = f"{BASE_DIR}/ntu_dataset/nturgb+d_rgb"
 EXPORT_DIR = f"{BASE_DIR}/ntu_processed_skeleton_data"
 
-from ntu_skeleton_config import BONE_CONNECTIONS
-
 pbar = tqdm(total = len(os.listdir(SKELETON_FILES_DIR)))
 
 for i in os.listdir(SKELETON_FILES_DIR):
