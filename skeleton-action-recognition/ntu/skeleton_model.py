@@ -1,7 +1,7 @@
 # HYPERPARAMETERS:
-LEARNING_RATE = 0.001
-EPOCHS = 1000
-BATCH_SIZE = 64
+LEARNING_RATE = 0.0001
+EPOCHS = 200
+BATCH_SIZE = 128
 
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -110,39 +110,38 @@ class CNN(nn.Module):
             nn.Conv2d(2, 128, kernel_size=(3,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.Conv2d(128, 128, kernel_size=(3, 3)),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
-            nn.Dropout(0.8),
+            # nn.Conv2d(128, 128, kernel_size=(3, 3)),
+            # nn.BatchNorm2d(128),
+            # nn.ReLU(),
+            # nn.Dropout(0.8),
         )
 
         self.conv_block_2 = nn.Sequential(
             nn.Conv2d(128, 256, kernel_size=(3,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            nn.Conv2d(256, 256, kernel_size=(3,3)),
-            nn.BatchNorm2d(256),
-            nn.ReLU(),
-            nn.Dropout(0.8),
+            # nn.Conv2d(256, 256, kernel_size=(3,3)),
+            # nn.BatchNorm2d(256),
+            # nn.ReLU(),
+            # nn.Dropout(0.8),
         )
 
         self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size=(3,3)),
+            nn.Conv2d(256, 512, kernel_size=(3,3), stride=2),
             nn.BatchNorm2d(512),
             nn.ReLU(),
-            nn.Conv2d(512, 512, kernel_size=(3,3)),
-            nn.BatchNorm2d(512),
-            nn.ReLU(),
-            nn.Dropout(0.8),
+            # nn.Conv2d(512, 512, kernel_size=(3,3)),
+            # nn.BatchNorm2d(512),
+            # nn.ReLU(),
+            # nn.Dropout(0.8),
         )
 
         self.fc = nn.Sequential(
-            nn.AdaptiveAvgPool2d((1,1)),
+            # nn.AdaptiveAvgPool2d((1,1)),
+            nn.MaxPool2d((1,1)),
             nn.Flatten(),
             nn.Linear(512,512),
-            nn.Dropout(0.8),
-            nn.ReLU(),
-            nn.Linear(512,512),
+            nn.Dropout(0.5),
             nn.ReLU(),
             nn.Linear(512, NUM_CLASSES),
             nn.Softmax(dim=1)
