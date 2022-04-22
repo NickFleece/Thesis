@@ -196,7 +196,7 @@ for e in range(int(checkpoint), EPOCHS):
         pbar.update(1)
 
         batch_input.append(load_data(X))
-        batch_actual.append(int(y))
+        batch_actual.append(unique_classes.index(int(y)))
 
         if len(batch_input) == BATCH_SIZE:
             input_tensor = torch.from_numpy(np.asarray(batch_input)).float().to(device)
@@ -261,7 +261,7 @@ for e in range(int(checkpoint), EPOCHS):
 
             pred = cnn_net(input_tensor).argmax(dim=1).item()
 
-            if pred == int(y):
+            if pred == unique_classes.index(int(y)):
                 val_correct += 1
             
             count += 1
@@ -279,5 +279,5 @@ for e in range(int(checkpoint), EPOCHS):
         'epoch': e,
         'model_state_dict': cnn_net.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
-        'loss': losses,
+        'loss': losses
     }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")
