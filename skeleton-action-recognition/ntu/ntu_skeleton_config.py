@@ -41,13 +41,39 @@ BONE_CONNECTIONS = [
     [13,5],
     [17,9],
 
-    #shoulder to shoulder
+    #hip to hip
     [13,17],
     [17,13],
     
-    #hip to hip
+    #shoulder to shoulder
     [5,9],
     [9,5],
+]
+
+BONE_CONNECTIONS_V2 = [
+    #elbow - shoulder - shoulder
+    [5,9,10],
+    [9,5,6],
+
+    #shoulder - elbow - wrist
+    [9,10,11],
+    [5,6,7],
+
+    #elbow - shoulder - hip
+    [13,5,6],
+    [17,9,10],
+
+    #knee - hip - shoulder
+    [14,13,5],
+    [18,17,9],
+
+    #knee - hip - hip
+    [14,13,17],
+    [18,17,13],
+
+    #ankle - knee - hip
+    [15,14,13],
+    [19,18,17],
 ]
 
 TWO_PERSON_SKELETON_FILES = [
