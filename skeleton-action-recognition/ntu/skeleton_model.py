@@ -106,7 +106,7 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(2, 128, kernel_size=(3,3)),
+            nn.Conv2d(3, 128, kernel_size=(3,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
             # nn.Conv2d(128, 128, kernel_size=(3, 3)),
@@ -293,5 +293,10 @@ for e in range(int(checkpoint), EPOCHS):
         'epoch': e,
         'model_state_dict': cnn_net.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
-        'loss': losses
+        'loss': losses,
+        'train_predicted': train_predicted,
+        'train_actual': train_actual,
+        'val_predicted': val_predicted,
+        'val_actual': val_actual,
+        'unique_classes': unique_classes
     }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")
