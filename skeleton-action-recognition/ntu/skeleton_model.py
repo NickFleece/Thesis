@@ -214,7 +214,7 @@ for e in range(int(checkpoint), EPOCHS):
                 train_predicted.append(output)
                 train_actual.append(label)
             
-            pbar.set_description(f"{(train_correct / train_total) * 100}% Correct :)")
+            pbar.set_description(f"{(train_correct / train_total) * 100}% Correct :) {loss.item} loss :)")
 
             batch_input = []
             batch_actual = []
