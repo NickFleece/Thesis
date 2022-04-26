@@ -58,10 +58,7 @@ def load_data(json_path):
     # channel last to channel first
     channel_first_final_json = []
     for i in range(final_json.shape[2]):
-        if i == 0:
-            channel_first_final_json.append(final_json[:,:,i] / 360)
-        else:
-            channel_first_final_json.append(final_json[:,:,i])
+        channel_first_final_json.append(final_json[:,:,i] / final_json[:,:,i].max())
 
     return channel_first_final_json
 
@@ -214,7 +211,7 @@ for e in range(int(checkpoint), EPOCHS):
                 train_predicted.append(output)
                 train_actual.append(label)
             
-            pbar.set_description(f"{(train_correct / train_total) * 100}% Correct :) {loss.item} loss :)")
+            pbar.set_description(f"{(train_correct / train_total) * 100}% Correct :)")
 
             batch_input = []
             batch_actual = []
