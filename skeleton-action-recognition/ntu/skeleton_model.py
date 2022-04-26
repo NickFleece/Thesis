@@ -55,22 +55,13 @@ def load_data(json_path):
         return
     final_json = person_combined_skeleton_json[0]
 
-    # # 1 person, add second person padding
-    # if len(person_combined_skeleton_json) == 1:
-    #     person_combined_skeleton_json.append(np.zeros(np.asarray(person_combined_skeleton_json).shape[1:]).tolist())
-    # person_combined_skeleton_json = np.asarray(person_combined_skeleton_json)
-
-    # #reshape from (2,2,24,299) to (2,48,299)
-    # final_json = []
-    # for person in person_combined_skeleton_json:
-    #     for joint in person:
-    #         final_json.append(joint)
-    # final_json = np.asarray(final_json)
-
     # channel last to channel first
     channel_first_final_json = []
     for i in range(final_json.shape[2]):
-        channel_first_final_json.append(final_json[:,:,i])
+        if i == 0:
+            channel_first_final_json.append(final_json[:,:,i] / 360)
+        else:
+            channel_first_final_json.append(final_json[:,:,i])
 
     return channel_first_final_json
 
