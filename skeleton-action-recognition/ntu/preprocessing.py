@@ -138,6 +138,8 @@ for i in os.listdir(SKELETON_FILES_DIR):
                 elif angle_diff > 180:
                     angle_diff = angle_diff - 360
 
+                angle_diff = angle_diff / 180
+
                 # print(bone_unit_vector_1)
                 # print(bone_unit_vector_2)
                 # print(prev_bone_unit_vector_1)
@@ -145,6 +147,7 @@ for i in os.listdir(SKELETON_FILES_DIR):
                 # print(bone_angle)
                 # print(prev_bone_angle)
                 # print(angle_diff)
+                # input()
                 # plt.plot([0,bone_unit_vector_1[0]], [0, bone_unit_vector_1[1]])
                 # plt.plot([0,bone_unit_vector_2[0]], [0, bone_unit_vector_2[1]], label="curr")
                 # plt.plot([0,prev_bone_unit_vector_1[0]], [0, prev_bone_unit_vector_1[1]])
@@ -153,8 +156,8 @@ for i in os.listdir(SKELETON_FILES_DIR):
                 # plt.grid()
                 # plt.show()
 
-                bone_1_magnitude_change = np.linalg.norm(bone_vector_1) / np.linalg.norm(prev_bone_vector_1)
-                bone_2_magnitude_change = np.linalg.norm(bone_vector_2) / np.linalg.norm(prev_bone_vector_2)
+                bone_1_magnitude_change = min((np.linalg.norm(bone_vector_1) / np.linalg.norm(prev_bone_vector_1))-1,1)
+                bone_2_magnitude_change = min((np.linalg.norm(bone_vector_2) / np.linalg.norm(prev_bone_vector_2))-1,1)
 
                 one_frame_bone_movements.append([angle_diff, bone_1_magnitude_change, bone_2_magnitude_change])
 
@@ -165,7 +168,7 @@ for i in os.listdir(SKELETON_FILES_DIR):
         one_person_bone_movements = np.rot90(np.asarray(one_person_bone_movements))
         bone_movements[person] = one_person_bone_movements.tolist()
         
-        # print(one_person_bone_movements)
+        # print(one_person_bone_movements.max())
         # input()
         # plt.imshow(one_person_bone_movements)
         # plt.show()
