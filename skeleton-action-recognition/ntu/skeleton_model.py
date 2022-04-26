@@ -188,6 +188,11 @@ for e in range(int(checkpoint), EPOCHS):
     batch_input = []
     batch_actual = []
 
+    train_predicted = []
+    train_actual = []
+    val_predicted = []
+    val_actual = []
+
     pbar = tqdm(total=len(X_train))
     optimizer.zero_grad()
 
@@ -214,6 +219,9 @@ for e in range(int(checkpoint), EPOCHS):
                 if output == label:
                     train_correct += 1
                 train_total += 1
+
+                train_predicted.append(output)
+                train_actual.append(label)
             
             pbar.set_description(f"{(train_correct / train_total) * 100}% Correct :)")
 
@@ -238,6 +246,9 @@ for e in range(int(checkpoint), EPOCHS):
             if output == label:
                 train_correct += 1
             train_total += 1
+
+            train_predicted.append(output)
+            train_actual.append(label)
         
         pbar.set_description(f"{(train_correct / train_total) * 100}% Training Correct :)")
 
@@ -263,6 +274,9 @@ for e in range(int(checkpoint), EPOCHS):
 
             if pred == unique_classes.index(int(y)):
                 val_correct += 1
+            
+            val_predicted.append(pred)
+            val_actual.append(unique_classes.index(int(y)))
             
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
