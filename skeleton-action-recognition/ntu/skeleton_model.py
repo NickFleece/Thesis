@@ -55,10 +55,15 @@ def load_data(json_path):
         return
     final_json = person_combined_skeleton_json[0]
 
+    #normalize
+    final_json[:,:,0] = final_json[:,:,0] / 180
+    final_json[:,:,1] = final_json[:,:,1] / final_json[:,:,1].max()
+    final_json[:,:,2] = final_json[:,:,2] / final_json[:,:,2].max()
+
     # channel last to channel first
     channel_first_final_json = []
     for i in range(final_json.shape[2]):
-        channel_first_final_json.append(final_json[:,:,i] / final_json[:,:,i].max())
+        channel_first_final_json.append(final_json[:,:,i])
 
     return channel_first_final_json
 
