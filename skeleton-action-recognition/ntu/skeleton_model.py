@@ -1,5 +1,5 @@
 # HYPERPARAMETERS:
-LEARNING_RATE = 0.00001
+LEARNING_RATE = 0.0001
 EPOCHS = 200
 BATCH_SIZE = 512
 import os
@@ -54,6 +54,9 @@ def load_data(json_path):
         print("Something has gone wrong? More than one skeleton.")
         return
     final_json = person_combined_skeleton_json[0]
+    if np.isnan(final_json).any():
+        print("NAN!!!")
+        print(json_path)
 
     # channel last to channel first
     channel_first_final_json = []
