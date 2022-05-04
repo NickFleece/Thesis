@@ -228,7 +228,9 @@ for e in range(int(checkpoint), EPOCHS):
         loss.backward()
         optimizer.step()
 
-        losses.append(loss.item())
+        losses.append(loss.item()) 
+
+        print(loss.item())
 
         for output, label in zip(batch_predicted.argmax(dim=1).cpu().detach().numpy(), batch_actual):
             if output == label:
