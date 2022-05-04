@@ -203,6 +203,8 @@ for e in range(int(checkpoint), EPOCHS):
 
             losses.append(loss.item())
 
+            print(loss.item())
+
             for output, label in zip(batch_predicted.argmax(dim=1).cpu().detach().numpy(), batch_actual):
                 if output == label:
                     train_correct += 1
