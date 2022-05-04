@@ -54,7 +54,7 @@ def load_data(json_path):
         print("Something has gone wrong? More than one skeleton.")
         return
     final_json = person_combined_skeleton_json[0]
-    print(max(final_json))
+    print(np.max(final_json))
 
     # channel last to channel first
     channel_first_final_json = []
