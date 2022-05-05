@@ -89,7 +89,7 @@ for i in os.listdir(SKELETON_FILES_DIR):
                 bone_vector_1 = [j1[0] - j2[0], j1[1] - j2[1]]
                 bone_vector_2 = [j3[0] - j2[0], j3[1] - j2[1]]
 
-                if np.linalg.norm(bone_vector_1) == 0 or np.linalg.norm(bone_vector_2) == 1:
+                if np.linalg.norm(bone_vector_1) == 0.0 or np.linalg.norm(bone_vector_2) == 0.0:
                     one_frame_bone_movements.append([0,0,0])
                     continue
 
@@ -111,7 +111,7 @@ for i in os.listdir(SKELETON_FILES_DIR):
                 prev_bone_vector_1 = [j1[0] - j2[0], j1[1] - j2[1]]
                 prev_bone_vector_2 = [j3[0] - j2[0], j3[1] - j2[1]]
 
-                if np.linalg.norm(prev_bone_vector_1) == 0 or np.linalg.norm(prev_bone_vector_2) == 0:
+                if np.linalg.norm(prev_bone_vector_1) == 0.0 or np.linalg.norm(prev_bone_vector_2) == 0.0:
                     one_frame_bone_movements.append([0,0,0])
                     continue
 
