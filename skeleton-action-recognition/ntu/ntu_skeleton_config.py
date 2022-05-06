@@ -1,3 +1,7 @@
+TRAIN_SUBJECTS = [1, 2, 4, 5, 8, 9, 13, 14, 15, 16, 17, 18, 19, 25, 27, 28, 31, 34, 35, 38]
+
+TRAIN_CAMERA = [2,3]
+
 BONE_CONNECTIONS = [
     #feet
     # [19, 20],

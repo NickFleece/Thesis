@@ -15,7 +15,7 @@ import argparse
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 import time
-from ntu_skeleton_config import THREE_PERSON_SKELETON_FILES, TWO_PERSON_SKELETON_FILES
+from ntu_skeleton_config import THREE_PERSON_SKELETON_FILES, TWO_PERSON_SKELETON_FILES, TRAIN_SUBJECTS, TRAIN_CAMERA
 
 #random state for consistency
 RANDOM_STATE = 42
@@ -86,7 +86,28 @@ for c in classes:
         unique_classes.append(c)
 NUM_CLASSES = len(unique_classes)
 
-X_train, X_test, y_train, y_test = train_test_split(data, classes, test_size=0.2, random_state=RANDOM_STATE, stratify=classes)
+X_train = []
+X_test = []
+y_train = []
+y_test = []
+
+# split train and test by person
+for d, c in zip(data, classes):
+    if int(d[1:4]) in TRAIN_SUBJECTS:
+        X_train.append(d)
+        y_train.append(c)
+    else:
+        X_test.append(d)
+        y_test.append(c)
+
+# split via camera
+# for d, c in zip(data, classes):
+#     if int(d[5:8]) in TRAIN_CAMERA:
+#         X_train.append(d)
+#         y_train.append(c)
+#     else:
+#         X_test.append(d)
+#         y_test.append(c)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
