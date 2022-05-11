@@ -151,7 +151,7 @@ class CNN(nn.Module):
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             nn.Linear(512,512),
-            nn.Dropout(0.5),
+            nn.Dropout(0.3),
             nn.ReLU(),
             nn.Linear(512, NUM_CLASSES),
             nn.Softmax(dim=1)
