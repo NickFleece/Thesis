@@ -100,6 +100,7 @@ for d, c in zip(data, classes):
         X_test.append(d)
         y_test.append(c)
 
+print("CLASS BALANCES:")
 print(dict(zip(*np.unique(np.array(y_train), return_counts=True))))
 print(dict(zip(*np.unique(np.array(y_test), return_counts=True))))
 
