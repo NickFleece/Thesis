@@ -100,6 +100,9 @@ for d, c in zip(data, classes):
         X_test.append(d)
         y_test.append(c)
 
+print(dict(zip(*np.unique(np.array(y_train), return_counts=True))))
+print(dict(zip(*np.unique(np.array(y_test), return_counts=True))))
+
 # split via camera
 # for d, c in zip(data, classes):
 #     if int(d[5:8]) in TRAIN_CAMERA:
