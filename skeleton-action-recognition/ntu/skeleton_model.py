@@ -1,9 +1,9 @@
 # HYPERPARAMETERS:
-LEARNING_RATE = 0.0001
-EPOCHS = 200
-BATCH_SIZE = 512
+LEARNING_RATE = 0.001
+EPOCHS = 500
+BATCH_SIZE = 1000
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 import json
 import numpy as np
