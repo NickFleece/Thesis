@@ -170,11 +170,12 @@ for i in os.listdir(SKELETON_FILES_DIR):
         
         # print(one_person_bone_movements.max())
         # input()
-        # plt.imshow(one_person_bone_movements)
-        # plt.show()
+        plt.imshow(one_person_bone_movements)
+        plt.show()
+        raise Exception;
 
     # export the bone movements to a json (not sure if a more efficient data type)
-    with open(f"{EXPORT_DIR}/{i[:-9]}.json", 'w') as outfile:
-        json.dump(bone_movements, outfile)
+    # with open(f"{EXPORT_DIR}/{i[:-9]}.json", 'w') as outfile:
+    #     json.dump(bone_movements, outfile)
     
     pbar.update(1)
