@@ -1,0 +1,84 @@
+import json
+import pandas
+import argparse
+import os
+from skimage.io import imread
+import matplotlib.pyplot as plt
+import tensorflow as tf
+import cv2
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--drive_dir', required=True)
+parser.add_argument('--tflite_model_file', required=True)
+args = parser.parse_args()
+
+DRIVE_DIR = args.drive_dir
+TF_MODEL_FILE = args.tflite_model_file
+INPUT_SIZE=256
+
+folders = [
+    "825312072753_31.Oct.2018_10.12.10"
+]
+
+interpreter = tf.lite.Interpreter(model_path=TF_MODEL_FILE)
+interpreter.allocate_tensors()
+
+def movenet(input_image):
+    """Runs detection on an input image.
+
+    Args:
+      input_image: A [1, height, width, 3] tensor represents the input image
+        pixels. Note that the height/width should already be resized and match the
+        expected input resolution of the model before passing into this function.
+
+    Returns:
+      A [1, 1, 17, 3] float numpy array representing the predicted keypoint
+      coordinates and scores.
+    """
+    # TF Lite format expects tensor type of uint8.
+    input_image = tf.cast(input_image, dtype=tf.uint8)
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+    interpreter.set_tensor(input_details[0]['index'], input_image.numpy())
+    # Invoke inference.
+    interpreter.invoke()
+    # Get the model prediction.
+    keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
+    return keypoints_with_scores
+
+
+
+for folder in folders:
+
+    image_folder = f"{DRIVE_DIR}/{folder}/color"
+
+    with open(f"{DRIVE_DIR}/{folder}/file_names_{folder}.txt") as f:
+        file_names = f.read().splitlines()
+
+    for i in file_names:
+
+        if not os.path.exists(f"{image_folder}/{i}"): continue
+
+        print(i)
+
+        frame = imread(f"{image_folder}/{i}")
+        plt.imshow(frame)
+        plt.show()
+
+        frame_shape = frame.shape
+        frame_height = frame_shape[0]
+        frame_width = frame_shape[1]
+        vertical_pad = max(frame_width-frame_height,0)
+        horizontal_pad = max(frame_height-frame_width,0)
+
+        frame = cv2.copyMakeBorder(frame, vertical_pad//2, vertical_pad//2, horizontal_pad//2, horizontal_pad//2, cv2.BORDER_CONSTANT, 0)
+        resized_frame = tf.image.resize_with_pad([frame], INPUT_SIZE, INPUT_SIZE)
+
+        keypoints = movenet(resized_frame)
+
+        plt.imshow(frame)
+        for keypoint in keypoints[0][0]:
+            print(keypoint)
+            plt.scatter([keypoint[1]*frame.shape[0]],[keypoint[0]*frame.shape[1]],c='green',s=10)
+        # plt.savefig(f"{base_path}/test.png")
+        plt.show()
