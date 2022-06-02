@@ -2,18 +2,19 @@ import json
 import pandas
 import argparse
 import os
-from skimage.io import imread
+from PIL import Image
 import matplotlib.pyplot as plt
+import numpy as np
 import tensorflow as tf
 import cv2
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
-parser.add_argument('--tflite_model_file', required=True)
+parser.add_argument('--model_file', required=True)
 args = parser.parse_args()
 
 DRIVE_DIR = args.drive_dir
-TF_MODEL_FILE = args.tflite_model_file
+TF_MODEL_FILE = args.model_file
 INPUT_SIZE=256
 
 folders = [
@@ -46,28 +47,50 @@ def movenet(input_image):
     keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
     return keypoints_with_scores
 
-
-
 for folder in folders:
 
     image_folder = f"{DRIVE_DIR}/{folder}/color"
 
     with open(f"{DRIVE_DIR}/{folder}/file_names_{folder}.txt") as f:
         file_names = f.read().splitlines()
+    
+    with open(f"{DRIVE_DIR}/{folder}/person_annotations.txt") as f:
+        annotations = f.read().splitlines()
 
-    for i in file_names:
+    for a in annotations:
+        frame_annotation = a.split(',')
+        image = frame_annotation[-1].split('/')[-1]
+        
+        if not os.path.exists(f"{image_folder}/{image}"): continue
 
-        if not os.path.exists(f"{image_folder}/{i}"): continue
+        frame = Image.open(f"{image_folder}/{image}")
+        frame_shape = np.asarray(frame).shape
 
-        print(i)
+        x1 = float(frame_annotation[2])
+        y1 = float(frame_annotation[3])
+        w = float(frame_annotation[4])
+        h = float(frame_annotation[5])
 
-        frame = imread(f"{image_folder}/{i}")
-        plt.imshow(frame)
-        plt.show()
+        x1 -= 40
+        w += 80
+        h += 40
 
-        frame_shape = frame.shape
-        frame_height = frame_shape[0]
-        frame_width = frame_shape[1]
+        if x1 < 0:
+            w = w + x1
+            x1 = 0
+        if y1 < 0:
+            h = h + y1
+            y1 = 0
+
+        if x1 + w > frame_shape[1]:
+            w = frame_shape[1] - x1
+        if y1 + h > frame_shape[0]:
+            h = frame_shape[0] - y1
+
+        frame = np.asarray(frame.crop((x1, y1, x1+w, y1+h)))
+
+        frame_height = frame.shape[0]
+        frame_width = frame.shape[1]
         vertical_pad = max(frame_width-frame_height,0)
         horizontal_pad = max(frame_height-frame_width,0)
 
@@ -78,7 +101,6 @@ for folder in folders:
 
         plt.imshow(frame)
         for keypoint in keypoints[0][0]:
-            print(keypoint)
+            # print(keypoint)
             plt.scatter([keypoint[1]*frame.shape[0]],[keypoint[0]*frame.shape[1]],c='green',s=10)
-        # plt.savefig(f"{base_path}/test.png")
         plt.show()
