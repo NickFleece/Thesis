@@ -51,18 +51,20 @@ def movenet(input_image):
 for folder in folders:
 
     image_folder = f"{DRIVE_DIR}/{folder}/color"
-
-    with open(f"{DRIVE_DIR}/{folder}/file_names_{folder}.txt") as f:
-        file_names = f.read().splitlines()
     
     with open(f"{DRIVE_DIR}/{folder}/person_annotations.txt") as f:
         annotations = f.read().splitlines()
 
-    for a in tqdm(annotations):
+    all_keypoints = {}
+
+    for a in tqdm(annotations[:50]):
         frame_annotation = a.split(',')
+        person_id = frame_annotation[1]
         image = frame_annotation[-1].split('/')[-1]
         
-        if not os.path.exists(f"{image_folder}/{image}"): continue
+        if not os.path.exists(f"{image_folder}/{image}"):
+            print(f"Skipped: {image}")
+            continue
 
         frame = Image.open(f"{image_folder}/{image}")
         frame_shape = np.asarray(frame).shape
@@ -100,11 +102,28 @@ for folder in folders:
 
         keypoints = movenet(resized_frame)[0][0]
 
-        plt.imshow(frame)
-        for keypoint in keypoints:
-            if keypoint[2] < 0.2: continue
-            print(keypoint)
-            print(frame.shape)
-            plt.scatter([keypoint[1]*frame.shape[0]],[keypoint[0]*frame.shape[1]],c='green',s=10)
-        plt.show()
+        # plt.imshow(frame)
+        # for keypoint in keypoints:
+        #     if keypoint[2] < 0.2: continue
+        #     print(keypoint)
+        #     print(frame.shape)
+        #     plt.scatter([keypoint[1]*frame.shape[0]],[keypoint[0]*frame.shape[1]],c='green',s=10)
+        # plt.show()
         
+        new_keypoints = []
+        for keypoint in keypoints:
+            new_keypoints.append(
+                [
+                    str(keypoint[0]*frame.shape[1]),
+                    str(keypoint[1]*frame.shape[0]),
+                    str(keypoint[2])
+                ]
+            )
+        keypoints = new_keypoints
+
+        if image not in all_keypoints:
+            all_keypoints[image] = {}
+        all_keypoints[image][person_id] = keypoints
+    
+    with open(f"{DRIVE_DIR}/{folder}/keypoints.json", 'w') as outfile:
+        json.dump(all_keypoints, outfile)
