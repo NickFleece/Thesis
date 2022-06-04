@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
 import cv2
+from tqdm import tqdm
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
@@ -57,7 +58,7 @@ for folder in folders:
     with open(f"{DRIVE_DIR}/{folder}/person_annotations.txt") as f:
         annotations = f.read().splitlines()
 
-    for a in annotations:
+    for a in tqdm(annotations):
         frame_annotation = a.split(',')
         image = frame_annotation[-1].split('/')[-1]
         
@@ -97,10 +98,13 @@ for folder in folders:
         frame = cv2.copyMakeBorder(frame, vertical_pad//2, vertical_pad//2, horizontal_pad//2, horizontal_pad//2, cv2.BORDER_CONSTANT, 0)
         resized_frame = tf.image.resize_with_pad([frame], INPUT_SIZE, INPUT_SIZE)
 
-        keypoints = movenet(resized_frame)
+        keypoints = movenet(resized_frame)[0][0]
 
         plt.imshow(frame)
-        for keypoint in keypoints[0][0]:
-            # print(keypoint)
+        for keypoint in keypoints:
+            if keypoint[2] < 0.2: continue
+            print(keypoint)
+            print(frame.shape)
             plt.scatter([keypoint[1]*frame.shape[0]],[keypoint[0]*frame.shape[1]],c='green',s=10)
         plt.show()
+        
