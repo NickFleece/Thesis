@@ -47,16 +47,16 @@ def movenet(input_image):
 
 folders = [
     "825312072753_31.Oct.2018_10.12.10",
-    # "825312072753_31.Oct.2018_13.22.27",
-    # "825312073198_31.Oct.2018_10.11.56",
-    # "825312073198_31.Oct.2018_13.22.19"
+    "825312072753_31.Oct.2018_13.22.27",
+    "825312073198_31.Oct.2018_10.11.56",
+    "825312073198_31.Oct.2018_13.22.19"
 ]
 
 annotation_files = [
     "825312072753_31.Oct.2018_10.12.10_with_category_id_16July19.json",
-    # "825312072753_31.Oct.2018_13.22.27_with_categories_ids_14_Aug_2019.json",
-    # "825312073198_31.Oct.2018_10.11.56_with_category_tracks_16July19.json",
-    # "825312073198_31.Oct.2018_13.22.19_with_categories_ids_14_Aug_2019.json"
+    "825312072753_31.Oct.2018_13.22.27_with_categories_ids_14_Aug_2019.json",
+    "825312073198_31.Oct.2018_10.11.56_with_category_tracks_16July19.json",
+    "825312073198_31.Oct.2018_13.22.19_with_categories_ids_14_Aug_2019.json"
 ]
 
 for folder, annotation_file in zip(folders, annotation_files):
