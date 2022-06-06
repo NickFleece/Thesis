@@ -229,6 +229,7 @@ for folder, annotation_file in zip(folders, annotation_files):
                 data_summary.append({
                     "category":category,
                     "instance_id":instance_id,
+                    "folder":folder
                     "person_id":person_id
                 })
 
