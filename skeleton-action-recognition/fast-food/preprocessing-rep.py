@@ -66,9 +66,6 @@ for folder, annotation_file in zip(folders, annotation_files):
     with open(f"{folder_dir}/{annotation_file}", 'r') as f: #TODO Change this to be more general
         annotations = json.load(f)
 
-    with open(f"{folder_dir}/keypoints.json", 'r') as f:
-        keypoints = json.load(f)
-
     bone_angle_annotations = {}
 
     for file in tqdm(list(annotations.keys())[:200]):
