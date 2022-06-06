@@ -1,0 +1,231 @@
+import json
+import pandas as pd
+import argparse
+import os
+from PIL import Image
+import matplotlib.pyplot as plt
+import numpy as np
+import cv2
+from tqdm import tqdm
+from config import BONE_CONNECTIONS
+import tensorflow as tf
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--drive_dir', required=True)
+parser.add_argument('--model_file', required=True)
+args = parser.parse_args()
+
+DRIVE_DIR = args.drive_dir
+TF_MODEL_FILE = args.model_file
+INPUT_SIZE=256
+
+interpreter = tf.lite.Interpreter(model_path=TF_MODEL_FILE)
+interpreter.allocate_tensors()
+
+def movenet(input_image):
+    """Runs detection on an input image.
+
+    Args:
+      input_image: A [1, height, width, 3] tensor represents the input image
+        pixels. Note that the height/width should already be resized and match the
+        expected input resolution of the model before passing into this function.
+
+    Returns:
+      A [1, 1, 17, 3] float numpy array representing the predicted keypoint
+      coordinates and scores.
+    """
+    # TF Lite format expects tensor type of uint8.
+    input_image = tf.cast(input_image, dtype=tf.uint8)
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+    interpreter.set_tensor(input_details[0]['index'], input_image.numpy())
+    # Invoke inference.
+    interpreter.invoke()
+    # Get the model prediction.
+    keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
+    return keypoints_with_scores
+
+folders = [
+    "825312072753_31.Oct.2018_10.12.10"
+]
+
+for folder in folders:
+
+    folder_dir = f"{DRIVE_DIR}/{folder}"
+
+    with open(f"{folder_dir}/825312072753_31.Oct.2018_10.12.10_with_category_id_16July19.json", 'r') as f: #TODO Change this to be more general
+        annotations = json.load(f)
+
+    with open(f"{folder_dir}/file_names_825312072753_31.Oct.2018_10.12.10.txt", 'r') as f: #TODO Change this to be more general
+        file_names = f.read().splitlines()
+
+    with open(f"{folder_dir}/keypoints.json", 'r') as f:
+        keypoints = json.load(f)
+
+    bone_angle_annotations = {}
+
+    for file in tqdm(list(annotations.keys())[:200]):
+        for a in annotations[file]['annotations']:
+
+            if not os.path.exists(f"{folder_dir}/color/{file}"): continue
+
+            frame = Image.open(f"{folder_dir}/color/{file}")
+            frame_shape = np.asarray(frame).shape
+
+            x1 = a['x']
+            y1 = a['y']
+            w = a['width']
+            h = a['height']
+
+            x1 -= 40
+            y1 -= 40
+            w += 80
+            h += 80
+
+            if x1 < 0:
+                w = w + x1
+                x1 = 0
+            if y1 < 0:
+                h = h + y1
+                y1 = 0
+
+            if x1 + w > frame_shape[1]:
+                w = frame_shape[1] - x1
+            if y1 + h > frame_shape[0]:
+                h = frame_shape[0] - y1
+
+            frame = np.asarray(frame.crop((x1, y1, x1+w, y1+h)))
+
+            frame_height = frame.shape[0]
+            frame_width = frame.shape[1]
+            vertical_pad = max(frame_width-frame_height,0)
+            horizontal_pad = max(frame_height-frame_width,0)
+
+            frame = cv2.copyMakeBorder(frame, vertical_pad//2, vertical_pad//2, horizontal_pad//2, horizontal_pad//2, cv2.BORDER_CONSTANT, 0)
+            resized_frame = tf.image.resize_with_pad([frame], INPUT_SIZE, INPUT_SIZE)
+
+            keypoints = movenet(resized_frame)[0][0]
+
+            # plt.imshow(frame)
+            # for keypoint in keypoints:
+            #     if keypoint[2] < 0.2: continue
+            #     print(keypoint)
+            #     print(frame.shape)
+            #     plt.scatter([keypoint[1]*frame.shape[0]],[keypoint[0]*frame.shape[1]],c='green',s=10)
+            # plt.show()
+
+            new_keypoints = []
+            for keypoint in keypoints:
+                new_keypoints.append(
+                    [
+                        keypoint[0]*frame.shape[1],
+                        keypoint[1]*frame.shape[0]
+                    ]
+                )
+            keypoints = new_keypoints
+
+            bone_angles = []
+
+            for bone_connection in BONE_CONNECTIONS:
+
+                j1 = keypoints[bone_connection[0]]
+                j2 = keypoints[bone_connection[1]]
+                j3 = keypoints[bone_connection[2]]
+
+                bone_vector_1 = [j1[0] - j2[0], j1[1] - j2[1]]
+                bone_vector_2 = [j3[0] - j2[0], j3[1] - j2[1]]
+
+                if np.linalg.norm(bone_vector_1) == 0.0 or np.linalg.norm(bone_vector_2) == 0.0:
+                    bone_angles.append(None)
+
+                bone_unit_vector_1 = bone_vector_1 / np.linalg.norm(bone_vector_1)
+                bone_unit_vector_2 = bone_vector_2 / np.linalg.norm(bone_vector_2)
+
+                #this is using the following formula: atan2( ax*by-ay*bx, ax*bx+ay*by ).
+                bone_angle = np.degrees(np.arctan2(
+                    bone_unit_vector_2[0] * bone_unit_vector_1[1] - bone_unit_vector_2[1] * bone_unit_vector_1[0],
+                    bone_unit_vector_2[0] * bone_unit_vector_1[0] - bone_unit_vector_2[1] * bone_unit_vector_1[1]
+                ))
+
+                bone_angles.append([
+                    bone_angle,
+                    np.linalg.norm(bone_vector_1),
+                    np.linalg.norm(bone_vector_2)
+                ])
+
+
+            if a['category'] not in bone_angle_annotations: bone_angle_annotations[a['category']] = {}
+            if a['category_instance_id'] not in bone_angle_annotations[a['category']]: bone_angle_annotations[a['category']][a['category_instance_id']] = {}
+            if a['id'] not in bone_angle_annotations[a['category']][a['category_instance_id']]: bone_angle_annotations[a['category']][a['category_instance_id']][a['id']] = {}
+
+            bone_angle_annotations[a['category']][a['category_instance_id']][a['id']][file_names.index(file)] = bone_angles
+    
+    data_summary = []
+
+    for category in bone_angle_annotations.keys():
+
+        for instance_id in bone_angle_annotations[category].keys():
+
+            for person_id in bone_angle_annotations[category][instance_id]:
+
+                frame_ids = list(bone_angle_annotations[category][instance_id][person_id].keys())
+
+                data = []
+
+                for j in range(len(BONE_CONNECTIONS)):
+
+                    bone_frames_data = []
+                    
+                    for i in range(1, len(frame_ids)):
+
+                        frame_id = frame_ids[i]
+                        prev_frame_id = frame_ids[i-1]
+
+                        if bone_angle_annotations[category][instance_id][person_id][frame_id] is None:
+                            bone_frames_data.append([0,0,0])
+                            continue
+
+                        bone_data = bone_angle_annotations[category][instance_id][person_id][frame_id][j]
+
+                        if bone_angle_annotations[category][instance_id][person_id][prev_frame_id] is None:
+                            prev_bone_data = None
+                            k = i - 2
+                            while k > 0:
+                                prev_frame_id = frame_ids[k]
+                                if not bone_angle_annotations[category][instance_id][person_id][prev_frame_id] is None:
+                                    prev_bone_data = bone_angle_annotations[category][instance_id][person_id][prev_frame_id][j]
+                                    break
+                            if prev_bone_data is None:
+                                bone_frames_data.append([0,0,0])
+                                continue
+                        else:
+                            prev_bone_data = bone_angle_annotations[category][instance_id][person_id][prev_frame_id][j]
+
+                        angle_diff = bone_data[0] - prev_bone_data[0]
+
+                        if angle_diff < -180:
+                            angle_diff = angle_diff + 360
+                        elif angle_diff > 180:
+                            angle_diff = angle_diff - 360
+
+                        angle_diff = angle_diff / 180
+
+                        bone_1_mag_change = min((bone_data[1] / prev_bone_data[1]) / 2, 1)
+                        bone_2_mag_change = min((bone_data[2] / prev_bone_data[2]) / 2, 1)
+
+                        bone_frames_data.append([angle_diff, bone_1_mag_change, bone_2_mag_change])
+                    
+                    data.append(bone_frames_data)
+
+                if category == '': category = None
+
+                with open(f"{folder_dir}/extracted_pose/{category}-{instance_id}-{person_id}.json", 'w') as f:
+                    json.dump(data, f)
+
+                data_summary.append({
+                    "category":category,
+                    "instance_id":instance_id,
+                    "person_id":person_id
+                })
+
+pd.DataFrame(data=data_summary).to_csv(f"{DRIVE_DIR}/data_summary.csv", index_label=False)
