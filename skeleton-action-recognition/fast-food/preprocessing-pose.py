@@ -57,13 +57,13 @@ for folder in folders:
 
     all_keypoints = {}
 
-    for a in tqdm(annotations[:50]):
+    for a in tqdm(annotations):
         frame_annotation = a.split(',')
         person_id = frame_annotation[1]
         image = frame_annotation[-1].split('/')[-1]
         
         if not os.path.exists(f"{image_folder}/{image}"):
-            print(f"Skipped: {image}")
+            # print(f"Skipped: {image}") #TODO uncomment this
             continue
 
         frame = Image.open(f"{image_folder}/{image}")
