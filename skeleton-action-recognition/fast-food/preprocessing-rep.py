@@ -1,5 +1,5 @@
 import json
-import pandas
+import pandas as pd
 import argparse
 import os
 from PIL import Image
@@ -13,7 +13,6 @@ import tensorflow as tf
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
 parser.add_argument('--model_file', required=True)
-parser.add_argument('--export_dir', required=True)
 args = parser.parse_args()
 
 DRIVE_DIR = args.drive_dir
@@ -161,7 +160,7 @@ for folder in folders:
 
             bone_angle_annotations[a['category']][a['category_instance_id']][a['id']][file_names.index(file)] = bone_angles
     
-    # data = {}
+    data_summary = []
 
     for category in bone_angle_annotations.keys():
 
@@ -173,17 +172,17 @@ for folder in folders:
 
                 data = []
 
-                for i in range(1, len(frame_ids)):
+                for j in range(len(BONE_CONNECTIONS)):
 
-                    frame_data = []
+                    bone_frames_data = []
+                    
+                    for i in range(1, len(frame_ids)):
 
-                    frame_id = frame_ids[i]
-                    prev_frame_id = frame_ids[i-1]
-
-                    for j in range(len(BONE_CONNECTIONS)):
+                        frame_id = frame_ids[i]
+                        prev_frame_id = frame_ids[i-1]
 
                         if bone_angle_annotations[category][instance_id][person_id][frame_id] is None:
-                            frame_data.append([0,0,0])
+                            bone_frames_data.append([0,0,0])
                             continue
 
                         bone_data = bone_angle_annotations[category][instance_id][person_id][frame_id][j]
@@ -197,7 +196,7 @@ for folder in folders:
                                     prev_bone_data = bone_angle_annotations[category][instance_id][person_id][prev_frame_id][j]
                                     break
                             if prev_bone_data is None:
-                                frame_data.append([0,0,0])
+                                bone_frames_data.append([0,0,0])
                                 continue
                         else:
                             prev_bone_data = bone_angle_annotations[category][instance_id][person_id][prev_frame_id][j]
@@ -211,14 +210,22 @@ for folder in folders:
 
                         angle_diff = angle_diff / 180
 
-                        bone_1_mag_change = min((bone_data[1] / prev_bone_data[1]) - 1, 1)
-                        bone_2_mag_change = min((bone_data[2] / prev_bone_data[2]) - 1, 1)
+                        bone_1_mag_change = min((bone_data[1] / prev_bone_data[1]) / 2, 1)
+                        bone_2_mag_change = min((bone_data[2] / prev_bone_data[2]) / 2, 1)
 
-                        frame_data.append([angle_diff, bone_1_mag_change, bone_2_mag_change])
+                        bone_frames_data.append([angle_diff, bone_1_mag_change, bone_2_mag_change])
                     
-                    data.append(frame_data)
+                    data.append(bone_frames_data)
 
-                print(np.asarray(data).shape)
-                plt.imshow(data)
-                plt.show()
-                input()
+                if category == '': category = None
+
+                with open(f"{folder_dir}/extracted_pose/{category}-{instance_id}-{person_id}.json", 'w') as f:
+                    json.dump(data, f)
+
+                data_summary.append({
+                    "category":category,
+                    "instance_id":instance_id,
+                    "person_id":person_id
+                })
+
+pd.DataFrame(data=data_summary).to_csv(f"{DRIVE_DIR}/data_summary.csv", index_label=False)
