@@ -223,7 +223,7 @@ for folder, annotation_file in zip(folders, annotation_files):
 
                 if category == '': category = None
 
-                with open(f"{folder_dir}/extracted_pose/{category}-{instance_id}-{person_id}.json", 'w') as f:
+                with open(f"{folder_dir}/extracted_pose/{category}~{instance_id}~{person_id}.json", 'w') as f:
                     json.dump(data, f)
 
                 data_summary.append({
