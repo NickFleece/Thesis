@@ -46,18 +46,25 @@ def movenet(input_image):
     return keypoints_with_scores
 
 folders = [
-    "825312072753_31.Oct.2018_10.12.10"
+    "825312072753_31.Oct.2018_10.12.10",
+    # "825312072753_31.Oct.2018_13.22.27",
+    # "825312073198_31.Oct.2018_10.11.56",
+    # "825312073198_31.Oct.2018_13.22.19"
 ]
 
-for folder in folders:
+annotation_files = [
+    "825312072753_31.Oct.2018_10.12.10_with_category_id_16July19.json",
+    # "825312072753_31.Oct.2018_13.22.27_with_categories_ids_14_Aug_2019.json",
+    # "825312073198_31.Oct.2018_10.11.56_with_category_tracks_16July19.json",
+    # "825312073198_31.Oct.2018_13.22.19_with_categories_ids_14_Aug_2019.json"
+]
+
+for folder, annotation_file in zip(folders, annotation_files):
 
     folder_dir = f"{DRIVE_DIR}/{folder}"
 
-    with open(f"{folder_dir}/825312072753_31.Oct.2018_10.12.10_with_category_id_16July19.json", 'r') as f: #TODO Change this to be more general
+    with open(f"{folder_dir}/{annotation_file}", 'r') as f: #TODO Change this to be more general
         annotations = json.load(f)
-
-    with open(f"{folder_dir}/file_names_825312072753_31.Oct.2018_10.12.10.txt", 'r') as f: #TODO Change this to be more general
-        file_names = f.read().splitlines()
 
     with open(f"{folder_dir}/keypoints.json", 'r') as f:
         keypoints = json.load(f)
@@ -158,7 +165,7 @@ for folder in folders:
             if a['category_instance_id'] not in bone_angle_annotations[a['category']]: bone_angle_annotations[a['category']][a['category_instance_id']] = {}
             if a['id'] not in bone_angle_annotations[a['category']][a['category_instance_id']]: bone_angle_annotations[a['category']][a['category_instance_id']][a['id']] = {}
 
-            bone_angle_annotations[a['category']][a['category_instance_id']][a['id']][file_names.index(file)] = bone_angles
+            bone_angle_annotations[a['category']][a['category_instance_id']][a['id']][file] = bone_angles
     
     data_summary = []
 
