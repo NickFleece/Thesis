@@ -68,7 +68,7 @@ for folder, annotation_file in zip(folders, annotation_files):
 
     bone_angle_annotations = {}
 
-    for file in tqdm(list(annotations.keys())[:200]):
+    for file in tqdm(list(annotations.keys())):
         for a in annotations[file]['annotations']:
 
             if not os.path.exists(f"{folder_dir}/color/{file}"): continue
