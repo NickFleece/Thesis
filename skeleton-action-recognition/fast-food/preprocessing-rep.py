@@ -163,6 +163,10 @@ for folder, annotation_file in zip(folders, annotation_files):
             if a['id'] not in bone_angle_annotations[a['category']][a['category_instance_id']]: bone_angle_annotations[a['category']][a['category_instance_id']][a['id']] = {}
 
             bone_angle_annotations[a['category']][a['category_instance_id']][a['id']][file] = bone_angles
+
+            with open(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json", 'w') as f:
+                json.dump(bone_angles, f)
+
     
     data_summary = []
 
@@ -223,7 +227,7 @@ for folder, annotation_file in zip(folders, annotation_files):
 
                 if category == '': category = None
 
-                with open(f"{folder_dir}/extracted_pose/{category}~{instance_id}~{person_id}.json", 'w') as f:
+                with open(f"{folder_dir}/processed_extracted_pose/{category}~{instance_id}~{person_id}.json", 'w') as f:
                     json.dump(data, f)
 
                 data_summary.append({
