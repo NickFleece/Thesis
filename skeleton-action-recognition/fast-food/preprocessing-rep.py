@@ -71,7 +71,13 @@ for folder, annotation_file in zip(folders, annotation_files):
     for file in tqdm(list(annotations.keys())):
         for a in annotations[file]['annotations']:
 
-            if not os.path.exists(f"{folder_dir}/color/{file}"): continue
+            if not os.path.exists(f"{folder_dir}/color/{file}"): 
+                print(f"Skipping file: {file}")
+                continue
+
+            if os.path.exists(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json"):
+                print(f"File already exists: {a['id']} - {file}")
+                continue
 
             frame = Image.open(f"{folder_dir}/color/{file}")
             frame_shape = np.asarray(frame).shape
