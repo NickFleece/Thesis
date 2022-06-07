@@ -13,10 +13,12 @@ import tensorflow as tf
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
 parser.add_argument('--model_file', required=True)
+parser.add_argument('--overwrite_existing', default=0)
 args = parser.parse_args()
 
 DRIVE_DIR = args.drive_dir
 TF_MODEL_FILE = args.model_file
+OVERWRITE_EXISTING = args.overwrite_existing
 INPUT_SIZE=256
 
 interpreter = tf.lite.Interpreter(model_path=TF_MODEL_FILE)
@@ -70,18 +72,17 @@ for folder, annotation_file in zip(folders, annotation_files):
 
     pbar = tqdm(total=len(list(annotations.keys())))
     for file in list(annotations.keys()):
+
         for a in annotations[file]['annotations']:
 
             pbar.set_description(f"{file}")
 
             if not os.path.exists(f"{folder_dir}/color/{file}"): 
                 print(f"Skipping file: {file}")
-                pbar.update(1)
                 continue
 
-            if os.path.exists(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json"):
+            if os.path.exists(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json") and OVERWRITE_EXISTING == 0:
                 print(f"File already exists: {a['id']} - {file}")
-                pbar.update(1)
                 continue
 
             frame = Image.open(f"{folder_dir}/color/{file}")
@@ -178,7 +179,7 @@ for folder, annotation_file in zip(folders, annotation_files):
             with open(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json", 'w') as f:
                 json.dump(bone_angles, f)
 
-            pbar.update(1)
+        pbar.update(1)
 
     
     data_summary = []
