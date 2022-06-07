@@ -68,15 +68,20 @@ for folder, annotation_file in zip(folders, annotation_files):
 
     bone_angle_annotations = {}
 
-    for file in tqdm(list(annotations.keys())):
+    pbar = tqdm(total=len(list(annotations.keys())))
+    for file in list(annotations.keys()):
         for a in annotations[file]['annotations']:
+
+            pbar.set_description(f"{file}")
 
             if not os.path.exists(f"{folder_dir}/color/{file}"): 
                 print(f"Skipping file: {file}")
+                pbar.update(1)
                 continue
 
             if os.path.exists(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json"):
                 print(f"File already exists: {a['id']} - {file}")
+                pbar.update(1)
                 continue
 
             frame = Image.open(f"{folder_dir}/color/{file}")
@@ -172,6 +177,8 @@ for folder, annotation_file in zip(folders, annotation_files):
 
             with open(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json", 'w') as f:
                 json.dump(bone_angles, f)
+
+            pbar.update(1)
 
     
     data_summary = []
