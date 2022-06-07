@@ -93,6 +93,10 @@ for folder, annotation_file in zip(folders, annotation_files):
             w = a['width']
             h = a['height']
 
+            if w is None or h is None:
+                print(f"Null height: {file}")
+                continue
+
             x1 -= 40
             y1 -= 40
             w += 80
