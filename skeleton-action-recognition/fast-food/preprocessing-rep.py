@@ -84,6 +84,10 @@ for folder, annotation_file in zip(folders, annotation_files):
                 print(f"Skipping file: {file}")
                 continue
 
+            if a['category'] not in bone_angle_annotations: bone_angle_annotations[a['category']] = {}
+            if a['category_instance_id'] not in bone_angle_annotations[a['category']]: bone_angle_annotations[a['category']][a['category_instance_id']] = {}
+            if a['id'] not in bone_angle_annotations[a['category']][a['category_instance_id']]: bone_angle_annotations[a['category']][a['category_instance_id']][a['id']] = {}
+
             if os.path.exists(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json") and OVERWRITE_EXISTING == 0:
                 print(f"File already exists: {a['id']} - {file}")
                 with open(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json") as f:
@@ -177,11 +181,6 @@ for folder, annotation_file in zip(folders, annotation_files):
                     np.linalg.norm(bone_vector_1),
                     np.linalg.norm(bone_vector_2)
                 ])
-
-
-            if a['category'] not in bone_angle_annotations: bone_angle_annotations[a['category']] = {}
-            if a['category_instance_id'] not in bone_angle_annotations[a['category']]: bone_angle_annotations[a['category']][a['category_instance_id']] = {}
-            if a['id'] not in bone_angle_annotations[a['category']][a['category_instance_id']]: bone_angle_annotations[a['category']][a['category_instance_id']][a['id']] = {}
 
             bone_angle_annotations[a['category']][a['category_instance_id']][a['id']][file] = bone_angles
 
