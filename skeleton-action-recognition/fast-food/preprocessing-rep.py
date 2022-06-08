@@ -247,13 +247,13 @@ for folder, annotation_file in zip(folders, annotation_files):
                     
                     data.append(bone_frames_data)
 
-                if category == '': category = None
+                if category == '': new_category = 'bg'
 
-                with open(f"{folder_dir}/processed_extracted_pose/{category}~{instance_id}~{person_id}.json", 'w') as f:
+                with open(f"{folder_dir}/processed_extracted_pose/{new_category}~{instance_id}~{person_id}.json", 'w') as f:
                     json.dump(data, f)
 
                 data_summary.append({
-                    "category":category,
+                    "category":new_category,
                     "instance_id":instance_id,
                     "folder":folder,
                     "person_id":person_id
