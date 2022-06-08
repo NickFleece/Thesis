@@ -248,9 +248,13 @@ for folder, annotation_file in zip(folders, annotation_files):
                     data.append(bone_frames_data)
 
                 if category == '': new_category = 'bg'
+                else: new_category = category
 
-                with open(f"{folder_dir}/processed_extracted_pose/{new_category}~{instance_id}~{person_id}.json", 'w') as f:
-                    json.dump(data, f)
+                if not os.path.exists(f"{folder_dir}/processed_extracted_pose/{new_category}~{instance_id}~{person_id}.json"):
+                    with open(f"{folder_dir}/processed_extracted_pose/{new_category}~{instance_id}~{person_id}.json", 'w') as f:
+                        json.dump(data, f)
+                else:
+                    print(f"File already esists: {new_category}~{instance_id}~{person_id}.json")
 
                 data_summary.append({
                     "category":new_category,
