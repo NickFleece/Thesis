@@ -196,7 +196,7 @@ for folder, annotation_file in zip(folders, annotation_files):
 
         for instance_id in bone_angle_annotations[category].keys():
 
-            for person_id in bone_angle_annotations[category][instance_id]:
+            for person_id in bone_angle_annotations[category][instance_id].keys():
 
                 frame_ids = list(bone_angle_annotations[category][instance_id][person_id].keys())
 
