@@ -75,6 +75,9 @@ for folder, annotation_file in zip(folders, annotation_files):
 
         for a in annotations[file]['annotations']:
 
+            if a['category_instance_id'] is None:
+                a['category_instance_id'] = "None"
+
             pbar.set_description(f"{file}")
 
             if not os.path.exists(f"{folder_dir}/color/{file}"): 
@@ -83,6 +86,8 @@ for folder, annotation_file in zip(folders, annotation_files):
 
             if os.path.exists(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json") and OVERWRITE_EXISTING == 0:
                 print(f"File already exists: {a['id']} - {file}")
+                with open(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json") as f:
+                    bone_angle_annotations[a['category']][a['category_instance_id']][a['id']][file] = json.load(f)
                 continue
 
             frame = Image.open(f"{folder_dir}/color/{file}")
