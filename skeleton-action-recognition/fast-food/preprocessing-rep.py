@@ -70,6 +70,7 @@ for folder, annotation_file in zip(folders, annotation_files):
 
     bone_angle_annotations = {}
 
+    print(folder)
     # pbar = tqdm(total=len(list(annotations.keys())))
     for file in list(annotations.keys()):
 
