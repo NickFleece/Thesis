@@ -89,7 +89,7 @@ for folder, annotation_file in zip(folders, annotation_files):
             if a['id'] not in bone_angle_annotations[a['category']][a['category_instance_id']]: bone_angle_annotations[a['category']][a['category_instance_id']][a['id']] = {}
 
             if os.path.exists(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json") and OVERWRITE_EXISTING == 0:
-                print(f"File already exists: {a['id']} - {file}")
+                # print(f"File already exists: {a['id']} - {file}")
                 with open(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json") as f:
                     bone_angle_annotations[a['category']][a['category_instance_id']][a['id']][file] = json.load(f)
                 continue
