@@ -19,7 +19,6 @@ args = parser.parse_args()
 BASE_DIR = args.drive_dir
 
 data_summary = pd.read_csv(f"{BASE_DIR}/data_summary.csv")
-data_summary = data_summary.fillna("None")
 
 max_len = 0
 
@@ -29,5 +28,6 @@ for _, d in data_summary.iterrows():
         skeleton_data = np.asarray(json.load(f))
 
     max_shape = max(max_len, int(skeleton_data.shape[1]))
+    print(skeleton_data.shape)
 
 print(max_shape)
