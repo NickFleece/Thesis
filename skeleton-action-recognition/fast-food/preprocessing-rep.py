@@ -247,7 +247,8 @@ for folder, annotation_file in zip(folders, annotation_files):
                     
                     data.append(bone_frames_data)
 
-                if category == '': new_category = 'bg'
+                # if category == '': new_category = 'bg'
+                if category == '': continue
                 else: new_category = category
 
                 if not os.path.exists(f"{folder_dir}/processed_extracted_pose/{new_category}~{instance_id}~{person_id}.json"):
