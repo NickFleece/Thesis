@@ -2,6 +2,7 @@
 LEARNING_RATE = 0.00075
 EPOCHS = 500
 BATCH_SIZE = 750
+MAX_FRAMES = 120
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
@@ -59,6 +60,8 @@ def load_data(path):
 
     with open(f"{BASE_DIR}/{path}", 'r') as f:
         skeleton_data = np.asarray(json.load(f))
+
+    skeleton_data = np.pad(skeleton_data, [(0,0), (0,MAX_FRAMES-skeleton_data.shape[1]), (0,0)])
 
     # channel last to channel first
     channel_first_final_data = []
