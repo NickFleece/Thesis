@@ -23,12 +23,21 @@ data_summary = data_summary.fillna("None")
 
 max_len = 0
 
+new_df = []
+
 for _, d in data_summary.iterrows():
 
     with open(f"{BASE_DIR}/{d['folder']}/processed_extracted_pose/{d['category']}~{d['instance_id']}~{d['person_id']}.json", 'r') as f:
         skeleton_data = np.asarray(json.load(f))
 
-    max_shape = max(max_len, int(skeleton_data.shape[1]))
+    max_len = max(max_len, int(skeleton_data.shape[1]))
     print(skeleton_data.shape)
 
-print(max_shape)
+    if skeleton_data.shape == (12,0): continue
+
+    new_df.append(d)
+
+new_df = pd.DataFrame(data=new_df)
+new_df.to_csv(f"{BASE_DIR}/clean_data_summary")
+
+print(max_len)
