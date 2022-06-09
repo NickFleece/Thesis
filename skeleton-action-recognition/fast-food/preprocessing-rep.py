@@ -70,7 +70,7 @@ for folder, annotation_file in zip(folders, annotation_files):
 
     bone_angle_annotations = {}
 
-    pbar = tqdm(total=len(list(annotations.keys())))
+    # pbar = tqdm(total=len(list(annotations.keys())))
     for file in list(annotations.keys()):
 
         for a in annotations[file]['annotations']:
@@ -78,10 +78,10 @@ for folder, annotation_file in zip(folders, annotation_files):
             if a['category_instance_id'] is None:
                 a['category_instance_id'] = "None"
 
-            pbar.set_description(f"{file}")
+            # pbar.set_description(f"{file}")
 
             if not os.path.exists(f"{folder_dir}/color/{file}"): 
-                print(f"Skipping file: {file}")
+                # print(f"Skipping file: {file}")
                 continue
 
             if a['category'] not in bone_angle_annotations: bone_angle_annotations[a['category']] = {}
@@ -187,7 +187,7 @@ for folder, annotation_file in zip(folders, annotation_files):
             with open(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json", 'w') as f:
                 json.dump(bone_angles, f)
 
-        pbar.update(1)
+        # pbar.update(1)
 
     
     data_summary = []
