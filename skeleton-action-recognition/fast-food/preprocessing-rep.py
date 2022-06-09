@@ -85,6 +85,10 @@ for folder, annotation_file in zip(folders, annotation_files):
                 # print(f"Skipping file: {file}")
                 continue
 
+            a['category'] = str(a['category'])
+            a['category_instance_id'] = str(a['category_instance_id'])
+            a['id'] = str(a['id'])
+
             if a['category'] not in bone_angle_annotations: bone_angle_annotations[a['category']] = {}
             if a['category_instance_id'] not in bone_angle_annotations[a['category']]: bone_angle_annotations[a['category']][a['category_instance_id']] = {}
             if a['id'] not in bone_angle_annotations[a['category']][a['category_instance_id']]: bone_angle_annotations[a['category']][a['category_instance_id']][a['id']] = {}
