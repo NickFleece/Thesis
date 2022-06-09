@@ -31,7 +31,7 @@ VERSION = args.version
 
 MODEL_SAVE_DIR = f"{BASE_DIR}/models"
 
-data_summary = pd.read_csv(f"{BASE_DIR}/data_summary.csv")
+data_summary = pd.read_csv(f"{BASE_DIR}/clean_data_summary.csv")
 data_summary = data_summary.fillna("None")
 
 print(data_summary)

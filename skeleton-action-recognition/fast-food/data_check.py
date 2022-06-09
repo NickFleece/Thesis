@@ -38,6 +38,6 @@ for _, d in data_summary.iterrows():
     new_df.append(d)
 
 new_df = pd.DataFrame(data=new_df)
-new_df.to_csv(f"{BASE_DIR}/clean_data_summary")
+new_df.to_csv(f"{BASE_DIR}/clean_data_summary.csv")
 
 print(max_len)
