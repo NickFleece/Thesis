@@ -61,6 +61,8 @@ annotation_files = [
     "825312073198_31.Oct.2018_13.22.19_with_categories_ids_14_Aug_2019.json"
 ]
 
+data_summary = []
+
 for folder, annotation_file in zip(folders, annotation_files):
 
     folder_dir = f"{DRIVE_DIR}/{folder}"
@@ -193,9 +195,6 @@ for folder, annotation_file in zip(folders, annotation_files):
                 json.dump(bone_angles, f)
 
         # pbar.update(1)
-
-    
-    data_summary = []
 
     for category in bone_angle_annotations.keys():
 
