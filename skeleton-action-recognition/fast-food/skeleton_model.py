@@ -36,8 +36,8 @@ data_summary = data_summary.fillna("None")
 
 print(data_summary)
 
-# if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
-#     os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
+if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
+    os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
 
 categories = list(data_summary['category'].unique())
 
