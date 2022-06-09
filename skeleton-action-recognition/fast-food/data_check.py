@@ -28,5 +28,6 @@ for _, d in data_summary.iterrows():
     with open(f"{BASE_DIR}/{d['folder']}/processed_extracted_pose/{d['category']}~{d['instance_id']}~{d['person_id']}.json", 'r') as f:
         skeleton_data = np.asarray(json.load(f))
 
-    print(skeleton_data.shape)
-    break
+    max_shape = max(max_len, skeleton_data.shape[1])
+
+print(max_shape)
