@@ -1,5 +1,5 @@
 #HYPERPARAMETERS:
-LEARNING_RATE = 1e-8
+LEARNING_RATE = 1e-5
 EPOCHS = 1000
 BATCH_SIZE = 10
 MAX_FRAMES = 881
@@ -85,7 +85,7 @@ class CNN(nn.Module):
             # nn.Conv2d(128, 128, kernel_size=(3, 3)),
             # nn.BatchNorm2d(128),
             # nn.ReLU(),
-            nn.Dropout(0.5),
+            # nn.Dropout(0.5),
         )
 
         self.conv_block_2 = nn.Sequential(
@@ -95,7 +95,7 @@ class CNN(nn.Module):
             # nn.Conv2d(256, 256, kernel_size=(3,3)),
             # nn.BatchNorm2d(256),
             # nn.ReLU(),
-            nn.Dropout(0.5),
+            # nn.Dropout(0.5),
         )
 
         self.conv_block_3 = nn.Sequential(
@@ -105,7 +105,7 @@ class CNN(nn.Module):
             # nn.Conv2d(512, 512, kernel_size=(3,3)),
             # nn.BatchNorm2d(512),
             # nn.ReLU(),
-            nn.Dropout(0.5),
+            # nn.Dropout(0.5),
         )
 
         self.fc = nn.Sequential(
