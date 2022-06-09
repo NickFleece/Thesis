@@ -50,7 +50,7 @@ for _, d in data_summary.iterrows():
     )
 
     x.append(
-        f"{d['folder']}/extracted_pose/{d['category']}~{d['instance_id']}~{d['person_id']}.json"
+        f"{d['folder']}/processed_extracted_pose/{d['category']}~{d['instance_id']}~{d['person_id']}.json"
     )
 
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
