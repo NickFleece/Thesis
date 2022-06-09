@@ -19,6 +19,7 @@ args = parser.parse_args()
 BASE_DIR = args.drive_dir
 
 data_summary = pd.read_csv(f"{BASE_DIR}/data_summary.csv")
+data_summary = data_summary.fillna("None")
 
 max_len = 0
 
