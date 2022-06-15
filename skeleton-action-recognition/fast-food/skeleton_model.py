@@ -16,6 +16,7 @@ import argparse
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
+from sklearn.metrics import confusion_matrix
 import time
 from imblearn.under_sampling import RandomUnderSampler
 
@@ -286,6 +287,9 @@ for e in range(int(checkpoint), EPOCHS):
 
         val_accuracies.append(val_correct / len(y_test))
         print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
+
+
+    print(confusion_matrix(val_actual, val_predicted))
 
     print("---------------------------------------------------------------")
 
