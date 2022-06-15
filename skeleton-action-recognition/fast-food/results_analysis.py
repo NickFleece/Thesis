@@ -26,5 +26,7 @@ for folder in os.listdir(RESULTS_DIR):
             max_rec = recall_score(result['val_actual'], result['val_predicted'], average="micro")
             conf_matrix = confusion_matrix(result['val_actual'], result['val_predicted'])
         
-        break
-    break
+    print(f"Max Accuracy: {max_acc}")
+    print(f"Max Precision: {max_acc}")
+    print(f"Max Recall: {max_rec}")
+    print(conf_matrix)
