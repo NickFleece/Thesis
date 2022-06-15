@@ -17,7 +17,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 import time
-from imblearn.over_sampling import RandomOverSampler 
+from imblearn.under_sampling import RandomUnderSampler
 
 RANDOM_STATE = 42
 
@@ -41,6 +41,7 @@ if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
     os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
 
 categories = list(data_summary['category'].unique())
+category_counts = data_summary['category'].value_counts()
 
 x = []
 y = []
@@ -70,10 +71,6 @@ for x_path in x:
     x_data.append(channel_first_final_data)
 
 X_train, X_test, y_train, y_test = train_test_split(x_data, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
-
-#sample the data
-sampler = RandomOverSampler()
-X_train, y_train = sampler.fit_resample(X_train, y_train)
 
 # def load_data(path):
 
@@ -175,6 +172,9 @@ for e in range(int(checkpoint), EPOCHS):
     #shuffle dataset
     X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
 
+    #sample the dataset
+    X_train_sampled, y_train_sampled = RandomUnderSampler().fit_resample(X_train, y_train)
+
     losses = []
     train_correct = 0
     train_total = 0
@@ -190,7 +190,7 @@ for e in range(int(checkpoint), EPOCHS):
     pbar = tqdm(total=len(X_train))
     optimizer.zero_grad()
 
-    for X, y in zip(X_train, y_train):
+    for X, y in zip(X_train_sampled, y_train_sampled):
 
         pbar.update(1)
 
