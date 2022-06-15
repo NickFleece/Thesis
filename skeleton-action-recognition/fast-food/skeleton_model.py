@@ -55,15 +55,9 @@ for _, d in data_summary.iterrows():
         f"{d['folder']}/processed_extracted_pose/{d['category']}~{d['instance_id']}~{d['person_id']}.json"
     )
 
-X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
-
-#sample the data
-sampler = RandomOverSampler()
-X_train, y_train = sampler.fit_resample(X_train, y_train)
-
-def load_data(path):
-
-    with open(f"{BASE_DIR}/{path}", 'r') as f:
+x_data = []
+for x_path in x:
+    with open(f"{BASE_DIR}/{x_path}", 'r') as f:
         skeleton_data = np.asarray(json.load(f))
 
     skeleton_data = np.pad(skeleton_data, [(0,0), (0,MAX_FRAMES-skeleton_data.shape[1]), (0,0)])
@@ -73,7 +67,27 @@ def load_data(path):
     for i in range(skeleton_data.shape[2]):
         channel_first_final_data.append(skeleton_data[:,:,i])
 
-    return channel_first_final_data
+    x_data.append(channel_first_final_data)
+
+X_train, X_test, y_train, y_test = train_test_split(x_data, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
+
+#sample the data
+sampler = RandomOverSampler()
+X_train, y_train = sampler.fit_resample(X_train, y_train)
+
+# def load_data(path):
+
+#     with open(f"{BASE_DIR}/{path}", 'r') as f:
+#         skeleton_data = np.asarray(json.load(f))
+
+#     skeleton_data = np.pad(skeleton_data, [(0,0), (0,MAX_FRAMES-skeleton_data.shape[1]), (0,0)])
+
+#     # channel last to channel first
+#     channel_first_final_data = []
+#     for i in range(skeleton_data.shape[2]):
+#         channel_first_final_data.append(skeleton_data[:,:,i])
+
+#     return channel_first_final_data
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -180,7 +194,7 @@ for e in range(int(checkpoint), EPOCHS):
 
         pbar.update(1)
 
-        batch_input.append(load_data(X))
+        batch_input.append(X)
         batch_actual.append(y)
 
         if len(batch_input) == BATCH_SIZE:
@@ -248,7 +262,7 @@ for e in range(int(checkpoint), EPOCHS):
 
             pbar.update(1)
 
-            input_tensor = torch.from_numpy(np.asarray([load_data(X)])).float()
+            input_tensor = torch.from_numpy(np.asarray([X])).float()
 
             pred = cnn_net(input_tensor).argmax(dim=1).item()
 
