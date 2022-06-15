@@ -82,9 +82,9 @@ class CNN(nn.Module):
             nn.Conv2d(3, 128, kernel_size=(3,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.Conv2d(128, 128, kernel_size=(3, 3)),
-            nn.BatchNorm2d(128),
-            nn.ReLU(),
+            # nn.Conv2d(128, 128, kernel_size=(3, 3)),
+            # nn.BatchNorm2d(128),
+            # nn.ReLU(),
             # nn.Dropout(0.5),
         )
 
@@ -112,7 +112,9 @@ class CNN(nn.Module):
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             nn.Linear(512,512),
-            nn.Dropout(0.5),
+            nn.Dropout(0.2),
+            nn.Linear(512,512),
+            nn.Dropout(0.2),
             nn.ReLU(),
             nn.Linear(512, len(categories)),
             nn.Softmax(dim=1)
