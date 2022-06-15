@@ -82,7 +82,12 @@ for x,y in zip(X_train, y_train):
 
     if y == "picking_up": continue
     
+    new_x = []
+    new_x.append(np.asarray(x[0])*-1)
+    new_x.append(x[1])
+    new_x.append(x[2])
     print(np.asarray(x).shape)
+    print(np.asarray(new_x).shape)
     
     raise Exception()
 
