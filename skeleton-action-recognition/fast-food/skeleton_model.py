@@ -70,11 +70,21 @@ for x_path in x:
 
     x_data.append(channel_first_final_data)
 
-print(category_counts)
-print(max(category_counts))
-raise Exception()
-
 X_train, X_test, y_train, y_test = train_test_split(x_data, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
+
+new_x_train = []
+new_y_train = []
+
+for x,y in zip(X_train, y_train):
+
+    new_x_train.append(x)
+    new_y_train.append(y)
+
+    if y == "picking_up": continue
+    
+    print(x.shape)
+    
+    raise Exception()
 
 # def load_data(path):
 
