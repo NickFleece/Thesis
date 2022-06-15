@@ -70,6 +70,10 @@ for x_path in x:
 
     x_data.append(channel_first_final_data)
 
+print(category_counts)
+print(max(category_counts))
+raise Exception()
+
 X_train, X_test, y_train, y_test = train_test_split(x_data, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
 
 # def load_data(path):
@@ -172,9 +176,6 @@ for e in range(int(checkpoint), EPOCHS):
     #shuffle dataset
     X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
 
-    #sample the dataset
-    X_train_sampled, y_train_sampled = RandomUnderSampler().fit_resample(X_train, y_train)
-
     losses = []
     train_correct = 0
     train_total = 0
@@ -190,7 +191,7 @@ for e in range(int(checkpoint), EPOCHS):
     pbar = tqdm(total=len(X_train))
     optimizer.zero_grad()
 
-    for X, y in zip(X_train_sampled, y_train_sampled):
+    for X, y in zip(X_train, y_train):
 
         pbar.update(1)
 
