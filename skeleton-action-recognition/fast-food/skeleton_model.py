@@ -17,7 +17,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 import time
-import imblearn
+from imblearn.over_sampling import RandomOverSampler 
 
 RANDOM_STATE = 42
 
@@ -58,7 +58,7 @@ for _, d in data_summary.iterrows():
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
 
 #sample the data
-sampler = imblearn.RandomOverSampler()
+sampler = RandomOverSampler()
 X_train, y_train = sampler.fit_resample(X_train, y_train)
 
 def load_data(path):
