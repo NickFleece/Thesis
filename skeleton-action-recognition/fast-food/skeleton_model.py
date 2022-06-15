@@ -57,13 +57,9 @@ for _, d in data_summary.iterrows():
 
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
 
-def sample_data(x_data, y_data):
-
-    sampler = imblearn.RandomOverSampler()
-
-    new_x_data, new_y_data = sampler.fit_resample(x_data, y_data)
-
-    return new_x_data, new_y_data
+#sample the data
+sampler = imblearn.RandomOverSampler()
+X_train, y_train = sampler.fit_resample(X_train, y_train)
 
 def load_data(path):
 
