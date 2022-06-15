@@ -22,8 +22,8 @@ for folder in os.listdir(RESULTS_DIR):
         if acc > max_acc:
 
             max_acc = acc
-            max_prec = precision_score(result['val_actual'], result['val_predicted'])
-            max_rec = recall_score(result['val_actual'], result['val_predicted'])
+            max_prec = precision_score(result['val_actual'], result['val_predicted'], average="Micro")
+            max_rec = recall_score(result['val_actual'], result['val_predicted'], average="Micro")
             conf_matrix = confusion_matrix(result['val_actual'], result['val_predicted'])
         
         break
