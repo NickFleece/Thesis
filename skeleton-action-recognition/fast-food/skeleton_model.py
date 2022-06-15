@@ -1,5 +1,5 @@
 #HYPERPARAMETERS:
-LEARNING_RATE = 1e-7
+LEARNING_RATE = 1e-8
 EPOCHS = 1000
 BATCH_SIZE = 10
 MAX_FRAMES = 881
@@ -95,20 +95,6 @@ for x,y in zip(X_train, y_train):
 X_train = new_x_train
 y_train = new_y_train
 
-# def load_data(path):
-
-#     with open(f"{BASE_DIR}/{path}", 'r') as f:
-#         skeleton_data = np.asarray(json.load(f))
-
-#     skeleton_data = np.pad(skeleton_data, [(0,0), (0,MAX_FRAMES-skeleton_data.shape[1]), (0,0)])
-
-#     # channel last to channel first
-#     channel_first_final_data = []
-#     for i in range(skeleton_data.shape[2]):
-#         channel_first_final_data.append(skeleton_data[:,:,i])
-
-#     return channel_first_final_data
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
 print(f"Running on: {device}")
@@ -151,9 +137,7 @@ class CNN(nn.Module):
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             nn.Linear(512,512),
-            nn.Dropout(0.2),
             nn.Linear(512,512),
-            nn.Dropout(0.2),
             nn.ReLU(),
             nn.Linear(512, len(categories)),
             nn.Softmax(dim=1)
