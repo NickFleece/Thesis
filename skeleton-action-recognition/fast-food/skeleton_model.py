@@ -4,7 +4,7 @@ EPOCHS = 1000
 BATCH_SIZE = 10
 MAX_FRAMES = 881
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import json
 import numpy as np
