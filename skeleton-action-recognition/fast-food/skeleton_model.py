@@ -44,6 +44,9 @@ if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
 categories = list(data_summary['category'].unique())
 category_counts = data_summary['category'].value_counts()
 
+print(categories)
+print(category_counts)
+
 x = []
 y = []
 
