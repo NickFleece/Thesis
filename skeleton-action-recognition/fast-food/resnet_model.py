@@ -46,6 +46,7 @@ MODEL_SAVE_DIR = f"{BASE_DIR}/models"
 VERSION = args.version
 
 data_summary = pd.read_csv(f"{BASE_DIR}/person_data_summary.csv")
+data_summary = data_summary.fillna("Background")
 
 print(data_summary)
 
@@ -54,7 +55,7 @@ y = []
 
 for _, d in data_summary.iterrows():
 
-    if d['category'] == '': 
+    if d['category'] == "Background": 
         print("NONE!")
         continue
 
