@@ -80,7 +80,7 @@ if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
 #Function to Load Data
 def getFrames(path):
 
-    all_frames = np.load(f"{BASE_DIR}/{path}.npy", allow_pickle=True)
+    all_frames = np.load(f"{BASE_DIR}/{path}.npy")
 
     print(all_frames.shape)
 
