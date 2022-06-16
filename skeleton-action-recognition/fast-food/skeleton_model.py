@@ -139,8 +139,6 @@ class CNN(nn.Module):
             nn.Flatten(),
             nn.Linear(512,512),
             nn.Linear(512,512),
-            nn.Linear(512,512),
-            nn.Linear(512,512),
             nn.ReLU(),
             nn.Linear(512, len(categories)),
             nn.Softmax(dim=1)
