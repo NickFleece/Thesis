@@ -42,6 +42,7 @@ if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
     os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
 
 categories = list(data_summary['category'].unique())
+categories.remove(' ')
 category_counts = data_summary['category'].value_counts()
 
 print(categories)
@@ -51,6 +52,8 @@ x = []
 y = []
 
 for _, d in data_summary.iterrows():
+
+    if d['category'] == ' ': continue
 
     y.append(
         categories.index(d['category'])
