@@ -8,7 +8,7 @@ import numpy as np
 import cv2
 from tqdm import tqdm
 from config import BONE_CONNECTIONS
-import tensorflow as tf
+import pickle
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
@@ -134,12 +134,15 @@ for folder, annotation_file in zip(folders, annotation_files):
                 # if not os.path.exists(f"{folder_dir}/cropped_people/{category}~{instance_id}~{person_id}"):
                 #     os.mkdir(f"{folder_dir}/cropped_people/{category}~{instance_id}~{person_id}")
                 
-                with open(f"{folder_dir}/cropped_people/{category}~{instance_id}~{person_id}.npy", 'wb') as f:
-                    print(f"Dumping file: {category}~{instance_id}~{person_id}.json, len: {len(person_annotations[category][instance_id][person_id])}")
-                    np.asarray(person_annotations[category][instance_id][person_id]).tofile(f)
+                if category == '': cat_str = "Background"
+                else: cat_str = category
+
+                with open(f"{folder_dir}/cropped_people/{cat_str}~{instance_id}~{person_id}.pickle", 'wb') as f:
+                    print(f"Dumping file: {cat_str}~{instance_id}~{person_id}.pickle, len: {len(person_annotations[category][instance_id][person_id])}")
+                    pickle.dump(person_annotations[category][instance_id][person_id], f)
 
                 data_summary.append({
-                    "category":category,
+                    "category":cat_str,
                     "instance_id":instance_id,
                     "folder":folder,
                     "person_id":person_id
