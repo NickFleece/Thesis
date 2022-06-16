@@ -57,6 +57,7 @@ categories = list(data_summary['category'].unique())
 categories.remove("Background")
 category_counts = data_summary['category'].value_counts()
 
+print(categories)
 print(category_counts)
 
 x = []
@@ -106,7 +107,7 @@ class VideoRecognitionModel(nn.Module):
         
         #Our part we're training, super simple nothing fancy, two fully connected layers
         self.fc1 = nn.Linear(512, 512)
-        self.fc2 = nn.Linear(512, len(categories)-1)
+        self.fc2 = nn.Linear(512, len(categories))
 
     def forward(self, x):
 
