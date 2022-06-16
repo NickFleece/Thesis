@@ -135,7 +135,7 @@ for folder, annotation_file in zip(folders, annotation_files):
                 #     os.mkdir(f"{folder_dir}/cropped_people/{category}~{instance_id}~{person_id}")
                 
                 with open(f"{folder_dir}/cropped_people/{category}~{instance_id}~{person_id}.json", 'w') as f:
-                    json.dump(person_annotations[category][instance_id][person_id])
+                    json.dump(person_annotations[category][instance_id][person_id], f)
 
                 data_summary.append({
                     "category":category,
