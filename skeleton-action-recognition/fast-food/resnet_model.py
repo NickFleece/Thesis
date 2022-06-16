@@ -25,6 +25,7 @@ from sklearn.model_selection import train_test_split
 import time
 import random
 from sklearn.metrics import confusion_matrix
+import pickle
 
 #Set the device the code will run on
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
@@ -80,7 +81,8 @@ if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
 #Function to Load Data
 def getFrames(path):
 
-    all_frames = np.load(f"{BASE_DIR}/{path}.npy")
+    with open(f"{BASE_DIR}/{path}.pickle", 'r') as f:
+        all_frames = pickle.load(f)
 
     print(all_frames.shape)
 
