@@ -81,7 +81,7 @@ if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
 def getFrames(path):
 
     with open(f"{BASE_DIR}/{path}.npy", 'rb') as f:
-        all_frames = np.load(f)
+        all_frames = np.load(f, allow_pickle=True)
 
     print(all_frames.shape)
 
