@@ -83,7 +83,7 @@ if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
 def getFrames(path):
 
     with open(f"{BASE_DIR}/{path}.pickle", 'rb') as f:
-        all_frames = np.asarray(pickle.load(f))
+        all_frames = np.asarray(pickle.load(f))[::4]
 
     print(all_frames.shape)
 
