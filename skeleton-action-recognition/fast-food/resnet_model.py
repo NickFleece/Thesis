@@ -85,6 +85,8 @@ def getFrames(path):
     with open(f"{BASE_DIR}/{path}.pickle", 'rb') as f:
         all_frames = np.asarray(pickle.load(f))
 
+    print(all_frames.shape)
+
     channel_first_person_frames = []
     for i in range(all_frames.shape[3]):
         channel_first_person_frames.append(all_frames[:,:,:,i])
