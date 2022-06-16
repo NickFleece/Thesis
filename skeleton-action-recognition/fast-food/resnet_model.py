@@ -5,6 +5,7 @@ IMAGE_RESHAPE_SIZE = 80
 BATCH_SIZE = 1
 FRAME_SUBSAMPLING = 4
 FLIP_PROB = 0.5
+RANDOM_STATE = 42
 
 #All of the imports needed, matplotlib not required but useful for imshow on frames
 import os
@@ -60,9 +61,7 @@ y = []
 
 for _, d in data_summary.iterrows():
 
-    if d['category'] == "Background": 
-        print("NONE!")
-        continue
+    if d['category'] == "Background": continue
 
     y.append(
         categories.index(d['category'])
@@ -72,64 +71,28 @@ for _, d in data_summary.iterrows():
         f"{d['folder']}/cropped_people/{d['category']}~{d['instance_id']}~{d['person_id']}"
     )
 
-raise Exception()
+X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
 
 #Make the model folder if it doesn't exist already
 if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
     os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
 
-#Function to retrieve the actual frames
-def getFrames(annotation):
+#Function to Load Data
+def getFrames(path):
 
-    all_frames = []
-    annotation_ids = annotation['annotation_ids']
+    with open(path) as f:
+        all_frames = np.load(f)
 
-    #Shuffling to confuse the model
-    random.shuffle(annotation_ids)
+    print(all_frames.shape)
 
-    for id in annotation_ids:
-
-        #Grab the directory that contains all of the people within the annotation
-        person_dir = f"{BYTETRACK_FRAMES_DIR}/{id}"
-        person_files = os.listdir(person_dir)
-        
-        #More shuffling to try and confuse the model
-        random.shuffle(person_files)
-
-        for person in person_files:
-
-            frames_dir = f"{person_dir}/{person}"
-
-            #This just sets whether we will flip a particular person
-            flip_video = random.random() < FLIP_PROB
-
-            for frame in np.asarray(os.listdir(frames_dir))[::FRAME_SUBSAMPLING]:
-
-                #Read frame
-                frame_arr = np.asarray(iio.imread(f"{frames_dir}/{frame}"))
-
-                #Flip if needed
-                if flip_video:
-                    frame_arr = np.fliplr(frame_arr)
-
-                #Normalize
-                frame_arr = frame_arr / np.max(frame_arr)
-                
-                #Square and reshape image
-                max_dim = max(frame_arr.shape[0], frame_arr.shape[1])
-                frame_arr = np.pad(frame_arr, ((0, max_dim - frame_arr.shape[0]), (0, max_dim - frame_arr.shape[1]), (0,0)))
-                frame_arr = cv2.resize(frame_arr, (IMAGE_RESHAPE_SIZE,IMAGE_RESHAPE_SIZE))
-
-                all_frames.append(frame_arr)
-
-    all_frames = np.asarray(all_frames)
-
-    #This is just because the model we use takes the frames in with the channel dimension first, so we have to reshape
     channel_first_person_frames = []
     for i in range(all_frames.shape[3]):
         channel_first_person_frames.append(all_frames[:,:,:,i])
 
     return torch.tensor(channel_first_person_frames, dtype=torch.float32).to(device)
+
+getFrames(X_train[0])
+raise Exception()
 
 #The model itself!
 class VideoRecognitionModel(nn.Module):
