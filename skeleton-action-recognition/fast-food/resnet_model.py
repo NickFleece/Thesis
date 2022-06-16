@@ -263,6 +263,6 @@ for e in range(EPOCHS):
         'model_state_dict': model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': losses,
-        'val_outputs':val_outputs,
+        'val_predicted':val_outputs,
         'val_actual':val_actual
     }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")
