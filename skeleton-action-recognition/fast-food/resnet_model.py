@@ -55,6 +55,7 @@ print(data_summary)
 
 categories = list(data_summary['category'].unique())
 categories.remove("Background")
+categories.remove(" ")
 category_counts = data_summary['category'].value_counts()
 
 print(categories)
@@ -66,6 +67,7 @@ y = []
 for _, d in data_summary.iterrows():
 
     if d['category'] == "Background": continue
+    if d['category'] == ' ': continue
 
     y.append(
         categories.index(d['category'])
