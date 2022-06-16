@@ -26,6 +26,7 @@ import time
 import random
 from sklearn.metrics import confusion_matrix
 import pickle
+from sklearn.utils import shuffle
 
 #Set the device the code will run on
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -92,9 +93,6 @@ def getFrames(path):
 
     return torch.tensor(channel_first_person_frames, dtype=torch.float32).to(device)
 
-getFrames(X_train[0])
-raise Exception()
-
 #The model itself!
 class VideoRecognitionModel(nn.Module):
 
@@ -157,8 +155,8 @@ for e in range(EPOCHS):
     batch_samples = []
     batch_actual = []
 
-    # get the subsampled data
-    subsampled_train = subsampleDataset(train)
+    #shuffle dataset
+    X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
 
     #Holders for losses and accuracies
     losses = []
@@ -166,12 +164,12 @@ for e in range(EPOCHS):
     train_total = 0
 
     #Progress bar
-    pbar = tqdm(total=len(subsampled_train))
-    for _, sample in subsampled_train.iterrows():
+    pbar = tqdm(total=len(X_train))
+    for X, y in zip(X_train, y_train):
 
         #Get the samples and labels
-        batch_samples.append(getFrames(sample))
-        batch_actual.append(used_labels.index(sample['activity_class_id']))
+        batch_samples.append(getFrames(X))
+        batch_actual.append(y)
 
         if len(batch_samples) == BATCH_SIZE:
 
@@ -231,21 +229,21 @@ for e in range(EPOCHS):
         val_outputs = []
         val_actual = []
 
-        pbar = tqdm(total=len(test))
-        for _, sample in test.iterrows():
+        pbar = tqdm(total=len(X_test))
+        for X, y in zip(X_test, y_test):
 
             #Similar idea, sample the frames
-            sample_frames = getFrames(sample)
+            sample_frames = getFrames(X)
 
             #Get the model output, this time we can just grab the predicted class
             model_out = model(torch.unsqueeze(sample_frames, 0)).argmax(dim=1).item()
 
             #Do some output storage and set the progress bar description
-            if model_out == used_labels.index(sample['activity_class_id']):
+            if model_out == y:
                 val_correct += 1
             
             val_outputs.append(model_out)
-            val_actual.append(used_labels.index(sample['activity_class_id']))
+            val_actual.append(y)
             
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
@@ -254,7 +252,7 @@ for e in range(EPOCHS):
         pbar.close()
         time.sleep(1)
 
-        print(f"Epoch {e} Validation Accuracy: {val_correct / len(test)}")
+        print(f"Epoch {e} Validation Accuracy: {val_correct / len(X_test)}")
 
         #This is just outputting the confusion matrix since the accuracy score can be a bit misleading sometimes
         print(confusion_matrix(val_actual, val_outputs))
