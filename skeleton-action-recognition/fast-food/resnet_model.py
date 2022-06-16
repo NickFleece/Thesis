@@ -50,6 +50,11 @@ data_summary = data_summary.fillna("Background")
 
 print(data_summary)
 
+categories = list(data_summary['category'].unique())
+category_counts = data_summary['category'].value_counts()
+
+print(category_counts)
+
 x = []
 y = []
 
@@ -59,108 +64,19 @@ for _, d in data_summary.iterrows():
         print("NONE!")
         continue
 
+    y.append(
+        categories.index(d['category'])
+    )
+
+    x.append(
+        f"{d['folder']}/cropped_people/{d['category']}~{d['instance_id']}~{d['person_id']}"
+    )
+
 raise Exception()
 
 #Make the model folder if it doesn't exist already
 if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
     os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
-
-#Read in the annotation csv
-annotation_csv = pd.read_csv(f"{BASE_DIR}/annotations.csv")
-
-#This is some preprocessing that needs to be done to the annotations
-#Basically just combining different segments from the same car, i.e. if the underside clip got split, we treat it as one complete annotation
-annotations = {}
-for _, row in annotation_csv.iterrows():
-    annotation_path = row['path_to_video_segment']
-    annotation_class = row['activity_class_id']
-
-    # no person detected in annotation
-    if len(os.listdir(f"{BYTETRACK_FRAMES_DIR}/{row['id']}")) == 0:
-        # print(f"No person detected: {row}")
-        continue
-
-    if not annotation_path in annotations.keys(): 
-        annotations[annotation_path] = {}
-    
-    if not annotation_class in annotations[annotation_path].keys():
-        annotations[annotation_path][annotation_class] = []
-    
-    annotations[annotation_path][annotation_class].append(row['id'])
-
-new_annotations = pd.DataFrame()
-for file in annotations.keys():
-    for c in annotations[file].keys():
-        new_annotations = pd.concat([new_annotations, pd.DataFrame({
-            "activity_class_id":[c],
-            "annotation_ids": [annotations[file][c]],
-            "camera":[annotation_csv.iloc[annotations[file][c][0]]['camera']],
-            "activity_class_name":[annotation_csv.iloc[annotations[file][c][0]]['activity_class_name']]
-        })])
-annotations = new_annotations
-
-#Uncomment these if you want to train on only one camera angle, can also be replaced with R or RP if required later on
-#annotations = annotations.loc[annotations["camera"] == "FD"]
-#annotations = annotations.loc[annotations["camera"] == "FP"]
-
-#Just printing some counts for ease of use
-print(annotations["activity_class_name"].value_counts())
-
-#This defines the labels that will be used by the model, comment any labels that you don't want used
-used_labels = [
-    0, # Background
-    # 1, #not used - Roof Top Sides
-    2, #Underside
-    3, #Hood
-    # 4, #not used - Trunk
-    5, #Front Passenger Compartment
-    6 #Rear Passenger Compartment
-]
-
-#Function to split the data into train and test, right now it uses 80/20, but can be modified by changing the test_size below from 0.2 to the desired size
-def splitDataset(data):
-
-    train_output = pd.DataFrame()
-    test_output = pd.DataFrame()
-    for label in used_labels:
-        label_train, label_test = train_test_split(data.loc[data["activity_class_id"] == label], test_size=0.2)
-
-        train_output = pd.concat([train_output, label_train])
-        test_output = pd.concat([test_output, label_test])
-
-    return train_output, test_output
- 
-#Perform the actual split
-train, test = splitDataset(annotations)
-
-#Subsample the data at every epoch
-#Because we use batch size 1, it is important to subsample the dataset at every training epoch to avoid biases
-def subsampleDataset(data):
-
-    #shuffle data
-    data = data.sample(frac=1)
-
-    #Find the minimum number of samples used by a class
-    min_samples = None
-    label_value_counts = data['activity_class_id'].value_counts()
-    for label in used_labels:
-        if min_samples == None:
-            min_samples = label_value_counts[label]
-        else:
-            min_samples = min(min_samples, label_value_counts[label])
-    
-    #Sample each label to use the minimum number of examples
-    #So we have an equal number of samples for each class
-    subsampled_data = pd.DataFrame()
-    for label in used_labels:
-        label_data = data.loc[data['activity_class_id'] == label]
-        label_data = label_data.head(min_samples)
-        subsampled_data = pd.concat([subsampled_data, label_data])
-
-    #Shuffle the data once more before return
-    subsampled_data = subsampled_data.sample(frac=1)
-    
-    return subsampled_data
 
 #Function to retrieve the actual frames
 def getFrames(annotation):
