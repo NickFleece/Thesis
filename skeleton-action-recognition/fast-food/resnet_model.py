@@ -54,6 +54,7 @@ data_summary = data_summary.fillna("Background")
 print(data_summary)
 
 categories = list(data_summary['category'].unique())
+categories.remove("Background")
 category_counts = data_summary['category'].value_counts()
 
 print(category_counts)
