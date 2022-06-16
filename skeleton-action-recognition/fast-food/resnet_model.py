@@ -1,6 +1,6 @@
 # Hyperparameters, these are what need to be tuned most of the time
-LEARNING_RATE = 3e-5
-EPOCHS = 100
+LEARNING_RATE = 5e-5
+EPOCHS = 500
 IMAGE_RESHAPE_SIZE = 80
 BATCH_SIZE = 1
 FRAME_SUBSAMPLING = 4
@@ -88,7 +88,7 @@ if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
 def getFrames(path):
 
     with open(f"{BASE_DIR}/{path}.pickle", 'rb') as f:
-        all_frames = np.asarray(pickle.load(f))[::4]
+        all_frames = np.asarray(pickle.load(f))[::FRAME_SUBSAMPLING]
 
     # print(all_frames.shape)
 
