@@ -78,12 +78,12 @@ X_train, X_test, y_train, y_test = train_test_split(x_data, y, test_size=0.2, ra
 new_x_train = []
 new_y_train = []
 
-for x,y in zip(X_train, y_train):
+for x, y in zip(X_train, y_train):
 
     new_x_train.append(x)
     new_y_train.append(y)
 
-    if y == "picking_up": continue
+    if y == categories.index("picking_up"): continue
     
     new_x = []
     new_x.append(np.asarray(x[0])*-1)
