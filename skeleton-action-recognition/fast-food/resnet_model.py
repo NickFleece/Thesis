@@ -1,5 +1,5 @@
 # Hyperparameters, these are what need to be tuned most of the time
-LEARNING_RATE = 5e-5
+LEARNING_RATE = 5e-6
 EPOCHS = 500
 IMAGE_RESHAPE_SIZE = 80
 BATCH_SIZE = 1
