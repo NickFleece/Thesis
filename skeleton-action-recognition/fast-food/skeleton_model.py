@@ -71,30 +71,29 @@ for x_path in x:
 
     x_data.append(channel_first_final_data)
 
-X_train, X_test, y_train, y_test = train_test_split(x_data, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
-
-
 #sample data
-new_x_train = []
-new_y_train = []
+new_x_data = []
+new_y = []
 
-for x, y in zip(X_train, y_train):
+for x_1, y_1 in zip(x_data, y):
 
-    new_x_train.append(x)
-    new_y_train.append(y)
+    new_x_data.append(x_1)
+    new_y.append(y_1)
 
-    if y == categories.index("picking_up"): continue
+    if y_1 == categories.index("picking_up"): continue
     
     new_x = []
-    new_x.append(np.asarray(x[0])*-1)
-    new_x.append(x[1])
-    new_x.append(x[2])
+    new_x.append(np.asarray(x_1[0])*-1)
+    new_x.append(x_1[1])
+    new_x.append(x_1[2])
 
-    new_x_train.append(new_x)
-    new_y_train.append(y)
+    new_x_data.append(new_x)
+    new_y.append(y_1)
 
-X_train = new_x_train
-y_train = new_y_train
+x_data = new_x_data
+y = new_y
+
+X_train, X_test, y_train, y_test = train_test_split(x_data, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
