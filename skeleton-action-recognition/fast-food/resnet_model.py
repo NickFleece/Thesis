@@ -81,7 +81,7 @@ if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
 #Function to Load Data
 def getFrames(path):
 
-    with open(f"{BASE_DIR}/{path}.pickle", 'r') as f:
+    with open(f"{BASE_DIR}/{path}.pickle", 'rb') as f:
         all_frames = pickle.load(f)
 
     print(all_frames.shape)
