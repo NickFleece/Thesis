@@ -105,7 +105,7 @@ class VideoRecognitionModel(nn.Module):
         
         #Our part we're training, super simple nothing fancy, two fully connected layers
         self.fc1 = nn.Linear(512, 512)
-        self.fc2 = nn.Linear(512, len(used_labels))
+        self.fc2 = nn.Linear(512, len(categories)-1)
 
     def forward(self, x):
 
