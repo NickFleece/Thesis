@@ -68,7 +68,7 @@ for _, d in data_summary.iterrows():
 
     if d['category'] == "Background": continue
     if d['category'] == ' ': continue
-    if d['category_instance_id'] == "Background": continue
+    if d['instance_id'] == "Background": continue
 
     y.append(
         categories.index(d['category'])
