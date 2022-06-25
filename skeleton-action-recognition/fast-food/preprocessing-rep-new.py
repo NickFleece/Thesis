@@ -10,6 +10,8 @@ from tqdm import tqdm
 from config import BONE_CONNECTIONS
 import tensorflow as tf
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
 parser.add_argument('--model_file', required=True)
