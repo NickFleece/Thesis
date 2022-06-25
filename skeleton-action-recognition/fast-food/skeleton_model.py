@@ -18,7 +18,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from sklearn.metrics import confusion_matrix
 import time
-from imblearn.under_sampling import RandomUnderSampler
 
 RANDOM_STATE = 42
 
@@ -33,7 +32,7 @@ VERSION = args.version
 
 MODEL_SAVE_DIR = f"{BASE_DIR}/models"
 
-data_summary = pd.read_csv(f"{BASE_DIR}/clean_data_summary.csv")
+data_summary = pd.read_csv(f"{BASE_DIR}/clean_data_summary_v2.csv")
 data_summary = data_summary.fillna("None")
 
 print(data_summary)
@@ -60,7 +59,7 @@ for _, d in data_summary.iterrows():
     )
 
     x.append(
-        f"{d['folder']}/processed_extracted_pose/{d['category']}~{d['instance_id']}~{d['person_id']}.json"
+        f"{d['folder']}/processed_extracted_pose_new/{d['category']}~{d['instance_id']}~{d['person_id']}.json"
     )
 
 x_data = []
