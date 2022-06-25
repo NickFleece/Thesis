@@ -1,5 +1,5 @@
 #HYPERPARAMETERS:
-LEARNING_RATE = 1e-6
+LEARNING_RATE = 1e-8
 EPOCHS = 1000
 BATCH_SIZE = 50
 MAX_FRAMES = 881
@@ -112,9 +112,9 @@ class CNN(nn.Module):
             nn.Conv2d(3, 128, kernel_size=(3,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            # nn.Conv2d(128, 128, kernel_size=(3, 3)),
-            # nn.BatchNorm2d(128),
-            # nn.ReLU(),
+            nn.Conv2d(128, 128, kernel_size=(3, 3)),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
             # nn.Dropout(0.5),
         )
 
@@ -141,6 +141,7 @@ class CNN(nn.Module):
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
+            nn.Linear(512,512),
             nn.Linear(512,512),
             nn.Linear(512,512),
             nn.ReLU(),
