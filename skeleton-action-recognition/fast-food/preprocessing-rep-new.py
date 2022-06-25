@@ -271,7 +271,7 @@ for folder, annotation_file in zip(folders, annotation_files):
                     print(f"Making dir: {folder_dir}/processed_extracted_pose_new...")
                     os.mkdir(f"{folder_dir}/processed_extracted_pose_new")
 
-                if not os.path.exists(f"{folder_dir}/processed_extracted_pose_new/{new_category}~{instance_id}~{person_id}.json") or OVERWRITE_REP == 1:
+                if not os.path.exists(f"{folder_dir}/processed_extracted_pose_new/{new_category}~{instance_id}~{person_id}.json") or OVERWRITE_REP == '1':
                     with open(f"{folder_dir}/processed_extracted_pose_new/{new_category}~{instance_id}~{person_id}.json", 'w') as f:
                         json.dump(data, f)
                 else:
