@@ -273,6 +273,8 @@ for folder, annotation_file in zip(folders, annotation_files):
                 else:
                     print(f"File already esists: {new_category}~{instance_id}~{person_id}.json")
 
+                print(np.asarray(data).shape)
+
                 data_summary.append({
                     "category":new_category,
                     "instance_id":instance_id,
