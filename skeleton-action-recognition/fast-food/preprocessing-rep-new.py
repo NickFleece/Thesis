@@ -281,4 +281,4 @@ for folder, annotation_file in zip(folders, annotation_files):
                     "shape":np.asarray(data).shape
                 })
 
-pd.DataFrame(data=data_summary).to_csv(f"{DRIVE_DIR}/data_summary.csv", index_label=False)
+pd.DataFrame(data=data_summary).to_csv(f"{DRIVE_DIR}/data_summary_v2.csv", index_label=False)
