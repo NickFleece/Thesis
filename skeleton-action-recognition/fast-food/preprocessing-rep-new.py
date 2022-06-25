@@ -219,6 +219,11 @@ for folder, annotation_file in zip(folders, annotation_files):
                         for k in [1,5,10]:
 
                             frame_id = frame_ids[i]
+
+                            if k > i:
+                                angle_changes.append(0)
+                                continue
+
                             prev_frame_id = frame_ids[i-k]
 
                             if bone_angle_annotations[category][instance_id][person_id][frame_id] is None:
