@@ -69,7 +69,7 @@ for folder, annotation_file in zip(folders, annotation_files):
 
     folder_dir = f"{DRIVE_DIR}/{folder}"
 
-    with open(f"{folder_dir}/{annotation_file}", 'r') as f: #TODO Change this to be more general
+    with open(f"{folder_dir}/{annotation_file}", 'r') as f:
         annotations = json.load(f)
 
     bone_angle_annotations = {}
@@ -258,8 +258,12 @@ for folder, annotation_file in zip(folders, annotation_files):
                 if category == '': continue
                 else: new_category = category
 
-                if not os.path.exists(f"{folder_dir}/processed_extracted_pose/{new_category}~{instance_id}~{person_id}.json"):
-                    with open(f"{folder_dir}/processed_extracted_pose/{new_category}~{instance_id}~{person_id}.json", 'w') as f:
+                if not os.path.exists(f"{folder_dir}/processed_extracted_pose_new"):
+                    print(f"Making dir: {folder_dir}/processed_extracted_pose_new...")
+                    os.mkdir(f"{folder_dir}/processed_extracted_pose_new")
+
+                if not os.path.exists(f"{folder_dir}/processed_extracted_pose_new/{new_category}~{instance_id}~{person_id}.json"):
+                    with open(f"{folder_dir}/processed_extracted_pose_new/{new_category}~{instance_id}~{person_id}.json", 'w') as f:
                         json.dump(data, f)
                 else:
                     print(f"File already esists: {new_category}~{instance_id}~{person_id}.json")
