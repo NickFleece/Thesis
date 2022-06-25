@@ -257,9 +257,11 @@ for folder, annotation_file in zip(folders, annotation_files):
 
                             angle_diff = angle_diff / 180
 
-                        angle_changes.append(angle_diff)
+                            angle_changes.append(angle_diff)
+                        
+                        bone_frames_data.append(angle_changes)
                     
-                    data.append(angle_changes)
+                    data.append(bone_frames_data)
 
                 # if category == '': new_category = 'bg'
                 if category == '': continue
