@@ -15,12 +15,14 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 parser = argparse.ArgumentParser()
 parser.add_argument('--drive_dir', required=True)
 parser.add_argument('--model_file', required=True)
-parser.add_argument('--overwrite_existing', default=0)
+parser.add_argument('--overwrite_pose', default=0)
+parser.add_argument('--overwrite_rep', default=0)
 args = parser.parse_args()
 
 DRIVE_DIR = args.drive_dir
 TF_MODEL_FILE = args.model_file
-OVERWRITE_EXISTING = args.overwrite_existing
+OVERWRITE_POSE = args.overwrite_pose
+OVERWRITE_REP = args.overwrite_rep
 INPUT_SIZE=256
 
 interpreter = tf.lite.Interpreter(model_path=TF_MODEL_FILE)
@@ -97,7 +99,7 @@ for folder, annotation_file in zip(folders, annotation_files):
             if a['category_instance_id'] not in bone_angle_annotations[a['category']]: bone_angle_annotations[a['category']][a['category_instance_id']] = {}
             if a['id'] not in bone_angle_annotations[a['category']][a['category_instance_id']]: bone_angle_annotations[a['category']][a['category_instance_id']][a['id']] = {}
 
-            if os.path.exists(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json") and OVERWRITE_EXISTING == 0:
+            if os.path.exists(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json") and OVERWRITE_POSE == 0:
                 # print(f"File already exists: {a['id']} - {file}")
                 with open(f"{folder_dir}/extracted_pose/{a['category']}~{a['category_instance_id']}~{a['id']}~{file}.json") as f:
                     bone_angle_annotations[a['category']][a['category_instance_id']][a['id']][file] = json.load(f)
@@ -267,7 +269,7 @@ for folder, annotation_file in zip(folders, annotation_files):
                     print(f"Making dir: {folder_dir}/processed_extracted_pose_new...")
                     os.mkdir(f"{folder_dir}/processed_extracted_pose_new")
 
-                if not os.path.exists(f"{folder_dir}/processed_extracted_pose_new/{new_category}~{instance_id}~{person_id}.json"):
+                if not os.path.exists(f"{folder_dir}/processed_extracted_pose_new/{new_category}~{instance_id}~{person_id}.json") and OVERWRITE_REP == 1:
                     with open(f"{folder_dir}/processed_extracted_pose_new/{new_category}~{instance_id}~{person_id}.json", 'w') as f:
                         json.dump(data, f)
                 else:
