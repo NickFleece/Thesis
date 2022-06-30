@@ -218,7 +218,7 @@ for folder, annotation_file in zip(folders, annotation_files):
 
                         angle_changes = []
 
-                        for k in [1,5,10]:
+                        for k in range(1,11):
 
                             frame_id = frame_ids[i]
 
