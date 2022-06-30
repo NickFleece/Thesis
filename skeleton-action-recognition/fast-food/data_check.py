@@ -27,7 +27,7 @@ new_df = []
 
 for _, d in data_summary.iterrows():
 
-    with open(f"{BASE_DIR}/{d['folder']}/processed_extracted_pose/{d['category']}~{d['instance_id']}~{d['person_id']}.json", 'r') as f:
+    with open(f"{BASE_DIR}/{d['folder']}/processed_extracted_pose_new/{d['category']}~{d['instance_id']}~{d['person_id']}.json", 'r') as f:
         skeleton_data = np.asarray(json.load(f))
 
     max_len = max(max_len, int(skeleton_data.shape[1]))
