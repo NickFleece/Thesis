@@ -114,7 +114,8 @@ class VideoRecognitionModel(nn.Module):
         
         #Our part we're training, super simple nothing fancy, two fully connected layers
         self.fc1 = nn.Linear(512, 512)
-        self.fc2 = nn.Linear(512, len(categories))
+        self.fc2 = nn.Linear(512,512)
+        self.fc3 = nn.Linear(512, len(categories))
 
     def forward(self, x):
 
@@ -127,15 +128,17 @@ class VideoRecognitionModel(nn.Module):
             x = x.unsqueeze(dim=0)
 
         #Dropout
-        x = F.dropout(x, 0.5)
+        # x = F.dropout(x, 0.5)
 
         #The first fully connected layer, followed by relu and dropout
         x = self.fc1(x)
         x = F.relu(x)
-        x = F.dropout(x, 0.5)
+        x = self.fc2(x)
+        x = F.relu(x)
+        # x = F.dropout(x, 0.5)
 
         #The output layer
-        x = self.fc2(x)
+        x = self.fc3(x)
         x = F.softmax(x, dim=1)
 
         return x
