@@ -119,7 +119,8 @@ class VideoRecognitionModel(nn.Module):
         self.pretrained_model.requires_grad_ = False
 
         #Squeeze to remove some unneeded dimensions
-        x = self.pretrained_model(x).squeeze()
+        with torch.no_grad():
+            x = self.pretrained_model(x).squeeze()
 
         # if a batch of size 1 was put through, ensure that the batch is preserved
         if len(x.shape) == 1:
