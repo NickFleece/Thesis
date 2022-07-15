@@ -234,7 +234,7 @@ for e in range(EPOCHS):
         val_correct = 0
         count = 0
 
-        val_outputs = []
+        val_predicted = []
         val_actual = []
 
         val_loss = 0
@@ -252,10 +252,10 @@ for e in range(EPOCHS):
             val_loss += criterion(out, torch.tensor([y]).to(device).long())
 
             #Do some output storage and set the progress bar description
-            if model_out == y:
+            if pred == y:
                 val_correct += 1
             
-            val_outputs.append(model_out)
+            val_predicted.append(pred)
             val_actual.append(y)
             
             count += 1
@@ -270,7 +270,7 @@ for e in range(EPOCHS):
         print(f"Epoch {e} Validation Accuracy: {val_correct / len(X_test)}")
 
         #This is just outputting the confusion matrix since the accuracy score can be a bit misleading sometimes
-        print(confusion_matrix(val_actual, val_outputs))
+        print(confusion_matrix(val_actual, val_predicted))
     
     print("---------------------------------------------------------------")
 
@@ -280,6 +280,6 @@ for e in range(EPOCHS):
         'model_state_dict': model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': losses,
-        'val_predicted':val_outputs,
+        'val_predicted':val_predicted,
         'val_actual':val_actual
     }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")
