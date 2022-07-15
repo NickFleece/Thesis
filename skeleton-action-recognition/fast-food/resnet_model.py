@@ -1,5 +1,5 @@
 # Hyperparameters, these are what need to be tuned most of the time
-LEARNING_RATE = 5e-6
+LEARNING_RATE = 0.01
 EPOCHS = 500
 IMAGE_RESHAPE_SIZE = 80
 BATCH_SIZE = 1
@@ -107,16 +107,16 @@ class VideoRecognitionModel(nn.Module):
         #The big part of the model
         #Pretrained Resnet 3D, provided by pytorch, you can see the documentation through their packages
         self.pretrained_model = nn.Sequential(*list(r3d_18(pretrained=True, progress=True).children())[:-1])
+
+        #Ensure the pretrained model is frozen
+        #Training this model could be useful if you want, but may require a lot of tuning and adjustments
+        self.pretrained_model.requires_grad_ = False
         
         #Our part we're training, super simple nothing fancy, two fully connected layers
         self.fc1 = nn.Linear(512, 512)
         self.fc2 = nn.Linear(512, len(categories))
 
     def forward(self, x):
-
-        #Ensure the pretrained model is frozen
-        #Training this model could be useful if you want, but may require a lot of tuning and adjustments
-        self.pretrained_model.requires_grad_ = False
 
         #Squeeze to remove some unneeded dimensions
         with torch.no_grad():
@@ -149,10 +149,12 @@ model.to(device)
 
 #Create the loss and optimizer
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(
+optimizer = optim.SGD(
     model.parameters(),
-    lr=LEARNING_RATE
+    lr=LEARNING_RATE,
+    momentum=0.9
 )
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.3)
 
 #Training loop
 for e in range(EPOCHS):
@@ -235,6 +237,8 @@ for e in range(EPOCHS):
         val_outputs = []
         val_actual = []
 
+        val_loss = 0
+
         pbar = tqdm(total=len(X_test))
         for X, y in zip(X_test, y_test):
 
@@ -242,7 +246,10 @@ for e in range(EPOCHS):
             sample_frames = getFrames(X)
 
             #Get the model output, this time we can just grab the predicted class
-            model_out = model(torch.unsqueeze(sample_frames, 0)).argmax(dim=1).item()
+            out = model(torch.unsqueeze(sample_frames, 0))
+            pred = out.argmax(dim=1).item()
+
+            val_loss += criterion(out, torch.tensor([y]).to(device).long())
 
             #Do some output storage and set the progress bar description
             if model_out == y:
@@ -254,6 +261,8 @@ for e in range(EPOCHS):
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
             pbar.update(1)
+
+        scheduler.step(val_loss/len(X_test))
         
         pbar.close()
         time.sleep(1)
