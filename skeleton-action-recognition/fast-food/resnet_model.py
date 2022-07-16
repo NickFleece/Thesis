@@ -80,17 +80,42 @@ for _, d in data_summary.iterrows():
 
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
 
+new_x_train = []
+new_y_train = []
+flip = []
+
+for x_1, y_1 in zip(X_train, y_train):
+
+    new_x_train.append(x_1)
+    new_y_train.append(y_1)
+    flip.append(False)
+
+    if y_1 == categories.index("picking_up"): continue
+
+    new_x_train.append(x_1)
+    new_y_train.append(y_1)
+    flip.append(True)
+
+X_train = new_x_train
+y_train = new_y_train
+
 #Make the model folder if it doesn't exist already
 if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
     os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
 
 #Function to Load Data
-def getFrames(path):
+def getFrames(path, flip=False):
 
     with open(f"{BASE_DIR}/{path}.pickle", 'rb') as f:
         all_frames = np.asarray(pickle.load(f))[::FRAME_SUBSAMPLING]
 
     # print(all_frames.shape)
+
+    if flip:
+        flipped_frames = []
+        for frame in all_frames:
+            flipped_frames.append(np.fliplr(frame))
+        all_frames = np.asarray(flipped_frames)
 
     channel_first_person_frames = []
     for i in range(all_frames.shape[3]):
@@ -167,7 +192,7 @@ for e in range(EPOCHS):
     batch_actual = []
 
     #shuffle dataset
-    X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
+    X_train, y_train = shuffle(X_train, y_train, flip, random_state=RANDOM_STATE)
 
     #Holders for losses and accuracies
     losses = []
@@ -176,10 +201,10 @@ for e in range(EPOCHS):
 
     #Progress bar
     pbar = tqdm(total=len(X_train))
-    for X, y in zip(X_train, y_train):
+    for X, y, f in zip(X_train, y_train, flip):
 
         #Get the samples and labels
-        batch_samples.append(getFrames(X))
+        batch_samples.append(getFrames(X, f))
         batch_actual.append(y)
 
         if len(batch_samples) == BATCH_SIZE:
