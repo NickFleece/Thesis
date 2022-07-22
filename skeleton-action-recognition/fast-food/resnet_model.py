@@ -197,6 +197,8 @@ for e in range(EPOCHS):
     losses = []
     train_correct = 0
     train_total = 0
+    train_actual = []
+    train_predicted = []
 
     #Progress bar
     pbar = tqdm(total=len(X_train))
@@ -206,7 +208,7 @@ for e in range(EPOCHS):
         batch_samples.append(getFrames(X, f))
         batch_actual.append(y)
 
-        if len(batch_samples) == BATCH_SIZE:
+        if len(batch_samples) == BATCH_SIZE or (X == X_train[-1] and f == flip[-1]):
 
             #Make all samples in the batch the same length so they can be put through the model
             max_len = 0
@@ -225,6 +227,9 @@ for e in range(EPOCHS):
                 if output == label:
                     train_correct += 1
                 train_total += 1
+
+                train_actual.append(label)
+                train_predicted.append(output)
 
             #Calculate Loss & Gradient Descent
             loss = criterion(
@@ -253,6 +258,7 @@ for e in range(EPOCHS):
     pbar.close()
 
     print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
+    print(confusion_matrix(train_actual, train_predicted))
 
     #Don't do gradients for the testing run
     with torch.no_grad():
