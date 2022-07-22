@@ -142,7 +142,7 @@ class VideoRecognitionModel(nn.Module):
             nn.Linear(512, 1024),
             nn.ReLU()
         )
-        self.fc3 = nn.Linear(512, len(categories))
+        self.fc3 = nn.Linear(1024, len(categories))
 
     def forward(self, x):
 
