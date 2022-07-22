@@ -192,7 +192,7 @@ for e in range(EPOCHS):
     batch_actual = []
 
     #shuffle dataset
-    permutation = np.random.permutation(X_train.shape[0])
+    permutation = np.random.permutation(len(X_train))
     X_train = X_train[permutation]
     y_train = y_train[permutation]
     flip = flip[permutation]
