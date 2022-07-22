@@ -192,10 +192,7 @@ for e in range(EPOCHS):
     batch_actual = []
 
     #shuffle dataset
-    permutation = np.random.permutation(len(X_train))
-    X_train = X_train[permutation]
-    y_train = y_train[permutation]
-    flip = flip[permutation]
+    X_train, y_train, flip = shuffle(X_train, y_train, flip, random_state=RANDOM_STATE)
 
     #Holders for losses and accuracies
     losses = []
