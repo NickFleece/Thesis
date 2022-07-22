@@ -1,8 +1,8 @@
 # Hyperparameters, these are what need to be tuned most of the time
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.01
 EPOCHS = 500
 IMAGE_RESHAPE_SIZE = 80
-BATCH_SIZE = 5
+BATCH_SIZE = 8
 FRAME_SUBSAMPLING = 4
 FLIP_PROB = 0.5
 RANDOM_STATE = 42
@@ -139,7 +139,7 @@ class VideoRecognitionModel(nn.Module):
         
         #Our part we're training, super simple nothing fancy, two fully connected layers
         self.fc1 = nn.Sequential(
-            nn.Linear(512, 512),
+            nn.Linear(512, 1024),
             nn.ReLU()
         )
         self.fc3 = nn.Linear(512, len(categories))
