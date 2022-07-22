@@ -2,7 +2,7 @@
 LEARNING_RATE = 0.01
 EPOCHS = 500
 IMAGE_RESHAPE_SIZE = 80
-BATCH_SIZE = 1
+BATCH_SIZE = 3
 FRAME_SUBSAMPLING = 4
 FLIP_PROB = 0.5
 RANDOM_STATE = 42
@@ -29,7 +29,7 @@ import pickle
 from sklearn.utils import shuffle
 
 #Set the device the code will run on
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -173,7 +173,7 @@ model = VideoRecognitionModel()
 #Send the model to the device (should be GPU)
 model.to(device)
 #This can be used to parallelize across multiple gpu's if needed to increase batch size
-# model = nn.DataParallel(model)
+model = nn.DataParallel(model)
 
 #Create the loss and optimizer
 criterion = nn.CrossEntropyLoss()
