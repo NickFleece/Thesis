@@ -16,43 +16,5 @@
   {}
 \endgroup
 
-\datalist[entry]{none/global//global/global}
-  \entry{choutas2018potion}{inproceedings}{}
-    \name{author}{4}{}{%
-      {{hash=CV}{%
-         family={Choutas},
-         familyi={C\bibinitperiod},
-         given={Vasileios},
-         giveni={V\bibinitperiod},
-      }}%
-      {{hash=WP}{%
-         family={Weinzaepfel},
-         familyi={W\bibinitperiod},
-         given={Philippe},
-         giveni={P\bibinitperiod},
-      }}%
-      {{hash=RJ}{%
-         family={Revaud},
-         familyi={R\bibinitperiod},
-         given={J{\'e}r{\^o}me},
-         giveni={J\bibinitperiod},
-      }}%
-      {{hash=SC}{%
-         family={Schmid},
-         familyi={S\bibinitperiod},
-         given={Cordelia},
-         giveni={C\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{CVWPRJ+1}
-    \strng{fullhash}{CVWPRJSC1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{booktitle}{Proceedings of the IEEE conference on computer vision and
-  pattern recognition}
-    \field{pages}{7024\bibrangedash 7033}
-    \field{title}{Potion: Pose motion representation for action recognition}
-    \field{year}{2018}
-  \endentry
-\enddatalist
+\datalist[entry]{nyt/global//global/global}\enddatalist
 \endinput

@@ -27,7 +27,7 @@
 
 \NeedsTeXFormat{LaTeX2e}[1996/12/01]
 \newcommand{\classname}{MastersDoctoralThesis}
-\ProvidesClass{\classname}[2016/11/22 v1.5 LaTeXTemplates.com]
+\ProvidesClass{\classname}[2017/08/27 v1.6 LaTeXTemplates.com]
 \providecommand{\baseclass}{book}
 \RequirePackage{etoolbox}
 \RequirePackage{xparse}
@@ -346,15 +346,14 @@ KOMA-script documentation for details.}]{fancyhdr}
 \ifbool{consistentlayout}{
 	\DeclareDocumentEnvironment{abstract}{ O{} }{%
 		\addchap*{\abstractname}%
-		%{\chapteralign\normalsize\abstractauthorfont \authorname \par}% Author name
-		%\vspace{\baselineskip}
-		%{\chapteralign\parbox{.7\linewidth}{\chapteralign\normalsize\itshape\abstracttitlefont\@title}\par}% Thesis title
-		%\bigskip\noindent\ignorespaces
+		{\chapteralign\normalsize\abstractauthorfont \authorname \par}% Author name
+		\vspace{\baselineskip}
+		{\chapteralign\parbox{.7\linewidth}{\chapteralign\normalsize\itshape\abstracttitlefont\@title}\par}% Thesis title
+		\bigskip\noindent\ignorespaces
 	}%
 	{}%end alt-abstract
 }{%
-	%\DeclareDocumentEnvironment{abstract}{ O{\null\vfill} }{
-		\DeclareDocumentEnvironment{abstract}{ O{} }{
+	\DeclareDocumentEnvironment{abstract}{ O{\null\vfill} }{
 		\checktoopen
 		\tttypeout{\abstractname}
 		#1%added to be able to have abstract more than one page long
