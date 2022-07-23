@@ -1,0 +1,16 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {english}{}
+\contentsline {chapter}{Abstract}{i}{section*.1}%
+\contentsline {chapter}{Acknowledgements}{iii}{section*.2}%
+\contentsline {chapter}{\numberline {1}Literature Review}{1}{chapter.8}%
+\contentsline {section}{\numberline {1.1}Classical Action Recognition}{1}{section.9}%
+\contentsline {section}{\numberline {1.2}Deep Learning Action Recognition}{1}{section.10}%
+\contentsline {subsection}{\numberline {1.2.1}3D-CNN}{2}{subsection.11}%
+\contentsline {subsubsection}{ResNet}{2}{section*.12}%
+\contentsline {subsubsection}{MoveNet}{2}{section*.13}%
+\contentsline {section}{\numberline {1.3}Optical Flow}{2}{section.14}%
+\contentsline {section}{\numberline {1.4}Person-Based Action Recognition}{2}{section.15}%
+\contentsline {section}{\numberline {1.5}Pose-Based Action Recognition}{2}{section.16}%
+\contentsline {subsection}{\numberline {1.5.1}Intermediate Representations}{3}{subsection.17}%
+\contentsline {subsubsection}{PoTion}{3}{section*.18}%
+\contentsline {chapter}{Bibliography}{4}{appendix*.19}%
