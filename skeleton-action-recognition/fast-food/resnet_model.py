@@ -1,8 +1,8 @@
 # Hyperparameters, these are what need to be tuned most of the time
-LEARNING_RATE = 5e-6
+LEARNING_RATE = 0.01
 EPOCHS = 500
 IMAGE_RESHAPE_SIZE = 80
-BATCH_SIZE = 1
+BATCH_SIZE = 8
 FRAME_SUBSAMPLING = 4
 FLIP_PROB = 0.5
 RANDOM_STATE = 42
@@ -29,7 +29,7 @@ import pickle
 from sklearn.utils import shuffle
 
 #Set the device the code will run on
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -80,17 +80,42 @@ for _, d in data_summary.iterrows():
 
 X_train, X_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
 
+new_x_train = []
+new_y_train = []
+flip = []
+
+for x_1, y_1 in zip(X_train, y_train):
+
+    new_x_train.append(x_1)
+    new_y_train.append(y_1)
+    flip.append(False)
+
+    if y_1 == categories.index("picking_up"): continue
+
+    new_x_train.append(x_1)
+    new_y_train.append(y_1)
+    flip.append(True)
+
+X_train = new_x_train
+y_train = new_y_train
+
 #Make the model folder if it doesn't exist already
 if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
     os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
 
 #Function to Load Data
-def getFrames(path):
+def getFrames(path, flip=False):
 
     with open(f"{BASE_DIR}/{path}.pickle", 'rb') as f:
         all_frames = np.asarray(pickle.load(f))[::FRAME_SUBSAMPLING]
 
     # print(all_frames.shape)
+
+    if flip:
+        flipped_frames = []
+        for frame in all_frames:
+            flipped_frames.append(np.fliplr(frame))
+        all_frames = np.asarray(flipped_frames)
 
     channel_first_person_frames = []
     for i in range(all_frames.shape[3]):
@@ -107,34 +132,37 @@ class VideoRecognitionModel(nn.Module):
         #The big part of the model
         #Pretrained Resnet 3D, provided by pytorch, you can see the documentation through their packages
         self.pretrained_model = nn.Sequential(*list(r3d_18(pretrained=True, progress=True).children())[:-1])
-        
-        #Our part we're training, super simple nothing fancy, two fully connected layers
-        self.fc1 = nn.Linear(512, 512)
-        self.fc2 = nn.Linear(512, len(categories))
-
-    def forward(self, x):
 
         #Ensure the pretrained model is frozen
         #Training this model could be useful if you want, but may require a lot of tuning and adjustments
         self.pretrained_model.requires_grad_ = False
+        
+        #Our part we're training, super simple nothing fancy, two fully connected layers
+        self.fc1 = nn.Sequential(
+            nn.Linear(512, 1024),
+            nn.ReLU()
+        )
+        self.fc3 = nn.Linear(1024, len(categories))
+
+    def forward(self, x):
 
         #Squeeze to remove some unneeded dimensions
-        x = self.pretrained_model(x).squeeze()
+        with torch.no_grad():
+            x = self.pretrained_model(x).squeeze()
 
         # if a batch of size 1 was put through, ensure that the batch is preserved
         if len(x.shape) == 1:
             x = x.unsqueeze(dim=0)
 
         #Dropout
-        x = F.dropout(x, 0.5)
+        # x = F.dropout(x, 0.5)
 
-        #The first fully connected layer, followed by relu and dropout
+        #fully connected layers
         x = self.fc1(x)
-        x = F.relu(x)
-        x = F.dropout(x, 0.5)
+        # x = F.dropout(x, 0.5)
 
         #The output layer
-        x = self.fc2(x)
+        x = self.fc3(x)
         x = F.softmax(x, dim=1)
 
         return x
@@ -144,14 +172,16 @@ model = VideoRecognitionModel()
 #Send the model to the device (should be GPU)
 model.to(device)
 #This can be used to parallelize across multiple gpu's if needed to increase batch size
-# model = nn.DataParallel(model)
+model = nn.DataParallel(model)
 
 #Create the loss and optimizer
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(
+optimizer = optim.SGD(
     model.parameters(),
-    lr=LEARNING_RATE
+    lr=LEARNING_RATE,
+    momentum=0.9
 )
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.3)
 
 #Training loop
 for e in range(EPOCHS):
@@ -161,22 +191,24 @@ for e in range(EPOCHS):
     batch_actual = []
 
     #shuffle dataset
-    X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
+    X_train, y_train, flip = shuffle(X_train, y_train, flip, random_state=RANDOM_STATE)
 
     #Holders for losses and accuracies
     losses = []
     train_correct = 0
     train_total = 0
+    train_actual = []
+    train_predicted = []
 
     #Progress bar
     pbar = tqdm(total=len(X_train))
-    for X, y in zip(X_train, y_train):
+    for X, y, f in zip(X_train, y_train, flip):
 
         #Get the samples and labels
-        batch_samples.append(getFrames(X))
+        batch_samples.append(getFrames(X, f))
         batch_actual.append(y)
 
-        if len(batch_samples) == BATCH_SIZE:
+        if len(batch_samples) == BATCH_SIZE or (X == X_train[-1] and f == flip[-1]):
 
             #Make all samples in the batch the same length so they can be put through the model
             max_len = 0
@@ -195,6 +227,9 @@ for e in range(EPOCHS):
                 if output == label:
                     train_correct += 1
                 train_total += 1
+
+                train_actual.append(label)
+                train_predicted.append(output)
 
             #Calculate Loss & Gradient Descent
             loss = criterion(
@@ -223,6 +258,7 @@ for e in range(EPOCHS):
     pbar.close()
 
     print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
+    print(confusion_matrix(train_actual, train_predicted))
 
     #Don't do gradients for the testing run
     with torch.no_grad():
@@ -231,8 +267,10 @@ for e in range(EPOCHS):
         val_correct = 0
         count = 0
 
-        val_outputs = []
+        val_predicted = []
         val_actual = []
+
+        val_loss = 0
 
         pbar = tqdm(total=len(X_test))
         for X, y in zip(X_test, y_test):
@@ -241,18 +279,23 @@ for e in range(EPOCHS):
             sample_frames = getFrames(X)
 
             #Get the model output, this time we can just grab the predicted class
-            model_out = model(torch.unsqueeze(sample_frames, 0)).argmax(dim=1).item()
+            out = model(torch.unsqueeze(sample_frames, 0))
+            pred = out.argmax(dim=1).item()
+
+            val_loss += criterion(out, torch.tensor([y]).to(device).long())
 
             #Do some output storage and set the progress bar description
-            if model_out == y:
+            if pred == y:
                 val_correct += 1
             
-            val_outputs.append(model_out)
+            val_predicted.append(pred)
             val_actual.append(y)
             
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
             pbar.update(1)
+
+        scheduler.step(val_loss/len(X_test))
         
         pbar.close()
         time.sleep(1)
@@ -260,7 +303,7 @@ for e in range(EPOCHS):
         print(f"Epoch {e} Validation Accuracy: {val_correct / len(X_test)}")
 
         #This is just outputting the confusion matrix since the accuracy score can be a bit misleading sometimes
-        print(confusion_matrix(val_actual, val_outputs))
+        print(confusion_matrix(val_actual, val_predicted))
     
     print("---------------------------------------------------------------")
 
@@ -270,6 +313,6 @@ for e in range(EPOCHS):
         'model_state_dict': model.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
         'loss': losses,
-        'val_predicted':val_outputs,
+        'val_predicted':val_predicted,
         'val_actual':val_actual
     }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")

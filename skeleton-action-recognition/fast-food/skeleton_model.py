@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
-LEARNING_RATE = 1e-6
+LEARNING_RATE = 1e-2
 EPOCHS = 1000
-BATCH_SIZE = 50
+BATCH_SIZE = 5
 MAX_FRAMES = 881
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -18,7 +18,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from sklearn.metrics import confusion_matrix
 import time
-from imblearn.under_sampling import RandomUnderSampler
 
 RANDOM_STATE = 42
 
@@ -33,7 +32,7 @@ VERSION = args.version
 
 MODEL_SAVE_DIR = f"{BASE_DIR}/models"
 
-data_summary = pd.read_csv(f"{BASE_DIR}/clean_data_summary.csv")
+data_summary = pd.read_csv(f"{BASE_DIR}/clean_data_summary_v2.csv")
 data_summary = data_summary.fillna("None")
 
 print(data_summary)
@@ -60,7 +59,7 @@ for _, d in data_summary.iterrows():
     )
 
     x.append(
-        f"{d['folder']}/processed_extracted_pose/{d['category']}~{d['instance_id']}~{d['person_id']}.json"
+        f"{d['folder']}/processed_extracted_pose_new/{d['category']}~{d['instance_id']}~{d['person_id']}.json"
     )
 
 x_data = []
@@ -88,12 +87,7 @@ for x_1, y_1 in zip(x_data, y):
 
     if y_1 == categories.index("picking_up"): continue
     
-    new_x = []
-    new_x.append(np.asarray(x_1[0])*-1)
-    new_x.append(x_1[1])
-    new_x.append(x_1[2])
-
-    new_x_data.append(new_x)
+    new_x_data.append(np.asarray(x_1)*-1)
     new_y.append(y_1)
 
 x_data = new_x_data
@@ -110,39 +104,26 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(3, 128, kernel_size=(3,3)),
+            nn.Conv2d(10, 128, kernel_size=(3,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            # nn.Conv2d(128, 128, kernel_size=(3, 3)),
-            # nn.BatchNorm2d(128),
-            # nn.ReLU(),
-            # nn.Dropout(0.5),
         )
 
         self.conv_block_2 = nn.Sequential(
             nn.Conv2d(128, 256, kernel_size=(3,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            # nn.Conv2d(256, 256, kernel_size=(3,3)),
-            # nn.BatchNorm2d(256),
-            # nn.ReLU(),
-            # nn.Dropout(0.5),
         )
 
         self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size=(3,3), stride=2),
+            nn.Conv2d(256, 512, kernel_size=(3,3)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
-            # nn.Conv2d(512, 512, kernel_size=(3,3)),
-            # nn.BatchNorm2d(512),
-            # nn.ReLU(),
-            # nn.Dropout(0.5),
         )
 
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(512,512),
             nn.Linear(512,512),
             nn.ReLU(),
             nn.Linear(512, len(categories)),
@@ -171,11 +152,12 @@ else:
 cnn_net.to(device)
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(
+optimizer = optim.SGD(
     cnn_net.parameters(),
     lr=LEARNING_RATE,
-    #momentum=0.9
+    momentum=0.9
 )
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.3)
 
 train_accuracies = []
 val_accuracies = []
@@ -268,13 +250,18 @@ for e in range(int(checkpoint), EPOCHS):
         pbar = tqdm(total=len(X_test))
         count = 0
 
+        val_loss = 0
+
         for X, y in zip(X_test, y_test):
 
             pbar.update(1)
 
             input_tensor = torch.from_numpy(np.asarray([X])).float()
 
-            pred = cnn_net(input_tensor).argmax(dim=1).item()
+            out = cnn_net(input_tensor)
+            pred = out.argmax(dim=1).item()
+
+            val_loss += criterion(out, torch.tensor([y]).to(device).long())
 
             if pred == y:
                 val_correct += 1
@@ -284,6 +271,8 @@ for e in range(int(checkpoint), EPOCHS):
             
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
+
+        scheduler.step(val_loss/len(X_test))
 
         pbar.close()
         time.sleep(1)
