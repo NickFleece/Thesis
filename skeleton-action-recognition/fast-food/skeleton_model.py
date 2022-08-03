@@ -76,24 +76,24 @@ for x_path in x:
 
     x_data.append(channel_first_final_data)
 
+X_train, X_test, y_train, y_test = train_test_split(x_data, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
+
 #sample data
-new_x_data = []
-new_y = []
+new_x_train = []
+new_y_train = []
 
-for x_1, y_1 in zip(x_data, y):
+for x_1, y_1 in zip(X_train, y_train):
 
-    new_x_data.append(x_1)
-    new_y.append(y_1)
+    new_x_train.append(x_1)
+    new_y_train.append(y_1)
 
     if y_1 == categories.index("picking_up"): continue
     
-    new_x_data.append(np.asarray(x_1)*-1)
-    new_y.append(y_1)
+    new_x_train.append(np.asarray(x_1)*-1)
+    new_y_train.append(y_1)
 
-x_data = new_x_data
-y = new_y
-
-X_train, X_test, y_train, y_test = train_test_split(x_data, y, test_size=0.2, random_state=RANDOM_STATE, shuffle=True)
+X_train = new_x_train
+y_train = new_y_train
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")

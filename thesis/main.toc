@@ -17,3 +17,4 @@
 \contentsline {subsubsection}{Simple yet efficient real-time pose-based action recognition}{3}{section*.25}%
 \contentsline {chapter}{\numberline {A}Frequently Asked Questions}{4}{appendix.26}%
 \contentsline {section}{\numberline {A.1}How do I change the colors of links?}{4}{section.27}%
+\contentsline {chapter}{Bibliography}{5}{appendix*.28}%
