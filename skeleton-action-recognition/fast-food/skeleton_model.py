@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.1
 EPOCHS = 500
-BATCH_SIZE = 16
+BATCH_SIZE = 8
 MAX_FRAMES = 881
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -169,7 +169,7 @@ else:
 cnn_net.to(device)
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(
+optimizer = optim.SGD(
     cnn_net.parameters(),
     lr=LEARNING_RATE
 )
