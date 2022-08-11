@@ -2,8 +2,8 @@
 LEARNING_RATE = 0.01
 EPOCHS = 500
 IMAGE_RESHAPE_SIZE = 80
-BATCH_SIZE = 8
-FRAME_SUBSAMPLING = 4
+BATCH_SIZE = 4
+FRAME_SUBSAMPLING = 2
 FLIP_PROB = 0.5
 RANDOM_STATE = 42
 
@@ -138,11 +138,15 @@ class VideoRecognitionModel(nn.Module):
         self.pretrained_model.requires_grad_ = False
         
         #Our part we're training, super simple nothing fancy, two fully connected layers
-        self.fc1 = nn.Sequential(
-            nn.Linear(512, 1024),
+        self.fc = nn.Sequential(
+            nn.Linear(512,512),
+            nn.ReLU(),
+            nn.Linear(512,512),
+            nn.ReLU(),
+            nn.Linear(512, 512),
             nn.ReLU()
         )
-        self.fc3 = nn.Linear(1024, len(categories))
+        self.fc_final = nn.Linear(512, len(categories))
 
     def forward(self, x):
 
@@ -154,15 +158,11 @@ class VideoRecognitionModel(nn.Module):
         if len(x.shape) == 1:
             x = x.unsqueeze(dim=0)
 
-        #Dropout
-        # x = F.dropout(x, 0.5)
-
         #fully connected layers
-        x = self.fc1(x)
-        # x = F.dropout(x, 0.5)
+        x = self.fc(x)
 
         #The output layer
-        x = self.fc3(x)
+        x = self.fc_final(x)
         x = F.softmax(x, dim=1)
 
         return x
