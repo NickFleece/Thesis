@@ -260,6 +260,8 @@ for e in range(int(checkpoint), EPOCHS):
     train_accuracies.append(train_correct / train_total)
     print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
 
+    print(optimizer.param_groups[0]['lr'])
+
     with torch.no_grad():
 
         val_correct = 0
