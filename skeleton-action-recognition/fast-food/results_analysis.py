@@ -9,6 +9,8 @@ args = parser.parse_args()
 
 RESULTS_DIR = args.results_dir
 
+accuracies = {}
+
 print("Starting results parse...")
 for folder in os.listdir(RESULTS_DIR):
     print(f"\n Version: {folder}")
@@ -30,3 +32,11 @@ for folder in os.listdir(RESULTS_DIR):
     print(f"Max Precision: {max_acc}")
     print(f"Max Recall: {max_rec}")
     print(conf_matrix)
+
+    accuracies[folder] = max_acc
+
+print("---")
+print("Sorted:")
+sorted = {k: v for k, v in sorted(accuracies.items(), key=lambda item: item[1])}
+for k in sorted.keys():
+    print(f"{k} - {sorted[k]}")
