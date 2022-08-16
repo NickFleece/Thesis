@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.1
 EPOCHS = 500
-BATCH_SIZE = 8
+BATCH_SIZE = 4
 MAX_FRAMES = 881
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -175,7 +175,7 @@ optimizer = optim.SGD(
 )
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer,
-    factor=0.2,
+    factor=0.1,
     patience=15
 )
 
