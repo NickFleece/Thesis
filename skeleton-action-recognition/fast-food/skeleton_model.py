@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
-LEARNING_RATE = 1e-2
+LEARNING_RATE = 0.1
 EPOCHS = 500
-BATCH_SIZE = 5
+BATCH_SIZE = 16
 MAX_FRAMES = 881
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -180,6 +180,8 @@ train_accuracies = []
 val_accuracies = []
 
 for e in range(int(checkpoint), EPOCHS):
+
+    print(f"Learning rate: {optimizer.param_groups[0]['lr']}")
 
     #shuffle dataset
     X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
