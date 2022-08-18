@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.1
 EPOCHS = 500
-BATCH_SIZE = 5
+BATCH_SIZE = 8
 MAX_FRAMES = 881
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -171,8 +171,7 @@ cnn_net.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(
     cnn_net.parameters(),
-    lr=LEARNING_RATE,
-    momentum=0.9
+    lr=LEARNING_RATE
 )
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer,
