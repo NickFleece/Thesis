@@ -171,7 +171,8 @@ cnn_net.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(
     cnn_net.parameters(),
-    lr=LEARNING_RATE
+    lr=LEARNING_RATE,
+    momentum=0.9
 )
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer,
