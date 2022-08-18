@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
-LEARNING_RATE = 0.1
+LEARNING_RATE = 1e-2
 EPOCHS = 500
-BATCH_SIZE = 4
+BATCH_SIZE = 5
 MAX_FRAMES = 881
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -139,10 +139,10 @@ class CNN(nn.Module):
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Dropout(),
+            nn.Dropout(0.3),
             nn.Linear(512,512),
             nn.ReLU(),
-            nn.Dropout(),
+            nn.Dropout(0.3),
             nn.Linear(512, len(categories)),
             nn.Softmax(dim=1)
         )
@@ -174,18 +174,12 @@ optimizer = optim.SGD(
     lr=LEARNING_RATE,
     momentum=0.9
 )
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-    optimizer,
-    factor=0.1,
-    patience=15
-)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.3)
 
 train_accuracies = []
 val_accuracies = []
 
 for e in range(int(checkpoint), EPOCHS):
-
-    print(f"Learning rate: {optimizer.param_groups[0]['lr']}")
 
     #shuffle dataset
     X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
