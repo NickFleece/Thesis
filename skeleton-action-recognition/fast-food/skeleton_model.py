@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.1
 EPOCHS = 500
-BATCH_SIZE = 8
+BATCH_SIZE = 4
 MAX_FRAMES = 881
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -139,10 +139,10 @@ class CNN(nn.Module):
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Dropout(.3),
+            nn.Dropout(),
             nn.Linear(512,512),
             nn.ReLU(),
-            nn.Dropout(.3),
+            nn.Dropout(),
             nn.Linear(512, len(categories)),
             nn.Softmax(dim=1)
         )
@@ -171,11 +171,13 @@ cnn_net.to(device)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(
     cnn_net.parameters(),
-    lr=LEARNING_RATE
+    lr=LEARNING_RATE,
+    momentum=0.9
 )
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer,
-    factor=0.3
+    factor=0.1,
+    patience=15
 )
 
 train_accuracies = []
