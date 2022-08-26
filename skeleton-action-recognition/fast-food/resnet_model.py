@@ -99,6 +99,25 @@ for x_1, y_1 in zip(X_train, y_train):
 X_train = new_x_train
 y_train = new_y_train
 
+new_x_test = []
+new_y_test = []
+flip_test = []
+
+for x_1, y_1 in zip(X_train, y_test):
+
+    new_x_test.append(x_1)
+    new_y_test.append(y_1)
+    flip.append(False)
+
+    if y_1 == categories.index("picking_up"): continue
+
+    new_x_test.append(x_1)
+    new_y_test.append(y_1)
+    flip_test.append(True)
+
+X_test = new_x_test
+y_test = new_y_test
+
 #Make the model folder if it doesn't exist already
 if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
     os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
@@ -277,10 +296,10 @@ for e in range(EPOCHS):
         val_loss = 0
 
         pbar = tqdm(total=len(X_test))
-        for X, y in zip(X_test, y_test):
+        for X, y, f in zip(X_test, y_test, flip_test):
 
             #Similar idea, sample the frames
-            sample_frames = getFrames(X)
+            sample_frames = getFrames(X, f)
 
             #Get the model output, this time we can just grab the predicted class
             out = model(torch.unsqueeze(sample_frames, 0))
