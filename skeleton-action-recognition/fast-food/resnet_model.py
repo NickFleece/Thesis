@@ -178,7 +178,8 @@ model = nn.DataParallel(model)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(
     model.parameters(),
-    lr=LEARNING_RATE
+    lr=LEARNING_RATE,
+    momentum=0.9
 )
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer, 
