@@ -139,9 +139,11 @@ class VideoRecognitionModel(nn.Module):
         
         #Our part we're training, super simple nothing fancy, two fully connected layers
         self.fc = nn.Sequential(
-            nn.Linear(512,512),
+            nn.Linear(512,1024),
             nn.ReLU(),
-            nn.Linear(512,512),
+            nn.Linear(1024, 1024),
+            nn.ReLU(),
+            nn.Linear(1024,512),
             nn.ReLU()
         )
         self.fc_final = nn.Linear(512, len(categories))
@@ -181,7 +183,7 @@ optimizer = optim.SGD(
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer, 
     factor=0.1,
-    patience=15
+    patience=5
 )
 
 #Training loop
