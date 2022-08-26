@@ -1,5 +1,5 @@
 # Hyperparameters, these are what need to be tuned most of the time
-LEARNING_RATE = 0.1
+LEARNING_RATE = 0.0001
 EPOCHS = 500
 IMAGE_RESHAPE_SIZE = 112
 BATCH_SIZE = 2
@@ -107,7 +107,7 @@ for x_1, y_1 in zip(X_train, y_test):
 
     new_x_test.append(x_1)
     new_y_test.append(y_1)
-    flip.append(False)
+    flip_test.append(False)
 
     if y_1 == categories.index("picking_up"): continue
 
