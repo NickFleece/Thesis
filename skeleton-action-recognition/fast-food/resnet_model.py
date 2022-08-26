@@ -1,9 +1,9 @@
 # Hyperparameters, these are what need to be tuned most of the time
-LEARNING_RATE = 0.2
+LEARNING_RATE = 0.1
 EPOCHS = 500
 IMAGE_RESHAPE_SIZE = 112
-BATCH_SIZE = 4
-FRAME_SUBSAMPLING = 2
+BATCH_SIZE = 8
+FRAME_SUBSAMPLING = 4
 FLIP_PROB = 0.5
 RANDOM_STATE = 42
 
