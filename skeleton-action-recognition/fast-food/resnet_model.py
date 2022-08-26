@@ -1,7 +1,7 @@
 # Hyperparameters, these are what need to be tuned most of the time
 LEARNING_RATE = 0.01
 EPOCHS = 500
-IMAGE_RESHAPE_SIZE = 80
+IMAGE_RESHAPE_SIZE = 112
 BATCH_SIZE = 4
 FRAME_SUBSAMPLING = 2
 FLIP_PROB = 0.5
@@ -29,7 +29,7 @@ import pickle
 from sklearn.utils import shuffle
 
 #Set the device the code will run on
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -142,8 +142,6 @@ class VideoRecognitionModel(nn.Module):
             nn.Linear(512,512),
             nn.ReLU(),
             nn.Linear(512,512),
-            nn.ReLU(),
-            nn.Linear(512, 512),
             nn.ReLU()
         )
         self.fc_final = nn.Linear(512, len(categories))
@@ -178,10 +176,13 @@ model = nn.DataParallel(model)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(
     model.parameters(),
-    lr=LEARNING_RATE,
-    momentum=0.9
+    lr=LEARNING_RATE
 )
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, factor=0.3)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer, 
+    factor=0.1,
+    patience=15
+)
 
 #Training loop
 for e in range(EPOCHS):
