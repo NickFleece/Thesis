@@ -5,7 +5,7 @@ IMAGE_RESHAPE_SIZE = 112
 BATCH_SIZE = 2
 FRAME_SUBSAMPLING = 2
 FLIP_PROB = 0.5
-RANDOM_STATE = 42
+RANDOM_STATE = 120
 
 #All of the imports needed, matplotlib not required but useful for imshow on frames
 import os
