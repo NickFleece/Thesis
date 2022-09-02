@@ -1,7 +1,7 @@
 # HYPERPARAMETERS:
-LEARNING_RATE = 0.00075
+LEARNING_RATE = 0.1
 EPOCHS = 500
-BATCH_SIZE = 750
+BATCH_SIZE = 16
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
@@ -100,10 +100,6 @@ for d, c in zip(data, classes):
         X_test.append(d)
         y_test.append(c)
 
-print("CLASS BALANCES:")
-print(dict(zip(*np.unique(np.array(y_train), return_counts=True))))
-print(dict(zip(*np.unique(np.array(y_test), return_counts=True))))
-
 # split via camera
 # for d, c in zip(data, classes):
 #     if int(d[5:8]) in TRAIN_CAMERA:
@@ -112,6 +108,10 @@ print(dict(zip(*np.unique(np.array(y_test), return_counts=True))))
 #     else:
 #         X_test.append(d)
 #         y_test.append(c)
+
+print("CLASS BALANCES:")
+print(dict(zip(*np.unique(np.array(y_train), return_counts=True))))
+print(dict(zip(*np.unique(np.array(y_test), return_counts=True))))
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
@@ -125,39 +125,28 @@ class CNN(nn.Module):
             nn.Conv2d(3, 128, kernel_size=(3,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            # nn.Conv2d(128, 128, kernel_size=(3, 3)),
-            # nn.BatchNorm2d(128),
-            # nn.ReLU(),
-            nn.Dropout(0.5),
         )
 
         self.conv_block_2 = nn.Sequential(
             nn.Conv2d(128, 256, kernel_size=(3,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            # nn.Conv2d(256, 256, kernel_size=(3,3)),
-            # nn.BatchNorm2d(256),
-            # nn.ReLU(),
-            nn.Dropout(0.5),
         )
 
         self.conv_block_3 = nn.Sequential(
             nn.Conv2d(256, 512, kernel_size=(3,3), stride=2),
             nn.BatchNorm2d(512),
             nn.ReLU(),
-            # nn.Conv2d(512, 512, kernel_size=(3,3)),
-            # nn.BatchNorm2d(512),
-            # nn.ReLU(),
-            nn.Dropout(0.5),
         )
 
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
+            nn.Dropout(),
             nn.Linear(512,512),
-            nn.Dropout(0.5),
             nn.ReLU(),
-            nn.Linear(512, NUM_CLASSES),
+            nn.Dropout(),
+            nn.Linear(512, len(NUM_CLASSES)),
             nn.Softmax(dim=1)
         )
 
@@ -183,16 +172,23 @@ else:
 cnn_net.to(device)
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(
+optimizer = optim.SGD(
     cnn_net.parameters(),
     lr=LEARNING_RATE,
-    #momentum=0.9
+    momentum=0.9
+)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer,
+    factor=0.1,
+    patience=15
 )
 
 train_accuracies = []
 val_accuracies = []
 
 for e in range(int(checkpoint), EPOCHS):
+
+    print(f"Learning rate: {optimizer.param_groups[0]['lr']}")
 
     #shuffle dataset
     X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
@@ -280,13 +276,18 @@ for e in range(int(checkpoint), EPOCHS):
         pbar = tqdm(total=len(X_test))
         count = 0
 
+        val_loss = 0
+
         for X, y in zip(X_test, y_test):
 
             pbar.update(1)
 
             input_tensor = torch.from_numpy(np.asarray([load_data(X)])).float()
 
-            pred = cnn_net(input_tensor).argmax(dim=1).item()
+            out = cnn_net(input_tensor)
+            pred = out.argmax(dim=1).item()
+
+            val_loss += criterion(out, torch.tensor([y]).to(device).long())
 
             if pred == unique_classes.index(int(y)):
                 val_correct += 1
@@ -296,6 +297,8 @@ for e in range(int(checkpoint), EPOCHS):
             
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
+
+        scheduler.step(val_loss/len(X_test))
 
         pbar.close()
         time.sleep(1)
