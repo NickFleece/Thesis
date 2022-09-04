@@ -146,7 +146,7 @@ class CNN(nn.Module):
             nn.Linear(512,512),
             nn.ReLU(),
             nn.Dropout(),
-            nn.Linear(512, len(NUM_CLASSES)),
+            nn.Linear(512, NUM_CLASSES),
             nn.Softmax(dim=1)
         )
 
