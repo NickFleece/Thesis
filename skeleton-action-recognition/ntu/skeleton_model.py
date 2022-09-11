@@ -132,16 +132,16 @@ class CNN(nn.Module):
         self.conv_block_2 = nn.Sequential(
             nn.Conv2d(128, 256, kernel_size=(3,3)),
             nn.BatchNorm2d(256),
-            nn.Conv2d(256, 256, kernel_size=(3,3)),
-            nn.BatchNorm2d(256),
+            # nn.Conv2d(256, 256, kernel_size=(3,3)),
+            # nn.BatchNorm2d(256),
             nn.ReLU(),
         )
 
         self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size=(3,3), stride=2),
+            nn.Conv2d(256, 512, kernel_size=(3,3)),
             nn.BatchNorm2d(512),
-            nn.Conv2d(512, 512, kernel_size=(3,3), stride=2),
-            nn.BatchNorm2d(512),
+            # nn.Conv2d(512, 512, kernel_size=(3,3)),
+            # nn.BatchNorm2d(512),
             nn.ReLU(),
         )
 
