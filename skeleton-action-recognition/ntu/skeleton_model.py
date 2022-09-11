@@ -156,7 +156,7 @@ class CNN(nn.Module):
             nn.ReLU(),
             nn.Linear(256,128),
             nn.ReLU(),
-            nn.Linear(128, len(NUM_CLASSES)),
+            nn.Linear(128, NUM_CLASSES),
             nn.Softmax(dim=1)
         )
 
