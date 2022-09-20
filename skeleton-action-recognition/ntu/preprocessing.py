@@ -75,7 +75,10 @@ for i in os.listdir(SKELETON_FILES_DIR):
 
             one_frame_bone_movements = []
 
-            for bone, prev_bone in zip(person_bones[frame_index], person_bones[frame_index - 1]):
+            # for bone, prev_bone in zip(person_bones[frame_index], person_bones[frame_index - 1]):
+            for bone_index in range(len(person_bones[frame_index])):
+
+                bone = person_bones[frame_index][bone_index]
 
                 # plt.figure()
                 # plt.xlim((-2,2))
@@ -103,63 +106,72 @@ for i in os.listdir(SKELETON_FILES_DIR):
                     bone_unit_vector_2[0] * bone_unit_vector_1[0] - bone_unit_vector_2[1] * bone_unit_vector_1[1]
                 ))
 
-                #now change it to the previous bone
-                j1 = prev_bone[0]
-                j2 = prev_bone[1]
-                j3 = prev_bone[2]
+                angle_diffs = []
 
-                prev_bone_vector_1 = [j1[0] - j2[0], j1[1] - j2[1]]
-                prev_bone_vector_2 = [j3[0] - j2[0], j3[1] - j2[1]]
+                for k in range(1,11):
 
-                if np.linalg.norm(prev_bone_vector_1) == 0.0 or np.linalg.norm(prev_bone_vector_2) == 0.0:
-                    one_frame_bone_movements.append([0,0,0])
-                    continue
+                    if k > frame_index:
+                        angle_diffs.append(0)
+                        continue
 
-                #calculate the angle between the two bones
-                prev_bone_unit_vector_1 = prev_bone_vector_1 / np.linalg.norm(prev_bone_vector_1)
-                prev_bone_unit_vector_2 = prev_bone_vector_2 / np.linalg.norm(prev_bone_vector_2)
+                    prev_bone = person_bones[frame_index][bone_index-k]
 
-                #this is using the following formula: atan2( ax*by-ay*bx, ax*bx+ay*by ).
-                prev_bone_angle = np.degrees(np.arctan2(
-                    prev_bone_unit_vector_2[0] * prev_bone_unit_vector_1[1] - prev_bone_unit_vector_2[1] * prev_bone_unit_vector_1[0],
-                    prev_bone_unit_vector_2[0] * prev_bone_unit_vector_1[0] - prev_bone_unit_vector_2[1] * prev_bone_unit_vector_1[1]
-                ))
+                    #now change it to the previous bone
+                    j1 = prev_bone[0]
+                    j2 = prev_bone[1]
+                    j3 = prev_bone[2]
 
-                #make both bone angles positive
-                if bone_angle < 0:
-                    bone_angle = 360 + bone_angle
-                if prev_bone_angle < 0:
-                    prev_bone_angle = 360 + prev_bone_angle
+                    prev_bone_vector_1 = [j1[0] - j2[0], j1[1] - j2[1]]
+                    prev_bone_vector_2 = [j3[0] - j2[0], j3[1] - j2[1]]
 
-                angle_diff = bone_angle - prev_bone_angle
+                    if np.linalg.norm(prev_bone_vector_1) == 0.0 or np.linalg.norm(prev_bone_vector_2) == 0.0:
+                        one_frame_bone_movements.append([0,0,0])
+                        continue
 
-                if angle_diff < -180:
-                    angle_diff = angle_diff + 360
-                elif angle_diff > 180:
-                    angle_diff = angle_diff - 360
+                    #calculate the angle between the two bones
+                    prev_bone_unit_vector_1 = prev_bone_vector_1 / np.linalg.norm(prev_bone_vector_1)
+                    prev_bone_unit_vector_2 = prev_bone_vector_2 / np.linalg.norm(prev_bone_vector_2)
 
-                angle_diff = angle_diff / 180
+                    #this is using the following formula: atan2( ax*by-ay*bx, ax*bx+ay*by ).
+                    prev_bone_angle = np.degrees(np.arctan2(
+                        prev_bone_unit_vector_2[0] * prev_bone_unit_vector_1[1] - prev_bone_unit_vector_2[1] * prev_bone_unit_vector_1[0],
+                        prev_bone_unit_vector_2[0] * prev_bone_unit_vector_1[0] - prev_bone_unit_vector_2[1] * prev_bone_unit_vector_1[1]
+                    ))
 
-                # print(bone_unit_vector_1)
-                # print(bone_unit_vector_2)
-                # print(prev_bone_unit_vector_1)
-                # print(prev_bone_unit_vector_2)
-                # print(bone_angle)
-                # print(prev_bone_angle)
-                # print(angle_diff)
-                # input()
-                # plt.plot([0,bone_unit_vector_1[0]], [0, bone_unit_vector_1[1]])
-                # plt.plot([0,bone_unit_vector_2[0]], [0, bone_unit_vector_2[1]], label="curr")
-                # plt.plot([0,prev_bone_unit_vector_1[0]], [0, prev_bone_unit_vector_1[1]])
-                # plt.plot([0,prev_bone_unit_vector_2[0]], [0, prev_bone_unit_vector_2[1]], label="prev")
-                # plt.legend()
-                # plt.grid()
-                # plt.show()
+                    #make both bone angles positive
+                    if bone_angle < 0:
+                        bone_angle = 360 + bone_angle
+                    if prev_bone_angle < 0:
+                        prev_bone_angle = 360 + prev_bone_angle
 
-                bone_1_magnitude_change = min((np.linalg.norm(bone_vector_1) / np.linalg.norm(prev_bone_vector_1))-1,1)
-                bone_2_magnitude_change = min((np.linalg.norm(bone_vector_2) / np.linalg.norm(prev_bone_vector_2))-1,1)
+                    angle_diff = bone_angle - prev_bone_angle
 
-                one_frame_bone_movements.append([angle_diff, bone_1_magnitude_change, bone_2_magnitude_change])
+                    if angle_diff < -180:
+                        angle_diff = angle_diff + 360
+                    elif angle_diff > 180:
+                        angle_diff = angle_diff - 360
+
+                    angle_diff = angle_diff / 180
+
+                    # print(bone_unit_vector_1)
+                    # print(bone_unit_vector_2)
+                    # print(prev_bone_unit_vector_1)
+                    # print(prev_bone_unit_vector_2)
+                    # print(bone_angle)
+                    # print(prev_bone_angle)
+                    # print(angle_diff)
+                    # input()
+                    # plt.plot([0,bone_unit_vector_1[0]], [0, bone_unit_vector_1[1]])
+                    # plt.plot([0,bone_unit_vector_2[0]], [0, bone_unit_vector_2[1]], label="curr")
+                    # plt.plot([0,prev_bone_unit_vector_1[0]], [0, prev_bone_unit_vector_1[1]])
+                    # plt.plot([0,prev_bone_unit_vector_2[0]], [0, prev_bone_unit_vector_2[1]], label="prev")
+                    # plt.legend()
+                    # plt.grid()
+                    # plt.show()
+
+                    angle_diffs.append(angle_diff)
+
+                one_frame_bone_movements.append(angle_diffs)
 
             one_person_bone_movements.append(one_frame_bone_movements)
 
@@ -170,12 +182,9 @@ for i in os.listdir(SKELETON_FILES_DIR):
         
         # print(one_person_bone_movements.max())
         # input()
-        plt.imshow(one_person_bone_movements)
-        plt.show()
-        raise Exception;
 
-    # export the bone movements to a json (not sure if a more efficient data type)
-    # with open(f"{EXPORT_DIR}/{i[:-9]}.json", 'w') as outfile:
-    #     json.dump(bone_movements, outfile)
+    # export the bone movements to a json
+    with open(f"{EXPORT_DIR}/{i[:-9]}.json", 'w') as outfile:
+        json.dump(bone_movements, outfile)
     
     pbar.update(1)
