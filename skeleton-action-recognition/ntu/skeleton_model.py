@@ -86,6 +86,8 @@ for c in classes:
         unique_classes.append(c)
 NUM_CLASSES = len(unique_classes)
 
+print(f"{NUM_CLASSES} CLASSES")
+
 X_train = []
 X_test = []
 y_train = []
