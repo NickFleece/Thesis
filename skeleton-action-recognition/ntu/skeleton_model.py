@@ -179,7 +179,7 @@ optimizer = optim.SGD(
 )
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer,
-    factor=1,
+    factor=0.99,
     patience=5
 )
 
