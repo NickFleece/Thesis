@@ -20,6 +20,8 @@ for folder in os.listdir(RESULTS_DIR):
 
         result = torch.load(f"{RESULTS_DIR}/{folder}/{result_file}", map_location=torch.device('cpu'))
 
+        max_epoch = None
+
         acc = accuracy_score(result['val_actual'], result['val_predicted'])
         if acc > max_acc:
 
@@ -27,10 +29,13 @@ for folder in os.listdir(RESULTS_DIR):
             max_prec = precision_score(result['val_actual'], result['val_predicted'], average="micro")
             max_rec = recall_score(result['val_actual'], result['val_predicted'], average="micro")
             conf_matrix = confusion_matrix(result['val_actual'], result['val_predicted'])
+
+            max_epoch = result_file
         
     print(f"Max Accuracy: {max_acc}")
     print(f"Max Precision: {max_acc}")
     print(f"Max Recall: {max_rec}")
+    print(f"Epoch: {max_epoch}")
     print(conf_matrix)
 
     accuracies[folder] = max_acc
