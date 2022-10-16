@@ -1,6 +1,6 @@
 # HYPERPARAMETERS:
 LEARNING_RATE = 0.1
-EPOCHS = 500
+EPOCHS = 200
 BATCH_SIZE = 128
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -179,8 +179,8 @@ optimizer = optim.SGD(
 )
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer,
-    factor=0.99,
-    patience=5
+    factor=0.5,
+    patience=50
 )
 
 train_accuracies = []
