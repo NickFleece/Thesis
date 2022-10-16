@@ -16,11 +16,10 @@ for folder in os.listdir(RESULTS_DIR):
     print(f"\n Version: {folder}")
 
     max_acc = 0.0
+    max_epoch = None
     for result_file in os.listdir(f"{RESULTS_DIR}/{folder}"):
 
         result = torch.load(f"{RESULTS_DIR}/{folder}/{result_file}", map_location=torch.device('cpu'))
-
-        max_epoch = None
 
         acc = accuracy_score(result['val_actual'], result['val_predicted'])
         if acc > max_acc:
