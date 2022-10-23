@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Paper.aux
+Reallocating 'name_of_file' (item size: 1) to 14 items.
+The style file: ieee_fullname.bst
+Reallocating 'name_of_file' (item size: 1) to 4 items.
+Database file #1: ref.bib
+Warning--empty booktitle in potion
+You've used 2 entries,
+            2120 wiz_defined-function locations,
+            590 strings with 4987 characters,
+and the built_in function-call counts, 1097 in all, are:
+= -- 105
+> -- 46
+< -- 2
++ -- 18
+- -- 16
+* -- 72
+:= -- 158
+add.period$ -- 6
+call.type$ -- 2
+change.case$ -- 14
+chr.to.int$ -- 0
+cite$ -- 3
+duplicate$ -- 49
+empty$ -- 87
+format.name$ -- 16
+if$ -- 250
+int.to.chr$ -- 0
+int.to.str$ -- 2
+missing$ -- 2
+newline$ -- 13
+num.names$ -- 4
+pop$ -- 21
+preamble$ -- 1
+purify$ -- 12
+quote$ -- 0
+skip$ -- 46
+stack$ -- 0
+substring$ -- 82
+swap$ -- 25
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 8
+warning$ -- 1
+while$ -- 8
+width$ -- 3
+write$ -- 23
+(There was 1 warning)

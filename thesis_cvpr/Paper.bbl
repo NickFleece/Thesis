@@ -1,0 +1,14 @@
+\begin{thebibliography}{1}\itemsep=-1pt
+
+\bibitem{potion}
+Vasileios Choutas, Philippe Weinzaepfel, Jerome Revaud, and Cordelia Schmid.
+\newblock Potion: Pose motion representation for action recognition.
+\newblock pages 7024--7033, 06 2018.
+
+\bibitem{PA3D}
+An Yan, Yali Wang, Zhifeng Li, and Yu Qiao.
+\newblock Pa3d: Pose-action 3d machine for video recognition.
+\newblock In {\em 2019 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}, pages 7914--7923, 2019.
+
+\end{thebibliography}
