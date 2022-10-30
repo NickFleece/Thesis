@@ -5,6 +5,12 @@ Vasileios Choutas, Philippe Weinzaepfel, Jerome Revaud, and Cordelia Schmid.
 \newblock Potion: Pose motion representation for action recognition.
 \newblock pages 7024--7033, 06 2018.
 
+\bibitem{simple_yet_efficient}
+Dennis Ludl, Thomas Gulde, and Cristóbal Curio.
+\newblock Simple yet efficient real-time pose-based action recognition.
+\newblock In {\em 2019 IEEE Intelligent Transportation Systems Conference
+  (ITSC)}, pages 581--588, 2019.
+
 \bibitem{PA3D}
 An Yan, Yali Wang, Zhifeng Li, and Yu Qiao.
 \newblock Pa3d: Pose-action 3d machine for video recognition.

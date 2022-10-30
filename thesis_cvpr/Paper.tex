@@ -77,13 +77,9 @@ University of Ottawa\\
 \section{Introduction}
 \label{sec:intro}
 
-\section{Related Work}
-
 \subsection{CNN-Based Action Recognition}
 
 CNN's have been widely used for many years on the problem of human action recognition. They have shown to be capable of detecting actions performed by people in simple and complex settings. This quite often involves the use of 3D-Convolutions, which operate on multiple frames of video at a time. Resnet-3D is an example, and is used later in this paper.
-
-\subsubsection{Person-Based Action Recognition}
 
 \subsection{Pose-Based Action Recognition}
 
@@ -91,21 +87,27 @@ Pose involves extracting the skeleton of the person and using this data over mul
 
 \subsubsection{Intermediate Representations}
 
-The approach of the majority of this thesis involves creating intermediate representations for pose data over multiple frames. This typically has the aim of creating some kind of image that represents either the motion of the persons bones and/or joints through the image at different points in the video. These images can then be used either by the model independently or added to traditional two-stream architectures.
+The approach of the majority of this paper involves creating intermediate representations for pose data over multiple frames. This typically has the aim of creating some kind of image that represents either the motion of the persons bones and/or joints through the image at different points in the video. These images can then be used either by the model independently or added to traditional two-stream architectures.
 
 The advantage of these types of representations is that the model can quite often be a small CNN that can be trained end-to-end very quickly and with little memory. This quite often allows for real-time evaluation and in some cases mobile-capable models.
 
-\subsubsection{PoTion}
+\subsection{Person-Based Action Recognition}
 
-Pose motion representation for action recognition \cite{potion} was largely the inspiration for the work that was done within this thesis. This approach aims to take the joints extracted from the pose representation and use the movement over $f$ frames, creating $j$ images where $j$ is the number of joints.
+\section{Related Work}
+\label{sec:relatedwork}
+
+\textbf{Video Action Recognition.} 
+
+% Potion
+\textbf{Pose motion representation for action recognition.} \cite{potion} was largely the inspiration for the work that was done within this paper. This approach aims to take the joints extracted from the pose representation and use the movement over $f$ frames, creating $j$ images where $j$ is the number of joints.
 
 The approach begins by extracting $j$ joint heatmaps from each frame of the video, these individual frames are then combines using their colour coding where depending on what time $t$ the frame is at in the video, the joint heatmap is made to be that colour. They then perform their temporal aggregation where for each joint $j$, they combine all frames together into one image, perfoming a simple addition through all frames. This leaves an image that demonstrates the movement of one joint through all frames of a video.
 
-\subsubsection{PA3D}
+% pa3d
+\textbf{Pose action 3D.} \cite{PA3D} is a similar approach to PoTion, where it involves the use of the generated joint heatmaps from pose estimation models. The difference is that instead of using the color coding similar to potion, PA3D stacks the joint heatmaps such that they create $j$ cubes of every heatmap frame.
 
-Pose action 3D \cite{PA3D} is a similar approach to PoTion, where it involves the use of the generated joint heatmaps from pose estimation models. The difference is that instead of using the color coding similar to potion, PA3D stacks the joint heatmaps such that they create $j$ cubes of every heatmap frame.
-
-\subsubsection{Simple yet efficient real-time pose-based action recognition}
+% simple one
+\textbf{Simple yet efficient real-time pose-based action recognition.} \cite{simple_yet_efficient}
 
 %%%%%%%%% REFERENCES
 {\small
