@@ -107,7 +107,7 @@ The approach begins by extracting $j$ joint heatmaps from each frame of the vide
 \textbf{Pose action 3D.} \cite{PA3D} is a similar approach to PoTion, where it involves the use of the generated joint heatmaps from pose estimation models. The difference is that instead of using the color coding similar to potion, PA3D stacks the joint heatmaps such that they create $j$ cubes of every heatmap frame.
 
 % simple one
-\textbf{Simple yet efficient real-time pose-based action recognition.} \cite{simple_yet_efficient}
+\textbf{Simple yet efficient real-time pose-based action recognition.} \cite{simple_yet_efficient} is the most similar to our work, as it uses a matrix of x and y joint positions. A simple 2D-CNN is then run on this intermediate representation, which leads to a very lightweight model that provides accurate results on their dataset.
 
 %%%%%%%%% REFERENCES
 {\small
