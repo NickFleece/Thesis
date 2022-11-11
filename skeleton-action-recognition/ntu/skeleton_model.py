@@ -191,7 +191,7 @@ for e in range(int(checkpoint), EPOCHS):
     print(f"Learning rate: {optimizer.param_groups[0]['lr']}")
 
     #shuffle dataset - removed
-    #X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
+    X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
 
     losses = []
     train_correct = 0
