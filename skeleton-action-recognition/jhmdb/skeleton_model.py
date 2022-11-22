@@ -1,8 +1,8 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.1
 EPOCHS = 500
-BATCH_SIZE = 16
-MAX_FRAMES = 881
+BATCH_SIZE = 64
+MAX_FRAMES = 39
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
@@ -90,7 +90,7 @@ for c in categories:
             channel_first_data.append(data[:,:,j])
         
         data = np.asarray(channel_first_data)
-        data = np.pad(data, [(0,0), (0,0), (0,39-data.shape[2])])
+        data = np.pad(data, [(0,0), (0,0), (0,MAX_FRAMES-data.shape[2])])
 
         if i[:-5] in train_split:
             X_train.append(data)
@@ -170,8 +170,8 @@ optimizer = optim.SGD(
 )
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer, 
-    factor=0.5,
-    patience=25
+    factor=0.1,
+    patience=15
 )
 
 train_accuracies = []
@@ -205,8 +205,6 @@ for e in range(int(checkpoint), EPOCHS):
 
         batch_input.append(X)
         batch_actual.append(y)
-
-        print(X.shape)
 
         if len(batch_input) == BATCH_SIZE:
             input_tensor = torch.from_numpy(np.asarray(batch_input)).float().to(device)
@@ -300,7 +298,7 @@ for e in range(int(checkpoint), EPOCHS):
         print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
 
 
-    print(confusion_matrix(val_actual, val_predicted))
+    # print(confusion_matrix(val_actual, val_predicted))
 
     print("---------------------------------------------------------------")
 
