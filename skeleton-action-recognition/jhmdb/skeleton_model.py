@@ -85,13 +85,12 @@ for c in categories:
         with open(f"{PROCESSED_JOINT_DATA_FOLDER}/{c}/{i}", 'r') as f:
             data = np.asarray(json.load(f))
 
-        print(data.shape)
-
         channel_first_data = []
         for j in range(data.shape[2]):
             channel_first_data.append(data[:,:,j])
         
         data = np.asarray(channel_first_data)
+        data = np.pad(data, [(0,0), (0,0), (0,39-data.shape[2])])
 
         if i[:-5] in train_split:
             X_train.append(data)
@@ -206,6 +205,8 @@ for e in range(int(checkpoint), EPOCHS):
 
         batch_input.append(X)
         batch_actual.append(y)
+
+        print(X.shape)
 
         if len(batch_input) == BATCH_SIZE:
             input_tensor = torch.from_numpy(np.asarray(batch_input)).float().to(device)
