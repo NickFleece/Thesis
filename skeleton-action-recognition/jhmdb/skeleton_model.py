@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.1
 EPOCHS = 500
-BATCH_SIZE = 64
+BATCH_SIZE = 128
 MAX_FRAMES = 39
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -133,10 +133,10 @@ class CNN(nn.Module):
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Dropout(),
+            # nn.Dropout(),
             nn.Linear(512,512),
             nn.ReLU(),
-            nn.Dropout(),
+            # nn.Dropout(),
             nn.Linear(512, len(categories)),
             nn.Softmax(dim=1)
         )
@@ -170,8 +170,8 @@ optimizer = optim.SGD(
 )
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer, 
-    factor=0.1,
-    patience=15
+    factor=0.5,
+    patience=10
 )
 
 train_accuracies = []
