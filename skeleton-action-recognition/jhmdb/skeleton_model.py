@@ -118,7 +118,7 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(10, 128, kernel_size=(3,3)),
+            nn.Conv2d(38, 128, kernel_size=(3,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
         )
@@ -139,10 +139,6 @@ class CNN(nn.Module):
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             # nn.Dropout(),
-            nn.Linear(512,512),
-            nn.ReLU(),
-            nn.Linear(512,512),
-            nn.ReLU(),
             nn.Linear(512,512),
             nn.ReLU(),
             nn.Linear(512,512),
@@ -309,7 +305,7 @@ for e in range(int(checkpoint), EPOCHS):
         print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
 
 
-    # print(confusion_matrix(val_actual, val_predicted))
+    print(confusion_matrix(val_actual, val_predicted))
 
     print("---------------------------------------------------------------")
 
