@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.1
 EPOCHS = 500
-BATCH_SIZE = 128
+BATCH_SIZE = 16
 MAX_FRAMES = 39
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -95,6 +95,11 @@ for c in categories:
         if i[:-5] in train_split:
             X_train.append(data)
             y_train.append(categories.index(c))
+
+            #For appending the inverse
+            X_train.append(data * -1)
+            y_train.append(categories.index(c))
+
         elif i[:-5] in test_split:
             X_test.append(data)
             y_test.append(categories.index(c))
@@ -134,6 +139,12 @@ class CNN(nn.Module):
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             # nn.Dropout(),
+            nn.Linear(512,512),
+            nn.ReLU(),
+            nn.Linear(512,512),
+            nn.ReLU(),
+            nn.Linear(512,512),
+            nn.ReLU(),
             nn.Linear(512,512),
             nn.ReLU(),
             # nn.Dropout(),
