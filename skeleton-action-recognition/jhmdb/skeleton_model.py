@@ -118,28 +118,37 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(38, 128, kernel_size=(3,3)),
+            nn.Conv2d(38, 128, kernel_size=(1,3)),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+            nn.Conv2d(128, 128, kernel_size=(1,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
         )
 
         self.conv_block_2 = nn.Sequential(
-            nn.Conv2d(128, 256, kernel_size=(3,3)),
+            nn.Conv2d(128, 256, kernel_size=(1,3)),
+            nn.BatchNorm2d(256),
+            nn.ReLU(),
+            nn.Conv2d(256, 256, kernel_size=(1,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
         )
 
         self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size=(3,3)),
+            nn.Conv2d(256, 512, kernel_size=(1,3)),
+            nn.BatchNorm2d(512),
+            nn.ReLU(),
+            nn.Conv2d(512, 512, kernel_size=(1,3)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
         )
 
         self.fc = nn.Sequential(
-            nn.AdaptiveAvgPool2d((1,1)),
+            nn.AvgPool2d((1,27)),
             nn.Flatten(),
             # nn.Dropout(),
-            nn.Linear(512,512),
+            nn.Linear(512*10,512),
             nn.ReLU(),
             nn.Linear(512,512),
             nn.ReLU(),
