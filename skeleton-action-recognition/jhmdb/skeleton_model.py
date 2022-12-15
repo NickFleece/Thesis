@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
-LEARNING_RATE = 0.1
+LEARNING_RATE = 0.01
 EPOCHS = 500
-BATCH_SIZE = 128
+BATCH_SIZE = 32
 MAX_FRAMES = 39
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -109,6 +109,8 @@ for c in categories:
 
 print("Done loading!\n")
 
+X_test, y_test = shuffle(X_test, y_test, random_state=RANDOM_STATE)
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cpu = torch.device("cpu")
 print(f"Running on: {device}")
@@ -144,12 +146,12 @@ class CNN(nn.Module):
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            # nn.Dropout(),
+            nn.Dropout(),
             nn.Linear(1024,1024),
             nn.ReLU(),
             nn.Linear(1024,1024),
             nn.ReLU(),
-            # nn.Dropout(),
+            nn.Dropout(),
             nn.Linear(1024, len(categories)),
             nn.Softmax(dim=1)
         )
