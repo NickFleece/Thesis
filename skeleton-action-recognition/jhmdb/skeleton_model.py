@@ -145,13 +145,15 @@ class CNN(nn.Module):
 
         self.fc = nn.Sequential(
             nn.Flatten(),
-            # nn.Dropout(),
-            nn.Linear(1024*39,1024*5),
+            nn.Linear(1024*39,1024*2),
             nn.ReLU(),
-            # nn.Dropout(),
-            nn.Linear(1024*5,1024*5),
+            nn.Linear(1024*2,1024*2),
             nn.ReLU(),
-            nn.Linear(1024*5, len(categories)),
+            nn.Linear(1024*2,1024),
+            nn.ReLU(),
+            nn.Linear(1024,512),
+            nn.ReLU(),
+            nn.Linear(512, len(categories)),
             nn.Softmax(dim=1)
         )
 
@@ -318,9 +320,12 @@ for e in range(int(checkpoint), EPOCHS):
     print("---------------------------------------------------------------")
 
     torch.save({
-        'epoch': e,
         'model_state_dict': cnn_net.state_dict(),
         'optimizer_state_dict': optimizer.state_dict(),
+    }, f"{MODEL_SAVE_DIR}/m_{VERSION}/m_{e}")
+
+    torch.save({
+        'epoch': e,
         'loss': losses,
         'train_predicted': train_predicted,
         'train_actual': train_actual,
