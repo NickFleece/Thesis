@@ -26,11 +26,13 @@ parser.add_argument('--drive_dir', required=True)
 parser.add_argument('--load_checkpoint')
 parser.add_argument('--version', required=True)
 parser.add_argument('--split', default=1)
+parser.add_argument('--save_all_models', default=False)
 args = parser.parse_args()
 
 BASE_DIR = args.drive_dir
 VERSION = args.version
 SPLIT = args.split
+SAVE_ALL_MODELS = args.save_all_models
 
 MODEL_SAVE_DIR = f"{BASE_DIR}/models"
 
@@ -145,9 +147,9 @@ class CNN(nn.Module):
 
         self.fc = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(1024*39,1024*2),
+            nn.Linear(1024*39,1024*5),
             nn.ReLU(),
-            nn.Linear(1024*2,1024*2),
+            nn.Linear(1024*5,1024*2),
             nn.ReLU(),
             nn.Linear(1024*2,1024),
             nn.ReLU(),
@@ -319,10 +321,16 @@ for e in range(int(checkpoint), EPOCHS):
 
     print("---------------------------------------------------------------")
 
-    torch.save({
-        'model_state_dict': cnn_net.state_dict(),
-        'optimizer_state_dict': optimizer.state_dict(),
-    }, f"{MODEL_SAVE_DIR}/m_{VERSION}/m_{e}")
+    if SAVE_ALL_MODELS:
+        torch.save({
+            'model_state_dict': cnn_net.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),
+        }, f"{MODEL_SAVE_DIR}/m_{VERSION}/m_{e}")
+    else:
+        torch.save({
+            'model_state_dict': cnn_net.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),
+        }, f"{MODEL_SAVE_DIR}/m_{VERSION}/model")
 
     torch.save({
         'epoch': e,
