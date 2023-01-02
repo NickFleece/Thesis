@@ -147,11 +147,7 @@ class CNN(nn.Module):
 
         self.fc = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(1024*39,1024*5),
-            nn.ReLU(),
-            nn.Linear(1024*5,1024*2),
-            nn.ReLU(),
-            nn.Linear(1024*2,1024),
+            nn.Linear(1024*39,1024),
             nn.ReLU(),
             nn.Linear(1024,512),
             nn.ReLU(),
