@@ -1,5 +1,5 @@
 #HYPERPARAMETERS:
-LEARNING_RATE = 0.01
+LEARNING_RATE = 0.1
 EPOCHS = 100
 BATCH_SIZE = 32
 MAX_FRAMES = 39
@@ -185,8 +185,8 @@ optimizer = optim.SGD(
 )
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer, 
-    factor=0.5,
-    patience=10
+    factor=0.1,
+    patience=20
 )
 
 train_accuracies = []
