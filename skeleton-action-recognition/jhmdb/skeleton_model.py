@@ -143,17 +143,16 @@ class CNN(nn.Module):
             nn.Conv2d(512, 1024, kernel_size=(10,1)),
             nn.BatchNorm2d(1024),
             nn.ReLU(),
+            nn.Dropout()
         )
 
         self.fc = nn.Sequential(
             nn.Flatten(),
-            nn.Dropout(),
             nn.Linear(1024*39,1024),
             nn.ReLU(),
             nn.Dropout(),
             nn.Linear(1024,512),
             nn.ReLU(),
-            nn.Dropout(),
             nn.Linear(512, len(categories)),
             nn.Softmax(dim=1)
         )
