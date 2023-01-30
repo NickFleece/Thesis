@@ -18,6 +18,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
 from sklearn.metrics import confusion_matrix
 import time
+import random
 
 RANDOM_STATE = 42
 
@@ -111,6 +112,16 @@ for c in categories:
 
 print("Done loading!\n")
 
+def random_joint_removal(data):
+
+    for i in range(data.shape[1]):
+        rand = random.random()
+
+        if rand < 0.1:
+            data[:,i] = 0
+
+    return data
+
 X_test, y_test = shuffle(X_test, y_test, random_state=RANDOM_STATE)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -143,14 +154,12 @@ class CNN(nn.Module):
             nn.Conv2d(512, 1024, kernel_size=(10,1)),
             nn.BatchNorm2d(1024),
             nn.ReLU(),
-            nn.Dropout()
         )
 
         self.fc = nn.Sequential(
             nn.Flatten(),
             nn.Linear(1024*39,1024),
             nn.ReLU(),
-            nn.Dropout(),
             nn.Linear(1024,512),
             nn.ReLU(),
             nn.Linear(512, len(categories)),
@@ -220,7 +229,7 @@ for e in range(int(checkpoint), EPOCHS):
 
         pbar.update(1)
 
-        batch_input.append(X)
+        batch_input.append(random_joint_removal(X))
         batch_actual.append(y)
 
         if len(batch_input) == BATCH_SIZE:
