@@ -117,7 +117,7 @@ def random_joint_removal(data):
     for i in range(data.shape[1]):
         rand = random.random()
 
-        if rand < 0.1:
+        if rand < 0.03:
             data[:,i] = 0
 
     return data
