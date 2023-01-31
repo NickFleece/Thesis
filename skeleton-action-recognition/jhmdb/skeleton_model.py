@@ -95,6 +95,11 @@ for c in categories:
         data = np.asarray(channel_first_data)
         data = np.pad(data, [(0,0), (0,0), (0,MAX_FRAMES-data.shape[2])])
 
+        new_data = []
+        for j in range(0,data.shape[0],4):
+            new_data.append(data[j])
+        data = np.asarray(new_data)
+
         if i[:-5] in train_split:
             X_train.append(data)
             y_train.append(categories.index(c))
@@ -112,16 +117,6 @@ for c in categories:
 
 print("Done loading!\n")
 
-def random_joint_removal(data):
-
-    for i in range(data.shape[1]):
-        rand = random.random()
-
-        if rand < 0.03:
-            data[:,i] = 0
-
-    return data
-
 X_test, y_test = shuffle(X_test, y_test, random_state=RANDOM_STATE)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -133,7 +128,7 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(38, 128, kernel_size=(1,3), padding=(0,1)),
+            nn.Conv2d(10, 128, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
         )
@@ -160,6 +155,7 @@ class CNN(nn.Module):
             nn.Flatten(),
             nn.Linear(1024*39,1024),
             nn.ReLU(),
+            nn.Dropout(),
             nn.Linear(1024,512),
             nn.ReLU(),
             nn.Linear(512, len(categories)),
@@ -229,7 +225,7 @@ for e in range(int(checkpoint), EPOCHS):
 
         pbar.update(1)
 
-        batch_input.append(random_joint_removal(X))
+        batch_input.append(X)
         batch_actual.append(y)
 
         if len(batch_input) == BATCH_SIZE:
