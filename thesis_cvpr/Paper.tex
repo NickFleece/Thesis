@@ -77,9 +77,7 @@ University of Ottawa\\
 \section{Introduction}
 \label{sec:intro}
 
-\subsection{CNN-Based Action Recognition}
-
-CNN's have been widely used for many years on the problem of human action recognition. They have shown to be capable of detecting actions performed by people in simple and complex settings. This quite often involves the use of 3D-Convolutions, which operate on multiple frames of video at a time. Resnet-3D is an example, and is used later in this paper.
+CNN's have been widely used for many years on the problem of human action recognition. They have shown to be capable of detecting actions performed by people in simple and complex settings. This quite often involves the use of 3D-Convolutions, which operate on multiple frames of video at a time. Complex models that often use several GPUs are constantly being developed and tested on many different datasets.
 
 \subsection{Pose-Based Action Recognition}
 
@@ -89,7 +87,7 @@ Pose involves extracting the skeleton of the person and using this data over mul
 
 The approach of the majority of this paper involves creating intermediate representations for pose data over multiple frames. This typically has the aim of creating some kind of image that represents either the motion of the persons bones and/or joints through the image at different points in the video. These images can then be used either by the model independently or added to traditional two-stream architectures.
 
-The advantage of these types of representations is that the model can quite often be a small CNN that can be trained end-to-end very quickly and with little memory. This quite often allows for real-time evaluation and in some cases mobile-capable models.
+The advantage of these types of representations is that the model can be a small neural network (often CNN's) that can be trained end-to-end very quickly and with little memory. This quite often allows for real-time evaluation and in some cases mobile-capable models.
 
 \subsection{Person-Based Action Recognition}
 
@@ -109,7 +107,7 @@ The approach begins by extracting $j$ joint heat maps from each frame of the vid
 % simple one
 \textbf{Simple yet efficient real-time pose-based action recognition.} \cite{simple_yet_efficient} is the most similar to our work, as it uses a matrix of x and y joint positions. A simple 2D-CNN is then run on this intermediate representation, which leads to a very lightweight model that provides accurate results on their datasets.
 
-Other works have examined the idea of intermediate representations REFERENCES, some utilizing 3d pose REFERENCES. While the 3d pose may provide a potential improvement in performance, the current 3d-pose estimation models are not quite mature enough and our intermediate representation lends itself to 2d-pose more than 3d-pose.
+Other works have examined the idea of intermediate representations REFERENCES, some utilizing 3d pose REFERENCES. While the 3d pose may provide a potential improvement in performance, the current 3d-pose estimation models are not quite mature enough and our intermediate representation lends itself to 2d-pose more than 3d-pose. This may be a 
 
 \section{Method}
 \label{sec:method}
