@@ -150,7 +150,7 @@ class CNN(nn.Module):
             nn.BatchNorm2d(512),
             nn.ReLU(),
             nn.Conv2d(512, 512, kernel_size=(1,3), padding=(0,1)),
-            nn.BatchNorm2d(128),
+            nn.BatchNorm2d(512),
             nn.ReLU(),
         )
 
