@@ -201,8 +201,8 @@ optimizer = optim.SGD(
 )
 scheduler = optim.lr_scheduler.ReduceLROnPlateau(
     optimizer, 
-    factor=0.95,
-    patience=5
+    factor=0.01,
+    patience=100
 )
 
 train_accuracies = []
