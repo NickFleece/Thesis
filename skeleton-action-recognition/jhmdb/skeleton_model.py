@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.01
 EPOCHS = 300
-BATCH_SIZE = 32
+BATCH_SIZE = 64
 MAX_FRAMES = 39
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -130,19 +130,19 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(1, 128, kernel_size=(1,3), padding=(0,1)),
+            nn.Conv2d(1, 128, kernel_size=(1,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
         )
 
         self.conv_block_2 = nn.Sequential(
-            nn.Conv2d(128, 256, kernel_size=(1,3), padding=(0,1)),
+            nn.Conv2d(128, 256, kernel_size=(1,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
         )
 
         self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size=(1,3), padding=(0,1)),
+            nn.Conv2d(256, 512, kernel_size=(1,3)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
         )
@@ -155,9 +155,8 @@ class CNN(nn.Module):
 
         self.fc = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(1024*39,1024),
+            nn.Linear(1024*33,1024),
             nn.ReLU(),
-            nn.Dropout(),
             nn.Linear(1024,512),
             nn.ReLU(),
             nn.Linear(512, len(categories)),
@@ -192,10 +191,10 @@ optimizer = optim.SGD(
     lr=LEARNING_RATE,
     momentum=0.9
 )
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-    optimizer, 
-    factor=0.5,
-    patience=5
+scheduler = optim.lr_scheduler.MultiStepLR(
+    optimizer,
+    milestones=list(range(0,300,50)),
+    gamma=0.1
 )
 
 train_accuracies = []
