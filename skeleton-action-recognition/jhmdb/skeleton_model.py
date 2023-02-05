@@ -193,7 +193,7 @@ optimizer = optim.SGD(
 )
 scheduler = optim.lr_scheduler.MultiStepLR(
     optimizer,
-    milestones=list(range(0,300,50)),
+    milestones=list(range(0,300,50))[1:],
     gamma=0.1
 )
 
@@ -312,7 +312,7 @@ for e in range(int(checkpoint), EPOCHS):
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
 
-        scheduler.step(val_loss/len(X_test))
+        scheduler.step()
 
         pbar.close()
         time.sleep(1)
