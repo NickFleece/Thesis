@@ -128,34 +128,25 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(10, 128, kernel_size=(1,3), padding=(0,1)),
-            nn.BatchNorm2d(128),
-            nn.LeakyReLU(),
-            nn.Conv2d(128, 128, kernel_size=(1,3), padding=(0,1)),
+            nn.Conv2d(10, 128, kernel_size=(1,3)),
             nn.BatchNorm2d(128),
             nn.LeakyReLU(),
         )
 
         self.conv_block_2 = nn.Sequential(
-            nn.Conv2d(128, 256, kernel_size=(1,3), padding=(0,1)),
-            nn.BatchNorm2d(256),
-            nn.LeakyReLU(),
-            nn.Conv2d(256, 256, kernel_size=(1,3), padding=(0,1)),
+            nn.Conv2d(128, 256, kernel_size=(1,3)),
             nn.BatchNorm2d(256),
             nn.LeakyReLU(),
         )
 
         self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size=(1,3), padding=(0,1)),
-            nn.BatchNorm2d(512),
-            nn.LeakyReLU(),
-            nn.Conv2d(512, 512, kernel_size=(1,3), padding=(0,1)),
+            nn.Conv2d(256, 512, kernel_size=(1,3)),
             nn.BatchNorm2d(512),
             nn.LeakyReLU(),
         )
 
         self.vertical_convolutions = nn.Sequential(
-            nn.Conv2d(512, 1024, kernel_size=(10,1)),
+            nn.Conv2d(512, 1024, kernel_size=(10,3)),
             nn.BatchNorm2d(1024),
             nn.LeakyReLU(),
         )
@@ -163,7 +154,13 @@ class CNN(nn.Module):
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(1024, len(categories)),
+            nn.Linear(1024, 128),
+            nn.LeakyReLU(),
+            nn.Dropout(),
+            nn.Linear(128, 128),
+            nn.LeakyReLU(),
+            nn.Dropout(),
+            nn.Linear(128, len(categories)),
             nn.Softmax(dim=1)
         )
 
