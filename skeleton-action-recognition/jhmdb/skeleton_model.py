@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
-LEARNING_RATE = 0.001
+LEARNING_RATE = 0.01
 EPOCHS = 500
-BATCH_SIZE = 64
+BATCH_SIZE = 128
 MAX_FRAMES = 39
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -96,7 +96,7 @@ for c in categories:
         data = np.pad(data, [(0,0), (0,0), (0,MAX_FRAMES-data.shape[2])])
 
         new_data = []
-        for j in range(0,data.shape[0],4):
+        for j in range(0,data.shape[0],8):
             new_data.append(data[j])
         data = np.asarray(new_data)
 
@@ -128,7 +128,7 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(10, 128, kernel_size=(1,3), padding=(0,1)),
+            nn.Conv2d(5, 128, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
             nn.Conv2d(128, 128, kernel_size=(1,3), padding=(0,1)),
