@@ -1,6 +1,6 @@
 #HYPERPARAMETERS:
-LEARNING_RATE = 0.01
-EPOCHS = 300
+LEARNING_RATE = 0.001
+EPOCHS = 500
 BATCH_SIZE = 64
 MAX_FRAMES = 39
 import os
@@ -128,37 +128,45 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(10, 128, kernel_size=(1,3), dilation=3),
+            nn.Conv2d(10, 128, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(128),
-            nn.LeakyReLU(),
+            nn.ReLU(),
+            nn.Conv2d(128, 128, kernel_size=(1,3), padding=(0,1)),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
         )
 
         self.conv_block_2 = nn.Sequential(
-            nn.Conv2d(128, 256, kernel_size=(1,3), dilation=3),
+            nn.Conv2d(128, 256, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(256),
-            nn.LeakyReLU(),
+            nn.ReLU(),
+            nn.Conv2d(256, 256, kernel_size=(1,3), padding=(0,1)),
+            nn.BatchNorm2d(256),
+            nn.ReLU(),
         )
 
         self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size=(1,3), dilation=3),
+            nn.Conv2d(256, 512, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(512),
-            nn.LeakyReLU(),
+            nn.ReLU(),
+            nn.Conv2d(512, 512, kernel_size=(1,3), padding=(0,1)),
+            nn.BatchNorm2d(512),
+            nn.ReLU(),
         )
 
         self.vertical_convolutions = nn.Sequential(
-            nn.Conv2d(512, 1024, kernel_size=(10,3)),
+            nn.Conv2d(512, 1024, kernel_size=(10,1)),
             nn.BatchNorm2d(1024),
-            nn.LeakyReLU(),
+            nn.ReLU(),
         )
 
         self.fc = nn.Sequential(
-            nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(1024,1024),
-            nn.LeakyReLU(),
+            nn.Linear(1024*39,1024),
+            nn.ReLU(),
             nn.Dropout(),
             nn.Linear(1024,512),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.Linear(512, len(categories)),
             nn.Softmax(dim=1)
         )
@@ -190,11 +198,6 @@ optimizer = optim.SGD(
     cnn_net.parameters(),
     lr=LEARNING_RATE,
     momentum=0.9
-)
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-    optimizer, 
-    factor=0.01,
-    patience=100
 )
 
 train_accuracies = []
@@ -311,8 +314,6 @@ for e in range(int(checkpoint), EPOCHS):
             
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
-
-        scheduler.step(val_loss/len(X_test))
 
         pbar.close()
         time.sleep(1)
