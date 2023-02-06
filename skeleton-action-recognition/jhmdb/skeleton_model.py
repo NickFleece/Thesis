@@ -133,31 +133,31 @@ class CNN(nn.Module):
             nn.Conv2d(8, 128, kernel_size=(1,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.MaxPool2d((10,3)),
         )
 
         self.conv_block_2 = nn.Sequential(
+            nn.MaxPool2d((10,3)),
             nn.Conv2d(128, 256, kernel_size=(1,3)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            nn.MaxPool2d((10,3)),
         )
 
         self.conv_block_3 = nn.Sequential(
+            nn.MaxPool2d((10,3)),
             nn.Conv2d(256, 512, kernel_size=(1,3)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
-            nn.MaxPool2d((10,3)),
         )
 
         self.vertical_convolutions = nn.Sequential(
+            nn.MaxPool2d((10,3)),
             nn.Conv2d(512, 1024, kernel_size=(10,10)),
             nn.BatchNorm2d(1024),
             nn.ReLU(),
-            nn.MaxPool2d((1,3)),
         )
 
         self.fc = nn.Sequential(
+            nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             nn.Linear(1024*24,1024),
             nn.ReLU(),
