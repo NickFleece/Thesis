@@ -148,14 +148,14 @@ class CNN(nn.Module):
         )
 
         self.vertical_convolutions = nn.Sequential(
-            nn.Conv2d(512, 1024, kernel_size=(10,1)),
+            nn.Conv2d(512, 1024, kernel_size=(10,10)),
             nn.BatchNorm2d(1024),
             nn.ReLU(),
         )
 
         self.fc = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(1024*33,1024),
+            nn.Linear(1024*24,1024),
             nn.ReLU(),
             nn.Linear(1024,512),
             nn.ReLU(),
