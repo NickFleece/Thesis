@@ -161,13 +161,9 @@ class CNN(nn.Module):
         )
 
         self.fc = nn.Sequential(
+            nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(1024*39,1024),
-            nn.LeakyReLU(),
-            nn.Dropout(),
-            nn.Linear(1024,512),
-            nn.LeakyReLU(),
-            nn.Linear(512, len(categories)),
+            nn.Linear(1024, len(categories)),
             nn.Softmax(dim=1)
         )
 
@@ -199,10 +195,10 @@ optimizer = optim.SGD(
     lr=LEARNING_RATE,
     momentum=0.9
 )
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-    optimizer, 
-    factor=0.01,
-    patience=100
+scheduler = optim.lr_scheduler.MultiStepLR(
+    optimizer,
+    milestones=list(range(0,EPOCHS,50))[1:],
+    gamma=0.1
 )
 
 train_accuracies = []
@@ -320,7 +316,7 @@ for e in range(int(checkpoint), EPOCHS):
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
 
-        scheduler.step(val_loss/len(X_test))
+        scheduler.step()
 
         pbar.close()
         time.sleep(1)
