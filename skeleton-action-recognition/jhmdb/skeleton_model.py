@@ -128,39 +128,46 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(10, 128, kernel_size=(1,3)),
+            nn.Conv2d(10, 128, kernel_size=(1,3), padding=(0,1)),
+            nn.BatchNorm2d(128),
+            nn.LeakyReLU(),
+            nn.Conv2d(128, 128, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(128),
             nn.LeakyReLU(),
         )
 
         self.conv_block_2 = nn.Sequential(
-            nn.Conv2d(128, 256, kernel_size=(1,3)),
+            nn.Conv2d(128, 256, kernel_size=(1,3), padding=(0,1)),
+            nn.BatchNorm2d(256),
+            nn.LeakyReLU(),
+            nn.Conv2d(256, 256, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(256),
             nn.LeakyReLU(),
         )
 
         self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size=(1,3)),
+            nn.Conv2d(256, 512, kernel_size=(1,3), padding=(0,1)),
+            nn.BatchNorm2d(512),
+            nn.LeakyReLU(),
+            nn.Conv2d(512, 512, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(512),
             nn.LeakyReLU(),
         )
 
         self.vertical_convolutions = nn.Sequential(
-            nn.Conv2d(512, 1024, kernel_size=(10,3)),
+            nn.Conv2d(512, 1024, kernel_size=(10,1)),
             nn.BatchNorm2d(1024),
             nn.LeakyReLU(),
         )
 
         self.fc = nn.Sequential(
-            nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(1024, 128),
+            nn.Linear(1024*39,1024),
             nn.LeakyReLU(),
             nn.Dropout(),
-            nn.Linear(128, 128),
+            nn.Linear(1024,512),
             nn.LeakyReLU(),
-            nn.Dropout(),
-            nn.Linear(128, len(categories)),
+            nn.Linear(512, len(categories)),
             nn.Softmax(dim=1)
         )
 
@@ -192,10 +199,10 @@ optimizer = optim.SGD(
     lr=LEARNING_RATE,
     momentum=0.9
 )
-scheduler = optim.lr_scheduler.MultiStepLR(
-    optimizer,
-    milestones=list(range(0,EPOCHS,50))[1:],
-    gamma=0.1
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer, 
+    factor=0.01,
+    patience=100
 )
 
 train_accuracies = []
@@ -313,7 +320,7 @@ for e in range(int(checkpoint), EPOCHS):
             count += 1
             pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
 
-        scheduler.step()
+        scheduler.step(val_loss/len(X_test))
 
         pbar.close()
         time.sleep(1)
