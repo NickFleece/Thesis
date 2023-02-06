@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.01
 EPOCHS = 500
-BATCH_SIZE = 128
+BATCH_SIZE = 256
 MAX_FRAMES = 39
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -155,7 +155,7 @@ class CNN(nn.Module):
         )
 
         self.vertical_convolutions = nn.Sequential(
-            nn.Conv2d(512, 1024, kernel_size=(10,1)),
+            nn.Conv2d(512, 1024, kernel_size=(10,3)),
             nn.BatchNorm2d(1024),
             nn.ReLU(),
         )
@@ -167,6 +167,7 @@ class CNN(nn.Module):
             nn.Dropout(),
             nn.Linear(1024,512),
             nn.ReLU(),
+            nn.Dropout(),
             nn.Linear(512, len(categories)),
             nn.Softmax(dim=1)
         )
