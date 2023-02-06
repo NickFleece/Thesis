@@ -95,12 +95,12 @@ for c in categories:
         data = np.asarray(channel_first_data)
         data = np.pad(data, [(0,0), (0,0), (0,MAX_FRAMES-data.shape[2])])
 
-        #subsampling frames
-        # new_data = []
-        # for j in range(0,data.shape[0],4):
-        #     new_data.append(data[j])
-        # data = np.asarray(new_data)
-        data = np.asarray([data[0]])
+        # subsampling frames
+        new_data = []
+        for j in range(0,data.shape[0],5):
+            new_data.append(data[j])
+        data = np.asarray(new_data)
+        # data = np.asarray([data[0]])
 
         if i[:-5] in train_split:
             X_train.append(data)
@@ -130,7 +130,7 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(1, 128, kernel_size=(1,3)),
+            nn.Conv2d(8, 128, kernel_size=(1,3)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
         )
