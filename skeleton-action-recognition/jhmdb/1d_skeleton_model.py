@@ -101,8 +101,8 @@ for c in tqdm(categories):
             y_train.append(categories.index(c))
 
             #For appending the inverse, causing problems?
-            # X_train.append(data * -1)
-            # y_train.append(categories.index(c))
+            X_train.append(data * -1)
+            y_train.append(categories.index(c))
 
         elif i[:-5] in test_split:
             X_test.append(data)
