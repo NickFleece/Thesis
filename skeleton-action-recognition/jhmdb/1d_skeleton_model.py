@@ -82,7 +82,7 @@ y_test = []
 
 print("\nLoading data...")
 
-for c in tqdm(categories[:1]):
+for c in tqdm(categories):
 
     for i in os.listdir(f"{PROCESSED_JOINT_DATA_FOLDER}/{c}"):
 
@@ -145,15 +145,29 @@ class CNN(nn.Module):
             nn.ReLU()
         )
 
+        self.fc = nn.Sequential(
+            nn.AdaptiveAvgPool2d((1,1)),
+            nn.Flatten(),
+            nn.Linear(8*FILTER_NUM, 128),
+            nn.ReLU(),
+            nn.Linear(128,128),
+            nn.ReLU(),
+            nn.Linear(),
+            nn.Linear(512, len(categories)),
+            nn.Softmax(dim=1)
+        )
+
     def forward(self, i):
         
-        print(i.shape)
+        # print(i.shape)
         x = self.conv_block_1(i)
-        print(x.shape)
+        # print(x.shape)
         x = self.conv_block_2(x)
-        print(x.shape)
+        # print(x.shape)
         x = self.conv_block_3(x)
-        print(x.shape)
+        # print(x.shape)
+        x = self.fc(x)
+        # print(x.shape)
 
         return x
 
