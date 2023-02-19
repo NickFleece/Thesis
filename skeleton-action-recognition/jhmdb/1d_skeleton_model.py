@@ -1,9 +1,9 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.01
-EPOCHS = 500
-BATCH_SIZE = 32
+EPOCHS = 5000
+BATCH_SIZE = 64
 MAX_FRAMES = 39
-FILTER_NUM = 64
+FILTER_NUM = 128
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
@@ -146,15 +146,9 @@ class CNN(nn.Module):
         )
 
         self.fc = nn.Sequential(
-            nn.AdaptiveAvgPool1d((1)),
+            nn.AdaptiveMaxPool1d((1)),
             nn.Flatten(),
-            nn.Linear(8*FILTER_NUM, 1024),
-            nn.ReLU(),
-            nn.Linear(1024, 1024),
-            nn.ReLU(),
-            nn.Linear(1024,1024),
-            nn.ReLU(),
-            nn.Linear(1024,128),
+            nn.Linear(8*FILTER_NUM, 128),
             nn.ReLU(),
             nn.Linear(128, len(categories)),
             nn.Softmax(dim=1)
