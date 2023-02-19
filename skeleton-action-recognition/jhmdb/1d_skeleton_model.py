@@ -1,5 +1,5 @@
 #HYPERPARAMETERS:
-LEARNING_RATE = 0.1
+LEARNING_RATE = 0.01
 EPOCHS = 500
 BATCH_SIZE = 32
 MAX_FRAMES = 39
@@ -148,9 +148,13 @@ class CNN(nn.Module):
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool1d((1)),
             nn.Flatten(),
-            nn.Linear(8*FILTER_NUM, 512),
+            nn.Linear(8*FILTER_NUM, 1024),
             nn.ReLU(),
-            nn.Linear(512,128),
+            nn.Linear(1024, 1024),
+            nn.ReLU(),
+            nn.Linear(1024,1024),
+            nn.ReLU(),
+            nn.Linear(1024,128),
             nn.ReLU(),
             nn.Linear(128, len(categories)),
             nn.Softmax(dim=1)
