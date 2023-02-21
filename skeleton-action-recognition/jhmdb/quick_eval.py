@@ -13,10 +13,12 @@ count = 0
 for m in os.listdir(f"{result_dir}"):
 
     count += 1
-    print(f"{c} - {m}")
+    print(f"{count} - {m}")
 
     max_acc = 0
     max_train_acc = 0
+
+    max_e = None
 
     for e in os.listdir(f"{result_dir}/{m}"):
 
@@ -26,13 +28,16 @@ for m in os.listdir(f"{result_dir}"):
         acc = accuracy_score(res['val_actual'], res['val_predicted'])
         train_acc = accuracy_score(res['train_actual'], res['train_predicted'])
 
-        if acc > max_acc: max_acc = acc
-        if train_acc > max_train_acc: max_train_acc = train_acc
+        if acc > max_acc:
+            max_acc = acc
+            max_e = e
+        if train_acc > max_train_acc:
+            max_train_acc = train_acc
 
     results[m] = max_acc
 
-    # print(max_acc)
-    # print(max_train_acc)
+    print(max_acc)
+    print(max_train_acc)
 
 s = {k: v for k, v in sorted(results.items(), key=lambda item: item[1])}
 for k in s.keys():
