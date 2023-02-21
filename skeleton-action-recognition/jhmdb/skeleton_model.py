@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.01
 EPOCHS = 2000
-BATCH_SIZE = 256
+BATCH_SIZE = 64
 MAX_FRAMES = 39
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -195,9 +195,10 @@ else:
 cnn_net.to(device)
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(
+optimizer = optim.SGD(
     cnn_net.parameters(),
-    lr=LEARNING_RATE
+    lr=LEARNING_RATE,
+    momentum=0.9
 )
 scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.999)
 
