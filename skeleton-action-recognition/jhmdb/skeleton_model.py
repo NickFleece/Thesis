@@ -195,11 +195,11 @@ else:
 cnn_net.to(device)
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(
+optimizer = optim.Adam(
     cnn_net.parameters(),
-    lr=LEARNING_RATE,
-    momentum=0.9
+    lr=LEARNING_RATE
 )
+scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.999)
 
 train_accuracies = []
 val_accuracies = []
@@ -259,6 +259,8 @@ for e in range(int(checkpoint), EPOCHS):
             batch_actual = []
 
             optimizer.zero_grad()
+
+    scheduler.step()
 
     if len(batch_input) != 0:
         input_tensor = torch.from_numpy(np.asarray(batch_input)).float().to(device)

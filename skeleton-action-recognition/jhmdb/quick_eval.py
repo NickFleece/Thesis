@@ -36,8 +36,9 @@ for m in os.listdir(f"{result_dir}"):
 
     results[m] = max_acc
 
-    print(max_acc)
-    print(max_train_acc)
+    print(f"Epoch {max_e}")
+    print(f"Val Accuracy: {max_acc}")
+    print(f"Train Accuracy: {max_train_acc}")
 
 s = {k: v for k, v in sorted(results.items(), key=lambda item: item[1])}
 for k in s.keys():
