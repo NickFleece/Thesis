@@ -134,6 +134,7 @@ class CNN(nn.Module):
             nn.Conv2d(128, 128, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
+            nn.Dropout(),
         )
 
         self.conv_block_2 = nn.Sequential(
@@ -143,6 +144,7 @@ class CNN(nn.Module):
             nn.Conv2d(256, 256, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
+            nn.Dropout(),
         )
 
         self.conv_block_3 = nn.Sequential(
@@ -152,6 +154,7 @@ class CNN(nn.Module):
             nn.Conv2d(512, 512, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
+            nn.Dropout()
         )
 
         self.vertical_convolutions = nn.Sequential(
