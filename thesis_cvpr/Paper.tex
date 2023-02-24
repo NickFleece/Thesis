@@ -107,7 +107,7 @@ The approach begins by extracting $j$ joint heat maps from each frame of the vid
 % simple one
 \textbf{Simple yet efficient real-time pose-based action recognition.} \cite{simple_yet_efficient} is the most similar to our work, as it uses a matrix of x and y joint positions. A simple 2D-CNN is then run on this intermediate representation, which leads to a very lightweight model that provides accurate results on their datasets.
 
-Other works have examined the idea of intermediate representations REFERENCES, some utilizing 3d pose REFERENCES. While the 3d pose may provide a potential improvement in performance, the current 3d-pose estimation models are not quite mature enough and our intermediate representation lends itself to 2d-pose more than 3d-pose. This may be a 
+The advantage of this model is that it is highly efficient and lightweight, but does suffer from the issue of the global position of the person being crucial in how the model interprets the actions, as well as depending on things such as camera angles.
 
 \section{Method}
 \label{sec:method}
