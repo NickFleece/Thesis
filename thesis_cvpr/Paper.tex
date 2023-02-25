@@ -97,7 +97,7 @@ The advantage of these types of representations is that the model can be a small
 \textbf{Video Action Recognition.} 
 
 % Potion
-\textbf{Pose motion representation for action recognition.} \cite{potion} was largely the inspiration for the work that was done within this paper. This approach aims to take the joints extracted from the pose representation and use the movement over $f$ frames, creating $j$ images where $j$ is the number of joints.
+\textbf{Pose motion representation for action recognition.} \cite{potion} aims to take the joints extracted from the pose representation and use the movement over $f$ frames, creating $j$ images where $j$ is the number of joints.
 
 The approach begins by extracting $j$ joint heat maps from each frame of the video, these individual frames are then combines using their colour coding where depending on what time $t$ the frame is at in the video, the joint heatmap is made to be that colour. They then perform their temporal aggregation where for each joint $j$, they combine all frames together into one image, perfoming a simple addition through all frames. This leaves an image that demonstrates the movement of one joint through all frames of a video.
 
@@ -105,9 +105,9 @@ The approach begins by extracting $j$ joint heat maps from each frame of the vid
 \textbf{Pose action 3D.} \cite{PA3D} is a similar approach to PoTion, where it involves the use of the generated joint heat maps from pose estimation models. The difference is that instead of using the colour coding similar to potion, PA3D stacks the joint heat maps such that they create $j$ cubes of every heat map frame.
 
 % simple one
-\textbf{Simple yet efficient real-time pose-based action recognition.} \cite{simple_yet_efficient} is the most similar to our work, as it uses a matrix of x and y joint positions. A simple 2D-CNN is then run on this intermediate representation, which leads to a very lightweight model that provides accurate results on their datasets.
+\textbf{Simple yet efficient real-time pose-based action recognition.} \cite{simple_yet_efficient} utilizes a unique method where the $x$, $y$, and $z$ coordinates of each joint are mapped to $r$, $g$, $b$ values in an image. Each frame is organized in a column where each pixel is a corresponding joint. The resulting image is defined in the paper as the EHPI, and is then passed into a simple CNN for classification employing the ShuffleNet architecture \cite{shuffle}.
 
-Other works have examined the idea of intermediate representations REFERENCES, some utilizing 3d pose REFERENCES. While the 3d pose may provide a potential improvement in performance, the current 3d-pose estimation models are not quite mature enough and our intermediate representation lends itself to 2d-pose more than 3d-pose. This may be a 
+% top performing
 
 \section{Method}
 \label{sec:method}
