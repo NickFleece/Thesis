@@ -4,7 +4,7 @@ EPOCHS = 2000
 BATCH_SIZE = 32
 MAX_FRAMES = 39
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import json
 import numpy as np
@@ -165,7 +165,7 @@ class CNN(nn.Module):
             nn.Linear(1024*37,1024),
             nn.ReLU(),
             nn.Dropout(),
-            nn.Linear(512, len(categories)),
+            nn.Linear(1024, len(categories)),
             nn.Softmax(dim=1)
         )
 
