@@ -1,7 +1,7 @@
 #HYPERPARAMETERS:
 LEARNING_RATE = 0.01
 EPOCHS = 2000
-BATCH_SIZE = 64
+BATCH_SIZE = 32
 MAX_FRAMES = 39
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -134,7 +134,6 @@ class CNN(nn.Module):
             nn.Conv2d(128, 128, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(128),
             nn.ReLU(),
-            nn.Dropout(),
         )
 
         self.conv_block_2 = nn.Sequential(
@@ -144,7 +143,6 @@ class CNN(nn.Module):
             nn.Conv2d(256, 256, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(256),
             nn.ReLU(),
-            nn.Dropout(),
         )
 
         self.conv_block_3 = nn.Sequential(
@@ -154,7 +152,6 @@ class CNN(nn.Module):
             nn.Conv2d(512, 512, kernel_size=(1,3), padding=(0,1)),
             nn.BatchNorm2d(512),
             nn.ReLU(),
-            nn.Dropout()
         )
 
         self.vertical_convolutions = nn.Sequential(
@@ -203,7 +200,7 @@ optimizer = optim.SGD(
     lr=LEARNING_RATE,
     momentum=0.9
 )
-scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.999)
+scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.99)
 
 train_accuracies = []
 val_accuracies = []
