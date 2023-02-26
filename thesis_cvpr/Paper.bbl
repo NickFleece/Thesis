@@ -1,9 +1,43 @@
-\begin{thebibliography}{1}\itemsep=-1pt
+\begin{thebibliography}{10}\itemsep=-1pt
+
+\bibitem{RNN_occlusion}
+Federico Angelini, Zeyu Fu, Yang Long, Ling Shao, and Syed~Mohsen Naqvi.
+\newblock 2d pose-based real-time human action recognition with
+  occlusion-handling.
+\newblock {\em IEEE Transactions on Multimedia}, 22(6):1433--1446, 2020.
+
+\bibitem{two_branch_stacked_lstm}
+Danilo Avola, Marco Cascio, Luigi Cinque, Gian~Luca Foresti, Cristiano
+  Massaroni, and Emanuele Rodolà.
+\newblock 2-d skeleton-based action recognition via two-branch stacked
+  lstm-rnns.
+\newblock {\em IEEE Transactions on Multimedia}, 22(10):2481--2496, 2020.
+
+\bibitem{depthcamera3dpose}
+Andreas Baak, Meinard M{\"u}ller, Gaurav Bharaj, Hans-Peter Seidel, and
+  Christian Theobalt.
+\newblock A data-driven approach for real-time full body pose reconstruction
+  from a depth camera.
+\newblock {\em Consumer Depth Cameras for Computer Vision: Research Topics and
+  Applications}, pages 71--98, 2013.
+
+\bibitem{3dposefrom2d}
+Ching-Hang Chen and Deva Ramanan.
+\newblock 3d human pose estimation= 2d pose estimation+ matching.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 7035--7043, 2017.
 
 \bibitem{potion}
 Vasileios Choutas, Philippe Weinzaepfel, Jerome Revaud, and Cordelia Schmid.
 \newblock Potion: Pose motion representation for action recognition.
 \newblock pages 7024--7033, 06 2018.
+
+\bibitem{DS_lstm}
+Xinghao Jiang, Ke Xu, and Tanfeng Sun.
+\newblock Action recognition scheme based on skeleton representation with
+  ds-lstm network.
+\newblock {\em IEEE Transactions on Circuits and Systems for Video Technology},
+  30(7):2129--2140, 2020.
 
 \bibitem{simple_yet_efficient}
 Dennis Ludl, Thomas Gulde, and Cristóbal Curio.
@@ -11,10 +45,38 @@ Dennis Ludl, Thomas Gulde, and Cristóbal Curio.
 \newblock In {\em 2019 IEEE Intelligent Transportation Systems Conference
   (ITSC)}, pages 581--588, 2019.
 
+\bibitem{3dposeactionrecognition}
+Diogo~C Luvizon, David Picard, and Hedi Tabia.
+\newblock 2d/3d pose estimation and action recognition using multitask deep
+  learning.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 5137--5146, 2018.
+
+\bibitem{2dposefromrgb}
+Denis Tome, Chris Russell, and Lourdes Agapito.
+\newblock Lifting from the deep: Convolutional 3d pose estimation from a single
+  image.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 2500--2509, 2017.
+
+\bibitem{RNN_joint_relative_motion}
+Shenghua Wei, Yonghong Song, and Yuanlin Zhang.
+\newblock Human skeleton tree recurrent neural network with joint relative
+  motion feature for skeleton based action recognition.
+\newblock In {\em 2017 IEEE International Conference on Image Processing
+  (ICIP)}, pages 91--95, 2017.
+
 \bibitem{PA3D}
 An Yan, Yali Wang, Zhifeng Li, and Yu Qiao.
 \newblock Pa3d: Pose-action 3d machine for video recognition.
 \newblock In {\em 2019 IEEE/CVF Conference on Computer Vision and Pattern
   Recognition (CVPR)}, pages 7914--7923, 2019.
+
+\bibitem{smaller_faster_better}
+Fan Yang, Yang Wu, Sakriani Sakti, and Satoshi Nakamura.
+\newblock Make skeleton-based action recognition model smaller, faster and
+  better.
+\newblock In {\em Proceedings of the ACM Multimedia Asia}, MMAsia '19, New
+  York, NY, USA, 2020. Association for Computing Machinery.
 
 \end{thebibliography}

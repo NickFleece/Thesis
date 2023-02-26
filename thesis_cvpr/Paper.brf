@@ -1,4 +1,12 @@
 \backcite {potion}{{1}{2}{section.2}}
 \backcite {PA3D}{{1}{2}{section.2}}
 \backcite {simple_yet_efficient}{{1}{2}{section.2}}
-\backcite {shuffle}{{1}{2}{section.2}}
+\backcite {smaller_faster_better}{{1}{2}{section.2}}
+\backcite {two_branch_stacked_lstm}{{1}{2}{section.2}}
+\backcite {RNN_joint_relative_motion}{{1}{2}{section.2}}
+\backcite {RNN_occlusion}{{1}{2}{section.2}}
+\backcite {DS_lstm}{{1}{2}{section.2}}
+\backcite {depthcamera3dpose}{{1}{2}{section.2}}
+\backcite {3dposefrom2d}{{1}{2}{section.2}}
+\backcite {2dposefromrgb}{{1}{2}{section.2}}
+\backcite {3dposeactionrecognition}{{1}{2}{section.2}}
