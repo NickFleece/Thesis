@@ -6,6 +6,13 @@ Federico Angelini, Zeyu Fu, Yang Long, Ling Shao, and Syed~Mohsen Naqvi.
   occlusion-handling.
 \newblock {\em IEEE Transactions on Multimedia}, 22(6):1433--1446, 2020.
 
+\bibitem{transformersnippets}
+Aizada Askar, Min-Ho Lee, Thien Huynh-The, and Nguyen~Anh Tu.
+\newblock 2d skeleton-based action recognition using action-snippets and
+  sequential deep learning.
+\newblock In {\em 2022 IEEE International Conference on Systems, Man, and
+  Cybernetics (SMC)}, pages 2372--2377, 2022.
+
 \bibitem{two_branch_stacked_lstm}
 Danilo Avola, Marco Cascio, Luigi Cinque, Gian~Luca Foresti, Cristiano
   Massaroni, and Emanuele Rodolà.
@@ -21,6 +28,18 @@ Andreas Baak, Meinard M{\"u}ller, Gaurav Bharaj, Hans-Peter Seidel, and
 \newblock {\em Consumer Depth Cameras for Computer Vision: Research Topics and
   Applications}, pages 71--98, 2013.
 
+\bibitem{openpose}
+Zhe Cao, Tomas Simon, Shih-En Wei, and Yaser Sheikh.
+\newblock Realtime multi-person 2d pose estimation using part affinity fields.
+\newblock In {\em Proceedings of the IEEE conference on computer vision and
+  pattern recognition}, pages 7291--7299, 2017.
+
+\bibitem{i3d}
+Joao Carreira and Andrew Zisserman.
+\newblock Quo vadis, action recognition? a new model and the kinetics dataset.
+\newblock In {\em proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}, pages 6299--6308, 2017.
+
 \bibitem{3dposefrom2d}
 Ching-Hang Chen and Deva Ramanan.
 \newblock 3d human pose estimation= 2d pose estimation+ matching.
@@ -31,6 +50,13 @@ Ching-Hang Chen and Deva Ramanan.
 Vasileios Choutas, Philippe Weinzaepfel, Jerome Revaud, and Cordelia Schmid.
 \newblock Potion: Pose motion representation for action recognition.
 \newblock pages 7024--7033, 06 2018.
+
+\bibitem{recognitionchallenges}
+Imen Jegham, Anouar {Ben Khalifa}, Ihsen Alouani, and Mohamed~Ali Mahjoub.
+\newblock Vision-based human action recognition: An overview and real world
+  challenges.
+\newblock {\em Forensic Science International: Digital Investigation},
+  32:200901, 2020.
 
 \bibitem{DS_lstm}
 Xinghao Jiang, Ke Xu, and Tanfeng Sun.
@@ -51,6 +77,12 @@ Diogo~C Luvizon, David Picard, and Hedi Tabia.
   learning.
 \newblock In {\em Proceedings of the IEEE conference on computer vision and
   pattern recognition}, pages 5137--5146, 2018.
+
+\bibitem{rgbflow}
+AJ Piergiovanni and Michael~S Ryoo.
+\newblock Representation flow for action recognition.
+\newblock In {\em Proceedings of the IEEE/CVF conference on computer vision and
+  pattern recognition}, pages 9945--9953, 2019.
 
 \bibitem{2dposefromrgb}
 Denis Tome, Chris Russell, and Lourdes Agapito.
@@ -78,5 +110,12 @@ Fan Yang, Yang Wu, Sakriani Sakti, and Satoshi Nakamura.
   better.
 \newblock In {\em Proceedings of the ACM Multimedia Asia}, MMAsia '19, New
   York, NY, USA, 2020. Association for Computing Machinery.
+
+\bibitem{transformertwobranch}
+Yerassyl Zhalgasbayev and Nguyen~Anh Tu.
+\newblock Two-branch stacked transformer for 2d skeleton-based action
+  recognition.
+\newblock In {\em 2023 17th International Conference on Ubiquitous Information
+  Management and Communication (IMCOM)}, pages 1--4. IEEE, 2023.
 
 \end{thebibliography}
