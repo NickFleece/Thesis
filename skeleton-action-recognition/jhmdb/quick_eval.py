@@ -40,6 +40,8 @@ for m in os.listdir(f"{result_dir}"):
     print(f"Val Accuracy: {max_acc}")
     print(f"Train Accuracy: {max_train_acc}")
 
+    print("____________________________")
+
 s = {k: v for k, v in sorted(results.items(), key=lambda item: item[1])}
 for k in s.keys():
     print(f"{k} - {s[k]}")
