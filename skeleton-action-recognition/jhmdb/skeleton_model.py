@@ -157,7 +157,7 @@ class CNN(nn.Module):
         )
 
         self.fc = nn.Sequential(
-            # nn.Dropout(),
+            nn.Dropout(),
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             nn.Linear(1024,1024),
