@@ -160,7 +160,7 @@ class CNN(nn.Module):
             nn.Dropout(),
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(1024*37,1024),
+            nn.Linear(1024,1024),
             nn.ReLU(),
             nn.Dropout(),
             nn.Linear(1024, len(categories)),
