@@ -193,7 +193,7 @@ optimizer = optim.SGD(
     lr=LEARNING_RATE,
     momentum=0.9
 )
-scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.95)
+scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.99)
 
 train_accuracies = []
 val_accuracies = []
