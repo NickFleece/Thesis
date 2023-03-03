@@ -133,34 +133,39 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(5, 128, kernel_size=(1,3), padding=(0,1)),
-            nn.BatchNorm2d(128),
+            nn.Conv2d(5, 64, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(64),
             nn.ReLU(),
+            nn.Conv2d(64, 64, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
+            nn.MaxPool2d((2,2)),
         )
 
         self.conv_block_2 = nn.Sequential(
-            nn.Conv2d(128, 256, kernel_size=(1,3), padding=(0,1)),
-            nn.BatchNorm2d(256),
+            nn.Conv2d(64, 128, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(128),
             nn.ReLU(),
+            nn.Conv2d(128, 128, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
+            nn.MaxPool2d((2,2)),
         )
 
         self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(256, 512, kernel_size=(1,3), padding=(0,1)),
-            nn.BatchNorm2d(512),
+            nn.Conv2d(128, 256, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(256),
             nn.ReLU(),
-        )
-
-        self.vertical_convolutions = nn.Sequential(
-            nn.Conv2d(512, 1024, kernel_size=(10,3)),
-            nn.BatchNorm2d(1024),
+            nn.Conv2d(256, 256, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(256),
             nn.ReLU(),
+            nn.MaxPool2d((2,2)),
         )
 
         self.fc = nn.Sequential(
-            nn.Dropout(),
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(1024,1024),
+            nn.Linear(256,1024),
             nn.ReLU(),
             nn.Dropout(),
             nn.Linear(1024, len(categories)),
@@ -172,7 +177,6 @@ class CNN(nn.Module):
         x = self.conv_block_1(i)
         x = self.conv_block_2(x)
         x = self.conv_block_3(x)
-        x = self.vertical_convolutions(x)
         x = self.fc(x)
 
         return x
