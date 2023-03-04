@@ -140,6 +140,7 @@ class CNN(nn.Module):
             nn.BatchNorm2d(64),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
+            nn.Dropout(0.25),
         )
 
         self.conv_block_2 = nn.Sequential(
@@ -150,6 +151,7 @@ class CNN(nn.Module):
             nn.BatchNorm2d(128),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
+            nn.Dropout(0.25),
         )
 
         self.conv_block_3 = nn.Sequential(
@@ -160,6 +162,7 @@ class CNN(nn.Module):
             nn.BatchNorm2d(256),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
+            nn.Dropout(0.25),
         )
 
         self.fc = nn.Sequential(
