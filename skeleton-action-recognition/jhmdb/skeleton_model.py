@@ -1,7 +1,9 @@
-#HYPERPARAMETERS:
+# hyperparameters that can be overwritten
 LEARNING_RATE = 0.001
-EPOCHS = 2000
 BATCH_SIZE = 128
+EPOCHS = 2000
+NUM_FILTERS = 64
+
 MAX_FRAMES = 39
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
@@ -30,6 +32,7 @@ parser.add_argument('--split', default=1)
 parser.add_argument('--save_all_models', default=False)
 parser.add_argument('--learning_rate', default=LEARNING_RATE)
 parser.add_argument('--batch_size', default=BATCH_SIZE)
+parser.add_argument('--num_filters', default=NUM_FILTERS)
 args = parser.parse_args()
 
 BASE_DIR = args.drive_dir
@@ -39,6 +42,7 @@ SAVE_ALL_MODELS = args.save_all_models
 
 LEARNING_RATE = float(args.learning_rate)
 BATCH_SIZE = float(args.batch_size)
+NUM_FILTERS = int(args.num_filters)
 
 MODEL_SAVE_DIR = f"{BASE_DIR}/models"
 
@@ -133,33 +137,33 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(5, 64, kernel_size=(3,3), padding=(1,1)),
-            nn.BatchNorm2d(64),
+            nn.Conv2d(5, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS),
             nn.ReLU(),
-            nn.Conv2d(64, 64, kernel_size=(3,3), padding=(1,1)),
-            nn.BatchNorm2d(64),
+            nn.Conv2d(NUM_FILTERS, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
             nn.Dropout(0.25),
         )
 
         self.conv_block_2 = nn.Sequential(
-            nn.Conv2d(64, 128, kernel_size=(3,3), padding=(1,1)),
-            nn.BatchNorm2d(128),
+            nn.Conv2d(NUM_FILTERS, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*2),
             nn.ReLU(),
-            nn.Conv2d(128, 128, kernel_size=(3,3), padding=(1,1)),
-            nn.BatchNorm2d(128),
+            nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*2),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
             nn.Dropout(0.25),
         )
 
         self.conv_block_3 = nn.Sequential(
-            nn.Conv2d(128, 256, kernel_size=(3,3), padding=(1,1)),
-            nn.BatchNorm2d(256),
+            nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*4),
             nn.ReLU(),
-            nn.Conv2d(256, 256, kernel_size=(3,3), padding=(1,1)),
-            nn.BatchNorm2d(256),
+            nn.Conv2d(NUM_FILTERS*4, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*4),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
             nn.Dropout(0.25),
@@ -168,10 +172,7 @@ class CNN(nn.Module):
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(256,1024),
-            nn.ReLU(),
-            nn.Dropout(),
-            nn.Linear(1024, len(categories)),
+            nn.Linear(NUM_FILTERS*4, len(categories)),
             nn.Softmax(dim=1)
         )
 
