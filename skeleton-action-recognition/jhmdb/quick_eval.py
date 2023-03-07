@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score, confusion_matrix
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import time
-import thread
+import _thread
 
 result_dir = "/comm_dat/nfleece/JHMDB/models"
 
@@ -40,7 +40,8 @@ for m in os.listdir(f"{result_dir}"):
     count += 1
     print(f"{count} - {m}")
 
-    thread.start_new_thread(readModelData, (m))
+    _thread.start_new_thread(readModelData, (m))
+    # time.sleep(1)
 
     # max_acc = 0
     # max_train_acc = 0
