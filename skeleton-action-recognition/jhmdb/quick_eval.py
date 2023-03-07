@@ -46,7 +46,8 @@ for m in os.listdir(f"{result_dir}"):
     threads.append(t)
     # time.sleep(1)
 
-for t in threads: t.join()
+for t in tqdm(threads):
+    t.join()
 
 s = {k: v for k, v in sorted(results.items(), key=lambda item: item[1])}
 for k in s.keys():
