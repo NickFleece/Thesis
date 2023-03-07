@@ -34,6 +34,7 @@ def readModelData(modelName):
             max_train_acc = train_acc
 
     results[m] = max_acc
+    print(f"{modelName} DONE")
 
 threads = []
 for m in os.listdir(f"{result_dir}"):
@@ -45,6 +46,7 @@ for m in os.listdir(f"{result_dir}"):
     t.start()
     threads.append(t)
     # time.sleep(1)
+    break
 
 for t in tqdm(threads):
     t.join()
