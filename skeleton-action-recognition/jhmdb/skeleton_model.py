@@ -179,11 +179,8 @@ class CNN(nn.Module):
     def forward(self, i):
         
         x = self.conv_block_1(i)
-        print(x.shape)
         x = self.conv_block_2(x)
-        print(x.shape)
         x = self.conv_block_3(x)
-        print(x.shape)
         x = self.fc(x)
 
         return x
