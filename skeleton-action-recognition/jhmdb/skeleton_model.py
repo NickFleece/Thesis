@@ -139,10 +139,10 @@ class CNN(nn.Module):
         self.conv_block_1 = nn.Sequential(
             nn.Conv2d(5, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS),
-            nn.ReLU(),
+            nn.LeakyReLU(),
             nn.Conv2d(NUM_FILTERS, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS),
-            nn.ReLU(),
+            nn.LeakyReLU(),
             nn.MaxPool2d((2,2)),
             nn.Dropout(0.2),
         )
@@ -150,10 +150,10 @@ class CNN(nn.Module):
         self.conv_block_2 = nn.Sequential(
             nn.Conv2d(NUM_FILTERS, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*2),
-            nn.ReLU(),
+            nn.LeakyReLU(),
             nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*2),
-            nn.ReLU(),
+            nn.LeakyReLU(),
             nn.MaxPool2d((2,2)),
             nn.Dropout(0.2),
         )
@@ -161,10 +161,10 @@ class CNN(nn.Module):
         self.conv_block_3 = nn.Sequential(
             nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*4),
-            nn.ReLU(),
+            nn.LeakyReLU(),
             nn.Conv2d(NUM_FILTERS*4, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*4),
-            nn.ReLU(),
+            nn.LeakyReLU(),
             nn.MaxPool2d((2,2)),
             nn.Dropout(0.2),
         )
@@ -179,8 +179,11 @@ class CNN(nn.Module):
     def forward(self, i):
         
         x = self.conv_block_1(i)
+        print(x.shape)
         x = self.conv_block_2(x)
+        print(x.shape)
         x = self.conv_block_3(x)
+        print(x.shape)
         x = self.fc(x)
 
         return x
