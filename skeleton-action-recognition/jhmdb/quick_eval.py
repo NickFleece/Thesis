@@ -42,36 +42,9 @@ for m in os.listdir(f"{result_dir}"):
     print(f"{count} - {m}")
 
     t = Thread(target=readModelData, args=[m])
-    t.run()
+    t.start()
     threads.append(t)
     # time.sleep(1)
-
-    # max_acc = 0
-    # max_train_acc = 0
-
-    # max_e = None
-
-    # for e in os.listdir(f"{result_dir}/{m}"):
-
-    #     if e == 'model': continue
-
-    #     res = torch.load(f"{result_dir}/{m}/{e}", map_location=torch.device('cpu'))
-    #     acc = accuracy_score(res['val_actual'], res['val_predicted'])
-    #     train_acc = accuracy_score(res['train_actual'], res['train_predicted'])
-
-    #     if acc > max_acc:
-    #         max_acc = acc
-    #         max_e = e
-    #     if train_acc > max_train_acc:
-    #         max_train_acc = train_acc
-
-    # results[m] = max_acc
-
-    # print(f"Epoch {max_e}")
-    # print(f"Val Accuracy: {max_acc}")
-    # print(f"Train Accuracy: {max_train_acc}")
-
-    # print("____________________________")
 
 for t in threads: t.join()
 
