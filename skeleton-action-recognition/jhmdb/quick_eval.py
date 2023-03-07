@@ -20,7 +20,7 @@ for m in os.listdir(f"{result_dir}"):
 
     max_e = None
 
-    for e in os.listdir(f"{result_dir}/{m}"):
+    for e in tqdm(os.listdir(f"{result_dir}/{m}")):
 
         if e == 'model': continue
 
