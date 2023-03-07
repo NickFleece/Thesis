@@ -6,7 +6,7 @@ NUM_FILTERS = 64
 
 MAX_FRAMES = 39
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import json
 import numpy as np
