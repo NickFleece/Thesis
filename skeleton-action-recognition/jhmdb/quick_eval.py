@@ -45,7 +45,7 @@ for m in os.listdir(f"{result_dir}"):
     t = Thread(target=readModelData, args=[m])
     t.start()
     threads.append(t)
-    time.sleep(1)
+    time.sleep(3)
 
 for t in threads:
     t.join()
