@@ -40,7 +40,7 @@ for m in os.listdir(f"{result_dir}"):
     count += 1
     print(f"{count} - {m}")
 
-    _thread.start_new_thread(readModelData, (m))
+    _thread.start_new_thread(readModelData, (m, ))
     # time.sleep(1)
 
     # max_acc = 0
