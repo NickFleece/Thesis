@@ -45,10 +45,9 @@ for m in os.listdir(f"{result_dir}"):
     t = Thread(target=readModelData, args=[m])
     t.start()
     threads.append(t)
-    # time.sleep(1)
-    break
+    time.sleep(1)
 
-for t in tqdm(threads):
+for t in threads:
     t.join()
 
 s = {k: v for k, v in sorted(results.items(), key=lambda item: item[1])}
