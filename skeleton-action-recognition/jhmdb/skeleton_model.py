@@ -3,7 +3,6 @@ EPOCHS = 2000
 
 MAX_FRAMES = 39
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 import json
 import numpy as np
@@ -31,7 +30,10 @@ parser.add_argument('--learning_rate', default=0.01)
 parser.add_argument('--batch_size', default=128)
 parser.add_argument('--num_filters', default=64)
 parser.add_argument('--weight_decay', default=0.0.0005)
+parser.add_argument('--gpu', default="0")
 args = parser.parse_args()
+
+os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 
 BASE_DIR = args.drive_dir
 VERSION = args.version
