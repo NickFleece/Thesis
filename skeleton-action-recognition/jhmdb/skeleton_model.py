@@ -1,8 +1,5 @@
 # hyperparameters that can be overwritten
-LEARNING_RATE = 0.001
-BATCH_SIZE = 128
 EPOCHS = 2000
-NUM_FILTERS = 64
 
 MAX_FRAMES = 39
 import os
@@ -30,9 +27,10 @@ parser.add_argument('--load_checkpoint')
 parser.add_argument('--version', required=True)
 parser.add_argument('--split', default=1)
 parser.add_argument('--save_all_models', default=False)
-parser.add_argument('--learning_rate', default=LEARNING_RATE)
-parser.add_argument('--batch_size', default=BATCH_SIZE)
-parser.add_argument('--num_filters', default=NUM_FILTERS)
+parser.add_argument('--learning_rate', default=0.01)
+parser.add_argument('--batch_size', default=128)
+parser.add_argument('--num_filters', default=64)
+parser.add_argument('--weight_decay', default=0.0.0005)
 args = parser.parse_args()
 
 BASE_DIR = args.drive_dir
@@ -43,6 +41,7 @@ SAVE_ALL_MODELS = args.save_all_models
 LEARNING_RATE = float(args.learning_rate)
 BATCH_SIZE = float(args.batch_size)
 NUM_FILTERS = int(args.num_filters)
+WEIGHT_DECAY = float(args.weight_decay)
 
 MODEL_SAVE_DIR = f"{BASE_DIR}/models"
 
@@ -139,34 +138,34 @@ class CNN(nn.Module):
         self.conv_block_1 = nn.Sequential(
             nn.Conv2d(5, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.Conv2d(NUM_FILTERS, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.MaxPool2d((2,2)),
-            nn.Dropout(0.2),
+            nn.Dropout(0.25),
         )
 
         self.conv_block_2 = nn.Sequential(
             nn.Conv2d(NUM_FILTERS, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*2),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*2),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.MaxPool2d((2,2)),
-            nn.Dropout(0.2),
+            nn.Dropout(0.25),
         )
 
         self.conv_block_3 = nn.Sequential(
             nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*4),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.Conv2d(NUM_FILTERS*4, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*4),
-            nn.LeakyReLU(),
+            nn.ReLU(),
             nn.MaxPool2d((2,2)),
-            nn.Dropout(0.2),
+            nn.Dropout(0.25),
         )
 
         self.fc = nn.Sequential(
@@ -201,7 +200,8 @@ criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(
     cnn_net.parameters(),
     lr=LEARNING_RATE,
-    momentum=0.9
+    momentum=0.9,
+    weight_decay=
 )
 scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.99)
 
