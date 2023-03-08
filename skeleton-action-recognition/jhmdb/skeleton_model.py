@@ -203,7 +203,7 @@ optimizer = optim.SGD(
     cnn_net.parameters(),
     lr=LEARNING_RATE,
     momentum=0.9,
-    weight_decay=
+    weight_decay=WEIGHT_DECAY
 )
 scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.99)
 
