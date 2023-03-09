@@ -46,7 +46,6 @@ for m in os.listdir(f"{result_dir}"):
         shutil.rmtree(f"{result_dir}/{m}")
 
     print("____________________________")
-    break
 
 s = {k: v for k, v in sorted(results.items(), key=lambda item: item[1])}
 for k in s.keys():
