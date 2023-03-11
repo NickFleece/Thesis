@@ -42,7 +42,7 @@ for m in os.listdir(f"{result_dir}"):
     print(f"Train Accuracy: {max_train_acc}")
 
     if max_acc < 0.4:
-        print("Max acc below 20%, removing model...")
+        print("Max acc below 40%, removing model...")
         shutil.rmtree(f"{result_dir}/{m}")
 
     print("____________________________")
