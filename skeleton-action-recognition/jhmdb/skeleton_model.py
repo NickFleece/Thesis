@@ -29,7 +29,7 @@ parser.add_argument('--save_all_models', default=False)
 parser.add_argument('--learning_rate', default=0.01)
 parser.add_argument('--batch_size', default=128)
 parser.add_argument('--num_filters', default=64)
-parser.add_argument('--weight_decay', default=0.001)
+parser.add_argument('--weight_decay', default=0.005)
 parser.add_argument('--gpu', default="0")
 parser.add_argument('--verbose', default=1)
 args = parser.parse_args()
@@ -203,7 +203,10 @@ optimizer = optim.SGD(
     momentum=0.9,
     weight_decay=WEIGHT_DECAY
 )
-scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.999)
+scheduler = optim.lr_scheduler.ReduceLROnPlateau(
+    optimizer,
+    factor=0.9
+)
 
 train_accuracies = []
 val_accuracies = []
