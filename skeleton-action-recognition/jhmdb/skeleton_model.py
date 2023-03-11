@@ -213,7 +213,8 @@ val_accuracies = []
 
 for e in range(int(checkpoint), EPOCHS):
 
-    print(f"Learning rate: {optimizer.param_groups[0]['lr']}")
+    if VERBOSE == 1:
+        print(f"Learning rate: {optimizer.param_groups[0]['lr']}")
 
     #shuffle dataset
     X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
