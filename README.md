@@ -27,3 +27,6 @@ wacv 2022:
 - https://openaccess.thecvf.com/content/WACV2022/html/Li_NUTA_Non-Uniform_Temporal_Aggregation_for_Action_Recognition_WACV_2022_paper.html
 - https://openaccess.thecvf.com/content/WACV2022/html/Kataoka_Spatiotemporal_Initialization_for_3D_CNNs_With_Generated_Motion_Patterns_WACV_2022_paper.html
 - https://openaccess.thecvf.com/content/WACV2022/html/Li_PERF-Net_Pose_Empowered_RGB-Flow_Net_WACV_2022_paper.html
+
+TODO:
+- 2048 filters may work, but for now takes too long to train
