@@ -31,6 +31,7 @@ parser.add_argument('--batch_size', default=128)
 parser.add_argument('--num_filters', default=64)
 parser.add_argument('--weight_decay', default=0.001)
 parser.add_argument('--gpu', default="0")
+parser.add_argument('--verbose', default=1)
 args = parser.parse_args()
 
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
@@ -39,6 +40,7 @@ BASE_DIR = args.drive_dir
 VERSION = args.version
 SPLIT = args.split
 SAVE_ALL_MODELS = args.save_all_models
+VERBOSE = int(args.verbose)
 
 LEARNING_RATE = float(args.learning_rate)
 BATCH_SIZE = float(args.batch_size)
@@ -225,12 +227,14 @@ for e in range(int(checkpoint), EPOCHS):
     val_predicted = []
     val_actual = []
 
-    pbar = tqdm(total=len(X_train))
+    if VERBOSE == 1:
+        pbar = tqdm(total=len(X_train))
     optimizer.zero_grad()
 
     for X, y in zip(X_train, y_train):
 
-        pbar.update(1)
+        if VERBOSE == 1:
+            pbar.update(1)
 
         batch_input.append(X)
         batch_actual.append(y)
@@ -255,7 +259,8 @@ for e in range(int(checkpoint), EPOCHS):
                 train_predicted.append(output)
                 train_actual.append(label)
             
-            pbar.set_description(f"{(train_correct / train_total) * 100}% Correct :)")
+            if VERBOSE == 1:
+                pbar.set_description(f"{(train_correct / train_total) * 100}% Correct :)")
 
             batch_input = []
             batch_actual = []
@@ -284,25 +289,31 @@ for e in range(int(checkpoint), EPOCHS):
             train_predicted.append(output)
             train_actual.append(label)
         
-        pbar.set_description(f"{(train_correct / train_total) * 100}% Training Correct :)")
+        if VERBOSE == 1:
+            pbar.set_description(f"{(train_correct / train_total) * 100}% Training Correct :)")
 
-    pbar.close()
+    if VERBOSE == 1:
+        pbar.close()
 
     train_accuracies.append(train_correct / train_total)
-    print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
+
+    if VERBOSE == 1:
+        print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
 
     with torch.no_grad():
 
         val_correct = 0
 
-        pbar = tqdm(total=len(X_test))
+        if VERBOSE == 1:
+            pbar = tqdm(total=len(X_test))
         count = 0
 
         val_loss = 0
 
         for X, y in zip(X_test, y_test):
-
-            pbar.update(1)
+            
+            if VERBOSE == 1:
+                pbar.update(1)
 
             input_tensor = torch.from_numpy(np.asarray([X])).float()
 
@@ -318,18 +329,24 @@ for e in range(int(checkpoint), EPOCHS):
             val_actual.append(y)
             
             count += 1
-            pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
 
-        pbar.close()
+            if VERBOSE == 1:
+                pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
+
+        if VERBOSE == 1:
+            pbar.close()
         time.sleep(1)
 
         val_accuracies.append(val_correct / len(y_test))
-        print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
+        if VERBOSE == 1:
+            print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
 
+    if VERBOSE == 1:
+        print(confusion_matrix(val_actual, val_predicted))
+        print("---------------------------------------------------------------")
 
-    print(confusion_matrix(val_actual, val_predicted))
-
-    print("---------------------------------------------------------------")
+    if VERBOSE == 2:
+        print(f"Model: {VERSION} Epoch: {e} Train: {round((train_correct / train_total) * 100), 2} Val: {round((val_correct / len(y_test)) * 100)}")
 
     if SAVE_ALL_MODELS:
         torch.save({
