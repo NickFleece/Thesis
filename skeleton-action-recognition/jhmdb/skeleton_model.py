@@ -270,8 +270,6 @@ for e in range(int(checkpoint), EPOCHS):
 
             optimizer.zero_grad()
 
-    scheduler.step()
-
     if len(batch_input) != 0:
         input_tensor = torch.from_numpy(np.asarray(batch_input)).float().to(device)
         batch_predicted = cnn_net(input_tensor)
@@ -343,6 +341,8 @@ for e in range(int(checkpoint), EPOCHS):
         val_accuracies.append(val_correct / len(y_test))
         if VERBOSE == 1:
             print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
+
+    scheduler.step(val_loss)
 
     if VERBOSE == 1:
         print(confusion_matrix(val_actual, val_predicted))
