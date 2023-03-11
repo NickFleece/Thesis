@@ -350,7 +350,7 @@ for e in range(int(checkpoint), EPOCHS):
         print("---------------------------------------------------------------")
 
     if VERBOSE == 2:
-        print(f"Model: {VERSION} Epoch: {e} Train: {round((train_correct / train_total) * 100), 2} Val: {round((val_correct / len(y_test)) * 100)}")
+        print(f"Model: {VERSION} Epoch: {e} Train: {round((train_correct / train_total) * 100, 3)} Val: {round((val_correct / len(y_test)) * 100, 3)}")
 
     if SAVE_ALL_MODELS:
         torch.save({
