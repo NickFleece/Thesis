@@ -29,7 +29,7 @@ parser.add_argument('--save_all_models', default=False)
 parser.add_argument('--learning_rate', default=0.01)
 parser.add_argument('--batch_size', default=128)
 parser.add_argument('--num_filters', default=64)
-parser.add_argument('--weight_decay', default=0.005)
+parser.add_argument('--weight_decay', default=0.006)
 parser.add_argument('--gpu', default="0")
 parser.add_argument('--verbose', default=1)
 args = parser.parse_args()
@@ -147,7 +147,7 @@ class CNN(nn.Module):
             nn.BatchNorm2d(NUM_FILTERS),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
-            nn.Dropout(0.25),
+            nn.Dropout(0.2),
         )
 
         self.conv_block_2 = nn.Sequential(
@@ -158,7 +158,7 @@ class CNN(nn.Module):
             nn.BatchNorm2d(NUM_FILTERS*2),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
-            nn.Dropout(0.25),
+            nn.Dropout(0.2),
         )
 
         self.conv_block_3 = nn.Sequential(
@@ -169,7 +169,7 @@ class CNN(nn.Module):
             nn.BatchNorm2d(NUM_FILTERS*4),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
-            nn.Dropout(0.25),
+            nn.Dropout(0.2),
         )
 
         self.fc = nn.Sequential(
@@ -211,6 +211,8 @@ scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.99)
 
 train_accuracies = []
 val_accuracies = []
+
+start_time = time.time()
 
 for e in range(int(checkpoint), EPOCHS):
 
@@ -350,9 +352,6 @@ for e in range(int(checkpoint), EPOCHS):
         print(confusion_matrix(val_actual, val_predicted))
         print("---------------------------------------------------------------")
 
-    if VERBOSE == 2:
-        print(f"Model: {VERSION} Epoch: {e} Train: {round((train_correct / train_total) * 100, 3)} Val: {round((val_correct / len(y_test)) * 100, 3)}")
-
     if SAVE_ALL_MODELS:
         torch.save({
             'model_state_dict': cnn_net.state_dict(),
@@ -373,3 +372,15 @@ for e in range(int(checkpoint), EPOCHS):
         'val_actual': val_actual,
         'categories': categories
     }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")
+
+    if e != 0:
+        time_diff = time.time() - start_time
+        time_left = (time_diff / e) * (EPOCHS - e)
+    else:
+        time_left = 0
+
+    time_left_sec = time_left % 60
+    time_left_min = time_left // 60
+
+    if VERBOSE == 2:
+        print(f"Model: {VERSION} Epoch: {e} Train: {round((train_correct / train_total) * 100, 3)} Val: {round((val_correct / len(y_test)) * 100, 3)} {time_left_min} minutes {time_left_sec} seconds estimated left")
