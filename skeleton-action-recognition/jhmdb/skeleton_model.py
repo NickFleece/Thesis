@@ -29,7 +29,7 @@ parser.add_argument('--save_all_models', default=False)
 parser.add_argument('--learning_rate', default=0.01)
 parser.add_argument('--batch_size', default=128)
 parser.add_argument('--num_filters', default=64)
-parser.add_argument('--weight_decay', default=0.0001)
+parser.add_argument('--weight_decay', default=0.0075)
 parser.add_argument('--gpu', default="0")
 parser.add_argument('--verbose', default=1)
 args = parser.parse_args()
@@ -147,6 +147,7 @@ class CNN(nn.Module):
             nn.BatchNorm2d(NUM_FILTERS),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
+            nn.Dropout(0.25),
         )
 
         self.conv_block_2 = nn.Sequential(
@@ -157,6 +158,7 @@ class CNN(nn.Module):
             nn.BatchNorm2d(NUM_FILTERS*2),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
+            nn.Dropout(0.25),
         )
 
         self.conv_block_3 = nn.Sequential(
@@ -166,6 +168,7 @@ class CNN(nn.Module):
             nn.Conv2d(NUM_FILTERS*4, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*4),
             nn.ReLU(),
+            nn.Dropout(0.25),
         )
 
         self.fc = nn.Sequential(
@@ -203,11 +206,7 @@ optimizer = optim.SGD(
     momentum=0.9,
     weight_decay=WEIGHT_DECAY
 )
-scheduler = optim.lr_scheduler.ReduceLROnPlateau(
-    optimizer,
-    factor=0.1,
-    patience=100
-)
+scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.99)
 
 train_accuracies = []
 val_accuracies = []
