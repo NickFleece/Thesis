@@ -168,7 +168,7 @@ class CNN(nn.Module):
             nn.Conv2d(NUM_FILTERS*4, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*4),
             nn.ReLU(),
-            nn.MaxPool2d(),
+            nn.MaxPool2d((2,2)),
             nn.Dropout(0.25),
         )
 
