@@ -29,7 +29,7 @@ parser.add_argument('--save_all_models', default=False)
 parser.add_argument('--learning_rate', default=0.01)
 parser.add_argument('--batch_size', default=128)
 parser.add_argument('--num_filters', default=64)
-parser.add_argument('--weight_decay', default=0.0075)
+parser.add_argument('--weight_decay', default=0.005)
 parser.add_argument('--gpu', default="0")
 parser.add_argument('--verbose', default=1)
 args = parser.parse_args()
@@ -168,6 +168,7 @@ class CNN(nn.Module):
             nn.Conv2d(NUM_FILTERS*4, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*4),
             nn.ReLU(),
+            nn.MaxPool2d(),
             nn.Dropout(0.25),
         )
 
@@ -343,7 +344,7 @@ for e in range(int(checkpoint), EPOCHS):
         if VERBOSE == 1:
             print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
 
-    scheduler.step(val_loss)
+    scheduler.step()
 
     if VERBOSE == 1:
         print(confusion_matrix(val_actual, val_predicted))
