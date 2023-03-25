@@ -140,7 +140,7 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv2d(39, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
+            nn.Conv2d(38, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS),
             nn.ReLU(),
             nn.Conv2d(NUM_FILTERS, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
