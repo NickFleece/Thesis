@@ -100,11 +100,11 @@ for c in categories:
         with open(f"{PROCESSED_JOINT_DATA_FOLDER}/{c}/{i}", 'r') as f:
             data = np.asarray(json.load(f))
 
-        channel_first_data = []
-        for j in range(data.shape[2]):
-            channel_first_data.append(data[:,:,j])
+        # channel_first_data = []
+        # for j in range(data.shape[2]):
+        #     channel_first_data.append(data[:,:,j])
         
-        data = np.asarray(channel_first_data)
+        # data = np.asarray(channel_first_data)
         data = np.pad(data, [(0,0), (0,0), (0,MAX_FRAMES-data.shape[2])])
 
         # new_data = []
