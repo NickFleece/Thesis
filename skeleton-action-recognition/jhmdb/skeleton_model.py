@@ -206,7 +206,7 @@ optimizer = optim.SGD(
     momentum=0.9,
     weight_decay=WEIGHT_DECAY
 )
-scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.99)
+scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.999)
 
 train_accuracies = []
 val_accuracies = []
