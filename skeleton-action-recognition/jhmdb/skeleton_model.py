@@ -28,9 +28,9 @@ parser.add_argument('--split', default=1)
 parser.add_argument('--save_all_models', default=False)
 parser.add_argument('--learning_rate', default=0.01)
 parser.add_argument('--batch_size', default=16)
-parser.add_argument('--num_filters', default=256)
-parser.add_argument('--weight_decay', default=0.005)
-parser.add_argument('--gpu', default="0")
+parser.add_argument('--num_filters', default=512)
+parser.add_argument('--weight_decay', default=0.006)
+parser.add_argument('--gpu', default="1")
 parser.add_argument('--verbose', default=1)
 args = parser.parse_args()
 
@@ -172,7 +172,6 @@ class CNN(nn.Module):
         )
 
         self.fc = nn.Sequential(
-            nn.Dropout(),
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
             nn.Linear(NUM_FILTERS*4, len(categories)),
