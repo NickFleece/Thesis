@@ -150,6 +150,7 @@ class CNN(nn.Module):
         )
 
         self.conv_block_2 = nn.Sequential(
+            nn.Dropout(),
             nn.Conv2d(NUM_FILTERS, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*2),
             nn.ReLU(),
@@ -160,6 +161,7 @@ class CNN(nn.Module):
         )
 
         self.conv_block_3 = nn.Sequential(
+            nn.Dropout(),
             nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*4),
             nn.ReLU(),
