@@ -1,76 +1,26 @@
 % Chapter Template
 
-\chapter{Literature Review} % Main chapter title
+\chapter{Introduction} % Main chapter title
+
 \label{Chapter1} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-\newcommand{\keyword}[1]{\textbf{#1}}
-\newcommand{\tabhead}[1]{\textbf{#1}}
-\newcommand{\code}[1]{\texttt{#1}}
-\newcommand{\file}[1]{\texttt{\bfseries#1}}
-\newcommand{\option}[1]{\texttt{\itshape#1}}
+%Human action recognition is a very difficult task and is a constantly evolving topic of research in the computer vision community. In the real world, human action recognition has many issues, not limited to things such as occlusion, cluttered and dynamic backgrounds, camera motion, and multiview variations \cite{recognitionchallenges}. Existing classical models \cite{i3d} are vulnerable to these variables in the real world. The extraction of different features has tried to mitigate these background influences, such as rgb flow \cite{rgbflow}, however these can still be influenced by motion in the background. The emergence of lightweight, high quality pose estimation \cite{openpose} has allowed for accurate skeleton data from nearly every video in the wild, and utilizing this skeleton data, the background factors can be mitigated.
 
-%----------------------------------------------------------------------------------------
-%	SECTION 1
-%----------------------------------------------------------------------------------------
-
-\section{Classical Action Recognition}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
+%This paper aims to mitigate these background factors, while providing a model that provides high-quality action recognition prediction at near state of the art performance.  This involves constructing an intermediate representation using exclusively 2D pose data. With this representation, we aim to remove as much background influence as possible, thus our representation is independent of global position, or global rotation of the subject performing the action. The architecture of this representation was greatly inspired by \cite{simple_yet_efficient}, however their implementation suffers from largely relying on the global position of the person, which can reduce in the wild accuracy outside of curated datasets.
 
 
-%----------------------------------------------------------------------------------------
-%	SECTION 2
-%----------------------------------------------------------------------------------------
+People interact with their environment in unique and nuanced ways, 
 
-\section{Deep Learning Action Recognition}
+\section{Action Recognition}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
+For humans, the problem of Human Action Recognition is rather simple. We use past experiences throughout childhood and adult life to be able to pick out the various ways a person moves, and translate that into a familiar action that we have seen before. Combine that with objects that a person may be interacting with, and humans are remarkably good at discerning what actions other humans are involved in. However, as is with most things in the domain of computer vision, this ability does not translate well into the realm of artificial intelligence. The slightly different ways that people may perform these tasks add a layer of complexity that is difficult for a model to overcome.
 
-\subsection{3D-CNN}
+\section{Applications}
 
-\subsubsection{ResNet}
+\subsection{Ethical Issues}
 
-\subsubsection{MoveNet}
+\section{Challenges}
 
-%----------------------------------------------------------------------------------------
-%	SECTION 3
-%----------------------------------------------------------------------------------------
+\section{Problem Definition}
 
-\section{Optical Flow}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
-
-%----------------------------------------------------------------------------------------
-%	SECTION 3
-%----------------------------------------------------------------------------------------
-
-\section{Person-Based Action Recognition}
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ultricies lacinia euismod. Nam tempus risus in dolor rhoncus in interdum enim tincidunt. Donec vel nunc neque. In condimentum ullamcorper quam non consequat. Fusce sagittis tempor feugiat. Fusce magna erat, molestie eu convallis ut, tempus sed arcu. Quisque molestie, ante a tincidunt ullamcorper, sapien enim dignissim lacus, in semper nibh erat lobortis purus. Integer dapibus ligula ac risus convallis pellentesque.
-
-%----------------------------------------------------------------------------------------
-%	SECTION 4
-%----------------------------------------------------------------------------------------
-
-\section{Pose-Based Action Recognition}
-
-Pose involves extracting the skeleton of the person and using this data over multiple frames of a video to classify an action. Pose is a common addition used in action recognition as it relates most to how humans view actions and the movement of different bones.
-
-\subsection{Intermediate Representations}
-
-The approach of the majority of this thesis involves creating intermediate representations for pose data over multiple frames. This typically has the aim of creating some kind of image that represents either the motion of the persons bones and/or joints through the image at different points in the video. These images can then be used either by the model independently or added to traditional two-stream architectures.
-
-The advantage of these types of representations is that the model can quite often be a small CNN that can be trained end-to-end very quickly and with little memory. This quite often allows for real-time evaluation and in some cases mobile-capable models.
-
-\subsubsection{PoTion}
-
-Pose motion representation for action recognition \cite{potion} was largely the inspiration for the work that was done within this thesis. This approach aims to take the joints extracted from the pose representation and use the movement over $f$ frames, creating $j$ images where $j$ is the number of joints.
-
-The approach begins by extracting $j$ joint heatmaps from each frame of the video, these individual frames are then combines using their colour coding where depending on what time $t$ the frame is at in the video, the joint heatmap is made to be that colour. They then perform their temporal aggregation where for each joint $j$, they combine all frames together into one image, perfoming a simple addition through all frames. This leaves an image that demonstrates the movement of one joint through all frames of a video.
-
-\subsubsection{PA3D}
-
-Pose action 3D \cite{PA3D} is a similar approach to PoTion, where it involves the use of the generated joint heatmaps from pose estimation models. The difference is that instead of using the color coding similar to potion, PA3D stacks the joint heatmaps such that they create $j$ cubes of every heatmap frame.
-
-\subsubsection{Simple yet efficient real-time pose-based action recognition}
-
+\section{Thesis Structure}
