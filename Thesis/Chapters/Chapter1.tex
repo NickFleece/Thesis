@@ -9,7 +9,7 @@
 %This paper aims to mitigate these background factors, while providing a model that provides high-quality action recognition prediction at near state of the art performance.  This involves constructing an intermediate representation using exclusively 2D pose data. With this representation, we aim to remove as much background influence as possible, thus our representation is independent of global position, or global rotation of the subject performing the action. The architecture of this representation was greatly inspired by \cite{simple_yet_efficient}, however their implementation suffers from largely relying on the global position of the person, which can reduce in the wild accuracy outside of curated datasets.
 
 
-People interact with their environment in unique and nuanced ways, 
+People interact with their environment in unique and nuanced ways, and throughout our lives, humans have learned to identify and categorize the different actions that we perform.
 
 \section{Action Recognition}
 
@@ -17,15 +17,31 @@ For humans, the problem of Human Action Recognition is rather simple. We use pas
 
 \section{Applications}
 
+\textbf{Security}
+
+\textbf{Health Care}
+
+\textbf{Video Summarization}
+
 \subsection{Ethical Issues}
 
-As with most applications of artificial intelligence, computer vision cannot be researched and discussed without taking into account the ethical issues that surround it.
+As with most applications of artificial intelligence, computer vision cannot be researched and discussed without taking into account the ethical issues that surround it. With AI being such a quickly evolving space, it is crucial that any researchers be aware of these issues. In this section, I will focus particularly on how it may affect action recognition, touching on other areas of AI in general to further illustrate my points.
 
-\textbf{Bias} is one of the most common ethical issues in AI that can appear. In artificial intelligence, and computing in general, the principle of "garbage in, garbage out", is a common one to illustrate that if the inputs into a model are not of high quality, the outputs will not be of high quality. This can often be the case in datasets where say a group of people are not accurately represented, and while the model itself is not discriminatory, it will follow the data it has been given. Take the example previously discussed of airport security. Airport security has been scrutinized in the past for singling out individuals of particular races or who look a particular way. This may mean that if a model is being constructed that searches for people who may be flagged later in security, the majority of positive flags that were screened further would be of this group of people. The resulting dataset that is constructed would be biased against this group of people, therefore resulting in a model similarly biased. These kinds of reasons are why it is crucial for researchers to be aware of and study their datasets when it comes to human data to avoid these biases and ensure that their data is well balanced.
+\textbf{Privacy}
+
+\textbf{Accountability}
+
+\textbf{Bias} is one of the most common ethical issues in AI that can appear. In artificial intelligence, and computing in general, the principle of "garbage in, garbage out", is a common one to illustrate that if the inputs into a model are not of high quality, the outputs will not be of high quality. This can often be the case in datasets where say a group of people are not accurately represented, and while the model itself is not discriminatory, it will follow the data it has been given. Take the example previously discussed of airport security. Airport security has been scrutinized in the past for singling out individuals of particular races or who look a particular way. This may mean that if a model is being constructed that searches for people who may be flagged later in security, the majority of positive flags that were screened further would be of this group of people. The resulting dataset that is constructed would be biased against this group of people, therefore resulting in a model similarly biased. This type of issue has been shown in many different areas, another example being speech recognition models used by voice assistants not being able to recognize particular accents as they were not represented in the original dataset. These kinds of reasons are why it is crucial for researchers to be aware of and study their datasets when it comes to human data to avoid these biases and ensure that their data is well balanced.
+
+\textbf{Transparency}
 
 \section{Challenges}
 
 Human action recognition is a very difficult task that comes with many issues, some of which continue to be major challenges moving forward with very complex modern models.
+
+\textbf{Background}
+
+\textbf{Camera Movement}
 
 \section{Problem Definition}
 

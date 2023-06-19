@@ -2,8 +2,8 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces An example structure of a simple CNN-LSTM based model, each individual frame being individually fed into the CNN, and then passed to a LSTM.\relax }}{5}{figure.caption.28}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Action recognition structure for the LRCN model. \blx@tocontentsinit {0}\cite {LRCNS}\relax }}{6}{figure.caption.29}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Overview of the Beyond Short Snippets: Deep Networks for Video Classification model \blx@tocontentsinit {0}\cite {beyondshortsnippets}\relax }}{7}{figure.caption.30}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Deep LSTM architecture utilized by \blx@tocontentsinit {0}\cite {beyondshortsnippets} in the feature aggregation step as shown in figure \ref {fig:beyondoverview}.\relax }}{7}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces An example structure of a simple CNN-LSTM based model, each individual frame being individually fed into the CNN, and then passed to a LSTM.\relax }}{6}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Action recognition structure for the LRCN model. \blx@tocontentsinit {0}\cite {LRCNS}\relax }}{7}{figure.caption.32}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Overview of the Beyond Short Snippets: Deep Networks for Video Classification model \blx@tocontentsinit {0}\cite {beyondshortsnippets}\relax }}{8}{figure.caption.33}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Deep LSTM architecture utilized by \blx@tocontentsinit {0}\cite {beyondshortsnippets} in the feature aggregation step as shown in figure \ref {fig:beyondoverview}.\relax }}{8}{figure.caption.34}%
 \addvspace {10\p@ }
