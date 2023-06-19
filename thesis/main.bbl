@@ -16,5 +16,354 @@
   {}
 \endgroup
 
-\datalist[entry]{none/global//global/global}\enddatalist
+\datalist[entry]{none/global//global/global}
+  \entry{LRCNS}{article}{}
+    \name{author}{7}{}{%
+      {{hash=DJ}{%
+         family={Donahue},
+         familyi={D\bibinitperiod},
+         given={Jeff},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=HLA}{%
+         family={Hendricks},
+         familyi={H\bibinitperiod},
+         given={Lisa\bibnamedelima Anne},
+         giveni={L\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=RM}{%
+         family={Rohrbach},
+         familyi={R\bibinitperiod},
+         given={Marcus},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=VS}{%
+         family={Venugopalan},
+         familyi={V\bibinitperiod},
+         given={Subhashini},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=GS}{%
+         family={Guadarrama},
+         familyi={G\bibinitperiod},
+         given={Sergio},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=SK}{%
+         family={Saenko},
+         familyi={S\bibinitperiod},
+         given={Kate},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=DT}{%
+         family={Darrell},
+         familyi={D\bibinitperiod},
+         given={Trevor},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DJHLARM+1}
+    \strng{fullhash}{DJHLARMVSGSSKDT1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1109/TPAMI.2016.2599174
+    \endverb
+    \field{number}{4}
+    \field{pages}{677\bibrangedash 691}
+    \field{title}{Long-Term Recurrent Convolutional Networks for Visual
+  Recognition and Description}
+    \field{volume}{39}
+    \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}
+    \field{year}{2017}
+  \endentry
+
+  \entry{LSTM-2015}{misc}{}
+    \name{author}{2}{}{%
+      {{hash=ZW}{%
+         family={Zaremba},
+         familyi={Z\bibinitperiod},
+         given={Wojciech},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=SI}{%
+         family={Sutskever},
+         familyi={S\bibinitperiod},
+         given={Ilya},
+         giveni={I\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ZWSI1}
+    \strng{fullhash}{ZWSI1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1410.4615
+    \endverb
+    \field{title}{Learning to Execute}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.NE}
+    \field{year}{2015}
+  \endentry
+
+  \entry{caffenet}{article}{}
+    \name{author}{4}{}{%
+      {{hash=QZ}{%
+         family={Qin},
+         familyi={Q\bibinitperiod},
+         given={Zhuwei},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=YF}{%
+         family={Yu},
+         familyi={Y\bibinitperiod},
+         given={Fuxun},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=LC}{%
+         family={Liu},
+         familyi={L\bibinitperiod},
+         given={Chenchen},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=CX}{%
+         family={Chen},
+         familyi={C\bibinitperiod},
+         given={Xiang},
+         giveni={X\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{QZYFLC+1}
+    \strng{fullhash}{QZYFLCCX1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.3934/mfc.2018008
+    \endverb
+    \field{pages}{149\bibrangedash 180}
+    \field{title}{How convolutional neural networks see the world --- A survey
+  of convolutional neural network visualization methods}
+    \field{volume}{1}
+    \field{journaltitle}{Mathematical Foundations of Computing}
+    \field{month}{01}
+    \field{year}{2018}
+  \endentry
+
+  \entry{alexnet}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=KA}{%
+         family={Krizhevsky},
+         familyi={K\bibinitperiod},
+         given={Alex},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=SI}{%
+         family={Sutskever},
+         familyi={S\bibinitperiod},
+         given={Ilya},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=HGE}{%
+         family={Hinton},
+         familyi={H\bibinitperiod},
+         given={Geoffrey\bibnamedelima E},
+         giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+    }
+    \name{editor}{4}{}{%
+      {{hash=PF}{%
+         family={Pereira},
+         familyi={P\bibinitperiod},
+         given={F.},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=BC}{%
+         family={Burges},
+         familyi={B\bibinitperiod},
+         given={C.J.},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=BL}{%
+         family={Bottou},
+         familyi={B\bibinitperiod},
+         given={L.},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=WK}{%
+         family={Weinberger},
+         familyi={W\bibinitperiod},
+         given={K.Q.},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Curran Associates, Inc.}%
+    }
+    \strng{namehash}{KASIHGE1}
+    \strng{fullhash}{KASIHGE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Advances in Neural Information Processing Systems}
+    \field{title}{ImageNet Classification with Deep Convolutional Neural
+  Networks}
+    \verb{url}
+    \verb https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b
+    \verb 9d6b76c8436e924a68c45b-Paper.pdf
+    \endverb
+    \field{volume}{25}
+    \field{year}{2012}
+  \endentry
+
+  \entry{zeilerfergus}{misc}{}
+    \name{author}{2}{}{%
+      {{hash=ZMD}{%
+         family={Zeiler},
+         familyi={Z\bibinitperiod},
+         given={Matthew\bibnamedelima D},
+         giveni={M\bibinitperiod\bibinitdelim D\bibinitperiod},
+      }}%
+      {{hash=FR}{%
+         family={Fergus},
+         familyi={F\bibinitperiod},
+         given={Rob},
+         giveni={R\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ZMDFR1}
+    \strng{fullhash}{ZMDFR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1311.2901
+    \endverb
+    \field{title}{Visualizing and Understanding Convolutional Networks}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2013}
+  \endentry
+
+  \entry{beyondshortsnippets}{inproceedings}{}
+    \name{author}{6}{}{%
+      {{hash=NJYH}{%
+         family={Ng},
+         familyi={N\bibinitperiod},
+         given={Joe Yue-Hei},
+         giveni={J\bibinitperiod\bibinitdelim Y\bibinithyphendelim
+  H\bibinitperiod},
+      }}%
+      {{hash=HM}{%
+         family={Hausknecht},
+         familyi={H\bibinitperiod},
+         given={Matthew},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=VS}{%
+         family={Vijayanarasimhan},
+         familyi={V\bibinitperiod},
+         given={Sudheendra},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=VO}{%
+         family={Vinyals},
+         familyi={V\bibinitperiod},
+         given={Oriol},
+         giveni={O\bibinitperiod},
+      }}%
+      {{hash=MR}{%
+         family={Monga},
+         familyi={M\bibinitperiod},
+         given={Rajat},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=TG}{%
+         family={Toderici},
+         familyi={T\bibinitperiod},
+         given={George},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{NJYHHMVS+1}
+    \strng{fullhash}{NJYHHMVSVOMRTG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2015 IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR)}
+    \verb{doi}
+    \verb 10.1109/CVPR.2015.7299101
+    \endverb
+    \field{pages}{4694\bibrangedash 4702}
+    \field{title}{Beyond short snippets: Deep networks for video
+  classification}
+    \field{year}{2015}
+  \endentry
+
+  \entry{googlenet}{inproceedings}{}
+    \name{author}{9}{}{%
+      {{hash=SC}{%
+         family={Szegedy},
+         familyi={S\bibinitperiod},
+         given={Christian},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=LW}{%
+         family={Liu},
+         familyi={L\bibinitperiod},
+         given={Wei},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=JY}{%
+         family={Jia},
+         familyi={J\bibinitperiod},
+         given={Yangqing},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=SP}{%
+         family={Sermanet},
+         familyi={S\bibinitperiod},
+         given={Pierre},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=RS}{%
+         family={Reed},
+         familyi={R\bibinitperiod},
+         given={Scott},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=AD}{%
+         family={Anguelov},
+         familyi={A\bibinitperiod},
+         given={Dragomir},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=ED}{%
+         family={Erhan},
+         familyi={E\bibinitperiod},
+         given={Dumitru},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=VV}{%
+         family={Vanhoucke},
+         familyi={V\bibinitperiod},
+         given={Vincent},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=RA}{%
+         family={Rabinovich},
+         familyi={R\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SCLWJY+1}
+    \strng{fullhash}{SCLWJYSPRSADEDVVRA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition (CVPR)}
+    \field{title}{Going Deeper With Convolutions}
+    \field{year}{2015}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+\enddatalist
 \endinput

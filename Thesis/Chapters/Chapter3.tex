@@ -16,25 +16,75 @@
 \section{Image Classification}
 
 %----------------------------------------------------------------------------------------
-%	RGB Models
-%----------------------------------------------------------------------------------------
-\section{RGB Frame Based Models}
-
-\subsection{CNN + LSTM Models}
-
-\subsection{3D CNN Models}
-
-%----------------------------------------------------------------------------------------
 %	Optical Flow
 %----------------------------------------------------------------------------------------
 \section{Optical Flow}
 
-\subsection{Optical Flow Models}
+%----------------------------------------------------------------------------------------
+%	CNN Models
+%----------------------------------------------------------------------------------------
+\section{CNN Based Models}
+
+Naturally, the first approach to feeding video data into models is to process the raw RGB frames. The RGB frame data quite often 
 
 %----------------------------------------------------------------------------------------
-%	Attention
+%	CNN + LSTM
 %----------------------------------------------------------------------------------------
-\section{Attention Based Models}
+\subsection{CNN + LSTM Models}
+
+The success of CNN's in the world of image classification makes the move to apply the same type of logic towards action recognition and the larger domain of video processing. Since a video broken down is just individual frames, the logic follows that we would be able to extract features from individual frames and combine these features to produce a classification outcome.
+
+In very classic models, this is a very simple process. The individual frames are passed through the CNN model, producing a feature map for each frame. These feature maps are then simply pooled and passed into dense layers which produces an output. While very simple and fast, this model completely ignores any temporal activity, meaning that the model cannot determine how a person moves throughout a video from one frame to another. This would make differentiating some reversible actions such as running forwards vs running backwards.
+
+Figure \ref{fig:cnn-lstm} shows the typical modern structure for this solution. After the features are extracted from each of the 2 dimensional CNN, they are passed through a LSTM. The goal of this LSTM module is to carry features from one frame to another.
+
+\begin{figure}[t]
+	\includegraphics[width=8cm]{CNN-LSTM.png}
+	\centering
+	\caption{An example structure of a simple CNN-LSTM based model, each individual frame being individually fed into the CNN, and then passed to a LSTM.}
+	\label{fig:cnn-lstm}
+\end{figure}
+
+The advantages of this model are that is is very lightweight and all of the individual parts are already well studied and efficient. This also means that the models are very lightweight, and relatively simple in comparison to more complex techniques.
+
+The disadvantages of the model are also rooted in it's simplicity. The result of processing each image independently means that the interactions between frames is not very well represented. While the model is able to represent individual frame features very well, due to the fact that the feature maps are passed through the LSTM, classes that require specific movement from one frame to another are difficult to represent using this structure. Constructing these individual feature maps can also fall victim to background interference, meaning that a movement in the camera, or change in background could impact in a way that detracts from the main subject of the action more with this model than the other approaches discussed later in this chapter.
+
+\begin{figure}[t]
+	\includegraphics[width=8cm]{LRCN-AR.png}
+	\centering
+	\caption{Action recognition structure for the LRCN model. \cite{LRCNS}}
+	\label{fig:lrcn-ar}
+\end{figure}
+
+\textbf{Long-term Recurrent Convolutional Networks} \cite{LRCNS}, is a model constructed using this methodology. In the paper, they use the notation that each frame, $x_{i}$, is fed into the CNN in order to construct a fixed-length feature representation, $\phi_{v}(x_{i})$. This is then passed into the recurrent sequence learning model. This is where the model differs from the previous example provided. In the LRCN model, the LSTM outputs at each frame are averaged to get the output class, rather than taking the last output. This removes any bias the model may have towards the later frames in long videos. In addition to RGB frames, this model additonally uses the optical flow feature, which easily adapts to this structure, replacing the RGB frames in figure \ref{fig:lrcn-ar}. The LSTM structure is taken from \cite{LSTM-2015}, which is a structure devised from the original LSTM model, as we discussed in section \ref{sec:LSTM}. The CNN's, represented in the paper as $\phi$, is described as a hybrid of the CaffeNet \cite{caffenet} (a variant of the AlexNet \cite{alexnet} model discussed in section \ref{sec:alexnet}) and the Zeiler and Fergus \cite{zeilerfergus} models, which has been pre-trained on a large dataset.
+
+\begin{figure}[t]
+	\includegraphics[width=10cm]{BeyondOverview.png}
+	\centering
+	\caption{Overview of the Beyond Short Snippets: Deep Networks for Video Classification model \cite{beyondshortsnippets}}
+	\label{fig:beyondoverview}
+\end{figure}
+
+\begin{figure}[t]
+	\includegraphics[width=8cm]{deepLSTM.png}
+	\centering
+	\caption{Deep LSTM architecture utilized by \cite{beyondshortsnippets} in the feature aggregation step as shown in figure \ref{fig:beyondoverview}.}
+	\label{fig:deeplstm}
+\end{figure}
+
+\textbf{Beyond Short Snippets: Deep Networks for Video Classification} \cite{beyondshortsnippets}, is another approach to this structure, which explores a more complex deep-LSTM based module, as well as more classical feature pooling. Similarly to the previously discussed model \cite{LRCNS}, the model utilizes a combination of two popular CNN models, AlexNet \cite{alexnet} and GoogLeNet \cite{googlenet}. The paper did explore many more classical feature pooling architectures, and were proven to have good results, however these techniques were outperformed by the LSTM model. The paper utilized a deep LSTM architecture for the feature aggregation step, shown in figure \ref{fig:deeplstm}, which further adds to it's complexity, moving it above the CNN-LSTM architectures described previously. 
+
+%----------------------------------------------------------------------------------------
+%	3D CNN
+%----------------------------------------------------------------------------------------
+\subsection{3D CNN Models}
+
+The natural next step for action recognition is to move to 3D CNN models.
+
+%----------------------------------------------------------------------------------------
+%	Modern
+%----------------------------------------------------------------------------------------
+\section{Modern Methods}
 
 %----------------------------------------------------------------------------------------
 %	Datasets
@@ -45,5 +95,7 @@
 %	Skeleton Based Models
 %----------------------------------------------------------------------------------------
 \section{Skeleton-Based Action Recognition}
+
+\subsection{Pose Detection}
 
 \subsection{Intermediate Representations}

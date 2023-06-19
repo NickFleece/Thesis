@@ -4,7 +4,7 @@
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.8}%
 \contentsline {section}{\numberline {1.1}Action Recognition}{1}{section.9}%
 \contentsline {section}{\numberline {1.2}Applications}{1}{section.10}%
-\contentsline {subsection}{\numberline {1.2.1}Ethical Challenges}{1}{subsection.11}%
+\contentsline {subsection}{\numberline {1.2.1}Ethical Issues}{1}{subsection.11}%
 \contentsline {section}{\numberline {1.3}Challenges}{1}{section.12}%
 \contentsline {section}{\numberline {1.4}Problem Definition}{1}{section.13}%
 \contentsline {section}{\numberline {1.5}Thesis Structure}{1}{section.14}%
@@ -12,15 +12,21 @@
 \contentsline {section}{\numberline {2.1}Structure}{2}{section.16}%
 \contentsline {section}{\numberline {2.2}Kernel Dimensions}{2}{section.17}%
 \contentsline {subsection}{\numberline {2.2.1}3 Dimensional Convolutions}{2}{subsection.18}%
-\contentsline {chapter}{\numberline {3}Literature Review}{3}{chapter.19}%
-\contentsline {section}{\numberline {3.1}Image Classification}{3}{section.20}%
-\contentsline {section}{\numberline {3.2}RGB Frame Based Models}{3}{section.21}%
-\contentsline {subsection}{\numberline {3.2.1}CNN + LSTM Models}{3}{subsection.22}%
-\contentsline {subsection}{\numberline {3.2.2}3D CNN Models}{3}{subsection.23}%
-\contentsline {section}{\numberline {3.3}Optical Flow}{3}{section.24}%
-\contentsline {subsection}{\numberline {3.3.1}Optical Flow Models}{3}{subsection.25}%
-\contentsline {section}{\numberline {3.4}Datasets}{3}{section.26}%
-\contentsline {section}{\numberline {3.5}Skeleton-Based Action Recognition}{3}{section.27}%
-\contentsline {subsection}{\numberline {3.5.1}Intermediate Representations}{3}{subsection.28}%
-\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{4}{appendix.29}%
-\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{4}{section.30}%
+\contentsline {section}{\numberline {2.3}Classic Architectures}{2}{section.19}%
+\contentsline {subsection}{\numberline {2.3.1}AlexNet}{2}{subsection.20}%
+\contentsline {section}{\numberline {2.4}Modern Architectures}{2}{section.21}%
+\contentsline {section}{\numberline {2.5}LSTMs}{2}{section.22}%
+\contentsline {chapter}{\numberline {3}Literature Review}{3}{chapter.23}%
+\contentsline {section}{\numberline {3.1}Image Classification}{3}{section.24}%
+\contentsline {section}{\numberline {3.2}Optical Flow}{3}{section.25}%
+\contentsline {section}{\numberline {3.3}CNN Based Models}{3}{section.26}%
+\contentsline {subsection}{\numberline {3.3.1}CNN + LSTM Models}{3}{subsection.27}%
+\contentsline {subsection}{\numberline {3.3.2}3D CNN Models}{6}{subsection.32}%
+\contentsline {section}{\numberline {3.4}Attention Based \& Modern Models}{6}{section.33}%
+\contentsline {section}{\numberline {3.5}Datasets}{6}{section.34}%
+\contentsline {section}{\numberline {3.6}Skeleton-Based Action Recognition}{6}{section.35}%
+\contentsline {subsection}{\numberline {3.6.1}Pose Detection}{6}{subsection.36}%
+\contentsline {subsection}{\numberline {3.6.2}Intermediate Representations}{6}{subsection.37}%
+\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{7}{appendix.38}%
+\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{7}{section.39}%
+\contentsline {chapter}{Bibliography}{8}{appendix*.40}%
