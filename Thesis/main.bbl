@@ -17,6 +17,35 @@
 \endgroup
 
 \datalist[entry]{none/global//global/global}
+  \entry{Eldermonitoring}{misc}{}
+    \name{author}{2}{}{%
+      {{hash=SH}{%
+         family={Sun},
+         familyi={S\bibinitperiod},
+         given={Han},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=CY}{%
+         family={Chen},
+         familyi={C\bibinitperiod},
+         given={Yu},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SHCY1}
+    \strng{fullhash}{SHCY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 2207.10519
+    \endverb
+    \field{title}{Real-Time Elderly Monitoring for Senior Safety by Lightweight
+  Human Action Recognition}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2022}
+  \endentry
+
   \entry{LRCNS}{article}{}
     \name{author}{7}{}{%
       {{hash=DJ}{%
@@ -364,6 +393,50 @@
     \field{title}{Going Deeper With Convolutions}
     \field{year}{2015}
     \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{3DCNN-ActionRecognition}{article}{}
+    \name{author}{4}{}{%
+      {{hash=JS}{%
+         family={Ji},
+         familyi={J\bibinitperiod},
+         given={Shuiwang},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=XW}{%
+         family={Xu},
+         familyi={X\bibinitperiod},
+         given={Wei},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=YM}{%
+         family={Yang},
+         familyi={Y\bibinitperiod},
+         given={Ming},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=YK}{%
+         family={Yu},
+         familyi={Y\bibinitperiod},
+         given={Kai},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{JSXWYM+1}
+    \strng{fullhash}{JSXWYMYK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1109/TPAMI.2012.59
+    \endverb
+    \field{number}{1}
+    \field{pages}{221\bibrangedash 231}
+    \field{title}{3D Convolutional Neural Networks for Human Action
+  Recognition}
+    \field{volume}{35}
+    \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}
+    \field{year}{2013}
   \endentry
 \enddatalist
 \endinput
