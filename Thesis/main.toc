@@ -24,7 +24,7 @@
 \contentsline {section}{\numberline {3.2}Optical Flow}{5}{section.28}%
 \contentsline {section}{\numberline {3.3}CNN Based Models}{5}{section.29}%
 \contentsline {subsection}{\numberline {3.3.1}CNN + LSTM Models}{5}{subsection.30}%
-\contentsline {subsection}{\numberline {3.3.2}3D CNN Models}{8}{subsection.35}%
+\contentsline {subsection}{\numberline {3.3.2}3D CNN Models}{9}{subsection.35}%
 \contentsline {section}{\numberline {3.4}Modern Methods}{9}{section.36}%
 \contentsline {section}{\numberline {3.5}Datasets}{9}{section.37}%
 \contentsline {section}{\numberline {3.6}Skeleton-Based Action Recognition}{9}{section.38}%
