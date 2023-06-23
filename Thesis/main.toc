@@ -25,11 +25,11 @@
 \contentsline {section}{\numberline {3.3}CNN Based Models}{6}{section.31}%
 \contentsline {subsection}{\numberline {3.3.1}CNN + LSTM Models}{6}{subsection.32}%
 \contentsline {subsection}{\numberline {3.3.2}3D CNN Models}{10}{subsection.37}%
-\contentsline {section}{\numberline {3.4}Modern Methods}{10}{section.38}%
-\contentsline {section}{\numberline {3.5}Datasets}{10}{section.39}%
-\contentsline {section}{\numberline {3.6}Skeleton-Based Action Recognition}{10}{section.40}%
-\contentsline {subsection}{\numberline {3.6.1}Pose Detection}{10}{subsection.41}%
-\contentsline {subsection}{\numberline {3.6.2}Intermediate Representations}{10}{subsection.42}%
-\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{11}{appendix.43}%
-\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{11}{section.44}%
-\contentsline {chapter}{Bibliography}{12}{appendix*.45}%
+\contentsline {section}{\numberline {3.4}Modern Methods}{11}{section.39}%
+\contentsline {section}{\numberline {3.5}Datasets}{12}{section.42}%
+\contentsline {section}{\numberline {3.6}Skeleton-Based Action Recognition}{12}{section.43}%
+\contentsline {subsection}{\numberline {3.6.1}Pose Detection}{12}{subsection.44}%
+\contentsline {subsection}{\numberline {3.6.2}Intermediate Representations}{12}{subsection.45}%
+\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{13}{appendix.46}%
+\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{13}{section.47}%
+\contentsline {chapter}{Bibliography}{14}{appendix*.48}%

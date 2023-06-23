@@ -38,7 +38,7 @@ In very classic models, this is a very simple process. The individual frames are
 
 Figure \ref{fig:cnn-lstm} shows the typical modern structure for this solution. After the features are extracted from each of the 2 dimensional CNN, they are passed through a LSTM. The goal of this LSTM module is to carry features from one frame to another.
 
-\begin{figure}[t]
+\begin{figure}[h]
 	\includegraphics[width=8cm]{CNN-LSTM.png}
 	\centering
 	\caption{An example structure of a simple CNN-LSTM based model, each individual frame being individually fed into the CNN, and then passed to a LSTM.}
@@ -49,7 +49,7 @@ The advantages of this model are that is is very lightweight and all of the indi
 
 The disadvantages of the model are also rooted in it's simplicity. The result of processing each image independently means that the interactions between frames is not very well represented. While the model is able to represent individual frame features very well, due to the fact that the feature maps are passed through the LSTM, classes that require specific movement from one frame to another are difficult to represent using this structure. Constructing these individual feature maps can also fall victim to background interference, meaning that a movement in the camera, or change in background could impact in a way that detracts from the main subject of the action more with this model than the other approaches discussed later in this chapter.
 
-\begin{figure}[t]
+\begin{figure}[h]
 	\includegraphics[width=8cm]{LRCN-AR.png}
 	\centering
 	\caption{Action recognition structure for the LRCN model. \cite{LRCNS}}
@@ -58,7 +58,7 @@ The disadvantages of the model are also rooted in it's simplicity. The result of
 
 \textbf{Long-term Recurrent Convolutional Networks} \cite{LRCNS}, is a model constructed using this methodology. In the paper, they use the notation that each frame, $x_{i}$, is fed into the CNN in order to construct a fixed-length feature representation, $\phi_{v}(x_{i})$. This is then passed into the recurrent sequence learning model. This is where the model differs from the previous example provided. In the LRCN model, the LSTM outputs at each frame are averaged to get the output class, rather than taking the last output. This removes any bias the model may have towards the later frames in long videos. In addition to RGB frames, this model additonally uses the optical flow feature, which easily adapts to this structure, replacing the RGB frames in figure \ref{fig:lrcn-ar}. The LSTM structure is taken from \cite{LSTM-2015}, which is a structure devised from the original LSTM model, as we discussed in section \ref{sec:LSTM}. The CNN's, represented in the paper as $\phi$, is described as a hybrid of the CaffeNet \cite{caffenet} (a variant of the AlexNet \cite{alexnet} model discussed in section \ref{sec:alexnet}) and the Zeiler and Fergus \cite{zeilerfergus} models, which has been pre-trained on a large dataset.
 
-\begin{figure}[t]
+\begin{figure}[h]
 	\includegraphics[width=10cm]{BeyondOverview.png}
 	\centering
 	\caption{Overview of the Beyond Short Snippets: Deep Networks for Video Classification model \cite{beyondshortsnippets}}
@@ -67,7 +67,7 @@ The disadvantages of the model are also rooted in it's simplicity. The result of
 
 \textbf{Beyond Short Snippets: Deep Networks for Video Classification} \cite{beyondshortsnippets}, is another approach to this structure, which explores a more complex deep-LSTM based module, as well as more classical feature pooling. Similarly to the previously discussed model, Long-term Recurrent Convolutional Networks \cite{LRCNS}, the model utilizes a combination of two popular CNN models, AlexNet \cite{alexnet} and GoogLeNet \cite{googlenet}. The paper did explore many more classical feature pooling architectures, and were proven to have good results, however these techniques were outperformed by the LSTM model. The paper utilized a deep LSTM architecture for the feature aggregation step, shown in figure \ref{fig:deeplstm}, which further adds to it's complexity, moving it above the CNN-LSTM architectures described previously. In this deep-LSTM module, the outputs of each frame are passed into a LSTM module as in the previous model, but the ouputs are then passed up through 4 more stacked layers of LSTM's, after reaching softmax layers which are averaged to get an output. These 4 additional layers of LSTM's mean it is more able to infer data moving from one frame to another. This model additionally explored the uses of optical flow and found that it adds a great deal to the accuracy of the model.
 
-\begin{figure}[t]
+\begin{figure}[h]
 	\includegraphics[width=8cm]{deepLSTM.png}
 	\centering
 	\caption{Deep LSTM architecture utilized by \cite{beyondshortsnippets} in the feature aggregation step as shown in figure \ref{fig:beyondoverview}.}
@@ -81,12 +81,41 @@ The disadvantages of the model are also rooted in it's simplicity. The result of
 
 When considering how to handle videos without the LSTM component, the most natural approach is to utilize 3 dimensional CNN kernels, the specifics of which were described in section \ref{3dkernels}. The function of these kernels when it relates to action recognition is that they allow for the model to easily encode local temporal data using the third kernel dimension. The primary issue with these models is that they contain many more parameters over the 2D CNN models, meaning that they take longer to train and require more computing power as compared to the lightweight counterparts.
 
-\textbf{3D Convolutional Neural Networks for Human Action Recognition} \cite{3DCNN-ActionRecognition} was the original paper that proposed this model for the purposes of action recognition.
+\textbf{3D Convolutional Neural Networks for Human Action Recognition} \cite{3DCNN-ActionRecognition} was one of the original paper that proposed this model for the purposes of action recognition, and the greater topic of 3 dimensional convolutions as described in section \ref{3dkernels}. The general architecture of the model is shown in figure \ref{fig:original3dcnn}, and is very very similar to that of 2 dimensional CNNs, with convolutional layers followed up by subsampling layers.
+
+\begin{figure}[h]
+	\includegraphics[width=10cm]{og3dCNN}
+	\centering
+	\caption{The original 3D-CNN action recognition model architecture proposed by \cite{3DCNN-ActionRecognition}, containing 3 convolutional layers, two subsampling layers, and one fully connected layer}
+	\label{fig:original3dcnn}
+\end{figure}
+
+The primary difference with this original architecture compared to 2D CNN's as we know them today is that it used rather large $7x7x3$ convolutions, as compared to the typical $3x3$ convolutions used in classical 2D CNN's. \textbf{Learning Spatiotemporal Features with 3D Convolutional Networks} \cite{3x33dcnn}, is a slightly more modern architecture that was proposed. They explore in great detail the effects of these sizes of convolutions and find that this size of convolutions are more effective than the previous methods and sizes.
 
 %----------------------------------------------------------------------------------------
 %	Modern
 %----------------------------------------------------------------------------------------
 \section{Modern Methods}
+
+The domain of action recognition is always evolving, and it would not be a complete review of the literature without acknowledging other approaches that extend beyond the reach of this thesis.
+
+\begin{figure}[h]
+	\includegraphics[width=10cm]{transformerActionRecognition}
+	\centering
+	\caption{The original transformer model proposed in \cite{transformer_og}, the image is split into fixed-size patches, linearly embed them, and add positional embeddings. It is then fed into a standard Transformer Encoder architecture.}
+	\label{fig:transformerActionRecognition}
+\end{figure}
+
+\textbf{Transformers for Image Recognition at Scale} \cite{transformer_og}, extends beyond CNN's to explore transformer networks. While transformer networks are very easily applied to natural language processing tasks, it is not as easily applied to video and in particular action recognition. As depicted in figure \ref{fig:transformerActionRecognition}, the model utilizes a standard transformer architecture often used in NLP tasks in order to learn features that are useful for action recognition. The goal of this being to leverage previously well studied NLP studies that indicate the attention features of transformers are useful for focusing on the relevant data. Figure \ref{fig:attentionExample} shows this effect, the goal of this being to mitigate the challenges of handling background data interference as previously described in section \ref{sec:challenges}. This logic is then further expanded upon in many future models to extend this functionality, such as \textbf{Multiview Transformers for Video Recognition} which explores using multiple separate encoders to explore multiple views.
+
+\begin{figure}[h]
+	\includegraphics[width=5cm]{attentionExample}
+	\centering
+	\caption{Example feature outputs of how a transformer utilizes attention to focus on the main subject of a video in order to greater identify actions as shown in \cite{transformer_og}}
+	\label{fig:attentionExample}
+\end{figure}
+
+
 
 %----------------------------------------------------------------------------------------
 %	Datasets

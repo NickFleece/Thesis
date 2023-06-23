@@ -24,7 +24,7 @@ As with most applications of artificial intelligence, computer vision cannot be 
 
 \textbf{Privacy} can become a concern in many areas, the healthcare example given previously in this chapter is one of the most obvious. With elderly people, often one of the draws to staying in their own private homes is the privacy that it offers, if the action recognition model is to be used to ensure that they remain safe, it must come with some removal of privacy. There is also a question of what happens to the data of a person who is using this kind of service, since it is almost certainly sent to a server to be processed given the typical size of these models, what kind of data retention policies might this company have in place, are they sharing this data with others, or is the data going to be used to further train. These are all issues that often follow AI since the training of models requires such a massive amount of data, and in action recognition this can contain people who are not necessarily aware of their data being used in such ways.
 
-\textbf{Accountability}
+%\textbf{Accountability} can be another issue that becomes vague with the application of these AI models. Primarily what 
 
 \textbf{Bias} is one of the most common ethical issues in AI that can appear. In artificial intelligence, and computing in general, the principle of "garbage in, garbage out", is a common one to illustrate that if the inputs into a model are not of high quality, the outputs will not be of high quality. This can often be the case in datasets where say a group of people are not accurately represented, and while the model itself is not discriminatory, it will follow the data it has been given. Take the example previously discussed of airport security. Airport security has been scrutinized in the past for singling out individuals of particular races or who look a particular way. This may mean that if a model is being constructed that searches for people who may be flagged later in security, the majority of positive flags that were screened further would be of this group of people. The resulting dataset that is constructed would be biased against this group of people, therefore resulting in a model similarly biased. This type of issue has been shown in many different areas, another example being speech recognition models used by voice assistants not being able to recognize particular accents as they were not represented in the original dataset. These kinds of reasons are why it is crucial for researchers to be aware of and study their datasets when it comes to human data to avoid these biases and ensure that their data is well balanced.
 
@@ -36,12 +36,11 @@ As with most applications of artificial intelligence, computer vision cannot be 
 \end{enumerate}
 
 \section{Challenges}
+\label{sec:challenges}
 
 Human action recognition is a very difficult task that comes with many issues, some of which continue to be major challenges moving forward with very complex modern models.
 
-\textbf{Background}
-
-\textbf{Camera Movement}
+\textbf{Backgrounds} often not static in videos. Often they contain a lot of data that is ever changing and often can contain other secondary subjects performing actions that may not be relevant to the subject that we are trying to determine the action of. While humans are very good at focusing on the person who is performing the action and ignoring things occurring in the background enough to not get confused. AI models do not have this inherent ability and often can get confused from background changes, and effectively must both identify the person and determine what action they are performing within the same model. This can be further worsened by any camera movement, resulting in both the subject moving throughout the frame, but the background can completely change with a  90 degree camera angle change
 
 \section{Problem Definition}
 
