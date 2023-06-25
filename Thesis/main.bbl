@@ -574,5 +574,89 @@
     \field{eprintclass}{cs.CV}
     \field{year}{2021}
   \endentry
+
+  \entry{multiview_transformers}{inproceedings}{}
+    \name{author}{7}{}{%
+      {{hash=YS}{%
+         family={Yan},
+         familyi={Y\bibinitperiod},
+         given={Shen},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=XX}{%
+         family={Xiong},
+         familyi={X\bibinitperiod},
+         given={Xuehan},
+         giveni={X\bibinitperiod},
+      }}%
+      {{hash=AA}{%
+         family={Arnab},
+         familyi={A\bibinitperiod},
+         given={Anurag},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=LZ}{%
+         family={Lu},
+         familyi={L\bibinitperiod},
+         given={Zhichao},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=ZM}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Mi},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=SC}{%
+         family={Sun},
+         familyi={S\bibinitperiod},
+         given={Chen},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=SC}{%
+         family={Schmid},
+         familyi={S\bibinitperiod},
+         given={Cordelia},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{YSXXAA+1}
+    \strng{fullhash}{YSXXAALZZMSCSC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR)}
+    \field{pages}{3333\bibrangedash 3343}
+    \field{title}{Multiview Transformers for Video Recognition}
+    \field{year}{2022}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{i3d}{inproceedings}{}
+    \name{author}{2}{}{%
+      {{hash=CJ}{%
+         family={Carreira},
+         familyi={C\bibinitperiod},
+         given={Joao},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=ZA}{%
+         family={Zisserman},
+         familyi={Z\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CJZA1}
+    \strng{fullhash}{CJZA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}
+    \field{pages}{6299\bibrangedash 6308}
+    \field{title}{Quo vadis, action recognition? a new model and the kinetics
+  dataset}
+    \field{year}{2017}
+  \endentry
 \enddatalist
 \endinput

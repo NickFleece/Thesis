@@ -95,7 +95,7 @@ The primary difference with this original architecture compared to 2D CNN's as w
 %----------------------------------------------------------------------------------------
 %	Modern
 %----------------------------------------------------------------------------------------
-\section{Modern Methods}
+\section{Model Evolution}
 
 The domain of action recognition is always evolving, and it would not be a complete review of the literature without acknowledging other approaches that extend beyond the reach of this thesis.
 
@@ -106,7 +106,7 @@ The domain of action recognition is always evolving, and it would not be a compl
 	\label{fig:transformerActionRecognition}
 \end{figure}
 
-\textbf{Transformers for Image Recognition at Scale} \cite{transformer_og}, extends beyond CNN's to explore transformer networks. While transformer networks are very easily applied to natural language processing tasks, it is not as easily applied to video and in particular action recognition. As depicted in figure \ref{fig:transformerActionRecognition}, the model utilizes a standard transformer architecture often used in NLP tasks in order to learn features that are useful for action recognition. The goal of this being to leverage previously well studied NLP studies that indicate the attention features of transformers are useful for focusing on the relevant data. Figure \ref{fig:attentionExample} shows this effect, the goal of this being to mitigate the challenges of handling background data interference as previously described in section \ref{sec:challenges}. This logic is then further expanded upon in many future models to extend this functionality, such as \textbf{Multiview Transformers for Video Recognition} which explores using multiple separate encoders to explore multiple views.
+\textbf{Transformers for Image Recognition at Scale} \cite{transformer_og}, extends beyond CNN's to explore transformer networks. While transformer networks are very easily applied to natural language processing tasks, it is not as easily applied to video and in particular action recognition. As depicted in figure \ref{fig:transformerActionRecognition}, the model utilizes a standard transformer architecture often used in NLP tasks in order to learn features that are useful for action recognition. The goal of this being to leverage previously well studied NLP studies that indicate the attention features of transformers are useful for focusing on the relevant data. Figure \ref{fig:attentionExample} shows this effect, the goal of this being to mitigate the challenges of handling background data interference as previously described in section \ref{sec:challenges}. This logic is then further expanded upon in many future models to extend this functionality, such as \textbf{Multiview Transformers for Video Recognition} \cite{multiview_transformers} which explores using multiple separate encoders to explore multiple views.
 
 \begin{figure}[h]
 	\includegraphics[width=5cm]{attentionExample}
@@ -115,12 +115,21 @@ The domain of action recognition is always evolving, and it would not be a compl
 	\label{fig:attentionExample}
 \end{figure}
 
+\textbf{Two-Stream Inflated 3D ConvNets}, commonly referred to as I3D \cite{i3d}, is a variation on 3D CNN based networks.
 
+\begin{figure}[h]
+	\includegraphics[width=15cm]{I3D}
+	\centering
+\end{figure}
 
 %----------------------------------------------------------------------------------------
 %	Datasets
 %----------------------------------------------------------------------------------------
 \section{Datasets}
+
+\subsection{Kinetics}
+
+\subsection{JHMDB}
 
 %----------------------------------------------------------------------------------------
 %	Skeleton Based Models
