@@ -25,13 +25,13 @@
 \contentsline {section}{\numberline {3.3}CNN Based Models}{6}{section.31}%
 \contentsline {subsection}{\numberline {3.3.1}CNN + LSTM Models}{6}{subsection.32}%
 \contentsline {subsection}{\numberline {3.3.2}3D CNN Models}{10}{subsection.37}%
-\contentsline {section}{\numberline {3.4}Model Evolution}{11}{section.39}%
-\contentsline {section}{\numberline {3.5}Datasets}{12}{section.43}%
-\contentsline {subsection}{\numberline {3.5.1}Kinetics}{12}{subsection.44}%
-\contentsline {subsection}{\numberline {3.5.2}JHMDB}{12}{subsection.45}%
-\contentsline {section}{\numberline {3.6}Skeleton-Based Action Recognition}{12}{section.46}%
-\contentsline {subsection}{\numberline {3.6.1}Pose Detection}{12}{subsection.47}%
-\contentsline {subsection}{\numberline {3.6.2}Intermediate Representations}{12}{subsection.48}%
-\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{13}{appendix.49}%
-\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{13}{section.50}%
-\contentsline {chapter}{Bibliography}{14}{appendix*.51}%
+\contentsline {section}{\numberline {3.4}Model Evolution}{11}{section.40}%
+\contentsline {section}{\numberline {3.5}Datasets}{13}{section.43}%
+\contentsline {subsection}{\numberline {3.5.1}Kinetics}{13}{subsection.44}%
+\contentsline {subsection}{\numberline {3.5.2}JHMDB}{13}{subsection.45}%
+\contentsline {section}{\numberline {3.6}Skeleton-Based Action Recognition}{13}{section.46}%
+\contentsline {subsection}{\numberline {3.6.1}Pose Detection}{13}{subsection.47}%
+\contentsline {subsection}{\numberline {3.6.2}Intermediate Representations}{13}{subsection.48}%
+\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{14}{appendix.49}%
+\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{14}{section.50}%
+\contentsline {chapter}{Bibliography}{15}{appendix*.51}%

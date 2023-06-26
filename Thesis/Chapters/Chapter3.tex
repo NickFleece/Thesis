@@ -92,6 +92,15 @@ When considering how to handle videos without the LSTM component, the most natur
 
 The primary difference with this original architecture compared to 2D CNN's as we know them today is that it used rather large $7x7x3$ convolutions, as compared to the typical $3x3$ convolutions used in classical 2D CNN's. \textbf{Learning Spatiotemporal Features with 3D Convolutional Networks} \cite{3x33dcnn}, is a slightly more modern architecture that was proposed. They explore in great detail the effects of these sizes of convolutions and find that this size of convolutions are more effective than the previous methods and sizes.
 
+\textbf{Two-Stream Inflated 3D ConvNets}, commonly referred to as I3D \cite{i3d}, is a modern variation on 3D CNN based networks. Similar to the previously discussed model \cite{3DCNN-ActionRecognition}, this model explores the viability of taking techniques used in 2D CNN models and applying them to 3D. However it takes a much more direct approach, stating that they take the square filters of size $NxN$ and convert them simply to 3D filters with dimensions $NxNxN$, a process they describe as \textit{inflating} the convolutions. This inflation of convolutions allows for I3D to replicate successful 2D CNN's in their structure and apply them to video with little modifications.
+
+\begin{figure}[h]
+	\includegraphics[width=15cm]{I3D}
+	\centering
+	\caption{The model architecture used in the I3D paper \cite{i3d}, where the Inflated Inception-V1 architecture (left) and it's detailed submodule (right) are shown.}
+	\label{fig:I3D}
+\end{figure}
+
 %----------------------------------------------------------------------------------------
 %	Modern
 %----------------------------------------------------------------------------------------
@@ -113,13 +122,6 @@ The domain of action recognition is always evolving, and it would not be a compl
 	\centering
 	\caption{Example feature outputs of how a transformer utilizes attention to focus on the main subject of a video in order to greater identify actions as shown in \cite{transformer_og}}
 	\label{fig:attentionExample}
-\end{figure}
-
-\textbf{Two-Stream Inflated 3D ConvNets}, commonly referred to as I3D \cite{i3d}, is a variation on 3D CNN based networks.
-
-\begin{figure}[h]
-	\includegraphics[width=15cm]{I3D}
-	\centering
 \end{figure}
 
 %----------------------------------------------------------------------------------------
