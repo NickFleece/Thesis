@@ -486,6 +486,33 @@
     \field{year}{2015}
   \endentry
 
+  \entry{i3d}{inproceedings}{}
+    \name{author}{2}{}{%
+      {{hash=CJ}{%
+         family={Carreira},
+         familyi={C\bibinitperiod},
+         given={Joao},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=ZA}{%
+         family={Zisserman},
+         familyi={Z\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CJZA1}
+    \strng{fullhash}{CJZA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}
+    \field{pages}{6299\bibrangedash 6308}
+    \field{title}{Quo vadis, action recognition? a new model and the kinetics
+  dataset}
+    \field{year}{2017}
+  \endentry
+
   \entry{transformer_og}{misc}{}
     \name{author}{12}{}{%
       {{hash=DA}{%
@@ -632,31 +659,346 @@
     \warn{\item Invalid format of field 'month'}
   \endentry
 
-  \entry{i3d}{inproceedings}{}
-    \name{author}{2}{}{%
-      {{hash=CJ}{%
-         family={Carreira},
-         familyi={C\bibinitperiod},
-         given={Joao},
-         giveni={J\bibinitperiod},
+  \entry{WangPose}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=WC}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Chunyu},
+         giveni={C\bibinitperiod},
       }}%
-      {{hash=ZA}{%
-         family={Zisserman},
+      {{hash=WY}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Yizhou},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=YAL}{%
+         family={Yuille},
+         familyi={Y\bibinitperiod},
+         given={Alan\bibnamedelima L.},
+         giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WCWYYAL1}
+    \strng{fullhash}{WCWYYAL1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2013 IEEE Conference on Computer Vision and Pattern
+  Recognition}
+    \verb{doi}
+    \verb 10.1109/CVPR.2013.123
+    \endverb
+    \field{pages}{915\bibrangedash 922}
+    \field{title}{An Approach to Pose-Based Action Recognition}
+    \field{year}{2013}
+  \endentry
+
+  \entry{PCNN}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=CG}{%
+         family={Chéron},
+         familyi={C\bibinitperiod},
+         given={Guilhem},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=LI}{%
+         family={Laptev},
+         familyi={L\bibinitperiod},
+         given={Ivan},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=SC}{%
+         family={Schmid},
+         familyi={S\bibinitperiod},
+         given={Cordelia},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CGLISC1}
+    \strng{fullhash}{CGLISC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2015 IEEE International Conference on Computer Vision
+  (ICCV)}
+    \verb{doi}
+    \verb 10.1109/ICCV.2015.368
+    \endverb
+    \field{pages}{3218\bibrangedash 3226}
+    \field{title}{P-CNN: Pose-Based CNN Features for Action Recognition}
+    \field{year}{2015}
+  \endentry
+
+  \entry{Chained}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=ZM}{%
+         family={Zolfaghari},
          familyi={Z\bibinitperiod},
-         given={Andrew},
+         given={Mohammadreza},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=OGL}{%
+         family={Oliveira},
+         familyi={O\bibinitperiod},
+         given={Gabriel\bibnamedelima L.},
+         giveni={G\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+      {{hash=SN}{%
+         family={Sedaghat},
+         familyi={S\bibinitperiod},
+         given={Nima},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=BT}{%
+         family={Brox},
+         familyi={B\bibinitperiod},
+         given={Thomas},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ZMOGLSN+1}
+    \strng{fullhash}{ZMOGLSNBT1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the IEEE International Conference on
+  Computer Vision (ICCV)}
+    \field{title}{Chained Multi-Stream Networks Exploiting Pose, Motion, and
+  Appearance for Action Classification and Detection}
+    \field{year}{2017}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{poseandjointaware}{inproceedings}{}
+    \name{author}{6}{}{%
+      {{hash=SA}{%
+         family={Shah},
+         familyi={S\bibinitperiod},
+         given={Anshul},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=MS}{%
+         family={Mishra},
+         familyi={M\bibinitperiod},
+         given={Shlok},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=BA}{%
+         family={Bansal},
+         familyi={B\bibinitperiod},
+         given={Ankan},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=CJC}{%
+         family={Chen},
+         familyi={C\bibinitperiod},
+         given={Jun-Cheng},
+         giveni={J\bibinithyphendelim C\bibinitperiod},
+      }}%
+      {{hash=CR}{%
+         family={Chellappa},
+         familyi={C\bibinitperiod},
+         given={Rama},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=SA}{%
+         family={Shrivastava},
+         familyi={S\bibinitperiod},
+         given={Abhinav},
          giveni={A\bibinitperiod},
       }}%
     }
-    \strng{namehash}{CJZA1}
-    \strng{fullhash}{CJZA1}
+    \strng{namehash}{SAMSBA+1}
+    \strng{fullhash}{SAMSBACJCCRSA1}
     \field{labelnamesource}{author}
     \field{labeltitlesource}{title}
-    \field{booktitle}{proceedings of the IEEE Conference on Computer Vision and
-  Pattern Recognition}
-    \field{pages}{6299\bibrangedash 6308}
-    \field{title}{Quo vadis, action recognition? a new model and the kinetics
-  dataset}
-    \field{year}{2017}
+    \field{booktitle}{Proceedings of the IEEE/CVF Winter Conference on
+  Applications of Computer Vision (WACV)}
+    \field{pages}{3850\bibrangedash 3860}
+    \field{title}{Pose and Joint-Aware Action Recognition}
+    \field{year}{2022}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{smaller_faster_better}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=YF}{%
+         family={Yang},
+         familyi={Y\bibinitperiod},
+         given={Fan},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=WY}{%
+         family={Wu},
+         familyi={W\bibinitperiod},
+         given={Yang},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=SS}{%
+         family={Sakti},
+         familyi={S\bibinitperiod},
+         given={Sakriani},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=NS}{%
+         family={Nakamura},
+         familyi={N\bibinitperiod},
+         given={Satoshi},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Association for Computing Machinery}%
+    }
+    \keyw{Skeleton-based Action Recognition, Body Actions, Hand Gestures}
+    \strng{namehash}{YFWYSS+1}
+    \strng{fullhash}{YFWYSSNS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Although skeleton-based action recognition has achieved great success in
+  recent years, most of the existing methods may suffer from a large model size
+  and slow execution speed. To alleviate this issue, we analyze skeleton
+  sequence properties to propose a Double-feature Double-motion Network
+  (DD-Net) for skeleton-based action recognition. By using a lightweight
+  network structure (i.e., 0.15 million parameters), DD-Net can reach a super
+  fast speed, as 3,500 FPS on an ordinary GPU (e.g., GTX 1080Ti), or, 2,000 FPS
+  on an ordinary CPU (e.g., Intel E5-2620). By employing robust features,
+  DD-Net achieves state-of-the-art performance on our experiment datasets:
+  SHREC (i.e., hand actions) and JHMDB (i.e., body actions). Our code is on
+  https://github.com/fandulu/DD-Net.%
+    }
+    \field{booktitle}{Proceedings of the ACM Multimedia Asia}
+    \verb{doi}
+    \verb 10.1145/3338533.3366569
+    \endverb
+    \field{isbn}{9781450368414}
+    \field{series}{MMAsia '19}
+    \field{title}{Make Skeleton-Based Action Recognition Model Smaller, Faster
+  and Better}
+    \verb{url}
+    \verb https://doi.org/10.1145/3338533.3366569
+    \endverb
+    \list{location}{1}{%
+      {Beijing, China}%
+    }
+    \field{year}{2020}
+    \warn{\item Can't use 'location' + 'address'}
+  \endentry
+
+  \entry{potion}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=CV}{%
+         family={Choutas},
+         familyi={C\bibinitperiod},
+         given={Vasileios},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=WP}{%
+         family={Weinzaepfel},
+         familyi={W\bibinitperiod},
+         given={Philippe},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=RJ}{%
+         family={Revaud},
+         familyi={R\bibinitperiod},
+         given={Jerome},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=SC}{%
+         family={Schmid},
+         familyi={S\bibinitperiod},
+         given={Cordelia},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CVWPRJ+1}
+    \strng{fullhash}{CVWPRJSC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1109/CVPR.2018.00734
+    \endverb
+    \field{pages}{7024\bibrangedash 7033}
+    \field{title}{PoTion: Pose MoTion Representation for Action Recognition}
+    \field{month}{06}
+    \field{year}{2018}
+  \endentry
+
+  \entry{PA3D}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=YA}{%
+         family={Yan},
+         familyi={Y\bibinitperiod},
+         given={An},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=WY}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Yali},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=LZ}{%
+         family={Li},
+         familyi={L\bibinitperiod},
+         given={Zhifeng},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=QY}{%
+         family={Qiao},
+         familyi={Q\bibinitperiod},
+         given={Yu},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{YAWYLZ+1}
+    \strng{fullhash}{YAWYLZQY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2019 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}
+    \verb{doi}
+    \verb 10.1109/CVPR.2019.00811
+    \endverb
+    \field{pages}{7914\bibrangedash 7923}
+    \field{title}{PA3D: Pose-Action 3D Machine for Video Recognition}
+    \field{year}{2019}
+  \endentry
+
+  \entry{simple_yet_efficient}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=LD}{%
+         family={Ludl},
+         familyi={L\bibinitperiod},
+         given={Dennis},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=GT}{%
+         family={Gulde},
+         familyi={G\bibinitperiod},
+         given={Thomas},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=CC}{%
+         family={Curio},
+         familyi={C\bibinitperiod},
+         given={Cristóbal},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{LDGTCC1}
+    \strng{fullhash}{LDGTCC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2019 IEEE Intelligent Transportation Systems Conference
+  (ITSC)}
+    \verb{doi}
+    \verb 10.1109/ITSC.2019.8917128
+    \endverb
+    \field{pages}{581\bibrangedash 588}
+    \field{title}{Simple yet efficient real-time pose-based action recognition}
+    \field{year}{2019}
   \endentry
 \enddatalist
 \endinput
