@@ -95,7 +95,7 @@ The primary difference with this original architecture compared to 2D CNN's as w
 \textbf{Two-Stream Inflated 3D ConvNets}, commonly referred to as I3D \cite{i3d}, is a modern variation on 3D CNN based networks. Similar to the previously discussed model \cite{3DCNN-ActionRecognition}, this model explores the viability of taking techniques used in 2D CNN models and applying them to 3D. However it takes a much more direct approach, stating that they take the square filters of size $NxN$ and convert them simply to 3D filters with dimensions $NxNxN$, a process they describe as \textit{inflating} the convolutions. This inflation of convolutions allows for I3D to replicate successful 2D CNN's in their structure and apply them to video with little modifications.
 
 \begin{figure}[h]
-	\includegraphics[width=15cm]{I3D}
+	\includegraphics[width=12cm]{I3D}
 	\centering
 	\caption{The model architecture used in the I3D paper \cite{i3d}, where the Inflated Inception-V1 architecture (left) and it's detailed submodule (right) are shown.}
 	\label{fig:I3D}
@@ -139,6 +139,9 @@ The domain of action recognition is always evolving, and it would not be a compl
 \section{Pose Detection}
 \label{sec:pose-detection}
 
+\subsection{OpenPose}
+\label{sec:openpose}
+
 %----------------------------------------------------------------------------------------
 %	Skeleton Based Models
 %----------------------------------------------------------------------------------------
@@ -156,7 +159,21 @@ Pose-based action recognition models have been well studied, and have been one o
 
 Intermediate representations are the vast majority of what will be discussed in later sections of this thesis. Intermediate representations aim to reduce the pose data that has been extracted into simpler and more processable formats. This is generally done with the aim of using a much more lightweight model (sometimes 2D CNN rather than 3D) that requires significantly less computing power. Of course this kind of pre-processing comes with issues, notably that by converting the model into a format such as this, some data will inevitably be lost during the transition, so the problem definition shifts slightly to creating an intermediate representation that both allows for a lightweight model to be effectively trained on it and for the smallest amount of data to be lost.
 
-\cite{potion}
+\begin{figure}[h]
+	\includegraphics[width=12cm]{potionarchitecture}
+	\centering
+	\caption{The illustration of the PoTion representation \cite{potion}. The input joint heatmaps are colored based on their time in the frame, and the frames are then concatenated to form the final movement of the joint throughout the video.}
+	\label{fig:potion-architecture}
+\end{figure}
+
+\textbf{Pose MoTion Representation for Action Recognition (PoTion)} \cite{potion} proposed one of these intermediate representations, however they did it in a way that was unique in that they only considered the joint positions rather than the skeletons themselves. Namely, the model utilizes the joint positions of a person throughout each frame of video to construct 2 dimensional images that reflect the movement of each of these joints. This is done by stacking each joint heatmap (which can be extracted via OpenPose \cite{openpose} as shown in section \ref{sec:openpose}) onto one image, and colorize them according to the point in time the frame is extracted. This colorization technique is shown in more detail in figure \ref{fig:potion-colourization}. The overall representation construction is shown in figure \ref{fig:potion-architecture}, and shows how after the colourization is performed, the heatmap images are then stacked together. These stacked images can then be passed into a simple 2D CNN, which can be quickly and efficiently trained and performs rather well. In the paper they also explore adding this implementation as another input to the I3D \cite{i3d} model in conjunction with the optical flow and rgb frames, which it showed to offer the model more performance.
+
+\begin{figure}[h]
+	\includegraphics[width=10cm]{potionColorization}
+	\centering
+	\caption{The colourization method utilized by the PoTion model \cite{potion}. As the frame index moves throughout the video, the colour of the joint shifts from one to another. This can be done for any amount of colours, denoted by C, the figure shows examples for C=2 and C=3, but the same logic holds for more than 3.}
+	\label{fig:potion-colourization}
+\end{figure}
 
 \cite{PA3D}
 

@@ -925,6 +925,45 @@
     \field{year}{2018}
   \endentry
 
+  \entry{openpose}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=CZ}{%
+         family={Cao},
+         familyi={C\bibinitperiod},
+         given={Zhe},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=ST}{%
+         family={Simon},
+         familyi={S\bibinitperiod},
+         given={Tomas},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=WSE}{%
+         family={Wei},
+         familyi={W\bibinitperiod},
+         given={Shih-En},
+         giveni={S\bibinithyphendelim E\bibinitperiod},
+      }}%
+      {{hash=SY}{%
+         family={Sheikh},
+         familyi={S\bibinitperiod},
+         given={Yaser},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CZSTWSE+1}
+    \strng{fullhash}{CZSTWSESY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}
+    \field{pages}{7291\bibrangedash 7299}
+    \field{title}{Realtime multi-person 2d pose estimation using part affinity
+  fields}
+    \field{year}{2017}
+  \endentry
+
   \entry{PA3D}{inproceedings}{}
     \name{author}{4}{}{%
       {{hash=YA}{%

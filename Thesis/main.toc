@@ -30,8 +30,9 @@
 \contentsline {subsection}{\numberline {3.5.1}Kinetics}{13}{subsection.44}%
 \contentsline {subsection}{\numberline {3.5.2}JHMDB}{13}{subsection.45}%
 \contentsline {section}{\numberline {3.6}Pose Detection}{13}{section.46}%
-\contentsline {section}{\numberline {3.7}Pose-Based Action Recognition}{13}{section.47}%
-\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{13}{subsection.48}%
-\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{15}{appendix.49}%
-\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{15}{section.50}%
-\contentsline {chapter}{Bibliography}{16}{appendix*.51}%
+\contentsline {subsection}{\numberline {3.6.1}OpenPose}{13}{subsection.47}%
+\contentsline {section}{\numberline {3.7}Pose-Based Action Recognition}{13}{section.48}%
+\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{13}{subsection.49}%
+\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{16}{appendix.52}%
+\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{16}{section.53}%
+\contentsline {chapter}{Bibliography}{17}{appendix*.54}%
