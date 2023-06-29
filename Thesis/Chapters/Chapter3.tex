@@ -166,7 +166,7 @@ Intermediate representations are the vast majority of what will be discussed in 
 	\label{fig:potion-architecture}
 \end{figure}
 
-\textbf{Pose MoTion Representation for Action Recognition (PoTion)} \cite{potion} proposed one of these intermediate representations, however they did it in a way that was unique in that they only considered the joint positions rather than the skeletons themselves. Namely, the model utilizes the joint positions of a person throughout each frame of video to construct 2 dimensional images that reflect the movement of each of these joints. This is done by stacking each joint heatmap (which can be extracted via OpenPose \cite{openpose} as shown in section \ref{sec:openpose}) onto one image, and colorize them according to the point in time the frame is extracted. This colorization technique is shown in more detail in figure \ref{fig:potion-colourization}. The overall representation construction is shown in figure \ref{fig:potion-architecture}, and shows how after the colourization is performed, the heatmap images are then stacked together. These stacked images can then be passed into a simple 2D CNN, which can be quickly and efficiently trained and performs rather well. In the paper they also explore adding this implementation as another input to the I3D \cite{i3d} model in conjunction with the optical flow and rgb frames, which it showed to offer the model more performance.
+\textbf{Pose MoTion Representation for Action Recognition (PoTion)} \cite{potion} proposed one of these intermediate representations, however they did it in a way that was unique in that they only considered the joint positions rather than the skeletons themselves. Namely, the model utilizes the joint positions of a person throughout each frame of video to construct 2 dimensional images that reflect the movement of each of these joints. This is done by stacking each joint heatmap (which can be extracted via OpenPose \cite{openpose} as shown in section \ref{sec:openpose}) onto one image, and colorize them according to the point in time the frame is extracted. This colorization technique is shown in more detail in figure \ref{fig:potion-colourization}. The overall representation construction is shown in figure \ref{fig:potion-architecture}, and shows how after the colourization is performed, the heatmap images are then stacked together. These stacked images can then be passed into a simple 2D CNN, which can be quickly and efficiently trained and performs rather well. In the paper they also explore adding this implementation as another input to the I3D \cite{i3d} model in conjunction with the optical flow and rgb frames, which it showed to offer an increase in performance to the existing model.
 
 \begin{figure}[h]
 	\includegraphics[width=10cm]{potionColorization}
@@ -175,6 +175,20 @@ Intermediate representations are the vast majority of what will be discussed in 
 	\label{fig:potion-colourization}
 \end{figure}
 
-\cite{PA3D}
+\textbf{Pose-Action 3D Machine for Video Recognition (PA3D)} \cite{PA3D} takes a similar approach to the PoTion model, but flavours it a bit differently. Similar to PoTion model, it leverages joint heatmaps similar to that exported from the OpenPose pose detection model, however it does not colorize the joints and aim to insert them into one image. A part of the model known as the \textit{Temporal Pose Convolution}, shown in figure \ref{fig:PA3D} is a core part of how the model functions. EXPLAIN MORE
 
-\cite{simple_yet_efficient}
+\begin{figure}[h]
+	\includegraphics[width=12cm]{PA3D}
+	\centering
+	\caption{}
+	\label{fig:PA3D}
+\end{figure}
+
+\textbf{Simple yet efficient real-time pose-based action recognition} \cite{simple_yet_efficient} was largely the inspiration for work done on this thesis. The goal of this paper was to provide a very lightweight and simple to understand intermediate representation that could be used by a very simple CNN to perform real-time action recognition. They do this by converting the skeletons into their unique \textit{Encoded Human Pose Image (EHPI)}, which is fundamentally just a 2d grid where the x-axis is frame index, and the y axis is the joint, this is shown in figure \ref{fig:EHPI}. This EHPI representation can then be used with a very simple CNN to provide very fast and good results in order to process actions in real time.
+
+\begin{figure}[h]
+	\includegraphics[width=12cm]{EHPI}
+	\centering
+	\caption{}
+	\label{fig:EHPI}
+\end{figure}
