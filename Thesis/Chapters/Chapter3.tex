@@ -184,11 +184,11 @@ Intermediate representations are the vast majority of what will be discussed in 
 	\label{fig:PA3D}
 \end{figure}
 
-\textbf{Simple yet efficient real-time pose-based action recognition} \cite{simple_yet_efficient} was largely the inspiration for work done on this thesis. The goal of this paper was to provide a very lightweight and simple to understand intermediate representation that could be used by a very simple CNN to perform real-time action recognition. They do this by converting the skeletons into their unique \textit{Encoded Human Pose Image (EHPI)}, which is fundamentally just a 2d grid where the x-axis is frame index, and the y axis is the joint, this is shown in figure \ref{fig:EHPI}. This EHPI representation can then be used with a very simple CNN to provide very fast and good results in order to process actions in real time.
+\textbf{Simple yet efficient real-time pose-based action recognition} \cite{simple_yet_efficient} was largely the inspiration for work done on this thesis. The goal of this paper was to provide a very lightweight and simple to understand intermediate representation that could be used by a very simple CNN to perform real-time action recognition. They do this by converting the skeletons into their unique \textit{Encoded Human Pose Image (EHPI)}, which is fundamentally just a 2d grid where the x-axis is frame index, and the y axis is the joint, this is shown in figure \ref{fig:EHPI}. This EHPI representation can then be used with a very simple CNN to provide very fast and good results in order to process actions in real time. There is one notable disadvantage in that it relies so heavily on the global positioning of the person in the frame. This means that the representation is very sensitive to things such as camera movement, where a slight movement results in the representation interpreting as the whole person sliding throughout the frame.
 
 \begin{figure}[h]
 	\includegraphics[width=12cm]{EHPI}
 	\centering
-	\caption{}
+	\caption{The EHPI representation used in the Simple yet efficient paper \cite{simple_yet_efficient}. The x, y coordinates of each joint are mapped to the red \& green values of a pixel, all joints are then stacked to form a column of joint positions in a frame. Each frame is then placed next to each other to form the 2D representation.}
 	\label{fig:EHPI}
 \end{figure}
