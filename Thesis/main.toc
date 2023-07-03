@@ -32,7 +32,7 @@
 \contentsline {section}{\numberline {3.6}Pose Detection}{13}{section.46}%
 \contentsline {subsection}{\numberline {3.6.1}OpenPose}{13}{subsection.47}%
 \contentsline {section}{\numberline {3.7}Pose-Based Action Recognition}{13}{section.48}%
-\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{13}{subsection.49}%
-\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{17}{appendix.54}%
-\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{17}{section.55}%
-\contentsline {chapter}{Bibliography}{18}{appendix*.56}%
+\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{14}{subsection.50}%
+\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{18}{appendix.55}%
+\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{18}{section.56}%
+\contentsline {chapter}{Bibliography}{19}{appendix*.57}%
