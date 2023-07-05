@@ -149,24 +149,59 @@ The domain of action recognition is always evolving, and it would not be a compl
 
 Pose-based action recognition models have been well studied, and have been one of the popular forms of action recognition model. This is because by focusing on the pose (sometimes referred to as the skeleton) of the person, you are able to effectively mitigate the background effects that were discussed in section \ref{sec:challenges}. This means that typically more lightweight models can be used as they are able to be pointed more towards the main subject rather than filter out background data. Of course this method also comes with challenges, notably that in testing in the wild, there must be effectively two models, one to extract the pose from the person(s) in the frame, and one to process this pose data and export an action. This can introduce another point of failure, but as discussed in section \ref{sec:pose-detection}, 2D pose detection has been consistently improving to the point that high quality pose data from fast models is the norm.
 
-\subsection{Intermediate Representations}
-
 \textbf{An approach to pose-based action recognition} \cite{WangPose} was a paper that proposed a technique to pose-based action recognition that did not utilize any of the typical popular CNN's that are used in modern models. Instead this model utilizes a unique representation that is then passed through a bag-of-words model, a model typically geared towards the domain of NLP. This representation is shown in figure \ref{fig:wangpose}, and  while it performs well, it does suffer in that the bag-of-words models are not able to adapt to more sophisticated datasets.
 
 \begin{figure}[h]
 	\includegraphics[width=12cm]{wangpose}
 	\centering
-	\caption{}
+	\caption{TODO: ADD CAPTION}
 	\label{fig:wangpose}
 \end{figure}
 
-\cite{PCNN}
+\textbf{Pose-Based CNN Features for Action Recognition (P-CNN)} \cite{PCNN} is another model that utilizes the pose. Instead however, they use patches of the RGB frames centered on the various joints that have been detected, this is shown more in detail in figure \ref{fig:pcnn}.
+
+\begin{figure}[h]
+	\includegraphics[width=12cm]{PCNN}
+	\centering
+	\caption{Illustration of P-CNN feature construction. RGB \& Optical Flow "Patches" are extracted around each joint, and sometimes containing multiple joints. These features are then passed through their respective CNN's, Aggregation, \& Normalization and then concatenated to form the final P-CNN feature.}
+	\label{fig:pcnn}
+\end{figure}
 
 \cite{Chained}
 
+\begin{figure}[h]
+	\includegraphics[width=12cm]{chained}
+	\centering
+	\caption{TODO}
+	\label{fig:chained}
+\end{figure}
+
 \cite{poseandjointaware}
 
+\begin{figure}[h]
+	\includegraphics[width=12cm]{poseandjointaware}
+	\centering
+	\caption{TODO}
+	\label{fig:poseandjointaware}
+\end{figure}
+
 \cite{smaller_faster_better}
+
+\begin{figure}[h]
+	\includegraphics[width=8cm]{smallerfasterbetter}
+	\centering
+	\caption{TODO}
+	\label{fig:smallerfasterbetter}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[width=8cm]{ddnet}
+	\centering
+	\caption{TODO}
+	\label{fig:ddnet}
+\end{figure}
+
+\subsection{Intermediate Representations}
 
 Intermediate representations are the vast majority of what will be discussed in later sections of this thesis. Intermediate representations aim to reduce the pose data that has been extracted into simpler and more processable formats. This is generally done with the aim of using a much more lightweight model (sometimes 2D CNN rather than 3D) that requires significantly less computing power. Of course this kind of pre-processing comes with issues, notably that by converting the model into a format such as this, some data will inevitably be lost during the transition, so the problem definition shifts slightly to creating an intermediate representation that both allows for a lightweight model to be effectively trained on it and for the smallest amount of data to be lost.
 

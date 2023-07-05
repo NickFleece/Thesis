@@ -15,7 +15,7 @@
 \newlabel{fig:lrcn-ar}{{3.2}{8}{Action recognition structure for the LRCN model. \cite {LRCNS}\relax }{figure.caption.34}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces Overview of the Beyond Short Snippets: Deep Networks for Video Classification model \blx@tocontentsinit {0}\cite {beyondshortsnippets}\relax }}{9}{figure.caption.35}\protected@file@percent }
 \newlabel{fig:beyondoverview}{{3.3}{9}{Overview of the Beyond Short Snippets: Deep Networks for Video Classification model \cite {beyondshortsnippets}\relax }{figure.caption.35}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Deep LSTM architecture utilized by \blx@tocontentsinit {0}\cite {beyondshortsnippets} in the feature aggregation step as shown in figure \ref {fig:beyondoverview}.\relax }}{9}{figure.caption.36}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Deep LSTM architecture utilized by \blx@tocontentsinit {0}\cite {beyondshortsnippets} in the feature aggregation step as shown in figure \ref  {fig:beyondoverview}.\relax }}{9}{figure.caption.36}\protected@file@percent }
 \newlabel{fig:deeplstm}{{3.4}{9}{Deep LSTM architecture utilized by \cite {beyondshortsnippets} in the feature aggregation step as shown in figure \ref {fig:beyondoverview}.\relax }{figure.caption.36}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}3D CNN Models}{10}{subsection.37}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces The original 3D-CNN action recognition model architecture proposed by \blx@tocontentsinit {0}\cite {3DCNN-ActionRecognition}, containing 3 convolutional layers, two subsampling layers, and one fully connected layer\relax }}{10}{figure.caption.38}\protected@file@percent }
@@ -35,19 +35,29 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.6.1}OpenPose}{13}{subsection.47}\protected@file@percent }
 \newlabel{sec:openpose}{{3.6.1}{13}{OpenPose}{subsection.47}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3.7}Pose-Based Action Recognition}{13}{section.48}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces \relax }}{14}{figure.caption.49}\protected@file@percent }
-\newlabel{fig:wangpose}{{3.9}{14}{\relax }{figure.caption.49}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{14}{subsection.50}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces The illustration of the PoTion representation \blx@tocontentsinit {0}\cite {potion}. The input joint heatmaps are colored based on their time in the frame, and the frames are then concatenated to form the final movement of the joint throughout the video.\relax }}{15}{figure.caption.51}\protected@file@percent }
-\newlabel{fig:potion-architecture}{{3.10}{15}{The illustration of the PoTion representation \cite {potion}. The input joint heatmaps are colored based on their time in the frame, and the frames are then concatenated to form the final movement of the joint throughout the video.\relax }{figure.caption.51}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces The colourization method utilized by the PoTion model \blx@tocontentsinit {0}\cite {potion}. As the frame index moves throughout the video, the colour of the joint shifts from one to another. This can be done for any amount of colours, denoted by C, the figure shows examples for C=2 and C=3, but the same logic holds for more than 3.\relax }}{15}{figure.caption.52}\protected@file@percent }
-\newlabel{fig:potion-colourization}{{3.11}{15}{The colourization method utilized by the PoTion model \cite {potion}. As the frame index moves throughout the video, the colour of the joint shifts from one to another. This can be done for any amount of colours, denoted by C, the figure shows examples for C=2 and C=3, but the same logic holds for more than 3.\relax }{figure.caption.52}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces \relax }}{16}{figure.caption.53}\protected@file@percent }
-\newlabel{fig:PA3D}{{3.12}{16}{\relax }{figure.caption.53}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.13}{\ignorespaces The EHPI representation used in the Simple yet efficient paper \blx@tocontentsinit {0}\cite {simple_yet_efficient}. The x, y coordinates of each joint are mapped to the red \& green values of a pixel, all joints are then stacked to form a column of joint positions in a frame. Each frame is then placed next to each other to form the 2D representation.\relax }}{17}{figure.caption.54}\protected@file@percent }
-\newlabel{fig:EHPI}{{3.13}{17}{The EHPI representation used in the Simple yet efficient paper \cite {simple_yet_efficient}. The x, y coordinates of each joint are mapped to the red \& green values of a pixel, all joints are then stacked to form a column of joint positions in a frame. Each frame is then placed next to each other to form the 2D representation.\relax }{figure.caption.54}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces TODO: ADD CAPTION\relax }}{14}{figure.caption.49}\protected@file@percent }
+\newlabel{fig:wangpose}{{3.9}{14}{TODO: ADD CAPTION\relax }{figure.caption.49}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces Illustration of P-CNN feature construction. RGB \& Optical Flow "Patches" are extracted around each joint, and sometimes containing multiple joints. These features are then passed through their respective CNN's, Aggregation, \& Normalization and then concatenated to form the final P-CNN feature.\relax }}{14}{figure.caption.50}\protected@file@percent }
+\newlabel{fig:pcnn}{{3.10}{14}{Illustration of P-CNN feature construction. RGB \& Optical Flow "Patches" are extracted around each joint, and sometimes containing multiple joints. These features are then passed through their respective CNN's, Aggregation, \& Normalization and then concatenated to form the final P-CNN feature.\relax }{figure.caption.50}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{14}{subsection.55}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.11}{\ignorespaces TODO\relax }}{15}{figure.caption.51}\protected@file@percent }
+\newlabel{fig:chained}{{3.11}{15}{TODO\relax }{figure.caption.51}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.12}{\ignorespaces TODO\relax }}{15}{figure.caption.52}\protected@file@percent }
+\newlabel{fig:poseandjointaware}{{3.12}{15}{TODO\relax }{figure.caption.52}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.13}{\ignorespaces TODO\relax }}{16}{figure.caption.53}\protected@file@percent }
+\newlabel{fig:smallerfasterbetter}{{3.13}{16}{TODO\relax }{figure.caption.53}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.14}{\ignorespaces TODO\relax }}{16}{figure.caption.54}\protected@file@percent }
+\newlabel{fig:ddnet}{{3.14}{16}{TODO\relax }{figure.caption.54}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.15}{\ignorespaces The illustration of the PoTion representation \blx@tocontentsinit {0}\cite {potion}. The input joint heatmaps are colored based on their time in the frame, and the frames are then concatenated to form the final movement of the joint throughout the video.\relax }}{17}{figure.caption.56}\protected@file@percent }
+\newlabel{fig:potion-architecture}{{3.15}{17}{The illustration of the PoTion representation \cite {potion}. The input joint heatmaps are colored based on their time in the frame, and the frames are then concatenated to form the final movement of the joint throughout the video.\relax }{figure.caption.56}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.16}{\ignorespaces The colourization method utilized by the PoTion model \blx@tocontentsinit {0}\cite {potion}. As the frame index moves throughout the video, the colour of the joint shifts from one to another. This can be done for any amount of colours, denoted by C, the figure shows examples for C=2 and C=3, but the same logic holds for more than 3.\relax }}{18}{figure.caption.57}\protected@file@percent }
+\newlabel{fig:potion-colourization}{{3.16}{18}{The colourization method utilized by the PoTion model \cite {potion}. As the frame index moves throughout the video, the colour of the joint shifts from one to another. This can be done for any amount of colours, denoted by C, the figure shows examples for C=2 and C=3, but the same logic holds for more than 3.\relax }{figure.caption.57}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.17}{\ignorespaces \relax }}{18}{figure.caption.58}\protected@file@percent }
+\newlabel{fig:PA3D}{{3.17}{18}{\relax }{figure.caption.58}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.18}{\ignorespaces The EHPI representation used in the Simple yet efficient paper \blx@tocontentsinit {0}\cite {simple_yet_efficient}. The x, y coordinates of each joint are mapped to the red \& green values of a pixel, all joints are then stacked to form a column of joint positions in a frame. Each frame is then placed next to each other to form the 2D representation.\relax }}{19}{figure.caption.59}\protected@file@percent }
+\newlabel{fig:EHPI}{{3.18}{19}{The EHPI representation used in the Simple yet efficient paper \cite {simple_yet_efficient}. The x, y coordinates of each joint are mapped to the red \& green values of a pixel, all joints are then stacked to form a column of joint positions in a frame. Each frame is then placed next to each other to form the 2D representation.\relax }{figure.caption.59}{}}
 \@setckpt{Chapters/Chapter3}{
-\setcounter{page}{18}
+\setcounter{page}{20}
 \setcounter{equation}{0}
 \setcounter{enumi}{2}
 \setcounter{enumii}{0}
@@ -62,11 +72,11 @@
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{13}
+\setcounter{figure}{18}
 \setcounter{table}{0}
 \setcounter{LT@tables}{1}
 \setcounter{LT@chunks}{1}
-\setcounter{caption@flags}{2}
+\setcounter{caption@flags}{0}
 \setcounter{continuedfloat}{0}
 \setcounter{tabx@nest}{0}
 \setcounter{listtotal}{0}
@@ -100,6 +110,8 @@
 \setcounter{maxparens}{3}
 \setcounter{parenlevel}{0}
 \setcounter{blx@maxsection}{0}
+\setcounter{blx@maxsegment@0}{0}
+\setcounter{blx@sectionciteorder@0}{56}
 \setcounter{mincomprange}{10}
 \setcounter{maxcomprange}{100000}
 \setcounter{mincompwidth}{1}
@@ -186,8 +198,8 @@
 \setcounter{cbx@tempcntb}{22}
 \setcounter{cbx@tempcntc}{0}
 \setcounter{cbx@tempcntd}{-1}
-\setcounter{section@level}{2}
 \setcounter{Item}{2}
 \setcounter{Hfootnote}{0}
 \setcounter{bookmark@seq@number}{34}
+\setcounter{section@level}{2}
 }
