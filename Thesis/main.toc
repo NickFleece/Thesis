@@ -23,16 +23,15 @@
 \contentsline {section}{\numberline {3.1}Image Classification}{6}{section.29}%
 \contentsline {section}{\numberline {3.2}Optical Flow}{6}{section.30}%
 \contentsline {section}{\numberline {3.3}CNN Based Models}{6}{section.31}%
-\contentsline {subsection}{\numberline {3.3.1}CNN + LSTM Models}{6}{subsection.32}%
+\contentsline {subsection}{\numberline {3.3.1}CNN + LSTM Models}{7}{subsection.32}%
 \contentsline {subsection}{\numberline {3.3.2}3D CNN Models}{10}{subsection.37}%
-\contentsline {section}{\numberline {3.4}Model Evolution}{11}{section.40}%
+\contentsline {section}{\numberline {3.4}Model Evolution}{12}{section.40}%
 \contentsline {section}{\numberline {3.5}Datasets}{13}{section.43}%
 \contentsline {subsection}{\numberline {3.5.1}Kinetics}{13}{subsection.44}%
 \contentsline {subsection}{\numberline {3.5.2}JHMDB}{13}{subsection.45}%
 \contentsline {section}{\numberline {3.6}Pose Detection}{13}{section.46}%
-\contentsline {subsection}{\numberline {3.6.1}OpenPose}{13}{subsection.47}%
-\contentsline {section}{\numberline {3.7}Pose-Based Action Recognition}{13}{section.48}%
-\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{14}{subsection.55}%
-\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{20}{appendix.60}%
-\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{20}{section.61}%
-\contentsline {chapter}{Bibliography}{21}{appendix*.62}%
+\contentsline {section}{\numberline {3.7}Pose-Based Action Recognition}{14}{section.48}%
+\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{16}{subsection.53}%
+\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{22}{appendix.59}%
+\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{22}{section.60}%
+\contentsline {chapter}{Bibliography}{23}{appendix*.61}%
