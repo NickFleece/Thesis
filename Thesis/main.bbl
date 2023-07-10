@@ -1,0 +1,1789 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\datalist[entry]{none/global//global/global}
+  \entry{Eldermonitoring}{misc}{}
+    \name{author}{2}{}{%
+      {{hash=SH}{%
+         family={Sun},
+         familyi={S\bibinitperiod},
+         given={Han},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=CY}{%
+         family={Chen},
+         familyi={C\bibinitperiod},
+         given={Yu},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SHCY1}
+    \strng{fullhash}{SHCY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 2207.10519
+    \endverb
+    \field{title}{Real-Time Elderly Monitoring for Senior Safety by Lightweight
+  Human Action Recognition}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2022}
+  \endentry
+
+  \entry{cifar}{article}{}
+    \true{moreauthor}
+    \true{morelabelname}
+    \name{author}{2}{}{%
+      {{hash=KA}{%
+         family={Krizhevsky},
+         familyi={K\bibinitperiod},
+         given={Alex},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=HG}{%
+         family={Hinton},
+         familyi={H\bibinitperiod},
+         given={Geoffrey},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Toronto, ON, Canada}%
+    }
+    \strng{namehash}{KAHG+1}
+    \strng{fullhash}{KAHG+1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Learning multiple layers of features from tiny images}
+    \field{year}{2009}
+  \endentry
+
+  \entry{efficientnet}{misc}{}
+    \name{author}{2}{}{%
+      {{hash=TM}{%
+         family={Tan},
+         familyi={T\bibinitperiod},
+         given={Mingxing},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=LQV}{%
+         family={Le},
+         familyi={L\bibinitperiod},
+         given={Quoc\bibnamedelima V.},
+         giveni={Q\bibinitperiod\bibinitdelim V\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TMLQV1}
+    \strng{fullhash}{TMLQV1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 2104.00298
+    \endverb
+    \field{title}{EfficientNetV2: Smaller Models and Faster Training}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2021}
+  \endentry
+
+  \entry{i3d}{inproceedings}{}
+    \name{author}{2}{}{%
+      {{hash=CJ}{%
+         family={Carreira},
+         familyi={C\bibinitperiod},
+         given={Joao},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=ZA}{%
+         family={Zisserman},
+         familyi={Z\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CJZA1}
+    \strng{fullhash}{CJZA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}
+    \field{pages}{6299\bibrangedash 6308}
+    \field{title}{Quo vadis, action recognition? a new model and the kinetics
+  dataset}
+    \field{year}{2017}
+  \endentry
+
+  \entry{TV-L}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=ZC}{%
+         family={Zach},
+         familyi={Z\bibinitperiod},
+         given={C.},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=PT}{%
+         family={Pock},
+         familyi={P\bibinitperiod},
+         given={T.},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=BH}{%
+         family={Bischof},
+         familyi={B\bibinitperiod},
+         given={H.},
+         giveni={H\bibinitperiod},
+      }}%
+    }
+    \name{editor}{3}{}{%
+      {{hash=HFA}{%
+         family={Hamprecht},
+         familyi={H\bibinitperiod},
+         given={Fred\bibnamedelima A.},
+         giveni={F\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=SC}{%
+         family={Schn{\"o}rr},
+         familyi={S\bibinitperiod},
+         given={Christoph},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=JB}{%
+         family={J{\"a}hne},
+         familyi={J\bibinitperiod},
+         given={Bernd},
+         giveni={B\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer Berlin Heidelberg}%
+    }
+    \strng{namehash}{ZCPTBH1}
+    \strng{fullhash}{ZCPTBH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Variational methods are among the most successful approaches to calculate
+  the optical flow between two image frames. A particularly appealing
+  formulation is based on total variation (TV) regularization and the robust L1
+  norm in the data fidelity term. This formulation can preserve discontinuities
+  in the flow field and offers an increased robustness against illumination
+  changes, occlusions and noise. In this work we present a novel approach to
+  solve the TV-L1 formulation. Our method results in a very efficient numerical
+  scheme, which is based on a dual formulation of the TV energy and employs an
+  efficient point-wise thresholding step. Additionally, our approach can be
+  accelerated by modern graphics processing units. We demonstrate the real-time
+  performance (30 fps) of our approach for video inputs at a resolution of
+  320{\texttimes}240 pixels.%
+    }
+    \field{booktitle}{Pattern Recognition}
+    \field{isbn}{978-3-540-74936-3}
+    \field{pages}{214\bibrangedash 223}
+    \field{title}{A Duality Based Approach for Realtime TV-L1 Optical Flow}
+    \list{location}{1}{%
+      {Berlin, Heidelberg}%
+    }
+    \field{year}{2007}
+  \endentry
+
+  \entry{LRCNS}{article}{}
+    \name{author}{7}{}{%
+      {{hash=DJ}{%
+         family={Donahue},
+         familyi={D\bibinitperiod},
+         given={Jeff},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=HLA}{%
+         family={Hendricks},
+         familyi={H\bibinitperiod},
+         given={Lisa\bibnamedelima Anne},
+         giveni={L\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=RM}{%
+         family={Rohrbach},
+         familyi={R\bibinitperiod},
+         given={Marcus},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=VS}{%
+         family={Venugopalan},
+         familyi={V\bibinitperiod},
+         given={Subhashini},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=GS}{%
+         family={Guadarrama},
+         familyi={G\bibinitperiod},
+         given={Sergio},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=SK}{%
+         family={Saenko},
+         familyi={S\bibinitperiod},
+         given={Kate},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=DT}{%
+         family={Darrell},
+         familyi={D\bibinitperiod},
+         given={Trevor},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DJHLARM+1}
+    \strng{fullhash}{DJHLARMVSGSSKDT1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1109/TPAMI.2016.2599174
+    \endverb
+    \field{number}{4}
+    \field{pages}{677\bibrangedash 691}
+    \field{title}{Long-Term Recurrent Convolutional Networks for Visual
+  Recognition and Description}
+    \field{volume}{39}
+    \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}
+    \field{year}{2017}
+  \endentry
+
+  \entry{LSTM-2015}{misc}{}
+    \name{author}{2}{}{%
+      {{hash=ZW}{%
+         family={Zaremba},
+         familyi={Z\bibinitperiod},
+         given={Wojciech},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=SI}{%
+         family={Sutskever},
+         familyi={S\bibinitperiod},
+         given={Ilya},
+         giveni={I\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ZWSI1}
+    \strng{fullhash}{ZWSI1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1410.4615
+    \endverb
+    \field{title}{Learning to Execute}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.NE}
+    \field{year}{2015}
+  \endentry
+
+  \entry{caffenet}{article}{}
+    \name{author}{4}{}{%
+      {{hash=QZ}{%
+         family={Qin},
+         familyi={Q\bibinitperiod},
+         given={Zhuwei},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=YF}{%
+         family={Yu},
+         familyi={Y\bibinitperiod},
+         given={Fuxun},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=LC}{%
+         family={Liu},
+         familyi={L\bibinitperiod},
+         given={Chenchen},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=CX}{%
+         family={Chen},
+         familyi={C\bibinitperiod},
+         given={Xiang},
+         giveni={X\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{QZYFLC+1}
+    \strng{fullhash}{QZYFLCCX1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.3934/mfc.2018008
+    \endverb
+    \field{pages}{149\bibrangedash 180}
+    \field{title}{How convolutional neural networks see the world --- A survey
+  of convolutional neural network visualization methods}
+    \field{volume}{1}
+    \field{journaltitle}{Mathematical Foundations of Computing}
+    \field{month}{01}
+    \field{year}{2018}
+  \endentry
+
+  \entry{alexnet}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=KA}{%
+         family={Krizhevsky},
+         familyi={K\bibinitperiod},
+         given={Alex},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=SI}{%
+         family={Sutskever},
+         familyi={S\bibinitperiod},
+         given={Ilya},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=HGE}{%
+         family={Hinton},
+         familyi={H\bibinitperiod},
+         given={Geoffrey\bibnamedelima E},
+         giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+    }
+    \name{editor}{4}{}{%
+      {{hash=PF}{%
+         family={Pereira},
+         familyi={P\bibinitperiod},
+         given={F.},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=BC}{%
+         family={Burges},
+         familyi={B\bibinitperiod},
+         given={C.J.},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=BL}{%
+         family={Bottou},
+         familyi={B\bibinitperiod},
+         given={L.},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=WK}{%
+         family={Weinberger},
+         familyi={W\bibinitperiod},
+         given={K.Q.},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Curran Associates, Inc.}%
+    }
+    \strng{namehash}{KASIHGE1}
+    \strng{fullhash}{KASIHGE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Advances in Neural Information Processing Systems}
+    \field{title}{ImageNet Classification with Deep Convolutional Neural
+  Networks}
+    \verb{url}
+    \verb https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b
+    \verb 9d6b76c8436e924a68c45b-Paper.pdf
+    \endverb
+    \field{volume}{25}
+    \field{year}{2012}
+  \endentry
+
+  \entry{zeilerfergus}{misc}{}
+    \name{author}{2}{}{%
+      {{hash=ZMD}{%
+         family={Zeiler},
+         familyi={Z\bibinitperiod},
+         given={Matthew\bibnamedelima D},
+         giveni={M\bibinitperiod\bibinitdelim D\bibinitperiod},
+      }}%
+      {{hash=FR}{%
+         family={Fergus},
+         familyi={F\bibinitperiod},
+         given={Rob},
+         giveni={R\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ZMDFR1}
+    \strng{fullhash}{ZMDFR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1311.2901
+    \endverb
+    \field{title}{Visualizing and Understanding Convolutional Networks}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2013}
+  \endentry
+
+  \entry{beyondshortsnippets}{inproceedings}{}
+    \name{author}{6}{}{%
+      {{hash=NJYH}{%
+         family={Ng},
+         familyi={N\bibinitperiod},
+         given={Joe Yue-Hei},
+         giveni={J\bibinitperiod\bibinitdelim Y\bibinithyphendelim
+  H\bibinitperiod},
+      }}%
+      {{hash=HM}{%
+         family={Hausknecht},
+         familyi={H\bibinitperiod},
+         given={Matthew},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=VS}{%
+         family={Vijayanarasimhan},
+         familyi={V\bibinitperiod},
+         given={Sudheendra},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=VO}{%
+         family={Vinyals},
+         familyi={V\bibinitperiod},
+         given={Oriol},
+         giveni={O\bibinitperiod},
+      }}%
+      {{hash=MR}{%
+         family={Monga},
+         familyi={M\bibinitperiod},
+         given={Rajat},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=TG}{%
+         family={Toderici},
+         familyi={T\bibinitperiod},
+         given={George},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{NJYHHMVS+1}
+    \strng{fullhash}{NJYHHMVSVOMRTG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2015 IEEE Conference on Computer Vision and Pattern
+  Recognition (CVPR)}
+    \verb{doi}
+    \verb 10.1109/CVPR.2015.7299101
+    \endverb
+    \field{pages}{4694\bibrangedash 4702}
+    \field{title}{Beyond short snippets: Deep networks for video
+  classification}
+    \field{year}{2015}
+  \endentry
+
+  \entry{googlenet}{inproceedings}{}
+    \name{author}{9}{}{%
+      {{hash=SC}{%
+         family={Szegedy},
+         familyi={S\bibinitperiod},
+         given={Christian},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=LW}{%
+         family={Liu},
+         familyi={L\bibinitperiod},
+         given={Wei},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=JY}{%
+         family={Jia},
+         familyi={J\bibinitperiod},
+         given={Yangqing},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=SP}{%
+         family={Sermanet},
+         familyi={S\bibinitperiod},
+         given={Pierre},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=RS}{%
+         family={Reed},
+         familyi={R\bibinitperiod},
+         given={Scott},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=AD}{%
+         family={Anguelov},
+         familyi={A\bibinitperiod},
+         given={Dragomir},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=ED}{%
+         family={Erhan},
+         familyi={E\bibinitperiod},
+         given={Dumitru},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=VV}{%
+         family={Vanhoucke},
+         familyi={V\bibinitperiod},
+         given={Vincent},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=RA}{%
+         family={Rabinovich},
+         familyi={R\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SCLWJY+1}
+    \strng{fullhash}{SCLWJYSPRSADEDVVRA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition (CVPR)}
+    \field{title}{Going Deeper With Convolutions}
+    \field{year}{2015}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{3DCNN-ActionRecognition}{article}{}
+    \name{author}{4}{}{%
+      {{hash=JS}{%
+         family={Ji},
+         familyi={J\bibinitperiod},
+         given={Shuiwang},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=XW}{%
+         family={Xu},
+         familyi={X\bibinitperiod},
+         given={Wei},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=YM}{%
+         family={Yang},
+         familyi={Y\bibinitperiod},
+         given={Ming},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=YK}{%
+         family={Yu},
+         familyi={Y\bibinitperiod},
+         given={Kai},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{JSXWYM+1}
+    \strng{fullhash}{JSXWYMYK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1109/TPAMI.2012.59
+    \endverb
+    \field{number}{1}
+    \field{pages}{221\bibrangedash 231}
+    \field{title}{3D Convolutional Neural Networks for Human Action
+  Recognition}
+    \field{volume}{35}
+    \field{journaltitle}{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}
+    \field{year}{2013}
+  \endentry
+
+  \entry{3x33dcnn}{misc}{}
+    \name{author}{5}{}{%
+      {{hash=TD}{%
+         family={Tran},
+         familyi={T\bibinitperiod},
+         given={Du},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=BL}{%
+         family={Bourdev},
+         familyi={B\bibinitperiod},
+         given={Lubomir},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=FR}{%
+         family={Fergus},
+         familyi={F\bibinitperiod},
+         given={Rob},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=TL}{%
+         family={Torresani},
+         familyi={T\bibinitperiod},
+         given={Lorenzo},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=PM}{%
+         family={Paluri},
+         familyi={P\bibinitperiod},
+         given={Manohar},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{TDBLFR+1}
+    \strng{fullhash}{TDBLFRTLPM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1412.0767
+    \endverb
+    \field{title}{Learning Spatiotemporal Features with 3D Convolutional
+  Networks}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2015}
+  \endentry
+
+  \entry{transformer_og}{misc}{}
+    \name{author}{12}{}{%
+      {{hash=DA}{%
+         family={Dosovitskiy},
+         familyi={D\bibinitperiod},
+         given={Alexey},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=BL}{%
+         family={Beyer},
+         familyi={B\bibinitperiod},
+         given={Lucas},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=KA}{%
+         family={Kolesnikov},
+         familyi={K\bibinitperiod},
+         given={Alexander},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=WD}{%
+         family={Weissenborn},
+         familyi={W\bibinitperiod},
+         given={Dirk},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=ZX}{%
+         family={Zhai},
+         familyi={Z\bibinitperiod},
+         given={Xiaohua},
+         giveni={X\bibinitperiod},
+      }}%
+      {{hash=UT}{%
+         family={Unterthiner},
+         familyi={U\bibinitperiod},
+         given={Thomas},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=DM}{%
+         family={Dehghani},
+         familyi={D\bibinitperiod},
+         given={Mostafa},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=MM}{%
+         family={Minderer},
+         familyi={M\bibinitperiod},
+         given={Matthias},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=HG}{%
+         family={Heigold},
+         familyi={H\bibinitperiod},
+         given={Georg},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=GS}{%
+         family={Gelly},
+         familyi={G\bibinitperiod},
+         given={Sylvain},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=UJ}{%
+         family={Uszkoreit},
+         familyi={U\bibinitperiod},
+         given={Jakob},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=HN}{%
+         family={Houlsby},
+         familyi={H\bibinitperiod},
+         given={Neil},
+         giveni={N\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{DABLKA+1}
+    \strng{fullhash}{DABLKAWDZXUTDMMMHGGSUJHN1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 2010.11929
+    \endverb
+    \field{title}{An Image is Worth 16x16 Words: Transformers for Image
+  Recognition at Scale}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2021}
+  \endentry
+
+  \entry{multiview_transformers}{inproceedings}{}
+    \name{author}{7}{}{%
+      {{hash=YS}{%
+         family={Yan},
+         familyi={Y\bibinitperiod},
+         given={Shen},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=XX}{%
+         family={Xiong},
+         familyi={X\bibinitperiod},
+         given={Xuehan},
+         giveni={X\bibinitperiod},
+      }}%
+      {{hash=AA}{%
+         family={Arnab},
+         familyi={A\bibinitperiod},
+         given={Anurag},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=LZ}{%
+         family={Lu},
+         familyi={L\bibinitperiod},
+         given={Zhichao},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=ZM}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Mi},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=SC}{%
+         family={Sun},
+         familyi={S\bibinitperiod},
+         given={Chen},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=SC}{%
+         family={Schmid},
+         familyi={S\bibinitperiod},
+         given={Cordelia},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{YSXXAA+1}
+    \strng{fullhash}{YSXXAALZZMSCSC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the IEEE/CVF Conference on Computer Vision
+  and Pattern Recognition (CVPR)}
+    \field{pages}{3333\bibrangedash 3343}
+    \field{title}{Multiview Transformers for Video Recognition}
+    \field{year}{2022}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{charades}{misc}{}
+    \name{author}{6}{}{%
+      {{hash=SGA}{%
+         family={Sigurdsson},
+         familyi={S\bibinitperiod},
+         given={Gunnar\bibnamedelima A.},
+         giveni={G\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=VG}{%
+         family={Varol},
+         familyi={V\bibinitperiod},
+         given={Gül},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=WX}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Xiaolong},
+         giveni={X\bibinitperiod},
+      }}%
+      {{hash=FA}{%
+         family={Farhadi},
+         familyi={F\bibinitperiod},
+         given={Ali},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=LI}{%
+         family={Laptev},
+         familyi={L\bibinitperiod},
+         given={Ivan},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=GA}{%
+         family={Gupta},
+         familyi={G\bibinitperiod},
+         given={Abhinav},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SGAVGWX+1}
+    \strng{fullhash}{SGAVGWXFALIGA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1604.01753
+    \endverb
+    \field{title}{Hollywood in Homes: Crowdsourcing Data Collection for
+  Activity Understanding}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2016}
+  \endentry
+
+  \entry{THUMOS15}{misc}{}
+    \name{author}{7}{}{%
+      {{hash=GA}{%
+         family={Gorban},
+         familyi={G\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=IH}{%
+         family={Idrees},
+         familyi={I\bibinitperiod},
+         given={H.},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=JYG}{%
+         family={Jiang},
+         familyi={J\bibinitperiod},
+         given={Y.-G.},
+         giveni={Y\bibinithyphendelim G\bibinitperiod},
+      }}%
+      {{hash=RZA}{%
+         family={Roshan\bibnamedelima Zamir},
+         familyi={R\bibinitperiod\bibinitdelim Z\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=LI}{%
+         family={Laptev},
+         familyi={L\bibinitperiod},
+         given={I.},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=SM}{%
+         family={Shah},
+         familyi={S\bibinitperiod},
+         given={M.},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=SR}{%
+         family={Sukthankar},
+         familyi={S\bibinitperiod},
+         given={R.},
+         giveni={R\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GAIHJYG+1}
+    \strng{fullhash}{GAIHJYGRZALISMSR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{http://www.thumos.info/}}
+    \field{title}{{THUMOS} Challenge: Action Recognition with a Large Number of
+  Classes}
+    \field{year}{2015}
+  \endentry
+
+  \entry{kinetics}{misc}{}
+    \name{author}{12}{}{%
+      {{hash=KW}{%
+         family={Kay},
+         familyi={K\bibinitperiod},
+         given={Will},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=CJ}{%
+         family={Carreira},
+         familyi={C\bibinitperiod},
+         given={Joao},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=SK}{%
+         family={Simonyan},
+         familyi={S\bibinitperiod},
+         given={Karen},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=ZB}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Brian},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=HC}{%
+         family={Hillier},
+         familyi={H\bibinitperiod},
+         given={Chloe},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=VS}{%
+         family={Vijayanarasimhan},
+         familyi={V\bibinitperiod},
+         given={Sudheendra},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=VF}{%
+         family={Viola},
+         familyi={V\bibinitperiod},
+         given={Fabio},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=GT}{%
+         family={Green},
+         familyi={G\bibinitperiod},
+         given={Tim},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=BT}{%
+         family={Back},
+         familyi={B\bibinitperiod},
+         given={Trevor},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=NP}{%
+         family={Natsev},
+         familyi={N\bibinitperiod},
+         given={Paul},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=SM}{%
+         family={Suleyman},
+         familyi={S\bibinitperiod},
+         given={Mustafa},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=ZA}{%
+         family={Zisserman},
+         familyi={Z\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{KWCJSK+1}
+    \strng{fullhash}{KWCJSKZBHCVSVFGTBTNPSMZA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1705.06950
+    \endverb
+    \field{title}{The Kinetics Human Action Video Dataset}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2017}
+  \endentry
+
+  \entry{ucf101}{misc}{}
+    \name{author}{3}{}{%
+      {{hash=SK}{%
+         family={Soomro},
+         familyi={S\bibinitperiod},
+         given={Khurram},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=ZAR}{%
+         family={Zamir},
+         familyi={Z\bibinitperiod},
+         given={Amir\bibnamedelima Roshan},
+         giveni={A\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=SM}{%
+         family={Shah},
+         familyi={S\bibinitperiod},
+         given={Mubarak},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SKZARSM1}
+    \strng{fullhash}{SKZARSM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1212.0402
+    \endverb
+    \field{title}{UCF101: A Dataset of 101 Human Actions Classes From Videos in
+  The Wild}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2012}
+  \endentry
+
+  \entry{JHMDB}{inproceedings}{}
+    \name{author}{5}{}{%
+      {{hash=JH}{%
+         family={Jhuang},
+         familyi={J\bibinitperiod},
+         given={H.},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=GJ}{%
+         family={Gall},
+         familyi={G\bibinitperiod},
+         given={J.},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=ZS}{%
+         family={Zuffi},
+         familyi={Z\bibinitperiod},
+         given={S.},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=SC}{%
+         family={Schmid},
+         familyi={S\bibinitperiod},
+         given={C.},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=BMJ}{%
+         family={Black},
+         familyi={B\bibinitperiod},
+         given={M.\bibnamedelima J.},
+         giveni={M\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{JHGJZS+1}
+    \strng{fullhash}{JHGJZSSCBMJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{International Conf. on Computer Vision (ICCV)}
+    \field{pages}{3192\bibrangedash 3199}
+    \field{title}{Towards understanding action recognition}
+    \field{month}{12}
+    \field{year}{2013}
+  \endentry
+
+  \entry{hmdb}{inproceedings}{}
+    \name{author}{5}{}{%
+      {{hash=KH}{%
+         family={Kuehne},
+         familyi={K\bibinitperiod},
+         given={Hildegard},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=JH}{%
+         family={Jhuang},
+         familyi={J\bibinitperiod},
+         given={Hueihan},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=GE}{%
+         family={Garrote},
+         familyi={G\bibinitperiod},
+         given={Est{\'\i}baliz},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=PT}{%
+         family={Poggio},
+         familyi={P\bibinitperiod},
+         given={Tomaso},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=ST}{%
+         family={Serre},
+         familyi={S\bibinitperiod},
+         given={Thomas},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \list{organization}{1}{%
+      {IEEE}%
+    }
+    \strng{namehash}{KHJHGE+1}
+    \strng{fullhash}{KHJHGEPTST1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2011 International conference on computer vision}
+    \field{pages}{2556\bibrangedash 2563}
+    \field{title}{HMDB: a large video database for human motion recognition}
+    \field{year}{2011}
+  \endentry
+
+  \entry{openpose}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=CZ}{%
+         family={Cao},
+         familyi={C\bibinitperiod},
+         given={Zhe},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=ST}{%
+         family={Simon},
+         familyi={S\bibinitperiod},
+         given={Tomas},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=WSE}{%
+         family={Wei},
+         familyi={W\bibinitperiod},
+         given={Shih-En},
+         giveni={S\bibinithyphendelim E\bibinitperiod},
+      }}%
+      {{hash=SY}{%
+         family={Sheikh},
+         familyi={S\bibinitperiod},
+         given={Yaser},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CZSTWSE+1}
+    \strng{fullhash}{CZSTWSESY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the IEEE conference on computer vision and
+  pattern recognition}
+    \field{pages}{7291\bibrangedash 7299}
+    \field{title}{Realtime multi-person 2d pose estimation using part affinity
+  fields}
+    \field{year}{2017}
+  \endentry
+
+  \entry{vitpose}{misc}{}
+    \name{author}{4}{}{%
+      {{hash=XY}{%
+         family={Xu},
+         familyi={X\bibinitperiod},
+         given={Yufei},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=ZJ}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Jing},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=ZQ}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Qiming},
+         giveni={Q\bibinitperiod},
+      }}%
+      {{hash=TD}{%
+         family={Tao},
+         familyi={T\bibinitperiod},
+         given={Dacheng},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{XYZJZQ+1}
+    \strng{fullhash}{XYZJZQTD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 2204.12484
+    \endverb
+    \field{title}{ViTPose: Simple Vision Transformer Baselines for Human Pose
+  Estimation}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2022}
+  \endentry
+
+  \entry{tensorflow2015-whitepaper}{misc}{}
+    \name{author}{40}{}{%
+      {{hash=AM}{%
+         family={Abadi},
+         familyi={A\bibinitperiod},
+         given={Mart\'{i}n},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=AA}{%
+         family={Agarwal},
+         familyi={A\bibinitperiod},
+         given={Ashish},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=BP}{%
+         family={Barham},
+         familyi={B\bibinitperiod},
+         given={Paul},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=BE}{%
+         family={Brevdo},
+         familyi={B\bibinitperiod},
+         given={Eugene},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=CZ}{%
+         family={Chen},
+         familyi={C\bibinitperiod},
+         given={Zhifeng},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=CC}{%
+         family={Citro},
+         familyi={C\bibinitperiod},
+         given={Craig},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=CGS}{%
+         family={Corrado},
+         familyi={C\bibinitperiod},
+         given={Greg\bibnamedelima S.},
+         giveni={G\bibinitperiod\bibinitdelim S\bibinitperiod},
+      }}%
+      {{hash=DA}{%
+         family={Davis},
+         familyi={D\bibinitperiod},
+         given={Andy},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=DJ}{%
+         family={Dean},
+         familyi={D\bibinitperiod},
+         given={Jeffrey},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=DM}{%
+         family={Devin},
+         familyi={D\bibinitperiod},
+         given={Matthieu},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=GS}{%
+         family={Ghemawat},
+         familyi={G\bibinitperiod},
+         given={Sanjay},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=GI}{%
+         family={Goodfellow},
+         familyi={G\bibinitperiod},
+         given={Ian},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=HA}{%
+         family={Harp},
+         familyi={H\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=IG}{%
+         family={Irving},
+         familyi={I\bibinitperiod},
+         given={Geoffrey},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=IM}{%
+         family={Isard},
+         familyi={I\bibinitperiod},
+         given={Michael},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=JY}{%
+         family={Jia},
+         familyi={J\bibinitperiod},
+         given={Yangqing},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=JR}{%
+         family={Jozefowicz},
+         familyi={J\bibinitperiod},
+         given={Rafal},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=KL}{%
+         family={Kaiser},
+         familyi={K\bibinitperiod},
+         given={Lukasz},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=KM}{%
+         family={Kudlur},
+         familyi={K\bibinitperiod},
+         given={Manjunath},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=LJ}{%
+         family={Levenberg},
+         familyi={L\bibinitperiod},
+         given={Josh},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=MD}{%
+         family={Man\'{e}},
+         familyi={M\bibinitperiod},
+         given={Dandelion},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=MR}{%
+         family={Monga},
+         familyi={M\bibinitperiod},
+         given={Rajat},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=MS}{%
+         family={Moore},
+         familyi={M\bibinitperiod},
+         given={Sherry},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=MD}{%
+         family={Murray},
+         familyi={M\bibinitperiod},
+         given={Derek},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=OC}{%
+         family={Olah},
+         familyi={O\bibinitperiod},
+         given={Chris},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=SM}{%
+         family={Schuster},
+         familyi={S\bibinitperiod},
+         given={Mike},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=SJ}{%
+         family={Shlens},
+         familyi={S\bibinitperiod},
+         given={Jonathon},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=SB}{%
+         family={Steiner},
+         familyi={S\bibinitperiod},
+         given={Benoit},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=SI}{%
+         family={Sutskever},
+         familyi={S\bibinitperiod},
+         given={Ilya},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=TK}{%
+         family={Talwar},
+         familyi={T\bibinitperiod},
+         given={Kunal},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=TP}{%
+         family={Tucker},
+         familyi={T\bibinitperiod},
+         given={Paul},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=VV}{%
+         family={Vanhoucke},
+         familyi={V\bibinitperiod},
+         given={Vincent},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=VV}{%
+         family={Vasudevan},
+         familyi={V\bibinitperiod},
+         given={Vijay},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=VF}{%
+         family={Vi\'{e}gas},
+         familyi={V\bibinitperiod},
+         given={Fernanda},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=VO}{%
+         family={Vinyals},
+         familyi={V\bibinitperiod},
+         given={Oriol},
+         giveni={O\bibinitperiod},
+      }}%
+      {{hash=WP}{%
+         family={Warden},
+         familyi={W\bibinitperiod},
+         given={Pete},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=WM}{%
+         family={Wattenberg},
+         familyi={W\bibinitperiod},
+         given={Martin},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=WM}{%
+         family={Wicke},
+         familyi={W\bibinitperiod},
+         given={Martin},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=YY}{%
+         family={Yu},
+         familyi={Y\bibinitperiod},
+         given={Yuan},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=ZX}{%
+         family={Zheng},
+         familyi={Z\bibinitperiod},
+         given={Xiaoqiang},
+         giveni={X\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{AMAABP+1}
+  \strng{fullhash}{AMAABPBECZCCCGSDADJDMGSGIHAIGIMJYJRKLKMLJMDMRMSMDOCSMSJSBSITKTPVVVVVFVOWPWMWMYYZX1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{note}{Software available from tensorflow.org}
+    \field{title}{{TensorFlow}: Large-Scale Machine Learning on Heterogeneous
+  Systems}
+    \verb{url}
+    \verb https://www.tensorflow.org/
+    \endverb
+    \field{year}{2015}
+  \endentry
+
+  \entry{WangPose}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=WC}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Chunyu},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=WY}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Yizhou},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=YAL}{%
+         family={Yuille},
+         familyi={Y\bibinitperiod},
+         given={Alan\bibnamedelima L.},
+         giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WCWYYAL1}
+    \strng{fullhash}{WCWYYAL1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2013 IEEE Conference on Computer Vision and Pattern
+  Recognition}
+    \verb{doi}
+    \verb 10.1109/CVPR.2013.123
+    \endverb
+    \field{pages}{915\bibrangedash 922}
+    \field{title}{An Approach to Pose-Based Action Recognition}
+    \field{year}{2013}
+  \endentry
+
+  \entry{PCNN}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=CG}{%
+         family={Chéron},
+         familyi={C\bibinitperiod},
+         given={Guilhem},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=LI}{%
+         family={Laptev},
+         familyi={L\bibinitperiod},
+         given={Ivan},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=SC}{%
+         family={Schmid},
+         familyi={S\bibinitperiod},
+         given={Cordelia},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CGLISC1}
+    \strng{fullhash}{CGLISC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2015 IEEE International Conference on Computer Vision
+  (ICCV)}
+    \verb{doi}
+    \verb 10.1109/ICCV.2015.368
+    \endverb
+    \field{pages}{3218\bibrangedash 3226}
+    \field{title}{P-CNN: Pose-Based CNN Features for Action Recognition}
+    \field{year}{2015}
+  \endentry
+
+  \entry{Chained}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=ZM}{%
+         family={Zolfaghari},
+         familyi={Z\bibinitperiod},
+         given={Mohammadreza},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=OGL}{%
+         family={Oliveira},
+         familyi={O\bibinitperiod},
+         given={Gabriel\bibnamedelima L.},
+         giveni={G\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+      {{hash=SN}{%
+         family={Sedaghat},
+         familyi={S\bibinitperiod},
+         given={Nima},
+         giveni={N\bibinitperiod},
+      }}%
+      {{hash=BT}{%
+         family={Brox},
+         familyi={B\bibinitperiod},
+         given={Thomas},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{ZMOGLSN+1}
+    \strng{fullhash}{ZMOGLSNBT1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the IEEE International Conference on
+  Computer Vision (ICCV)}
+    \field{title}{Chained Multi-Stream Networks Exploiting Pose, Motion, and
+  Appearance for Action Classification and Detection}
+    \field{year}{2017}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{potion}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=CV}{%
+         family={Choutas},
+         familyi={C\bibinitperiod},
+         given={Vasileios},
+         giveni={V\bibinitperiod},
+      }}%
+      {{hash=WP}{%
+         family={Weinzaepfel},
+         familyi={W\bibinitperiod},
+         given={Philippe},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=RJ}{%
+         family={Revaud},
+         familyi={R\bibinitperiod},
+         given={Jerome},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=SC}{%
+         family={Schmid},
+         familyi={S\bibinitperiod},
+         given={Cordelia},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CVWPRJ+1}
+    \strng{fullhash}{CVWPRJSC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1109/CVPR.2018.00734
+    \endverb
+    \field{pages}{7024\bibrangedash 7033}
+    \field{title}{PoTion: Pose MoTion Representation for Action Recognition}
+    \field{month}{06}
+    \field{year}{2018}
+  \endentry
+
+  \entry{poseandjointaware}{inproceedings}{}
+    \name{author}{6}{}{%
+      {{hash=SA}{%
+         family={Shah},
+         familyi={S\bibinitperiod},
+         given={Anshul},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=MS}{%
+         family={Mishra},
+         familyi={M\bibinitperiod},
+         given={Shlok},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=BA}{%
+         family={Bansal},
+         familyi={B\bibinitperiod},
+         given={Ankan},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=CJC}{%
+         family={Chen},
+         familyi={C\bibinitperiod},
+         given={Jun-Cheng},
+         giveni={J\bibinithyphendelim C\bibinitperiod},
+      }}%
+      {{hash=CR}{%
+         family={Chellappa},
+         familyi={C\bibinitperiod},
+         given={Rama},
+         giveni={R\bibinitperiod},
+      }}%
+      {{hash=SA}{%
+         family={Shrivastava},
+         familyi={S\bibinitperiod},
+         given={Abhinav},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SAMSBA+1}
+    \strng{fullhash}{SAMSBACJCCRSA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Proceedings of the IEEE/CVF Winter Conference on
+  Applications of Computer Vision (WACV)}
+    \field{pages}{3850\bibrangedash 3860}
+    \field{title}{Pose and Joint-Aware Action Recognition}
+    \field{year}{2022}
+    \warn{\item Invalid format of field 'month'}
+  \endentry
+
+  \entry{PA3D}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=YA}{%
+         family={Yan},
+         familyi={Y\bibinitperiod},
+         given={An},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=WY}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Yali},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=LZ}{%
+         family={Li},
+         familyi={L\bibinitperiod},
+         given={Zhifeng},
+         giveni={Z\bibinitperiod},
+      }}%
+      {{hash=QY}{%
+         family={Qiao},
+         familyi={Q\bibinitperiod},
+         given={Yu},
+         giveni={Y\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{YAWYLZ+1}
+    \strng{fullhash}{YAWYLZQY1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2019 IEEE/CVF Conference on Computer Vision and Pattern
+  Recognition (CVPR)}
+    \verb{doi}
+    \verb 10.1109/CVPR.2019.00811
+    \endverb
+    \field{pages}{7914\bibrangedash 7923}
+    \field{title}{PA3D: Pose-Action 3D Machine for Video Recognition}
+    \field{year}{2019}
+  \endentry
+
+  \entry{simple_yet_efficient}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=LD}{%
+         family={Ludl},
+         familyi={L\bibinitperiod},
+         given={Dennis},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=GT}{%
+         family={Gulde},
+         familyi={G\bibinitperiod},
+         given={Thomas},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=CC}{%
+         family={Curio},
+         familyi={C\bibinitperiod},
+         given={Cristóbal},
+         giveni={C\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{LDGTCC1}
+    \strng{fullhash}{LDGTCC1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2019 IEEE Intelligent Transportation Systems Conference
+  (ITSC)}
+    \verb{doi}
+    \verb 10.1109/ITSC.2019.8917128
+    \endverb
+    \field{pages}{581\bibrangedash 588}
+    \field{title}{Simple yet efficient real-time pose-based action recognition}
+    \field{year}{2019}
+  \endentry
+
+  \entry{smaller_faster_better}{inproceedings}{}
+    \name{author}{4}{}{%
+      {{hash=YF}{%
+         family={Yang},
+         familyi={Y\bibinitperiod},
+         given={Fan},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=WY}{%
+         family={Wu},
+         familyi={W\bibinitperiod},
+         given={Yang},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=SS}{%
+         family={Sakti},
+         familyi={S\bibinitperiod},
+         given={Sakriani},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=NS}{%
+         family={Nakamura},
+         familyi={N\bibinitperiod},
+         given={Satoshi},
+         giveni={S\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Association for Computing Machinery}%
+    }
+    \keyw{Skeleton-based Action Recognition, Body Actions, Hand Gestures}
+    \strng{namehash}{YFWYSS+1}
+    \strng{fullhash}{YFWYSSNS1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Although skeleton-based action recognition has achieved great success in
+  recent years, most of the existing methods may suffer from a large model size
+  and slow execution speed. To alleviate this issue, we analyze skeleton
+  sequence properties to propose a Double-feature Double-motion Network
+  (DD-Net) for skeleton-based action recognition. By using a lightweight
+  network structure (i.e., 0.15 million parameters), DD-Net can reach a super
+  fast speed, as 3,500 FPS on an ordinary GPU (e.g., GTX 1080Ti), or, 2,000 FPS
+  on an ordinary CPU (e.g., Intel E5-2620). By employing robust features,
+  DD-Net achieves state-of-the-art performance on our experiment datasets:
+  SHREC (i.e., hand actions) and JHMDB (i.e., body actions). Our code is on
+  https://github.com/fandulu/DD-Net.%
+    }
+    \field{booktitle}{Proceedings of the ACM Multimedia Asia}
+    \verb{doi}
+    \verb 10.1145/3338533.3366569
+    \endverb
+    \field{isbn}{9781450368414}
+    \field{series}{MMAsia '19}
+    \field{title}{Make Skeleton-Based Action Recognition Model Smaller, Faster
+  and Better}
+    \verb{url}
+    \verb https://doi.org/10.1145/3338533.3366569
+    \endverb
+    \list{location}{1}{%
+      {Beijing, China}%
+    }
+    \field{year}{2020}
+    \warn{\item Can't use 'location' + 'address'}
+  \endentry
+\enddatalist
+\endinput

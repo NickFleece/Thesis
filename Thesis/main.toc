@@ -1,0 +1,38 @@
+\babel@toc {english}{}\relax 
+\contentsline {chapter}{Abstract}{i}{section*.1}%
+\contentsline {chapter}{Acknowledgements}{ii}{section*.2}%
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.8}%
+\contentsline {section}{\numberline {1.1}Action Recognition}{1}{section.9}%
+\contentsline {section}{\numberline {1.2}Applications}{1}{section.10}%
+\contentsline {subsection}{\numberline {1.2.1}Ethical Issues}{2}{subsection.11}%
+\contentsline {section}{\numberline {1.3}Challenges}{4}{section.14}%
+\contentsline {section}{\numberline {1.4}Problem Definition}{4}{section.15}%
+\contentsline {section}{\numberline {1.5}Thesis Structure}{4}{section.16}%
+\contentsline {chapter}{\numberline {2}Convolutional Neural Networks}{5}{chapter.17}%
+\contentsline {section}{\numberline {2.1}Structure}{5}{section.18}%
+\contentsline {section}{\numberline {2.2}Kernel}{5}{section.19}%
+\contentsline {subsection}{\numberline {2.2.1}3 Dimensional Convolutions}{5}{subsection.20}%
+\contentsline {section}{\numberline {2.3}Classic Architectures}{5}{section.21}%
+\contentsline {subsection}{\numberline {2.3.1}AlexNet}{5}{subsection.22}%
+\contentsline {subsection}{\numberline {2.3.2}VGG-16}{5}{subsection.23}%
+\contentsline {section}{\numberline {2.4}Modern Architectures}{5}{section.24}%
+\contentsline {subsection}{\numberline {2.4.1}ResNet}{5}{subsection.25}%
+\contentsline {subsection}{\numberline {2.4.2}Residual Attention Network}{5}{subsection.26}%
+\contentsline {section}{\numberline {2.5}LSTMs}{5}{section.27}%
+\contentsline {chapter}{\numberline {3}Literature Review}{6}{chapter.28}%
+\contentsline {section}{\numberline {3.1}Image Classification}{6}{section.29}%
+\contentsline {section}{\numberline {3.2}Optical Flow}{6}{section.30}%
+\contentsline {section}{\numberline {3.3}CNN Based Models}{7}{section.32}%
+\contentsline {subsection}{\numberline {3.3.1}CNN + LSTM Models}{7}{subsection.33}%
+\contentsline {subsection}{\numberline {3.3.2}3D CNN Models}{11}{subsection.38}%
+\contentsline {section}{\numberline {3.4}Model Evolution}{12}{section.41}%
+\contentsline {section}{\numberline {3.5}Datasets}{13}{section.44}%
+\contentsline {section}{\numberline {3.6}Pose Detection}{15}{section.46}%
+\contentsline {section}{\numberline {3.7}Pose-Based Action Recognition}{16}{section.48}%
+\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{18}{subsection.53}%
+\contentsline {chapter}{\numberline {4}Methodology}{24}{chapter.59}%
+\contentsline {chapter}{\numberline {5}Experimentation}{25}{chapter.60}%
+\contentsline {chapter}{\numberline {6}Conclusion}{26}{chapter.61}%
+\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{27}{appendix.62}%
+\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{27}{section.63}%
+\contentsline {chapter}{Bibliography}{28}{appendix*.64}%
