@@ -29,7 +29,7 @@ parser.add_argument('--save_all_models', default=False)
 parser.add_argument('--learning_rate', default=0.01)
 parser.add_argument('--batch_size', default=16)
 parser.add_argument('--num_filters', default=512)
-parser.add_argument('--weight_decay', default=0.007)
+parser.add_argument('--weight_decay', default=0.006)
 parser.add_argument('--gpu', default="1")
 parser.add_argument('--verbose', default=1)
 args = parser.parse_args()
@@ -49,7 +49,7 @@ WEIGHT_DECAY = float(args.weight_decay)
 
 MODEL_SAVE_DIR = f"{BASE_DIR}/models"
 
-PROCESSED_JOINT_DATA_FOLDER = f"{BASE_DIR}/processed_joints_new" 
+PROCESSED_JOINT_DATA_FOLDER = f"{BASE_DIR}/processed_joints_new_v2" 
 SPLITS_FOLDER = f"{BASE_DIR}/splits/splits"
 
 if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
