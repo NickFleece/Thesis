@@ -102,6 +102,105 @@
     \field{year}{2021}
   \endentry
 
+  \entry{i3d}{inproceedings}{}
+    \name{author}{2}{}{%
+      {{hash=CJ}{%
+         family={Carreira},
+         familyi={C\bibinitperiod},
+         given={Joao},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=ZA}{%
+         family={Zisserman},
+         familyi={Z\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{CJZA1}
+    \strng{fullhash}{CJZA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{proceedings of the IEEE Conference on Computer Vision and
+  Pattern Recognition}
+    \field{pages}{6299\bibrangedash 6308}
+    \field{title}{Quo vadis, action recognition? a new model and the kinetics
+  dataset}
+    \field{year}{2017}
+  \endentry
+
+  \entry{TV-L}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=ZC}{%
+         family={Zach},
+         familyi={Z\bibinitperiod},
+         given={C.},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=PT}{%
+         family={Pock},
+         familyi={P\bibinitperiod},
+         given={T.},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=BH}{%
+         family={Bischof},
+         familyi={B\bibinitperiod},
+         given={H.},
+         giveni={H\bibinitperiod},
+      }}%
+    }
+    \name{editor}{3}{}{%
+      {{hash=HFA}{%
+         family={Hamprecht},
+         familyi={H\bibinitperiod},
+         given={Fred\bibnamedelima A.},
+         giveni={F\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=SC}{%
+         family={Schn{\"o}rr},
+         familyi={S\bibinitperiod},
+         given={Christoph},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=JB}{%
+         family={J{\"a}hne},
+         familyi={J\bibinitperiod},
+         given={Bernd},
+         giveni={B\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer Berlin Heidelberg}%
+    }
+    \strng{namehash}{ZCPTBH1}
+    \strng{fullhash}{ZCPTBH1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{abstract}{%
+    Variational methods are among the most successful approaches to calculate
+  the optical flow between two image frames. A particularly appealing
+  formulation is based on total variation (TV) regularization and the robust L1
+  norm in the data fidelity term. This formulation can preserve discontinuities
+  in the flow field and offers an increased robustness against illumination
+  changes, occlusions and noise. In this work we present a novel approach to
+  solve the TV-L1 formulation. Our method results in a very efficient numerical
+  scheme, which is based on a dual formulation of the TV energy and employs an
+  efficient point-wise thresholding step. Additionally, our approach can be
+  accelerated by modern graphics processing units. We demonstrate the real-time
+  performance (30 fps) of our approach for video inputs at a resolution of
+  320{\texttimes}240 pixels.%
+    }
+    \field{booktitle}{Pattern Recognition}
+    \field{isbn}{978-3-540-74936-3}
+    \field{pages}{214\bibrangedash 223}
+    \field{title}{A Duality Based Approach for Realtime TV-L1 Optical Flow}
+    \list{location}{1}{%
+      {Berlin, Heidelberg}%
+    }
+    \field{year}{2007}
+  \endentry
+
   \entry{LRCNS}{article}{}
     \name{author}{7}{}{%
       {{hash=DJ}{%
@@ -542,33 +641,6 @@
     \field{year}{2015}
   \endentry
 
-  \entry{i3d}{inproceedings}{}
-    \name{author}{2}{}{%
-      {{hash=CJ}{%
-         family={Carreira},
-         familyi={C\bibinitperiod},
-         given={Joao},
-         giveni={J\bibinitperiod},
-      }}%
-      {{hash=ZA}{%
-         family={Zisserman},
-         familyi={Z\bibinitperiod},
-         given={Andrew},
-         giveni={A\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{CJZA1}
-    \strng{fullhash}{CJZA1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{booktitle}{proceedings of the IEEE Conference on Computer Vision and
-  Pattern Recognition}
-    \field{pages}{6299\bibrangedash 6308}
-    \field{title}{Quo vadis, action recognition? a new model and the kinetics
-  dataset}
-    \field{year}{2017}
-  \endentry
-
   \entry{transformer_og}{misc}{}
     \name{author}{12}{}{%
       {{hash=DA}{%
@@ -715,6 +787,237 @@
     \warn{\item Invalid format of field 'month'}
   \endentry
 
+  \entry{charades}{misc}{}
+    \name{author}{6}{}{%
+      {{hash=SGA}{%
+         family={Sigurdsson},
+         familyi={S\bibinitperiod},
+         given={Gunnar\bibnamedelima A.},
+         giveni={G\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=VG}{%
+         family={Varol},
+         familyi={V\bibinitperiod},
+         given={Gül},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=WX}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Xiaolong},
+         giveni={X\bibinitperiod},
+      }}%
+      {{hash=FA}{%
+         family={Farhadi},
+         familyi={F\bibinitperiod},
+         given={Ali},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=LI}{%
+         family={Laptev},
+         familyi={L\bibinitperiod},
+         given={Ivan},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=GA}{%
+         family={Gupta},
+         familyi={G\bibinitperiod},
+         given={Abhinav},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SGAVGWX+1}
+    \strng{fullhash}{SGAVGWXFALIGA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1604.01753
+    \endverb
+    \field{title}{Hollywood in Homes: Crowdsourcing Data Collection for
+  Activity Understanding}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2016}
+  \endentry
+
+  \entry{THUMOS15}{misc}{}
+    \name{author}{7}{}{%
+      {{hash=GA}{%
+         family={Gorban},
+         familyi={G\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=IH}{%
+         family={Idrees},
+         familyi={I\bibinitperiod},
+         given={H.},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=JYG}{%
+         family={Jiang},
+         familyi={J\bibinitperiod},
+         given={Y.-G.},
+         giveni={Y\bibinithyphendelim G\bibinitperiod},
+      }}%
+      {{hash=RZA}{%
+         family={Roshan\bibnamedelima Zamir},
+         familyi={R\bibinitperiod\bibinitdelim Z\bibinitperiod},
+         given={A.},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=LI}{%
+         family={Laptev},
+         familyi={L\bibinitperiod},
+         given={I.},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=SM}{%
+         family={Shah},
+         familyi={S\bibinitperiod},
+         given={M.},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=SR}{%
+         family={Sukthankar},
+         familyi={S\bibinitperiod},
+         given={R.},
+         giveni={R\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GAIHJYG+1}
+    \strng{fullhash}{GAIHJYGRZALISMSR1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{howpublished}{\url{http://www.thumos.info/}}
+    \field{title}{{THUMOS} Challenge: Action Recognition with a Large Number of
+  Classes}
+    \field{year}{2015}
+  \endentry
+
+  \entry{kinetics}{misc}{}
+    \name{author}{12}{}{%
+      {{hash=KW}{%
+         family={Kay},
+         familyi={K\bibinitperiod},
+         given={Will},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=CJ}{%
+         family={Carreira},
+         familyi={C\bibinitperiod},
+         given={Joao},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=SK}{%
+         family={Simonyan},
+         familyi={S\bibinitperiod},
+         given={Karen},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=ZB}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Brian},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=HC}{%
+         family={Hillier},
+         familyi={H\bibinitperiod},
+         given={Chloe},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=VS}{%
+         family={Vijayanarasimhan},
+         familyi={V\bibinitperiod},
+         given={Sudheendra},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=VF}{%
+         family={Viola},
+         familyi={V\bibinitperiod},
+         given={Fabio},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=GT}{%
+         family={Green},
+         familyi={G\bibinitperiod},
+         given={Tim},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=BT}{%
+         family={Back},
+         familyi={B\bibinitperiod},
+         given={Trevor},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=NP}{%
+         family={Natsev},
+         familyi={N\bibinitperiod},
+         given={Paul},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=SM}{%
+         family={Suleyman},
+         familyi={S\bibinitperiod},
+         given={Mustafa},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=ZA}{%
+         family={Zisserman},
+         familyi={Z\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{KWCJSK+1}
+    \strng{fullhash}{KWCJSKZBHCVSVFGTBTNPSMZA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1705.06950
+    \endverb
+    \field{title}{The Kinetics Human Action Video Dataset}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2017}
+  \endentry
+
+  \entry{ucf101}{misc}{}
+    \name{author}{3}{}{%
+      {{hash=SK}{%
+         family={Soomro},
+         familyi={S\bibinitperiod},
+         given={Khurram},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=ZAR}{%
+         family={Zamir},
+         familyi={Z\bibinitperiod},
+         given={Amir\bibnamedelima Roshan},
+         giveni={A\bibinitperiod\bibinitdelim R\bibinitperiod},
+      }}%
+      {{hash=SM}{%
+         family={Shah},
+         familyi={S\bibinitperiod},
+         given={Mubarak},
+         giveni={M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SKZARSM1}
+    \strng{fullhash}{SKZARSM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1212.0402
+    \endverb
+    \field{title}{UCF101: A Dataset of 101 Human Actions Classes From Videos in
+  The Wild}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2012}
+  \endentry
+
   \entry{JHMDB}{inproceedings}{}
     \name{author}{5}{}{%
       {{hash=JH}{%
@@ -757,6 +1060,52 @@
     \field{title}{Towards understanding action recognition}
     \field{month}{12}
     \field{year}{2013}
+  \endentry
+
+  \entry{hmdb}{inproceedings}{}
+    \name{author}{5}{}{%
+      {{hash=KH}{%
+         family={Kuehne},
+         familyi={K\bibinitperiod},
+         given={Hildegard},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=JH}{%
+         family={Jhuang},
+         familyi={J\bibinitperiod},
+         given={Hueihan},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=GE}{%
+         family={Garrote},
+         familyi={G\bibinitperiod},
+         given={Est{\'\i}baliz},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=PT}{%
+         family={Poggio},
+         familyi={P\bibinitperiod},
+         given={Tomaso},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=ST}{%
+         family={Serre},
+         familyi={S\bibinitperiod},
+         given={Thomas},
+         giveni={T\bibinitperiod},
+      }}%
+    }
+    \list{organization}{1}{%
+      {IEEE}%
+    }
+    \strng{namehash}{KHJHGE+1}
+    \strng{fullhash}{KHJHGEPTST1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2011 International conference on computer vision}
+    \field{pages}{2556\bibrangedash 2563}
+    \field{title}{HMDB: a large video database for human motion recognition}
+    \field{year}{2011}
   \endentry
 
   \entry{openpose}{inproceedings}{}

@@ -15,16 +15,24 @@
 %----------------------------------------------------------------------------------------
 \section{Image Classification}
 
-Image classification is inherently the precursor to action recognition. Without the ability to classify individual images, the ability to classify videos, which functionally are a list of individual images, would never have been researched as nearly every technique can be tracked from some form of image classification task.
+Image classification is the precursor problem to action recognition. Without the ability to classify individual images, the ability to classify videos, which functionally are a list of individual images, would never have been researched as nearly every technique for action recognition can be tracked from some form of image classification task.
 
-An example of this task is the CIFAR dataset \cite{cifar}, where the goial is to simply classify relatively low resolution images into either 10 or 100 classes, depending on the dataset. This dataset is very well explored, and results have high 90\% accuracy values through very complex models and modern techniques. However, some simple models such as EfficientNet \cite{efficientnet} are able to achieve this above 90\% metric while providing a model that is efficient and able to train and evaluate images quickly.
+An example of this task is the CIFAR dataset \cite{cifar}, where the goal is to simply classify relatively low resolution images into either 10 or 100 classes, depending on the version of the dataset. This dataset is very well explored, and results have high 90\% accuracy values through very complex models and modern techniques. However, some simple models such as EfficientNet \cite{efficientnet} are able to achieve this above 90\% metric while providing a model that is efficient and able to train and evaluate images quickly. The popularization of image classification led to the popularization of CNN's which are also actively used in action recognition, and particularly popular in intermediate representation models that will be discussed in section \ref{sec:intermediate}.
 
 %----------------------------------------------------------------------------------------
 %	Optical Flow
 %----------------------------------------------------------------------------------------
 \section{Optical Flow}
 
-Optical Flow, not dissimilar to pose estimation described in section \ref{sec:pose-detection}, is something that is often a given in particular models that utilize it, but can be computed in several different ways. 
+Optical Flow, not dissimilar to pose estimation described in section \ref{sec:pose-detection}, is something that is often taken for granted in models that utilize it, however it can be computed in several different ways. An example of an optical flow technique is the method utilized by the I3D model \cite{i3d} which will be discussed later in this chapter. This technique is known as TV-L optical flow \cite{TV-L}, and utilizes a formula based on the total variation (TV) regularization and the robust $L^1$ norm in the data fidelity term. While the methods described in this paper and many others are rather complex, the idea that provides performance improvements is that optical flow represents the movement of a person from one frame to another and eliminating background information which does not move, this is further demonstrated in figure \ref{fig:opticalflow}.
+
+\begin{figure}[h]
+	\includegraphics[width=10cm]{opticalflow}
+	\centering
+	\caption{An example of the optical flow field \textbf{(c)}, resultant from the first and second frames \textbf{(a)} \textbf{(b)}. The goal being that the background is not in the optical flow field, only the movement of subjects in the frames are considered. This particular example is utilizing the TV-L optical flow \cite{TV-L}.}
+	\label{fig:opticalflow}
+\end{figure}
+
 
 %----------------------------------------------------------------------------------------
 %	CNN Models
@@ -38,11 +46,9 @@ Naturally, the first approach to feeding video data into models is to process th
 %----------------------------------------------------------------------------------------
 \subsection{CNN + LSTM Models}
 
-The success of CNN's in the world of image classification makes the move to apply the same type of logic towards action recognition and the larger domain of video processing. Since a video broken down is just individual frames, the logic follows that we would be able to extract features from individual frames and combine these features to produce a classification outcome.
+In very classic models, utilizing existing CNN architectures is a very simple process. The individual frames are passed through the CNN model, producing a feature map for each frame. These feature maps are then pooled and passed into dense layers which produces an output. While very simple and fast, this model completely ignores any temporal activity, meaning that the model cannot determine how a person moves throughout a video from one frame to another. This would make differentiating some reversible actions such as running forwards vs running backwards very difficult.
 
-In very classic models, this is a very simple process. The individual frames are passed through the CNN model, producing a feature map for each frame. These feature maps are then simply pooled and passed into dense layers which produces an output. While very simple and fast, this model completely ignores any temporal activity, meaning that the model cannot determine how a person moves throughout a video from one frame to another. This would make differentiating some reversible actions such as running forwards vs running backwards.
-
-Figure \ref{fig:cnn-lstm} shows the typical modern structure for this solution. After the features are extracted from each of the 2 dimensional CNN, they are passed through a LSTM. The goal of this LSTM module is to carry features from one frame to another.
+Figure \ref{fig:cnn-lstm} shows the typical modern structure for this solution. After the features are extracted from each of the 2 dimensional CNN, they are passed through a LSTM. The goal of this LSTM module is to carry features from one frame to another and add some temporal element.
 
 \begin{figure}[h]
 	\includegraphics[width=8cm]{CNN-LSTM.png}
@@ -86,9 +92,9 @@ The disadvantages of the model are also rooted in it's simplicity. The result of
 \subsection{3D CNN Models}
 \label{sec:3dCNNModels}
 
-When considering how to handle videos without the LSTM component, the most natural approach is to utilize 3 dimensional CNN kernels, the specifics of which were described in section \ref{3dkernels}. The function of these kernels when it relates to action recognition is that they allow for the model to easily encode local temporal data using the third kernel dimension. The primary issue with these models is that they contain many more parameters over the 2D CNN models, meaning that they take longer to train and require more computing power as compared to the lightweight counterparts.
+When considering how to handle videos without the LSTM component, the one of the first approaches that was developed is to utilize 3 dimensional CNN kernels, the specifics of which were described in section \ref{3dkernels}. The function of these kernels when it relates to action recognition is that they allow for the model to easily encode local temporal data using the third kernel dimension. The primary issue with these models is that they contain many more parameters over the 2D CNN models, meaning that they take longer to train and require more computing power as compared to the lightweight counterparts.
 
-\textbf{3D Convolutional Neural Networks for Human Action Recognition} \cite{3DCNN-ActionRecognition} was one of the original paper that proposed this model for the purposes of action recognition, and the greater topic of 3 dimensional convolutions as described in section \ref{3dkernels}. The general architecture of the model is shown in figure \ref{fig:original3dcnn}, and is extremely similar to that of 2 dimensional CNNs, with convolutional layers which are followed by subsampling layers.
+\textbf{3D Convolutional Neural Networks for Human Action Recognition} \cite{3DCNN-ActionRecognition} was one of the original papers that proposed this model for the purposes of action recognition, and the greater topic of 3 dimensional convolutions as described in section \ref{3dkernels}. The general architecture of the model is shown in figure \ref{fig:original3dcnn}, and is extremely similar to that of 2 dimensional CNNs, with convolutional layers which are followed by subsampling layers.
 
 \begin{figure}[h]
 	\includegraphics[width=10cm]{og3dCNN}
@@ -97,7 +103,7 @@ When considering how to handle videos without the LSTM component, the most natur
 	\label{fig:original3dcnn}
 \end{figure}
 
-The primary difference with this original architecture compared to 2D CNN's as we know them today is that it used rather large $7x7x3$ convolutions, as compared to the typical $3x3$ convolutions used in classical 2D CNN's. \textbf{Learning Spatiotemporal Features with 3D Convolutional Networks} \cite{3x33dcnn}, is a slightly more modern architecture that was proposed. They explore in great detail the effects of these sizes of convolutions and find that this size of convolutions are more effective than the previous methods and sizes.
+The primary difference with this original architecture compared to 2D CNN's as we know them today is that it used rather large $7x7x3$ convolutions, as compared to the typical $3x3$ convolutions used in classical 2D CNN's. \textbf{Learning Spatiotemporal Features with 3D Convolutional Networks} \cite{3x33dcnn} is a slightly more modern architecture that was proposed. They explore in great detail the effects of these sizes of convolutions and find that this size of convolutions are more effective than the previous methods and sizes.
 
 \textbf{Two-Stream Inflated 3D ConvNets}, commonly referred to as I3D \cite{i3d}, is a modern variation on 3D CNN based networks. Similar to the previously discussed model \cite{3DCNN-ActionRecognition}, this model explores the viability of taking techniques used in 2D CNN models and applying them to 3D. However it takes a much more direct approach, stating that they take the square filters of size $NxN$ and convert them simply to 3D filters with dimensions $NxNxN$, a process they describe as \textit{inflating} the convolutions. This inflation of convolutions allows for I3D to replicate successful 2D CNN's in their structure and apply them to video with little modifications.
 
@@ -113,8 +119,6 @@ The primary difference with this original architecture compared to 2D CNN's as w
 %----------------------------------------------------------------------------------------
 \section{Model Evolution}
 
-The domain of action recognition is always evolving, and it would not be a complete review of the literature without acknowledging other approaches that extend beyond the reach of this thesis.
-
 \begin{figure}[h]
 	\includegraphics[width=10cm]{transformerActionRecognition}
 	\centering
@@ -122,7 +126,7 @@ The domain of action recognition is always evolving, and it would not be a compl
 	\label{fig:transformerActionRecognition}
 \end{figure}
 
-\textbf{Transformers for Image Recognition at Scale} \cite{transformer_og}, extends beyond CNN's to explore transformer networks. While transformer networks are very easily applied to natural language processing tasks, it is not as easily applied to video and in particular action recognition. As depicted in figure \ref{fig:transformerActionRecognition}, the model utilizes a standard transformer architecture often used in NLP tasks in order to learn features that are useful for action recognition. The goal of this being to leverage previously well studied NLP studies that indicate the attention features of transformers are useful for focusing on the relevant data. Figure \ref{fig:attentionExample} shows this effect, the goal of this being to mitigate the challenges of handling background data interference as previously described in section \ref{sec:challenges}. This logic is then further expanded upon in many future models to extend this functionality, such as \textbf{Multiview Transformers for Video Recognition} \cite{multiview_transformers} which explores using multiple separate encoders to explore multiple views.
+\textbf{Transformers for Image Recognition at Scale} \cite{transformer_og}, extends beyond CNN's to explore transformer networks. While transformer networks are very easily applied to natural language processing tasks, it is not as easily applied to video and in particular action recognition. As depicted in figure \ref{fig:transformerActionRecognition}, the model utilizes a standard transformer architecture in order to learn features that are useful for action recognition. The goal of this being to leverage previously well studied NLP studies that indicate the attention features of transformers are useful for focusing on the relevant data. Figure \ref{fig:attentionExample} shows this effect, the goal of this being to mitigate the challenges of handling background data interference as previously described in section \ref{sec:challenges}. This logic is then further expanded upon in many future models to extend this functionality, such as \textbf{Multiview Transformers for Video Recognition} \cite{multiview_transformers} which explores using multiple separate encoders to explore multiple views.
 
 \begin{figure}[h]
 	\includegraphics[width=5cm]{attentionExample}
@@ -136,10 +140,18 @@ The domain of action recognition is always evolving, and it would not be a compl
 %----------------------------------------------------------------------------------------
 \section{Datasets}
 
-\subsection{Kinetics}
+There are many action recognition datasets, some of which fit more specific use cases, and others which are more general and tailor to more in-the-wild data. For example the Charades dataset \cite{charades} focuses more on actions of people indoors and their interactions, whereas other datasets such as THUMOS \cite{THUMOS15} focus on many in-the-wild videos, where the location of the person can be different.
 
-\subsection{JHMDB}
+\textbf{The Kinetics Human Action Video Dataset} \cite{kinetics} is one of the primary in-the-wild action recognition datasets that are reported on by modern models. The primary advantage of this dataset over others that were published around the same time such as the UCF-101 dataset \cite{ucf101} is that as opposed to UCF's 101 classes and approximately 13,000 clips, the original kinetics dataset contained 400 classes and approximately 300,000 total clips which is magnitudes greater than other datasets of this type. This dataset has also been updated in 2020 to include 700 classes and over 600,000 clips. The extremely large amount of these clips, as well as containing all of; singular person actions (eg. headbanging, stretching), person-person actions (eg. handshake, tickling), and person-object actions (eg. riding a bike) among others creates a dataset that is difficult for a model to determine what action is being performed.
 
+\begin{figure}[h]
+	\includegraphics[width=13cm]{kinetics}
+	\centering
+	\caption{Example classes from the Kinetics dataset \cite{kinetics} which demonstrate the different singular person, person-person, and person-object interactions characterized in the dataset.}
+	\label{fig:kinetics}
+\end{figure}
+
+\textbf{JHMDB} \cite{JHMDB} is the primary dataset that will be used in this paper. The JHMDB paper does not actually propose an entirely new dataset, rather it proposes a subset of the HMDB dataset \cite{hmdb}, with the addition of several features. While the dataset does offer more than only annotated poses, the main appeal of the dataset when considering the method used in this thesis is that they are fully annotated and adjusted poses to ensure that they are correct, meaning that the model can be independently be evaluated without having to consider the accuracy of the pose estimation model. Additionally, the dataset has been pruned such that the actions within the dataset only contain single person interactions, that lends itself very well to pose-based models, as generally only pose can be considered and the model can provide accurate results. Both of these features result in the dataset being highly popular with 2D-pose based models, and in particular models that create intermediate representations with these poses, as the data that is extracted from pose is both accurate and relevant to the action.
 
 %----------------------------------------------------------------------------------------
 %	Pose Detection
@@ -147,7 +159,7 @@ The domain of action recognition is always evolving, and it would not be a compl
 \section{Pose Detection}
 \label{sec:pose-detection}
 
-Throughout the majority of this thesis, the concept that there is some form of extracted pose from any given RGB frame is assumed to be accurate and complete. However, the extracting of these pose features, especially in the wild, is a difficult task in and of itself. This means that when considering pose-based models (as will be done further in section \ref{sec:pose-based}) that the accuracy of these techniques must be taken into account. Without an accurate pose model, it is impossible for these pose-based action recognition models to perform with any level of accuracy. Also worth noting is that some training data can have manually annotated pose data, an example being the JHMDB dataset \cite{JHMDB}, which utilizes manually annotated pose data. A very common model utilized by pose-based models is \textbf{OpenPose} \cite{openpose}, which as shown in figure \ref{fig:openpose}, is capable of detecting the poses of many people within the frame. In addition to what is shown in the figure, some models also utilize the joint heatmaps, which can also be easily generated by OpenPose. This is done through a modern technique using large CNN's and leveraging Part Affinity Fields, it is also allows for very fast real-time pose estimation.
+Throughout the majority of this thesis, and in some pose-based papers, the concept that there is some form of extracted pose from any given RGB frame is assumed to be accurate and complete. However, the extracting of these pose features, especially in the wild, is a difficult task in and of itself. This means that when considering pose-based models (as will be done further in section \ref{sec:pose-based}) that the accuracy of these techniques must be taken into account. Without an accurate pose model, it is impossible for these pose-based action recognition models to perform with any level of accuracy. Also worth noting is that some training data can have manually annotated pose data, an example being the previously discussed JHMDB dataset \cite{JHMDB}, which utilizes manually verified pose data. A very common model utilized by pose-based models is \textbf{OpenPose} \cite{openpose}, which as shown in figure \ref{fig:openpose}, is capable of detecting the poses of many people within the frame. In addition to what is shown in the figure, some models also utilize the joint heatmaps, which can also be easily generated by OpenPose. This is done through a modern technique using large CNN's and leveraging Part Affinity Fields, it is also allows for very fast real-time pose estimation.
 
 \begin{figure}[h]
 	\includegraphics[width=12cm]{OpenPose}
@@ -164,7 +176,7 @@ There are many pose estimation models, as it is in itself a problem in the domai
 \section{Pose-Based Action Recognition}
 \label{sec:pose-based}
 
-Pose-based action recognition models have been well studied, and have been one of the popular forms of action recognition model. This is because by focusing on the pose (sometimes referred to as the skeleton) of the person, you are able to effectively mitigate the background effects that were discussed in section \ref{sec:challenges}. This means that typically more lightweight models can be used as they are able to be pointed more towards the main subject rather than filter out background data. Of course this method also comes with challenges, notably that in testing in the wild, there must be effectively two models, one to extract the pose from the person(s) in the frame, and one to process this pose data and export an action. This can introduce another point of failure, but as discussed in section \ref{sec:pose-detection}, 2D pose detection has been consistently improving to the point that high quality pose data from fast models is the norm.
+Pose-based action recognition models have been well studied, and have been one of the popular forms of action recognition model as people typically determine actions by examining how a person is moving. This is because by focusing on the pose (sometimes referred to as the skeleton) of the person, you are able to effectively mitigate the background effects that were discussed in section \ref{sec:challenges}. This means that typically more lightweight models can be used as they are able to be pointed more towards the main subject rather than filter out background data. Of course this method also comes with challenges, notably that in testing in the wild, there must be effectively two models, one to extract the pose from the person(s) in the frame, and one to process this pose data and export an action. This can introduce another point of failure, but as discussed in section \ref{sec:pose-detection}, 2D pose detection has been consistently improving to the point that high quality pose data from fast models is the norm.
 
 \begin{figure}[h]
 	\includegraphics[width=12cm]{wangpose}
@@ -187,7 +199,7 @@ Pose-based action recognition models have been well studied, and have been one o
 \begin{figure}[h]
 	\includegraphics[width=6cm]{Fused}
 	\centering
-	\caption{TODO fused}
+	\caption{A typical fused architecture. Each of the Pose, Optical Flow, and RGB Frames are passed through individual 3D-CNN's, the outputs are then concatenated to achieve a final output.}
 	\label{fig:fused}
 \end{figure}
 
@@ -196,14 +208,14 @@ Fusion-based architectures have had success in combining techniques used by basi
 \begin{figure}[h]
 	\includegraphics[width=5cm]{chained}
 	\centering
-	\caption{TODO chained}
+	\caption{The chained architecture as shown in Chained Multi-stream Netowrks \cite{Chained}. The model differentiates in that it has separate loss functions for each of Pose, Optical Flow, and RGB, which are chained together in a way that they can be individually optimized.}
 	\label{fig:chained}
 \end{figure}
 
 \subsection{Intermediate Representations}
 \label{sec:intermediate}
 
-Intermediate representations are the vast majority of what will be discussed in later sections of this thesis. Intermediate representations aim to reduce the pose data that has been extracted into simpler and more processable formats. This is generally done with the aim of using a much more lightweight model (sometimes 2D CNN rather than 3D) that requires significantly less computing power. Of course this kind of pre-processing comes with issues, notably that by converting the model into a format such as this, some data will inevitably be lost during the transition, so the problem definition shifts slightly to creating an intermediate representation that both allows for a lightweight model to be effectively trained on it and for the smallest amount of data to be lost.
+Intermediate representations are the basis for what will be discussed in later sections of this thesis. Intermediate representations aim to reduce the pose data that has been extracted into simpler and more processable formats. This is generally done with the aim of using a much more lightweight model (sometimes 2D CNN rather than 3D) that requires significantly less computing power. Of course this kind of pre-processing comes with issues, notably that by converting the model into a format such as this, some data will inevitably be lost during the transition, so the problem definition shifts slightly to creating an intermediate representation that both allows for a lightweight model to be effectively trained on it and for the smallest amount of data to be lost in the transition.
 
 \begin{figure}[h]
 	\includegraphics[width=12cm]{potionarchitecture}
@@ -221,16 +233,16 @@ Intermediate representations are the vast majority of what will be discussed in 
 	\label{fig:potion-colourization}
 \end{figure}
 
-\textbf{Pose-Action 3D Machine for Video Recognition (PA3D)} \cite{PA3D} takes a similar approach to the PoTion model, but flavours it a bit differently. Similar to PoTion model, it leverages joint heatmaps similar to that exported from the OpenPose pose detection model, however it does not colorize the joints and aim to insert them into one image. A part of the model known as the \textit{Temporal Pose Convolution}, shown in figure \ref{fig:PA3D} is a core part of how the model functions. EXPLAIN MORE
+\textbf{Pose-Action 3D Machine for Video Recognition (PA3D)} \cite{PA3D} takes a similar approach to the PoTion model, but flavours it a bit differently. Similar to PoTion model, it leverages joint heatmaps similar to that exported from the OpenPose pose detection model, however it does not colorize the joints and aim to insert them into one image. A part of the model known as the \textit{Temporal Pose Convolution}, shown in figure \ref{fig:PA3D} is a core part of how the model functions. This is done through 1x1xN convolutions, which are run stacks of the joint heatmap images.
 
 \begin{figure}[h]
 	\includegraphics[width=12cm]{PA3D}
 	\centering
-	\caption{}
+	\caption{The main PA3D \cite{PA3D} model architecture, demonstrating the 1x1 convolutions used in order to construct the temporal cube.}
 	\label{fig:PA3D}
 \end{figure}
 
-\textbf{Simple yet efficient real-time pose-based action recognition} \cite{simple_yet_efficient} was largely the inspiration for work done on this thesis. The goal of this paper was to provide a very lightweight and simple to understand intermediate representation that could be used by a very simple CNN to perform real-time action recognition. They do this by converting the skeletons into their unique \textit{Encoded Human Pose Image (EHPI)}, which is fundamentally just a 2d grid where the x-axis is frame index, and the y axis is the joint, this is shown in figure \ref{fig:EHPI}. This EHPI representation can then be used with a very simple CNN to provide very fast and good results in order to process actions in real time. There is one notable disadvantage in that it relies so heavily on the global positioning of the person in the frame. This means that the representation is very sensitive to things such as camera movement, where a slight movement results in the representation interpreting as the whole person sliding throughout the frame.
+\textbf{Simple yet efficient real-time pose-based action recognition} \cite{simple_yet_efficient} was largely the inspiration for work done on this thesis. The goal of this paper was to provide a very lightweight and simple to understand intermediate representation that could be used by a very simple CNN to perform real-time action recognition. They do this by converting the skeletons into their unique \textit{Encoded Human Pose Image (EHPI)}, which is fundamentally just a 2d grid where the x-axis is frame index, and the y axis is the joint, this is shown in figure \ref{fig:EHPI}. This EHPI representation can then be used with a very simple CNN to provide very fast and good results in order to process actions in real time. There is one notable disadvantage in that it relies so heavily on the global positioning of the person in the frame. This means that the representation is very sensitive to things such as camera movement, where a slight movement results in the representation interpreting as the whole person sliding throughout the frame, however this could be mitigated via person detection to keep the person centered in the frame.
 
 \begin{figure}[h]
 	\includegraphics[width=12cm]{EHPI}
