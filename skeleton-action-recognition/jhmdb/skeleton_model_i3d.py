@@ -17,6 +17,7 @@ from sklearn.utils import shuffle
 from sklearn.metrics import confusion_matrix
 import time
 import random
+import pytorch_i3d
 
 RANDOM_STATE = 42
 
@@ -171,6 +172,10 @@ class CNN(nn.Module):
             nn.MaxPool2d((2,2)),
         )
 
+        self.logit_layer = nn.Sequential(
+            nn.AdaptiveAvgPool2d((1,1))
+        )
+
         self.fc = nn.Sequential(
             nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
@@ -178,11 +183,18 @@ class CNN(nn.Module):
             nn.Softmax(dim=1)
         )
 
-    def forward(self, i):
+        self.i3d = pytorch_i3d.InceptionI3d(num_classes=40)
+
+    def forward(self, i, v):
         
+        # Original Model
         x = self.conv_block_1(i)
         x = self.conv_block_2(x)
         x = self.conv_block_3(x)
+
+        # i3d
+        y = self.i3d(v)
+
         x = self.fc(x)
 
         return x
