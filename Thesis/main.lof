@@ -24,5 +24,8 @@
 \contentsline {figure}{\numberline {3.20}{\ignorespaces The representation used by the Smaller, Faster, Better model \blx@tocontentsinit {0}\cite {smaller_faster_better}, this is split into two representations. The cartesian coordinates of each joint are encoded into a 2d representation, not dissimilar to previously discussed models \blx@tocontentsinit {0}\cite {simple_yet_efficient}. The JCD feature is a similar representation, but instead of x, y, and z coordinates, uses the distance between two joints.\relax }}{24}{figure.caption.58}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Detailed precision results on the JHMDB dataset, averaged over the 3 testing splits. Bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{27}{figure.caption.71}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Detailed recall results on the JHMDB dataset, averaged over the 3 testing splits. Bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{27}{figure.caption.72}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Detailed F1 score results on the JHMDB dataset, averaged over the 3 testing splits. Bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{28}{figure.caption.73}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }

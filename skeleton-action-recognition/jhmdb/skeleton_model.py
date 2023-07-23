@@ -49,7 +49,7 @@ WEIGHT_DECAY = float(args.weight_decay)
 
 MODEL_SAVE_DIR = f"{BASE_DIR}/models"
 
-PROCESSED_JOINT_DATA_FOLDER = f"{BASE_DIR}/processed_joints_new_v2" 
+PROCESSED_JOINT_DATA_FOLDER = f"{BASE_DIR}/processed_joints_new_v3" 
 SPLITS_FOLDER = f"{BASE_DIR}/splits/splits"
 
 if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):

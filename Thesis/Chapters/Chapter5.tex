@@ -10,6 +10,47 @@
 
 \section{JHMDB Results}
 
+\begin{table}[h]
+	\centering
+	\begin{tabular}{||c c||} 
+		\hline
+		\textbf{Split} & \textbf{Accuracy} \\ [0.5ex] 
+		\hline\hline
+		1 & 55.224\% \\ 
+		\hline
+		2 & 56.296\% \\
+		\hline
+		3 & 56.604\% \\
+		\hline
+		\hline
+		\textbf{Average} & \textbf{56.041}\% \\
+		\hline
+	\end{tabular}
+	\label{tab:acc-results}
+	\caption{Results on all 3 splits of the JHMDB dataset utilizing only our novel approach.}
+\end{table}
+
+\begin{figure}[h]
+	\includegraphics[width=10cm]{detailedPrecision}
+	\centering
+	\caption{Detailed precision results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
+	\label{fig:detailed-precision}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[width=10cm]{detailedRecall}
+	\centering
+	\caption{Detailed recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
+	\label{fig:detailed-recall}
+\end{figure}
+
+\begin{figure}[h]
+	\includegraphics[width=10cm]{detailedF1}
+	\centering
+	\caption{Detailed F1 score results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
+	\label{fig:detailed-f1}
+\end{figure}
+
 \section{Model Ablation Study}
 
 \section{Model Comparison}
