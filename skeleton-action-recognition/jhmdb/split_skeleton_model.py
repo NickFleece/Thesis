@@ -1,11 +1,8 @@
-#HYPERPARAMETERS:
-LEARNING_RATE = 0.01
-EPOCHS = 5000
-BATCH_SIZE = 64
+# hyperparameters that can be overwritten
+EPOCHS = 2000
+
 MAX_FRAMES = 39
-FILTER_NUM = 128
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 import json
 import numpy as np
@@ -29,16 +26,30 @@ parser.add_argument('--load_checkpoint')
 parser.add_argument('--version', required=True)
 parser.add_argument('--split', default=1)
 parser.add_argument('--save_all_models', default=False)
+parser.add_argument('--learning_rate', default=0.01)
+parser.add_argument('--batch_size', default=16)
+parser.add_argument('--num_filters', default=512)
+parser.add_argument('--weight_decay', default=0.005)
+parser.add_argument('--gpu', default="1")
+parser.add_argument('--verbose', default=1)
 args = parser.parse_args()
+
+os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 
 BASE_DIR = args.drive_dir
 VERSION = args.version
 SPLIT = args.split
 SAVE_ALL_MODELS = args.save_all_models
+VERBOSE = int(args.verbose)
 
-MODEL_SAVE_DIR = f"{BASE_DIR}/models_1d"
+LEARNING_RATE = float(args.learning_rate)
+BATCH_SIZE = float(args.batch_size)
+NUM_FILTERS = int(args.num_filters)
+WEIGHT_DECAY = float(args.weight_decay)
 
-PROCESSED_JOINT_DATA_FOLDER = f"{BASE_DIR}/processed_joints_new" 
+MODEL_SAVE_DIR = f"{BASE_DIR}/models"
+
+PROCESSED_JOINT_DATA_FOLDER = f"{BASE_DIR}/processed_joints_new_v4" 
 SPLITS_FOLDER = f"{BASE_DIR}/splits/splits"
 
 if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
@@ -82,32 +93,36 @@ y_test = []
 
 print("\nLoading data...")
 
-for c in tqdm(categories):
+for c in categories:
 
     for i in os.listdir(f"{PROCESSED_JOINT_DATA_FOLDER}/{c}"):
 
         with open(f"{PROCESSED_JOINT_DATA_FOLDER}/{c}/{i}", 'r') as f:
-            data = np.asarray(json.load(f))[:,:,0]
+            data = np.asarray(json.load(f))
 
-        data = np.pad(data, [(0,0), (0,MAX_FRAMES-data.shape[1])])
+        # channel_first_data = []
+        # for j in range(data.shape[2]):
+        #     channel_first_data.append(data[:,:,j])
+        
+        # data = np.asarray(channel_first_data)
+        data = np.pad(data, [(0,0), (0,0), (0,MAX_FRAMES-data.shape[2])])
 
-        new_data = []
-        for j in range(0,data.shape[1]):
-            new_data.append(data[:,j])
-        data = np.asarray(new_data)
+        # new_data = []
+        # for j in range(0,data.shape[0],8):
+        #     new_data.append(data[j])
+        # data = np.asarray(new_data)
 
         if i[:-5] in train_split:
             X_train.append(data)
             y_train.append(categories.index(c))
 
-            #For appending the inverse, causing problems?
+            #For appending the inverse
             X_train.append(data * -1)
             y_train.append(categories.index(c))
 
         elif i[:-5] in test_split:
             X_test.append(data)
             y_test.append(categories.index(c))
-
         else:
             print("SOMETHING WRONG")
             print(i[:-5])
@@ -125,46 +140,50 @@ class CNN(nn.Module):
         super().__init__()
 
         self.conv_block_1 = nn.Sequential(
-            nn.Conv1d(39, 2*FILTER_NUM, 3),
+            nn.Conv2d(14, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS),
             nn.ReLU(),
-            nn.Conv1d(2*FILTER_NUM,2*FILTER_NUM,3),
+            nn.Conv2d(NUM_FILTERS, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS),
             nn.ReLU(),
+            nn.MaxPool2d((2,2)),
         )
 
         self.conv_block_2 = nn.Sequential(
-            nn.Conv1d(2*FILTER_NUM,4*FILTER_NUM,3),
+            nn.Dropout(),
+            nn.Conv2d(NUM_FILTERS, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*2),
             nn.ReLU(),
-            nn.Conv1d(4*FILTER_NUM,4*FILTER_NUM,3),
+            nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*2),
             nn.ReLU(),
+            nn.MaxPool2d((2,2)),
         )
 
         self.conv_block_3 = nn.Sequential(
-            nn.Conv1d(4*FILTER_NUM,8*FILTER_NUM,3),
+            nn.Dropout(),
+            nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*4),
             nn.ReLU(),
-            nn.Conv1d(8*FILTER_NUM,8*FILTER_NUM,3),
-            nn.ReLU()
+            nn.Conv2d(NUM_FILTERS*4, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*4),
+            nn.ReLU(),
+            nn.MaxPool2d((2,2)),
         )
 
         self.fc = nn.Sequential(
-            nn.AdaptiveMaxPool1d((1)),
+            nn.AdaptiveAvgPool2d((1,1)),
             nn.Flatten(),
-            nn.Linear(8*FILTER_NUM, 128),
-            nn.ReLU(),
-            nn.Linear(128, len(categories)),
+            nn.Linear(NUM_FILTERS*4, len(categories)),
             nn.Softmax(dim=1)
         )
 
     def forward(self, i):
         
-        # print(i.shape)
         x = self.conv_block_1(i)
-        # print(x.shape)
         x = self.conv_block_2(x)
-        # print(x.shape)
         x = self.conv_block_3(x)
-        # print(x.shape)
         x = self.fc(x)
-        # print(x.shape)
 
         return x
 
@@ -181,17 +200,23 @@ else:
 cnn_net.to(device)
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(
+optimizer = optim.SGD(
     cnn_net.parameters(),
-    lr=LEARNING_RATE
+    lr=LEARNING_RATE,
+    momentum=0.9,
+    weight_decay=WEIGHT_DECAY
 )
+scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.999)
 
 train_accuracies = []
 val_accuracies = []
 
+start_time = time.time()
+
 for e in range(int(checkpoint), EPOCHS):
 
-    print(f"Learning rate: {optimizer.param_groups[0]['lr']}")
+    if VERBOSE == 1:
+        print(f"Learning rate: {optimizer.param_groups[0]['lr']}")
 
     #shuffle dataset
     X_train, y_train = shuffle(X_train, y_train, random_state=RANDOM_STATE)
@@ -208,12 +233,14 @@ for e in range(int(checkpoint), EPOCHS):
     val_predicted = []
     val_actual = []
 
-    pbar = tqdm(total=len(X_train))
+    if VERBOSE == 1:
+        pbar = tqdm(total=len(X_train))
     optimizer.zero_grad()
 
     for X, y in zip(X_train, y_train):
 
-        pbar.update(1)
+        if VERBOSE == 1:
+            pbar.update(1)
 
         batch_input.append(X)
         batch_actual.append(y)
@@ -238,7 +265,8 @@ for e in range(int(checkpoint), EPOCHS):
                 train_predicted.append(output)
                 train_actual.append(label)
             
-            pbar.set_description(f"{(train_correct / train_total) * 100}% Correct :)")
+            if VERBOSE == 1:
+                pbar.set_description(f"{(train_correct / train_total) * 100}% Correct :)")
 
             batch_input = []
             batch_actual = []
@@ -265,25 +293,31 @@ for e in range(int(checkpoint), EPOCHS):
             train_predicted.append(output)
             train_actual.append(label)
         
-        pbar.set_description(f"{(train_correct / train_total) * 100}% Training Correct :)")
+        if VERBOSE == 1:
+            pbar.set_description(f"{(train_correct / train_total) * 100}% Training Correct :)")
 
-    pbar.close()
+    if VERBOSE == 1:
+        pbar.close()
 
     train_accuracies.append(train_correct / train_total)
-    print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
+
+    if VERBOSE == 1:
+        print(f"Epoch {e} Loss: {sum(losses) / len(losses)}, Accuracy: {train_correct / train_total}")
 
     with torch.no_grad():
 
         val_correct = 0
 
-        pbar = tqdm(total=len(X_test))
+        if VERBOSE == 1:
+            pbar = tqdm(total=len(X_test))
         count = 0
 
         val_loss = 0
 
         for X, y in zip(X_test, y_test):
-
-            pbar.update(1)
+            
+            if VERBOSE == 1:
+                pbar.update(1)
 
             input_tensor = torch.from_numpy(np.asarray([X])).float()
 
@@ -299,18 +333,23 @@ for e in range(int(checkpoint), EPOCHS):
             val_actual.append(y)
             
             count += 1
-            pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
 
-        pbar.close()
+            if VERBOSE == 1:
+                pbar.set_description(f"{(val_correct / count) * 100}% Validation Correct :)")
+
+        if VERBOSE == 1:
+            pbar.close()
         time.sleep(1)
 
         val_accuracies.append(val_correct / len(y_test))
-        print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
+        if VERBOSE == 1:
+            print(f"Epoch {e} Validation Accuracy: {val_correct / len(y_test)}")
 
+    scheduler.step()
 
-    print(confusion_matrix(val_actual, val_predicted))
-
-    print("---------------------------------------------------------------")
+    if VERBOSE == 1:
+        print(confusion_matrix(val_actual, val_predicted))
+        print("---------------------------------------------------------------")
 
     if SAVE_ALL_MODELS:
         torch.save({
@@ -332,3 +371,15 @@ for e in range(int(checkpoint), EPOCHS):
         'val_actual': val_actual,
         'categories': categories
     }, f"{MODEL_SAVE_DIR}/m_{VERSION}/{e}")
+
+    if e != 0:
+        time_diff = time.time() - start_time
+        time_left = (time_diff / e) * (EPOCHS - e)
+    else:
+        time_left = 0
+
+    time_left_sec = time_left % 60
+    time_left_min = time_left // 60
+
+    if VERBOSE == 2:
+        print(f"Model: {VERSION} Epoch: {e} Train: {round((train_correct / train_total) * 100, 3)} Val: {round((val_correct / len(y_test)) * 100, 3)} {time_left_min} minutes {time_left_sec} seconds estimated left")
