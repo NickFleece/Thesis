@@ -49,13 +49,14 @@ WEIGHT_DECAY = float(args.weight_decay)
 
 MODEL_SAVE_DIR = f"{BASE_DIR}/models"
 
-PROCESSED_JOINT_DATA_FOLDER = f"{BASE_DIR}/processed_joints_new_v4" 
+ANGLE_DATA_FOLDER = f"{BASE_DIR}/processed_joints_only_angle"
+ANGLE_CHANGE_DATA_FOLDER = f"{BASE_DIR}/processed_joints_only_change"
 SPLITS_FOLDER = f"{BASE_DIR}/splits/splits"
 
 if not os.path.isdir(f"{MODEL_SAVE_DIR}/m_{VERSION}"):
     os.mkdir(f"{MODEL_SAVE_DIR}/m_{VERSION}")
 
-categories = os.listdir(PROCESSED_JOINT_DATA_FOLDER)
+categories = os.listdir(ANGLE_DATA_FOLDER)
 
 print(f"\nCategories: {categories}")
 
@@ -95,22 +96,19 @@ print("\nLoading data...")
 
 for c in categories:
 
-    for i in os.listdir(f"{PROCESSED_JOINT_DATA_FOLDER}/{c}"):
+    for i in os.listdir(f"{ANGLE_DATA_FOLDER}/{c}"):
 
-        with open(f"{PROCESSED_JOINT_DATA_FOLDER}/{c}/{i}", 'r') as f:
-            data = np.asarray(json.load(f))
+        with open(f"{ANGLE_DATA_FOLDER}/{c}/{i}", 'r') as f:
+            angle_data = np.asarray(json.load(f))
 
-        # channel_first_data = []
-        # for j in range(data.shape[2]):
-        #     channel_first_data.append(data[:,:,j])
-        
-        # data = np.asarray(channel_first_data)
-        data = np.pad(data, [(0,0), (0,0), (0,MAX_FRAMES-data.shape[2])])
+        angle_data = np.pad(angle_data, [(0,0), (0,0), (0,MAX_FRAMES-angle_data.shape[2])])
 
-        # new_data = []
-        # for j in range(0,data.shape[0],8):
-        #     new_data.append(data[j])
-        # data = np.asarray(new_data)
+        with open(f"{ANGLE_CHANGE_DATA_FOLDER}/{c}/{i}", 'r') as f:
+            change_data = np.asarray(json.load(f))
+
+        change_data = np.pad(change_data, [(0,0), (0,0), (0,MAX_FRAMES-change_data.shape[2])])
+
+        data = [angle_data, change_data]
 
         if i[:-5] in train_split:
             X_train.append(data)
@@ -139,7 +137,8 @@ class CNN(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.conv_block_1 = nn.Sequential(
+        self.angle_block = nn.Sequential(
+            # Conv 1
             nn.Conv2d(14, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS),
             nn.ReLU(),
@@ -147,9 +146,8 @@ class CNN(nn.Module):
             nn.BatchNorm2d(NUM_FILTERS),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
-        )
 
-        self.conv_block_2 = nn.Sequential(
+            # Conv 2
             nn.Dropout(),
             nn.Conv2d(NUM_FILTERS, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*2),
@@ -158,9 +156,8 @@ class CNN(nn.Module):
             nn.BatchNorm2d(NUM_FILTERS*2),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
-        )
 
-        self.conv_block_3 = nn.Sequential(
+            # Conv 3
             nn.Dropout(),
             nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
             nn.BatchNorm2d(NUM_FILTERS*4),
@@ -169,20 +166,62 @@ class CNN(nn.Module):
             nn.BatchNorm2d(NUM_FILTERS*4),
             nn.ReLU(),
             nn.MaxPool2d((2,2)),
+
+            # Pool, first fc
+            nn.AdaptiveAvgPool2d((1,1)),
+            nn.Flatten(),
+            nn.Linear(NUM_FILTERS*4, NUM_FILTERS*4),
+        )
+
+        self.change_block = nn.Sequential(
+            # Conv 1
+            nn.Conv2d(14, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS),
+            nn.ReLU(),
+            nn.Conv2d(NUM_FILTERS, NUM_FILTERS, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS),
+            nn.ReLU(),
+            nn.MaxPool2d((2,2)),
+
+            # Conv 2
+            nn.Dropout(),
+            nn.Conv2d(NUM_FILTERS, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*2),
+            nn.ReLU(),
+            nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*2, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*2),
+            nn.ReLU(),
+            nn.MaxPool2d((2,2)),
+
+            # Conv 3
+            nn.Dropout(),
+            nn.Conv2d(NUM_FILTERS*2, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*4),
+            nn.ReLU(),
+            nn.Conv2d(NUM_FILTERS*4, NUM_FILTERS*4, kernel_size=(3,3), padding=(1,1)),
+            nn.BatchNorm2d(NUM_FILTERS*4),
+            nn.ReLU(),
+            nn.MaxPool2d((2,2)),
+
+            # Pool, first fc
+            nn.AdaptiveAvgPool2d((1,1)),
+            nn.Flatten(),
+            nn.Linear(NUM_FILTERS*4, NUM_FILTERS*4),
         )
 
         self.fc = nn.Sequential(
-            nn.AdaptiveAvgPool2d((1,1)),
-            nn.Flatten(),
+            nn.Linear(NUM_FILTERS*8, NUM_FILTERS*4),
             nn.Linear(NUM_FILTERS*4, len(categories)),
             nn.Softmax(dim=1)
         )
 
     def forward(self, i):
         
-        x = self.conv_block_1(i)
-        x = self.conv_block_2(x)
-        x = self.conv_block_3(x)
+        x_angle = self.angle_block(i[0])
+        x_change = self.change_block(i[1])
+
+        x = torch.cat([x_angle, x_change])
+
         x = self.fc(x)
 
         return x
