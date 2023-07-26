@@ -108,7 +108,7 @@ for c in categories:
 
         change_data = np.pad(change_data, [(0,0), (0,0), (0,MAX_FRAMES-change_data.shape[2])])
 
-        data = [angle_data, change_data]
+        data = np.asarray([angle_data, change_data])
 
         if i[:-5] in train_split:
             X_train.append(data)
@@ -216,11 +216,11 @@ class CNN(nn.Module):
         )
 
     def forward(self, i):
-        
-        x_angle = self.angle_block(i[0])
-        x_change = self.change_block(i[1])
+       
+        x_angle = self.angle_block(i[:,0])
+        x_change = self.change_block(i[:,1])
 
-        x = torch.cat([x_angle, x_change])
+        x = torch.cat([x_angle, x_change], dim=1)
 
         x = self.fc(x)
 
