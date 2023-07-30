@@ -27,23 +27,23 @@
 \contentsline {subsection}{\numberline {3.3.2}3D CNN Models}{12}{subsection.38}%
 \contentsline {section}{\numberline {3.4}Model Evolution}{13}{section.41}%
 \contentsline {section}{\numberline {3.5}Datasets}{14}{section.44}%
-\contentsline {section}{\numberline {3.6}Pose Detection}{16}{section.46}%
-\contentsline {section}{\numberline {3.7}Pose-Based Action Recognition}{17}{section.48}%
-\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{19}{subsection.53}%
-\contentsline {chapter}{\numberline {4}Methodology}{25}{chapter.59}%
-\contentsline {section}{\numberline {4.1}Pose}{25}{section.60}%
-\contentsline {subsection}{\numberline {4.1.1}Joint Angles}{25}{subsection.61}%
-\contentsline {subsection}{\numberline {4.1.2}Joint Velocities}{25}{subsection.62}%
-\contentsline {section}{\numberline {4.2}Novel Intermediate Representation}{25}{section.63}%
-\contentsline {subsection}{\numberline {4.2.1}Temporal Adjustments}{25}{subsection.64}%
-\contentsline {subsection}{\numberline {4.2.2}Model Architecture}{25}{subsection.65}%
-\contentsline {chapter}{\numberline {5}Experimentation}{26}{chapter.66}%
-\contentsline {section}{\numberline {5.1}Model Hyperparameters}{26}{section.67}%
-\contentsline {subsection}{\numberline {5.1.1}Compute Resources}{26}{subsection.68}%
-\contentsline {section}{\numberline {5.2}JHMDB Results}{26}{section.69}%
-\contentsline {section}{\numberline {5.3}Model Ablation Study}{26}{section.74}%
-\contentsline {section}{\numberline {5.4}Model Comparison}{26}{section.75}%
-\contentsline {chapter}{\numberline {6}Conclusion}{29}{chapter.76}%
-\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{30}{appendix.77}%
-\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{30}{section.78}%
-\contentsline {chapter}{Bibliography}{31}{appendix*.79}%
+\contentsline {section}{\numberline {3.6}Pose Detection}{16}{section.47}%
+\contentsline {section}{\numberline {3.7}Pose-Based Action Recognition}{18}{section.49}%
+\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{20}{subsection.54}%
+\contentsline {chapter}{\numberline {4}Methodology}{25}{chapter.60}%
+\contentsline {section}{\numberline {4.1}Pose}{25}{section.61}%
+\contentsline {subsection}{\numberline {4.1.1}Joint Angles}{26}{subsection.63}%
+\contentsline {subsection}{\numberline {4.1.2}Joint Velocities}{26}{subsection.67}%
+\contentsline {section}{\numberline {4.2}Novel Intermediate Representation}{26}{section.68}%
+\contentsline {subsection}{\numberline {4.2.1}Temporal Adjustments}{26}{subsection.70}%
+\contentsline {subsection}{\numberline {4.2.2}Model Architecture}{26}{subsection.72}%
+\contentsline {chapter}{\numberline {5}Experimentation}{28}{chapter.73}%
+\contentsline {section}{\numberline {5.1}Model Hyperparameters}{28}{section.74}%
+\contentsline {subsection}{\numberline {5.1.1}Compute Resources}{28}{subsection.75}%
+\contentsline {section}{\numberline {5.2}JHMDB Results}{28}{section.76}%
+\contentsline {section}{\numberline {5.3}Model Ablation Study}{28}{section.81}%
+\contentsline {section}{\numberline {5.4}Model Comparison}{28}{section.84}%
+\contentsline {chapter}{\numberline {6}Conclusion \& Future Work}{31}{chapter.85}%
+\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{32}{appendix.86}%
+\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{32}{section.87}%
+\contentsline {chapter}{Bibliography}{33}{appendix*.88}%

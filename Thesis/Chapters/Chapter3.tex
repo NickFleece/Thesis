@@ -153,6 +153,14 @@ There are many action recognition datasets, some of which fit more specific use 
 
 \textbf{JHMDB} \cite{JHMDB} is the primary dataset that will be used in this paper. The JHMDB paper does not actually propose an entirely new dataset, rather it proposes a subset of the HMDB dataset \cite{hmdb}, with the addition of several features. While the dataset does offer more than only annotated poses, the main appeal of the dataset when considering the method used in this thesis is that they are fully annotated and adjusted poses to ensure that they are correct, meaning that the model can be independently be evaluated without having to consider the accuracy of the pose estimation model. Additionally, the dataset has been pruned such that the actions within the dataset only contain single person interactions, that lends itself very well to pose-based models, as generally only pose can be considered and the model can provide accurate results. Both of these features result in the dataset being highly popular with 2D-pose based models, and in particular models that create intermediate representations with these poses, as the data that is extracted from pose is both accurate and relevant to the action.
 
+\begin{figure}[h]
+	\includegraphics[width=5cm]{JHMDB}
+	\includegraphics[width=6cm]{Pose JHMDB Indexes}
+	\centering
+	\caption{\textbf{Left:} JHMDB Annotated pose, each dot denoting a joint. \textbf{Right:} Simplified representation of this pose that will be used later in this thesis. Notably the foot joints are missing as they are not reliably labelled and are not used by the model. The indexes correspond to JHMDB joint indexes as if the subject were facing the camera.}
+	\label{fig:JHMDB}
+\end{figure}
+
 %----------------------------------------------------------------------------------------
 %	Pose Detection
 %----------------------------------------------------------------------------------------

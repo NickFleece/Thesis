@@ -16,14 +16,14 @@
 		\hline
 		\textbf{Split} & \textbf{Accuracy} \\ [0.5ex] 
 		\hline\hline
-		1 & 55.224\% \\ 
+		1 & 58.209\% \\ 
 		\hline
-		2 & 56.296\% \\
+		2 & 58.889\% \\
 		\hline
-		3 & 56.604\% \\
+		3 & 58.113\% \\
 		\hline
 		\hline
-		\textbf{Average} & \textbf{56.041}\% \\
+		\textbf{Average} & \textbf{58.404\%} \\
 		\hline
 	\end{tabular}
 	\label{tab:acc-results}
@@ -52,5 +52,45 @@
 \end{figure}
 
 \section{Model Ablation Study}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{||c c c||} 
+		\hline
+		\textbf{Split} & \textbf{Stacked} & \textbf{Only Angle Velocity} \\ [0.5ex] 
+		\hline\hline
+		1 & \textbf{58.209\%} & 48.888\% \\ 
+		\hline
+		2 & \textbf{58.889\%} & 44.444\% \\
+		\hline
+		3 & \textbf{58.113\%} & 41.132\% \\
+		\hline
+		\hline
+		\textbf{Average} & \textbf{58.404\%} & 44.821\% \\
+		\hline
+	\end{tabular}
+	\label{tab:acc-results-v-velocity}
+	\caption{Comparison of results using only angle velocities vs the stacked representation.}
+\end{table}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{||c c c||} 
+		\hline
+		\textbf{Split} & \textbf{Stacked} & \textbf{Only Angles} \\ [0.5ex] 
+		\hline\hline
+		1 & \textbf{58.209\%} & 56.343\% \\ 
+		\hline
+		2 & \textbf{58.889\%} & \textbf{58.889\%} \\
+		\hline
+		3 & \textbf{58.113\%} & 56.604\% \\
+		\hline
+		\hline
+		\textbf{Average} & \textbf{58.404\%} & 57.279\% \\
+		\hline
+	\end{tabular}
+	\label{tab:acc-results-v-angle}
+	\caption{Comparison of results using only angles vs the stacked representation.}
+\end{table}
 
 \section{Model Comparison}
