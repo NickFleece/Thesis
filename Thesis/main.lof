@@ -26,12 +26,12 @@
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Example of how joints are connected through bones in pose representations.\relax }}{25}{figure.caption.62}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces \relax }}{26}{figure.caption.64}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces \relax }}{26}{figure.caption.66}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces \relax }}{27}{figure.caption.69}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces \relax }}{27}{figure.caption.71}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces \relax }}{27}{figure.caption.68}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces \relax }}{28}{figure.caption.71}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces \relax }}{29}{figure.caption.73}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Detailed precision results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{29}{figure.caption.78}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Detailed recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{30}{figure.caption.79}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Detailed F1 score results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{30}{figure.caption.80}%
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Detailed precision results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{31}{figure.caption.80}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Detailed recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{32}{figure.caption.81}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Detailed F1 score results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{32}{figure.caption.82}%
 \addvspace {10\p@ }
 \addvspace {10\p@ }
