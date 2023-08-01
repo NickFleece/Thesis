@@ -12,20 +12,29 @@
 \newlabel{fig:joint-angles}{{4.2}{26}{\relax }{figure.caption.64}{}}
 \newlabel{eqn:angle-centering}{{4.1}{26}{Joint Angles}{equation.65}{}}
 \newlabel{eqn:angle-calculation}{{4.2}{26}{Joint Angles}{equation.66}{}}
-\newlabel{tab:directed-angle-example}{{\caption@xref {tab:directed-angle-example}{ on input line 60}}{27}{Joint Angles}{table.caption.67}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Example of how non-directional angle can result in incorrect rotation changes from one frame to another.\relax }}{27}{table.caption.67}\protected@file@percent }
+\newlabel{tab:directed-angle-example}{{4.1}{27}{Example of how non-directional angle can result in incorrect rotation changes from one frame to another.\relax }{table.caption.67}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces \relax }}{27}{figure.caption.68}\protected@file@percent }
 \newlabel{fig:pose-joint-angles}{{4.3}{27}{\relax }{figure.caption.68}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1.2}Joint Velocities}{27}{subsection.69}\protected@file@percent }
+\newlabel{sec:joint-velocities}{{4.1.2}{27}{Joint Velocities}{subsection.69}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.2}Novel Intermediate Representation}{28}{section.70}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces \relax }}{28}{figure.caption.71}\protected@file@percent }
-\newlabel{fig:intermediate-stacked}{{4.4}{28}{\relax }{figure.caption.71}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Temporal Adjustments}{28}{subsection.72}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Model Architecture}{28}{subsection.74}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces \relax }}{29}{figure.caption.73}\protected@file@percent }
-\newlabel{fig:intermediate-stacked-skip}{{4.5}{29}{\relax }{figure.caption.73}{}}
+\newlabel{fig:intermediate-construction}{{4.4}{28}{\relax }{figure.caption.71}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces \relax }}{29}{figure.caption.72}\protected@file@percent }
+\newlabel{fig:intermediate-stacked}{{4.5}{29}{\relax }{figure.caption.72}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces All Joint connections used in our intermediate representations.\relax }}{29}{table.caption.73}\protected@file@percent }
+\newlabel{tab:joint-connections}{{4.2}{29}{All Joint connections used in our intermediate representations.\relax }{table.caption.73}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.1}Temporal Adjustments}{29}{subsection.74}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces \relax }}{30}{figure.caption.75}\protected@file@percent }
+\newlabel{fig:intermediate-stacked-skip}{{4.6}{30}{\relax }{figure.caption.75}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2.2}Model Architecture}{30}{subsection.76}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces \relax }}{30}{figure.caption.77}\protected@file@percent }
+\newlabel{fig:model-architecture}{{4.7}{30}{\relax }{figure.caption.77}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }}{31}{table.caption.78}\protected@file@percent }
+\newlabel{tab:detailed-model}{{4.3}{31}{The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }{table.caption.78}{}}
 \@setckpt{Chapters/Chapter4}{
-\setcounter{page}{30}
+\setcounter{page}{32}
 \setcounter{equation}{2}
 \setcounter{enumi}{2}
 \setcounter{enumii}{0}
@@ -40,11 +49,11 @@
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{5}
-\setcounter{table}{1}
+\setcounter{figure}{7}
+\setcounter{table}{3}
 \setcounter{LT@tables}{1}
 \setcounter{LT@chunks}{1}
-\setcounter{caption@flags}{0}
+\setcounter{caption@flags}{2}
 \setcounter{continuedfloat}{0}
 \setcounter{tabx@nest}{0}
 \setcounter{listtotal}{0}
@@ -55,7 +64,7 @@
 \setcounter{citetotal}{0}
 \setcounter{multicitecount}{0}
 \setcounter{multicitetotal}{0}
-\setcounter{instcount}{95}
+\setcounter{instcount}{96}
 \setcounter{maxnames}{3}
 \setcounter{minnames}{3}
 \setcounter{maxitems}{3}
@@ -78,8 +87,6 @@
 \setcounter{maxparens}{3}
 \setcounter{parenlevel}{0}
 \setcounter{blx@maxsection}{0}
-\setcounter{blx@maxsegment@0}{0}
-\setcounter{blx@sectionciteorder@0}{95}
 \setcounter{mincomprange}{10}
 \setcounter{maxcomprange}{100000}
 \setcounter{mincompwidth}{1}
@@ -166,8 +173,12 @@
 \setcounter{cbx@tempcntb}{32}
 \setcounter{cbx@tempcntc}{0}
 \setcounter{cbx@tempcntd}{-1}
+\setcounter{subfigure}{0}
+\setcounter{lofdepth}{1}
+\setcounter{subtable}{0}
+\setcounter{lotdepth}{1}
+\setcounter{section@level}{2}
 \setcounter{Item}{2}
 \setcounter{Hfootnote}{0}
 \setcounter{bookmark@seq@number}{38}
-\setcounter{section@level}{2}
 }
