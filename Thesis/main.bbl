@@ -46,6 +46,42 @@
     \field{year}{2022}
   \endentry
 
+  \entry{deeplearning}{article}{}
+    \name{author}{3}{}{%
+      {{hash=LY}{%
+         family={LeCun},
+         familyi={L\bibinitperiod},
+         given={Yann},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=BY}{%
+         family={Bengio},
+         familyi={B\bibinitperiod},
+         given={Yoshua},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=HG}{%
+         family={Hinton},
+         familyi={H\bibinitperiod},
+         given={Geoffrey},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Nature Publishing Group UK London}%
+    }
+    \strng{namehash}{LYBYHG1}
+    \strng{fullhash}{LYBYHG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{7553}
+    \field{pages}{436\bibrangedash 444}
+    \field{title}{Deep learning}
+    \field{volume}{521}
+    \field{journaltitle}{nature}
+    \field{year}{2015}
+  \endentry
+
   \entry{cifar}{article}{}
     \true{moreauthor}
     \true{morelabelname}
@@ -1784,6 +1820,104 @@
     }
     \field{year}{2020}
     \warn{\item Can't use 'location' + 'address'}
+  \endentry
+
+  \entry{star-net}{misc}{}
+    \name{author}{3}{}{%
+      {{hash=MW}{%
+         family={McNally},
+         familyi={M\bibinitperiod},
+         given={William},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=WA}{%
+         family={Wong},
+         familyi={W\bibinitperiod},
+         given={Alexander},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=MJ}{%
+         family={McPhee},
+         familyi={M\bibinitperiod},
+         given={John},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{MWWAMJ1}
+    \strng{fullhash}{MWWAMJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1902.10024
+    \endverb
+    \field{title}{STAR-Net: Action Recognition using Spatio-Temporal Activation
+  Reprojection}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2019}
+  \endentry
+
+  \entry{dynamic-motion}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=AES}{%
+         family={Asghari-Esfeden},
+         familyi={A\bibinithyphendelim E\bibinitperiod},
+         given={Sadjad},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=SM}{%
+         family={Sznaier},
+         familyi={S\bibinitperiod},
+         given={Mario},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=CO}{%
+         family={Camps},
+         familyi={C\bibinitperiod},
+         given={Octavia},
+         giveni={O\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{AESSMCO1}
+    \strng{fullhash}{AESSMCO1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{2020 IEEE Winter Conference on Applications of Computer
+  Vision (WACV)}
+    \verb{doi}
+    \verb 10.1109/WACV45572.2020.9093500
+    \endverb
+    \field{pages}{546\bibrangedash 555}
+    \field{title}{Dynamic Motion Representation for Human Action Recognition}
+    \field{year}{2020}
+  \endentry
+
+  \entry{sipnet}{misc}{}
+    \name{author}{2}{}{%
+      {{hash=WP}{%
+         family={Weinzaepfel},
+         familyi={W\bibinitperiod},
+         given={Philippe},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=RG}{%
+         family={Rogez},
+         familyi={R\bibinitperiod},
+         given={Grégory},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WPRG1}
+    \strng{fullhash}{WPRG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1912.07249
+    \endverb
+    \field{title}{Mimetics: Towards Understanding Human Actions Out of Context}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2021}
   \endentry
 \enddatalist
 \endinput

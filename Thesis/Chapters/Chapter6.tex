@@ -2,4 +2,20 @@
 
 \chapter{Conclusion \& Future Work} % Main chapter title
 
-\label{Conclusion} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+\label{Conclusion}
+
+In this thesis, we have provided a novel representation for use in action recognition. This novel representation is unique to other models in that it is invariant to:
+
+\begin{itemize}
+	\item Rotation
+	\item Scale
+	\item Global Position
+\end{itemize}
+
+We explore many different variations of this representation, concluding that the best representation contains both joint angle data and joint angle velocity data. It was also found that this data functions the best as a single image, with one data source stacked on top of another. This means that the combining of the angles and velocities can be learned by the convolutions slowly over the entire model, rather than typical fusion-like architectures that concatenate the different sources at the end.
+
+With this representation, we were able to leverage a simple CNN model that is trainable on lightweight GPU's and is able to be tested on even lighter hardware. Despite the model being relatively lightweight, the model is able to provide 58.404\% average accuracy over the 3 splits of the JHMDB dataset. This shows that despite the model not having been fed any data about how the person is moving globally, or any data regarding the objects the person is interacting with, is able to fairly accurately predict what action the person is performing.
+
+After further analyzing the results, the accuracy was shown to be slightly more nuanced than simply 58\% accurate overall. The model was able to predict classes that had more consistent movements that varied less from person to person such as golf or pullups, and tended to struggle with movements that can vary from person to person much more such as jump or catch.
+
+\subsection{Future Work}

@@ -24,7 +24,7 @@ The core of how the new representation will represent actions and movement have 
 \begin{figure}[ht]
 	\includegraphics[width=5cm]{JointAngles}
 	\centering
-	\caption{}
+	\caption{Two examples of three joints interconnected with two bones, and how the angle can change from one frame to another.}
 	\label{fig:joint-angles}
 \end{figure}
 
@@ -66,7 +66,7 @@ The resulting method means that some angles will be measured from the "outside" 
 \begin{figure}[ht]
 	\includegraphics[width=5cm]{PoseJointAngles}
 	\centering
-	\caption{}
+	\caption{An example skeleton with JHMDB indices in each of the joints. In addition, angles have been shown as if they are being calculated in a clockwise direction, resulting in connections such as 5-4-8 having the angle on the "outside" of the person.}
 	\label{fig:pose-joint-angles}
 \end{figure}
 
@@ -82,7 +82,7 @@ Using this logic, we can now construct the indermediate representation that will
 \begin{figure}[ht]
 	\includegraphics[width=8cm]{IntermediateConstruction}
 	\centering
-	\caption{}
+	\caption{Example of how the intermediate representation is constructed. At each frame, the angles of each joint are taken and added to a column, each column is then stacked next to one another to form a 2 dimensional image.}
 	\label{fig:intermediate-construction}
 \end{figure}
 
@@ -91,7 +91,7 @@ As described previously in section \ref{sec:joint-velocities}, a key point of ou
 \begin{figure}[ht]
 	\includegraphics[width=8cm]{IntermediateStacked}
 	\centering
-	\caption{}
+	\caption{The finished intermediate representation, the top half contains the changes in joint angle from one frame to another (also referred to as "velocity"), and the bottom half contains the joint angles themselves. This is referred to as the "stacked" representation.}
 	\label{fig:intermediate-stacked}
 \end{figure}
 
@@ -131,10 +131,10 @@ The specific joints that are represented in our intermediate representation are 
 It is not unreasonable to assume that moving from only one frame to the next would result in some actions not being represented as well as other actions. Due to this issue, we add a temporal adjustment to our representation in order to better represent some of these actions. This is done by adding more channels to the data, with each of the channels "skipping" frames. This would mean that rather than having the angle difference representation moving from frames $1 \rightarrow 2 \rightarrow 3$, in the first additional channel it would move from frames $1 \rightarrow 3 \rightarrow 5$. The representation is then padded out to fi the same shape and added as another channel to the data. This is more clearly shown in figure \ref{fig:intermediate-stacked-skip} where the actions become more "compressed" and movements over longer periods of time become easier to visualize and process.
 
 \begin{figure}[ht]
-	\includegraphics[width=8cm]{IntermediateSkip1}
-	\includegraphics[width=8cm]{IntermediateSkip2}
+	\subfigure[N=1]{\includegraphics[width=8cm]{IntermediateSkip1}}
+	\subfigure[N=2]{\includegraphics[width=8cm]{IntermediateSkip2}}
 	\centering
-	\caption{}
+	\caption{Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a N value of 1 the representation will ignore every other frame, etc.}
 	\label{fig:intermediate-stacked-skip}
 \end{figure}
 
@@ -143,7 +143,7 @@ It is not unreasonable to assume that moving from only one frame to the next wou
 \begin{figure}[ht]
 	\includegraphics[width=12cm]{ModelArchitecture}
 	\centering
-	\caption{}
+	\caption{The basic model architecture used, very similar to that used in other models such as Potion \cite{potion}, it is a simple 2 dimensional CNN that contains one fully connected layer at the end for classification.}
 	\label{fig:model-architecture}
 \end{figure}
 

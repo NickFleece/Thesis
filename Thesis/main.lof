@@ -25,24 +25,28 @@
 \contentsline {figure}{\numberline {3.21}{\ignorespaces The representation used by the Smaller, Faster, Better model \blx@tocontentsinit {0}\cite {smaller_faster_better}, this is split into two representations. The cartesian coordinates of each joint are encoded into a 2d representation, not dissimilar to previously discussed models \blx@tocontentsinit {0}\cite {simple_yet_efficient}. The JCD feature is a similar representation, but instead of x, y, and z coordinates, uses the distance between two joints.\relax }}{24}{figure.caption.59}%
 \addvspace {10\p@ }
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Example of how joints are connected through bones in pose representations.\relax }}{25}{figure.caption.62}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces \relax }}{26}{figure.caption.64}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces \relax }}{27}{figure.caption.68}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces \relax }}{28}{figure.caption.71}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces \relax }}{29}{figure.caption.72}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces \relax }}{30}{figure.caption.75}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces \relax }}{30}{figure.caption.77}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Two examples of three joints interconnected with two bones, and how the angle can change from one frame to another.\relax }}{26}{figure.caption.64}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces An example skeleton with JHMDB indices in each of the joints. In addition, angles have been shown as if they are being calculated in a clockwise direction, resulting in connections such as 5-4-8 having the angle on the "outside" of the person.\relax }}{27}{figure.caption.68}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Example of how the intermediate representation is constructed. At each frame, the angles of each joint are taken and added to a column, each column is then stacked next to one another to form a 2 dimensional image.\relax }}{28}{figure.caption.71}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces The finished intermediate representation, the top half contains the changes in joint angle from one frame to another (also referred to as "velocity"), and the bottom half contains the joint angles themselves. This is referred to as the "stacked" representation.\relax }}{29}{figure.caption.72}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a N value of 1 the representation will ignore every other frame, etc.\relax }}{30}{figure.caption.75}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {N=1}}}{30}{figure.caption.75}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {N=2}}}{30}{figure.caption.75}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces The basic model architecture used, very similar to that used in other models such as Potion \blx@tocontentsinit {0}\cite {potion}, it is a simple 2 dimensional CNN that contains one fully connected layer at the end for classification.\relax }}{31}{figure.caption.79}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {5.1}{\ignorespaces Detailed F1 score results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{33}{figure.caption.84}%
-\contentsline {figure}{\numberline {5.2}{\ignorespaces Three examples of the $Jump$ class from the JHMDB dataset. The frames selected were four frames roughly evenly spaced out through the video.\relax }}{34}{figure.caption.85}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{34}{figure.caption.85}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{34}{figure.caption.85}%
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{34}{figure.caption.85}%
-\contentsline {figure}{\numberline {5.3}{\ignorespaces Three examples of the $Golf$ class from the JHMDB dataset. The frames selected were four frames roughly evenly spaced out through the video.\relax }}{35}{figure.caption.89}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{35}{figure.caption.89}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{35}{figure.caption.89}%
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{35}{figure.caption.89}%
-\contentsline {figure}{\numberline {5.4}{\ignorespaces Detailed precision results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{36}{figure.caption.93}%
-\contentsline {figure}{\numberline {5.5}{\ignorespaces Detailed recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{37}{figure.caption.94}%
-\contentsline {figure}{\numberline {5.6}{\ignorespaces Detailed F1 score results on the JHMDB dataset using only the angle velocities from one frame to another.\relax }}{38}{figure.caption.97}%
-\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Detailed F1 score results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{33}{figure.caption.86}%
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Three examples of the $Jump$ class from the JHMDB dataset. The frames selected were four frames roughly evenly spaced out through the video.\relax }}{34}{figure.caption.87}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{34}{figure.caption.87}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{34}{figure.caption.87}%
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{34}{figure.caption.87}%
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Three examples of the $Golf$ class from the JHMDB dataset. The frames selected were four frames roughly evenly spaced out through the video.\relax }}{35}{figure.caption.91}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{35}{figure.caption.91}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{35}{figure.caption.91}%
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{35}{figure.caption.91}%
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Detailed precision \& recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{39}{figure.caption.95}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Precision}}}{39}{figure.caption.95}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Recall}}}{39}{figure.caption.95}%
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Detailed F1 score results on the JHMDB dataset using only the angle velocities from one frame to another.\relax }}{40}{figure.caption.100}%
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Alternative intermediate representation format where rows alternate between angles and velocities rather than one and then the other.\relax }}{40}{figure.caption.102}%
+\contentsline {figure}{\numberline {5.7}{\ignorespaces The split model architecture inspired by fusion models where the two different pose features are split and utilize their own CNN's.\relax }}{41}{figure.caption.104}%
 \addvspace {10\p@ }

@@ -36,14 +36,13 @@
 \contentsline {subsection}{\numberline {4.1.2}Joint Velocities}{27}{subsection.69}%
 \contentsline {section}{\numberline {4.2}Novel Intermediate Representation}{28}{section.70}%
 \contentsline {subsection}{\numberline {4.2.1}Temporal Adjustments}{29}{subsection.74}%
-\contentsline {subsection}{\numberline {4.2.2}Model Architecture}{30}{subsection.76}%
-\contentsline {chapter}{\numberline {5}Experimentation}{32}{chapter.79}%
-\contentsline {section}{\numberline {5.1}Model Hyperparameters}{32}{section.80}%
-\contentsline {subsection}{\numberline {5.1.1}Compute Resources}{32}{subsection.81}%
-\contentsline {section}{\numberline {5.2}JHMDB Results}{32}{section.82}%
-\contentsline {section}{\numberline {5.3}Model Ablation Study}{35}{section.95}%
-\contentsline {section}{\numberline {5.4}Model Comparison}{37}{section.99}%
-\contentsline {chapter}{\numberline {6}Conclusion \& Future Work}{39}{chapter.100}%
-\contentsline {chapter}{\numberline {A}Frequently Asked Questions}{40}{appendix.101}%
-\contentsline {section}{\numberline {A.1}How do I change the colors of links?}{40}{section.102}%
-\contentsline {chapter}{Bibliography}{41}{appendix*.103}%
+\contentsline {subsection}{\numberline {4.2.2}Model Architecture}{30}{subsection.78}%
+\contentsline {chapter}{\numberline {5}Experimentation}{32}{chapter.81}%
+\contentsline {section}{\numberline {5.1}Model Hyperparameters}{32}{section.82}%
+\contentsline {subsection}{\numberline {5.1.1}Compute Resources}{32}{subsection.83}%
+\contentsline {section}{\numberline {5.2}JHMDB Results}{32}{section.84}%
+\contentsline {section}{\numberline {5.3}Model Ablation Study}{35}{section.98}%
+\contentsline {section}{\numberline {5.4}Model Comparison}{37}{section.106}%
+\contentsline {chapter}{\numberline {6}Conclusion \& Future Work}{42}{chapter.108}%
+\contentsline {subsection}{\numberline {6.0.1}Future Work}{43}{subsection.109}%
+\contentsline {chapter}{Bibliography}{44}{appendix*.110}%

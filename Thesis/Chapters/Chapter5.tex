@@ -103,21 +103,19 @@ This low variability in the $golf$ class can also be demonstrated in a similar f
 	\label{fig:golf-comparison}
 \end{figure}
 
-The detailed precision and recall values broken down by class are shown in figures \ref{fig:detailed-precision} and \ref{fig:detailed-recall}, and in general reflect the same results as the F1 scores. The only notable difference is the model tends to have higher recall differences and precision tends to be closer from one class to another.
-
 \begin{figure}[ht]
-	\includegraphics[width=10cm]{detailedPrecision}
+	\subfigure[Precision]{
+		\includegraphics[width=0.6\textwidth]{detailedPrecision}
+	}
+	\subfigure[Recall]{
+		\includegraphics[width=0.6\textwidth]{detailedRecall}
+	}
 	\centering
-	\caption{Detailed precision results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
-	\label{fig:detailed-precision}
+	\caption{Detailed precision \& recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
+	\label{fig:detailed-recall-precision}
 \end{figure}
 
-\begin{figure}[ht]
-	\includegraphics[width=10cm]{detailedRecall}
-	\centering
-	\caption{Detailed recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
-	\label{fig:detailed-recall}
-\end{figure}
+The detailed precision and recall values broken down by class are shown in figures \ref{fig:detailed-recall-precision}, and in general reflect the same results as the F1 scores. The only notable difference is the model tends to have higher recall differences and precision tends to be closer from one class to another.
 
 \section{Model Ablation Study}
 
@@ -143,14 +141,14 @@ This section will present both different intermediate representation formats, as
 	\label{tab:acc-results-v-velocity}
 \end{table}
 
-The only angle velocity results show an average decrease in performance over all three splits of approximately 14\% over the combination of the two. This is a very large decrease in accuracy, but is far from a negative result. What this result shows is that for some classes, the actual movement of the joint can be used in place of the joint angles and it is not necessarily required to have both in the representation. This is shown in figure \ref{fig:detailed-f1-only-change}, where we see that classes such as golf \& pullup still have a relatively high F1-Score of 0.7 on average.
-
 \begin{figure}[ht]
 	\includegraphics[width=10cm]{detailedF1OnlyChange}
 	\centering
 	\caption{Detailed F1 score results on the JHMDB dataset using only the angle velocities from one frame to another.}
 	\label{fig:detailed-f1-only-change}
 \end{figure}
+
+The only angle velocity results show an average decrease in performance over all three splits of approximately 14\% over the combination of the two. This is a very large decrease in accuracy, but is far from a negative result. What this result shows is that for some classes, the actual movement of the joint can be used in place of the joint angles and it is not necessarily required to have both in the representation. This is shown in figure \ref{fig:detailed-f1-only-change}, where we see that classes such as golf \& pullup still have a relatively high F1-Score of 0.7 on average.
 
 \begin{table}[ht]
 	\centering
@@ -174,4 +172,94 @@ The only angle velocity results show an average decrease in performance over all
 
 Similarly, the representation that uses only angles and ignores the angle velocities shows a decrease in performance. However this is much less pronounced, and is only around 1\%. This suggests that while the angle velocities do add value, it is not uniformly a large positive. However when considering how small the actual data still is in the stacked representation the small increase in accuracy is justified.
 
+Another intermediate representation was also explored as is shown in figure \ref{fig:alternating-intermediate}, where rather than "stacking" the angles and velocities on top of one another, the rows alternate between the angles of corresponding joints and their velocities. The idea behind this representation being that the initial CNN filters would overlap between each individual joint angle and their corresponding velocity, meaning that the model may be able to learn these relationships a bit better.
+
+\begin{figure}[ht]
+	\includegraphics[width=0.5\textwidth]{IntermediateAlternatingFormat}
+	\centering
+	\caption{Alternative intermediate representation format where rows alternate between angles and velocities rather than one and then the other.}
+	\label{fig:alternating-intermediate}
+\end{figure}
+
+The results of this alternating representation are shown in table \ref{tab:acc-results-v-alternating}. The results show on average a 4\% decrease in performance when compared to the stacked model. This is almost certainly because the model benefits more from the convolutions being run on the angles and velocities independently and combining later in the model after pooling layers rather than on both the angles and velocities initially.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{||c c c||} 
+		\hline
+		\textbf{Split} & \textbf{Stacked} & \textbf{Alternating} \\ [0.5ex] 
+		\hline\hline
+		1 & \textbf{58.209\%} & 54.850\% \\ 
+		\hline
+		2 & \textbf{58.889\%} & 55.556\% \\
+		\hline
+		3 & \textbf{58.113\%} & 52.830\% \\
+		\hline
+		\hline
+		\textbf{Average} & \textbf{58.404\%} & 54.412\% \\
+		\hline
+	\end{tabular}
+	\caption{Comparison of results using the alternating vs stacked representation.}
+	\label{tab:acc-results-v-alternating}
+\end{table}
+
+With this knowledge that the model typically performs better with the different features being stacked on top of each other and somewhat isolated, the next step was to see if further isolating the angles and velocities from one another would result in more performance gain. This resultant architecture is shown in figure \ref{fig:split-architecture}, where we split the angles and velocities completely, mimicking the fusion-based architectures as were shown previously in figure \ref{fig:fused}, where these models tended to split RGB, Optical Flow \& Pose data we similarly split our two pose joint features.
+
+\begin{figure}[ht]
+	\includegraphics[width=0.4\textwidth]{SplitStructure}
+	\centering
+	\caption{The split model architecture inspired by fusion models where the two different pose features are split and utilize their own CNN's.}
+	\label{fig:split-architecture}
+\end{figure}
+
+As can be seen from the results in table \ref{tab:acc-results-v-split}, once again this change to the model results in a decrease in performance by approximately 10\%. This reduction in performance is most likely because of the increase in complexity to the model, it overfit the relatively small dataset much more easily, meaning that it was less easily able to generalize. It may also be due to the fact that in the stacked representation, the combination of angles and velocities can be "learned" as the convolutions combine them at each step, whereas the split model isolates them until the very end, potentially losing data in the process.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{||c c c||} 
+		\hline
+		\textbf{Split} & \textbf{Stacked} & \textbf{Split} \\ [0.5ex] 
+		\hline\hline
+		1 & \textbf{58.209\%} & 46.269\% \\ 
+		\hline
+		2 & \textbf{58.889\%} & 48.889\% \\
+		\hline
+		3 & \textbf{58.113\%} & 49.811\% \\
+		\hline
+		\hline
+		\textbf{Average} & \textbf{58.404\%} & 48.323\% \\
+		\hline
+	\end{tabular}
+	\caption{Comparison of results using the split model and representation against the single CNN stacked representation.}
+	\label{tab:acc-results-v-split}
+\end{table}
+
 \section{Model Comparison}
+
+When comparing our model and representation to others that are similar, it is important to note the difference in expected performance of our model vs. complex state of the art models. For this purposes of this thesis, we compare our model to other pose-based models, not taking into account those complex models that take very large GPU's to train, as this would be an unfair comparison.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{||c c||} 
+		\hline
+		\textbf{Model} & \textbf{Average JHMDB Accuracy} \\
+		\hline\hline
+		PA3D* \cite{PA3D} & 69.5\% \\
+		P-CNN \cite{PCNN} & 61.1\% \\
+		Potion \cite{potion} & 57.0\% \\
+		EHPI \cite{simple_yet_efficient} & 60.5\% \\
+		STAR-Net \cite{star-net} & 64.3\% \\
+		DynaMotion \cite{dynamic-motion} & 60.2\% \\
+		SIP-Net \cite{sipnet} & 62.4\% \\
+		Chained \cite{Chained} & 56.8\% \\
+		Pose \& Joint Aware \cite{poseandjointaware} & 68.55\% \\
+		Smaller, Faster, Better & \textbf{77.2\%} \\
+		\hline\hline
+		\textbf{Ours} & 58.404\% \\
+		\hline
+	\end{tabular}
+	\caption{Model comparisons that do not contain very complex models and utilize mainly pose data. * - PA3D uses additional data in it's representation as well.}
+	\label{tab:model-comparison}
+\end{table}
+
+As can be seen from the results in table \ref{tab:model-comparison}, our model is not aiming to be the current state-of-the-art in it's category, however the performance is similar to the other models that approach the problem in a similar pose-based way. It is also notable, that our model is the only model that is both global position-invariant and rotation-invariant, which is a large advantage of our model, and as stated previously in this thesis is by design.
