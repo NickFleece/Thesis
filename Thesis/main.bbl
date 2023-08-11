@@ -46,42 +46,6 @@
     \field{year}{2022}
   \endentry
 
-  \entry{deeplearning}{article}{}
-    \name{author}{3}{}{%
-      {{hash=LY}{%
-         family={LeCun},
-         familyi={L\bibinitperiod},
-         given={Yann},
-         giveni={Y\bibinitperiod},
-      }}%
-      {{hash=BY}{%
-         family={Bengio},
-         familyi={B\bibinitperiod},
-         given={Yoshua},
-         giveni={Y\bibinitperiod},
-      }}%
-      {{hash=HG}{%
-         family={Hinton},
-         familyi={H\bibinitperiod},
-         given={Geoffrey},
-         giveni={G\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Nature Publishing Group UK London}%
-    }
-    \strng{namehash}{LYBYHG1}
-    \strng{fullhash}{LYBYHG1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{number}{7553}
-    \field{pages}{436\bibrangedash 444}
-    \field{title}{Deep learning}
-    \field{volume}{521}
-    \field{journaltitle}{nature}
-    \field{year}{2015}
-  \endentry
-
   \entry{cifar}{article}{}
     \true{moreauthor}
     \true{morelabelname}
@@ -235,6 +199,84 @@
       {Berlin, Heidelberg}%
     }
     \field{year}{2007}
+  \endentry
+
+  \entry{deeplearning}{article}{}
+    \name{author}{3}{}{%
+      {{hash=LY}{%
+         family={LeCun},
+         familyi={L\bibinitperiod},
+         given={Yann},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=BY}{%
+         family={Bengio},
+         familyi={B\bibinitperiod},
+         given={Yoshua},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=HG}{%
+         family={Hinton},
+         familyi={H\bibinitperiod},
+         given={Geoffrey},
+         giveni={G\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Nature Publishing Group UK London}%
+    }
+    \strng{namehash}{LYBYHG1}
+    \strng{fullhash}{LYBYHG1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{7553}
+    \field{pages}{436\bibrangedash 444}
+    \field{title}{Deep learning}
+    \field{volume}{521}
+    \field{journaltitle}{nature}
+    \field{year}{2015}
+  \endentry
+
+  \entry{lenet5}{article}{}
+    \name{author}{4}{}{%
+      {{hash=LY}{%
+         family={LeCun},
+         familyi={L\bibinitperiod},
+         given={Yann},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=BL}{%
+         family={Bottou},
+         familyi={B\bibinitperiod},
+         given={L{\'e}on},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=BY}{%
+         family={Bengio},
+         familyi={B\bibinitperiod},
+         given={Yoshua},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=HP}{%
+         family={Haffner},
+         familyi={H\bibinitperiod},
+         given={Patrick},
+         giveni={P\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Ieee}%
+    }
+    \strng{namehash}{LYBLBY+1}
+    \strng{fullhash}{LYBLBYHP1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{number}{11}
+    \field{pages}{2278\bibrangedash 2324}
+    \field{title}{Gradient-based learning applied to document recognition}
+    \field{volume}{86}
+    \field{journaltitle}{Proceedings of the IEEE}
+    \field{year}{1998}
   \endentry
 
   \entry{LRCNS}{article}{}

@@ -8,41 +8,34 @@
 \contentsline {section}{\numberline {1.3}Challenges}{4}{section.14}%
 \contentsline {section}{\numberline {1.4}Problem Definition}{4}{section.15}%
 \contentsline {section}{\numberline {1.5}Thesis Structure}{5}{section.16}%
-\contentsline {chapter}{\numberline {2}Convolutional Neural Networks}{6}{chapter.17}%
-\contentsline {section}{\numberline {2.1}Structure}{6}{section.18}%
-\contentsline {section}{\numberline {2.2}Kernel}{6}{section.19}%
-\contentsline {subsection}{\numberline {2.2.1}3 Dimensional Convolutions}{6}{subsection.20}%
-\contentsline {section}{\numberline {2.3}Classic Architectures}{6}{section.21}%
-\contentsline {subsection}{\numberline {2.3.1}AlexNet}{6}{subsection.22}%
-\contentsline {subsection}{\numberline {2.3.2}VGG-16}{6}{subsection.23}%
-\contentsline {section}{\numberline {2.4}Modern Architectures}{6}{section.24}%
-\contentsline {subsection}{\numberline {2.4.1}ResNet}{6}{subsection.25}%
-\contentsline {subsection}{\numberline {2.4.2}Residual Attention Network}{6}{subsection.26}%
-\contentsline {section}{\numberline {2.5}LSTMs}{6}{section.27}%
-\contentsline {chapter}{\numberline {3}Literature Review}{7}{chapter.28}%
-\contentsline {section}{\numberline {3.1}Image Classification}{7}{section.29}%
-\contentsline {section}{\numberline {3.2}Optical Flow}{7}{section.30}%
-\contentsline {section}{\numberline {3.3}CNN Based Models}{8}{section.32}%
-\contentsline {subsection}{\numberline {3.3.1}CNN + LSTM Models}{8}{subsection.33}%
-\contentsline {subsection}{\numberline {3.3.2}3D CNN Models}{12}{subsection.38}%
-\contentsline {section}{\numberline {3.4}Model Evolution}{13}{section.41}%
-\contentsline {section}{\numberline {3.5}Datasets}{14}{section.44}%
-\contentsline {section}{\numberline {3.6}Pose Detection}{16}{section.47}%
-\contentsline {section}{\numberline {3.7}Pose-Based Action Recognition}{18}{section.49}%
-\contentsline {subsection}{\numberline {3.7.1}Intermediate Representations}{20}{subsection.54}%
-\contentsline {chapter}{\numberline {4}Methodology}{25}{chapter.60}%
-\contentsline {section}{\numberline {4.1}Pose}{25}{section.61}%
-\contentsline {subsection}{\numberline {4.1.1}Joint Angles}{26}{subsection.63}%
-\contentsline {subsection}{\numberline {4.1.2}Joint Velocities}{27}{subsection.69}%
-\contentsline {section}{\numberline {4.2}Novel Intermediate Representation}{28}{section.70}%
-\contentsline {subsection}{\numberline {4.2.1}Temporal Adjustments}{29}{subsection.74}%
-\contentsline {subsection}{\numberline {4.2.2}Model Architecture}{30}{subsection.78}%
-\contentsline {chapter}{\numberline {5}Experimentation}{32}{chapter.81}%
-\contentsline {section}{\numberline {5.1}Model Hyperparameters}{32}{section.82}%
-\contentsline {subsection}{\numberline {5.1.1}Compute Resources}{32}{subsection.83}%
-\contentsline {section}{\numberline {5.2}JHMDB Results}{32}{section.84}%
-\contentsline {section}{\numberline {5.3}Model Ablation Study}{35}{section.98}%
-\contentsline {section}{\numberline {5.4}Model Comparison}{37}{section.106}%
-\contentsline {chapter}{\numberline {6}Conclusion \& Future Work}{42}{chapter.108}%
-\contentsline {subsection}{\numberline {6.0.1}Future Work}{43}{subsection.109}%
-\contentsline {chapter}{Bibliography}{44}{appendix*.110}%
+\contentsline {chapter}{\numberline {2}Literature Review}{6}{chapter.17}%
+\contentsline {section}{\numberline {2.1}Image Classification}{6}{section.18}%
+\contentsline {section}{\numberline {2.2}Optical Flow}{6}{section.19}%
+\contentsline {section}{\numberline {2.3}Convolutional Neural Networks}{7}{section.21}%
+\contentsline {subsection}{\numberline {2.3.1}Structure}{7}{subsection.22}%
+\contentsline {subsection}{\numberline {2.3.2}Classic Architectures}{8}{subsection.24}%
+\contentsline {subsection}{\numberline {2.3.3}Modern Architectures}{8}{subsection.25}%
+\contentsline {section}{\numberline {2.4}CNN Based Models}{8}{section.26}%
+\contentsline {subsection}{\numberline {2.4.1}CNN + LSTM Models}{8}{subsection.27}%
+\contentsline {subsection}{\numberline {2.4.2}3D CNN Models}{11}{subsection.32}%
+\contentsline {section}{\numberline {2.5}Model Evolution}{13}{section.35}%
+\contentsline {section}{\numberline {2.6}Datasets}{14}{section.38}%
+\contentsline {section}{\numberline {2.7}Pose Detection}{16}{section.41}%
+\contentsline {section}{\numberline {2.8}Pose-Based Action Recognition}{17}{section.43}%
+\contentsline {subsection}{\numberline {2.8.1}Intermediate Representations}{20}{subsection.48}%
+\contentsline {chapter}{\numberline {3}Methodology}{25}{chapter.54}%
+\contentsline {section}{\numberline {3.1}Pose}{25}{section.55}%
+\contentsline {subsection}{\numberline {3.1.1}Joint Angles}{26}{subsection.57}%
+\contentsline {subsection}{\numberline {3.1.2}Joint Velocities}{27}{subsection.63}%
+\contentsline {section}{\numberline {3.2}Novel Intermediate Representation}{28}{section.64}%
+\contentsline {subsection}{\numberline {3.2.1}Temporal Adjustments}{29}{subsection.68}%
+\contentsline {subsection}{\numberline {3.2.2}Model Architecture}{30}{subsection.72}%
+\contentsline {chapter}{\numberline {4}Experimentation}{32}{chapter.75}%
+\contentsline {section}{\numberline {4.1}Model Hyperparameters}{32}{section.76}%
+\contentsline {subsection}{\numberline {4.1.1}Compute Resources}{32}{subsection.77}%
+\contentsline {section}{\numberline {4.2}JHMDB Results}{32}{section.78}%
+\contentsline {section}{\numberline {4.3}Model Ablation Study}{35}{section.92}%
+\contentsline {section}{\numberline {4.4}Model Comparison}{37}{section.100}%
+\contentsline {chapter}{\numberline {5}Conclusion \& Future Work}{42}{chapter.102}%
+\contentsline {subsection}{\numberline {5.0.1}Future Work}{43}{subsection.103}%
+\contentsline {chapter}{Bibliography}{44}{appendix*.104}%

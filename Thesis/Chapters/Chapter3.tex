@@ -4,12 +4,6 @@
 
 \label{LiteratureReview} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-%Typical examples of action recognition \cite{i3d} have used complex convolutional neural networks (CNNs) on the RGB frames, pulling features such as rgb flow \cite{rgbflow} in order to enhance results. This method has proved to work well, however these models often require large amounts of GPU memory and are required to be run on high end hardware, which is a potential issue when applied to real-world scenarios where the necessary hardware may not be available. In addition, background noise is much more difficult to filter out and generalizing to different environments is difficult.
-
-%A subset of action recognition models utilize skeleton-based action recognition. These models aim to utilize the positions of joints/bones in the model in order to filter out background data, and allow the model to focus on the actual person rather than background data. Typically these involve simpler CNNs that allow for faster computation on lower quality hardware. Many different approaches are used to achieve this action recognition. \cite{potion}, \cite{PA3D} utilize processed joint heatmap images and simple 2D-CNNs. \cite{simple_yet_efficient} \cite{smaller_faster_better} use intermediate representations to construct custom image representations that can be easily processed by simple CNNs. RNNs and LSTMs \cite{two_branch_stacked_lstm} \cite{RNN_joint_relative_motion} \cite{RNN_occlusion} \cite{DS_lstm} and Transformers \cite{transformersnippets} \cite{transformertwobranch} have been used as well to obtain good results with skeleton data.
-
-%Almost always, these skeleton based models utilize 2D pose data. There have been some examples of extracting 3D pose from depth cameras \cite{depthcamera3dpose} as well as estimating 3D pose from 2D pose \cite{3dposefrom2d} and only the RGB frames \cite{2dposefromrgb}. These techniques have been used in the past for human action recognition \cite{3dposeactionrecognition}, however 2D pose estimation is a much easier task and the models that have been used are generally much higher quality, and therefore is more reliable for the task of human action recognition.
-
 %----------------------------------------------------------------------------------------
 %	Image Classification
 %----------------------------------------------------------------------------------------
@@ -33,6 +27,38 @@ Optical Flow, not dissimilar to pose estimation described in section \ref{sec:po
 	\label{fig:opticalflow}
 \end{figure}
 
+%----------------------------------------------------------------------------------------
+%	Convolutional Neural Networks
+%----------------------------------------------------------------------------------------
+
+\section{Convolutional Neural Networks}
+
+Convolutional Neural Networks are a key part of both this thesis and the larger domain of computer vision. Using these models, computer vision took a large step forward in the domain of image processing, and is still being developed by modern models in order to extract further performance \cite{deeplearning}.
+
+\subsection{Structure}
+
+The classic structure of a convolutional neural network can be studied through one of the first recognizable architectures LeNet-5 \cite{lenet5}.
+
+\begin{figure}[ht]
+	\includegraphics[width=1\textwidth]{LeNet5}
+	\centering
+	\caption{}
+	\label{fig:lenet5}
+\end{figure}
+
+
+\subsection{Classic Architectures}
+\label{sec:classic-cnn}
+
+\textbf{AlexNet}
+
+\textbf{VGG-16}
+
+\subsection{Modern Architectures}
+
+\textbf{ResNet}
+
+\textbf{Residual Attention Network}
 
 %----------------------------------------------------------------------------------------
 %	CNN Models
@@ -68,7 +94,7 @@ The disadvantages of the model are also rooted in it's simplicity. The result of
 	\label{fig:lrcn-ar}
 \end{figure}
 
-\textbf{Long-term Recurrent Convolutional Networks} \cite{LRCNS}, is a model constructed using this methodology. In the paper, they use the notation that each frame, $x_{i}$, is fed into the CNN in order to construct a fixed-length feature representation, $\phi_{v}(x_{i})$. This is then passed into the recurrent sequence learning model. This is where the model differs from the previous example provided. In the LRCN model, the LSTM outputs at each frame are averaged to get the output class, rather than taking the last output. This removes any bias the model may have towards the later frames in long videos. In addition to RGB frames, this model additonally uses the optical flow feature, which easily adapts to this structure, replacing the RGB frames in figure \ref{fig:lrcn-ar}. The LSTM structure is taken from \cite{LSTM-2015}, which is a structure devised from the original LSTM model, as we discussed in section \ref{sec:LSTM}. The CNN's, represented in the paper as $\phi$, is described as a hybrid of the CaffeNet \cite{caffenet} (a variant of the AlexNet \cite{alexnet} model discussed in section \ref{sec:alexnet}) and the Zeiler and Fergus \cite{zeilerfergus} models, which has been pre-trained on a large dataset.
+\textbf{Long-term Recurrent Convolutional Networks} \cite{LRCNS}, is a model constructed using this methodology. In the paper, they use the notation that each frame, $x_{i}$, is fed into the CNN in order to construct a fixed-length feature representation, $\phi_{v}(x_{i})$. This is then passed into the recurrent sequence learning model. This is where the model differs from the previous example provided. In the LRCN model, the LSTM outputs at each frame are averaged to get the output class, rather than taking the last output. This removes any bias the model may have towards the later frames in long videos. In addition to RGB frames, this model additonally uses the optical flow feature, which easily adapts to this structure, replacing the RGB frames in figure \ref{fig:lrcn-ar}. The LSTM structure is taken from \cite{LSTM-2015}, which is a structure devised from the original LSTM model, as we discussed in section \ref{sec:LSTM}. The CNN's, represented in the paper as $\phi$, is described as a hybrid of the CaffeNet \cite{caffenet} (a variant of the AlexNet \cite{alexnet} model discussed in section \ref{sec:classic-cnn}) and the Zeiler and Fergus \cite{zeilerfergus} models, which has been pre-trained on a large dataset.
 
 \begin{figure}[ht]
 	\includegraphics[width=10cm]{BeyondOverview.png}
