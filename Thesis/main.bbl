@@ -279,6 +279,84 @@
     \field{year}{1998}
   \endentry
 
+  \entry{2021cnnreview}{article}{}
+    \name{author}{10}{}{%
+      {{hash=AL}{%
+         family={Alzubaidi},
+         familyi={A\bibinitperiod},
+         given={Laith},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=ZJ}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Jinglan},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=HAJ}{%
+         family={Humaidi},
+         familyi={H\bibinitperiod},
+         given={Amjad\bibnamedelima J},
+         giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
+      }}%
+      {{hash=ADA}{%
+         family={Al-Dujaili},
+         familyi={A\bibinithyphendelim D\bibinitperiod},
+         given={Ayad},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=DY}{%
+         family={Duan},
+         familyi={D\bibinitperiod},
+         given={Ye},
+         giveni={Y\bibinitperiod},
+      }}%
+      {{hash=ASO}{%
+         family={Al-Shamma},
+         familyi={A\bibinithyphendelim S\bibinitperiod},
+         given={Omran},
+         giveni={O\bibinitperiod},
+      }}%
+      {{hash=SJ}{%
+         family={Santamar{\'\i}a},
+         familyi={S\bibinitperiod},
+         given={Jos{\'e}},
+         giveni={J\bibinitperiod},
+      }}%
+      {{hash=FMA}{%
+         family={Fadhel},
+         familyi={F\bibinitperiod},
+         given={Mohammed\bibnamedelima A},
+         giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=AAM}{%
+         family={Al-Amidie},
+         familyi={A\bibinithyphendelim A\bibinitperiod},
+         given={Muthana},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=FL}{%
+         family={Farhan},
+         familyi={F\bibinitperiod},
+         given={Laith},
+         giveni={L\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Springer}%
+    }
+    \strng{namehash}{ALZJHAJ+1}
+    \strng{fullhash}{ALZJHAJADADYASOSJFMAAAMFL1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{pages}{1\bibrangedash 74}
+    \field{title}{Review of deep learning: Concepts, CNN architectures,
+  challenges, applications, future directions}
+    \field{volume}{8}
+    \field{journaltitle}{Journal of big Data}
+    \field{year}{2021}
+  \endentry
+
   \entry{LRCNS}{article}{}
     \name{author}{7}{}{%
       {{hash=DJ}{%

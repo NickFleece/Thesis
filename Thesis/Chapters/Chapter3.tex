@@ -37,15 +37,30 @@ Convolutional Neural Networks are a key part of both this thesis and the larger 
 
 \subsection{Structure}
 
-The classic structure of a convolutional neural network can be studied through one of the first recognizable architectures LeNet-5 \cite{lenet5}.
+The classic structure of a convolutional neural network can be studied through one of the first recognizable architectures LeNet-5 \cite{lenet5}, as shown in figure \ref{fig:lenet5}. This architecture is broken into a few key layers that are common in CNN's used even today:
+
+\begin{itemize}
+	\item Convolutions
+	\item Subsampling
+	\item Flatten
+	\item Fully Connected
+\end{itemize}
 
 \begin{figure}[ht]
 	\includegraphics[width=1\textwidth]{LeNet5}
 	\centering
-	\caption{}
+	\caption{Classical LeNet-5 architecture \cite{lenet5} containing convolutional, subsampling, and fully connected layers.}
 	\label{fig:lenet5}
 \end{figure}
 
+The \textbf{convolutions} are the key part of how convolutional neural networks function, and they function using a \textbf{kernel}. This kernel is built as an $NxN$ matrix of randomly initialized values, this matrix is then 'slid' across the entire image, and the values that the kernel 'sits on top' of are multiplied by the kernel values and then summed to produce an output cell in the output image. An example of a $4x4$ greyscale image and $2x2$ kernel is shown in figure \ref{fig:kernel-example}. In addition to this process, sometimes the edges of images are 'padded' with zeroes in order to avoid the reduction in image size when a kernel reaches the edge of an image. This kernel can also be expanded to 3 dimensions in order to be utilized on video data rather than image data. This functionally works the same as 2-dimensional convolutions, sliding in three directions instead of two, however it results in much larger kernels that take up significantly larger portions of memory. This is because the back-propogation data must be then stored for 27 kernel data points rather than 9 (in the case of a $3x3$ convolution).
+
+\begin{figure}[ht]
+	\includegraphics[width=0.7\textwidth]{KernelExample}
+	\centering
+	\caption{Example of kernel function as shown in Review of Deep Learning: Concepts, CNN architectures, challenges, applications, future directions \cite{2021cnnreview}.}
+	\label{fig:kernel-example}
+\end{figure}
 
 \subsection{Classic Architectures}
 \label{sec:classic-cnn}
