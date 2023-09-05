@@ -357,6 +357,96 @@
     \field{year}{2021}
   \endentry
 
+  \entry{alexnet}{inproceedings}{}
+    \name{author}{3}{}{%
+      {{hash=KA}{%
+         family={Krizhevsky},
+         familyi={K\bibinitperiod},
+         given={Alex},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=SI}{%
+         family={Sutskever},
+         familyi={S\bibinitperiod},
+         given={Ilya},
+         giveni={I\bibinitperiod},
+      }}%
+      {{hash=HGE}{%
+         family={Hinton},
+         familyi={H\bibinitperiod},
+         given={Geoffrey\bibnamedelima E},
+         giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+    }
+    \name{editor}{4}{}{%
+      {{hash=PF}{%
+         family={Pereira},
+         familyi={P\bibinitperiod},
+         given={F.},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=BC}{%
+         family={Burges},
+         familyi={B\bibinitperiod},
+         given={C.J.},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=BL}{%
+         family={Bottou},
+         familyi={B\bibinitperiod},
+         given={L.},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=WK}{%
+         family={Weinberger},
+         familyi={W\bibinitperiod},
+         given={K.Q.},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {Curran Associates, Inc.}%
+    }
+    \strng{namehash}{KASIHGE1}
+    \strng{fullhash}{KASIHGE1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{booktitle}{Advances in Neural Information Processing Systems}
+    \field{title}{ImageNet Classification with Deep Convolutional Neural
+  Networks}
+    \verb{url}
+    \verb https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b
+    \verb 9d6b76c8436e924a68c45b-Paper.pdf
+    \endverb
+    \field{volume}{25}
+    \field{year}{2012}
+  \endentry
+
+  \entry{vgg16}{article}{}
+    \name{author}{2}{}{%
+      {{hash=SK}{%
+         family={Simonyan},
+         familyi={S\bibinitperiod},
+         given={Karen},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=ZA}{%
+         family={Zisserman},
+         familyi={Z\bibinitperiod},
+         given={Andrew},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SKZA1}
+    \strng{fullhash}{SKZA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Very deep convolutional networks for large-scale image
+  recognition}
+    \field{journaltitle}{arXiv preprint arXiv:1409.1556}
+    \field{year}{2014}
+  \endentry
+
   \entry{LRCNS}{article}{}
     \name{author}{7}{}{%
       {{hash=DJ}{%
@@ -488,71 +578,6 @@
     \field{journaltitle}{Mathematical Foundations of Computing}
     \field{month}{01}
     \field{year}{2018}
-  \endentry
-
-  \entry{alexnet}{inproceedings}{}
-    \name{author}{3}{}{%
-      {{hash=KA}{%
-         family={Krizhevsky},
-         familyi={K\bibinitperiod},
-         given={Alex},
-         giveni={A\bibinitperiod},
-      }}%
-      {{hash=SI}{%
-         family={Sutskever},
-         familyi={S\bibinitperiod},
-         given={Ilya},
-         giveni={I\bibinitperiod},
-      }}%
-      {{hash=HGE}{%
-         family={Hinton},
-         familyi={H\bibinitperiod},
-         given={Geoffrey\bibnamedelima E},
-         giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
-      }}%
-    }
-    \name{editor}{4}{}{%
-      {{hash=PF}{%
-         family={Pereira},
-         familyi={P\bibinitperiod},
-         given={F.},
-         giveni={F\bibinitperiod},
-      }}%
-      {{hash=BC}{%
-         family={Burges},
-         familyi={B\bibinitperiod},
-         given={C.J.},
-         giveni={C\bibinitperiod},
-      }}%
-      {{hash=BL}{%
-         family={Bottou},
-         familyi={B\bibinitperiod},
-         given={L.},
-         giveni={L\bibinitperiod},
-      }}%
-      {{hash=WK}{%
-         family={Weinberger},
-         familyi={W\bibinitperiod},
-         given={K.Q.},
-         giveni={K\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Curran Associates, Inc.}%
-    }
-    \strng{namehash}{KASIHGE1}
-    \strng{fullhash}{KASIHGE1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{booktitle}{Advances in Neural Information Processing Systems}
-    \field{title}{ImageNet Classification with Deep Convolutional Neural
-  Networks}
-    \verb{url}
-    \verb https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b
-    \verb 9d6b76c8436e924a68c45b-Paper.pdf
-    \endverb
-    \field{volume}{25}
-    \field{year}{2012}
   \endentry
 
   \entry{zeilerfergus}{misc}{}

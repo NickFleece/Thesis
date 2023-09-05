@@ -65,9 +65,23 @@ The \textbf{convolutions} are the key part of how convolutional neural networks 
 \subsection{Classic Architectures}
 \label{sec:classic-cnn}
 
-\textbf{AlexNet}
+\textbf{AlexNet} \cite{alexnet} is another common CNN architecture not dissimilar to the LeNet architecture \cite{lenet5} shown previously in this chapter. AlexNet provided two main contributions over the LeNet architecture. First, it provides a new method of training models on GPU, which involves splitting the parts of the model to be trained separately on different GPU's which can then be combined at the end (as shown in figure \ref{fig:alexnet}), which allowed more GPU memory to be utilized when training the model. Second, it provides a much deeper CNN architecture, where the LeNet architecture contains 2 convolutional layers, the AlexNet architecture contains 5 total convolutional layers, three of which are stacked one after another after the second max pool layer. At the time of writing, AlexNet was the state-of-the-art CNN for image classification and opened new doors with efficient multi-gpu trained models.
 
-\textbf{VGG-16}
+\begin{figure}[ht]
+	\includegraphics[width=0.7\textwidth]{AlexNet}
+	\centering
+	\caption{AlexNet \cite{alexnet} CNN architecture as it appears in the original paper \cite{alexnet}. The model is split into two separate top \& bottom parts which are fed through individual GPU's and combined at the end.}
+	\label{fig:alexnet}
+\end{figure}
+
+\textbf{VGG-16} \cite{vgg16} is another deep convolutional neural network model, again similar to those described previously in this section, however as AlexNet \cite{alexnet} built complexity on top of LeNet \cite{lenet5}, VGG-16 seeks to do the same over AlexNet. The '16' part of VGG-16 refers to the number of convolutional layers, which is much more than the 5 present in AlexNet. While this added complexity is important, VGG-16 also focuses on keeping the individual parts simple, for each of their convolutional layers, the kernel is 3x3 with stride 1, and for each of the pooling layers, they utilize a 2x2 filter with stride 2. These convolutions are split into five different 'blocks' shown in figure \ref{fig:vgg16}, which are separated by these pooling layers, ending with the same dense layers present in AlexNet.
+
+\begin{figure}[ht]
+	\includegraphics[width=0.9\textwidth]{vgg16}
+	\centering
+	\caption{VGG-16 \cite{vgg16} architecture, with 16 convolutional layers, each block being separated by pooling layers, ending with three dense layers which provide output.}
+	\label{fig:vgg16}
+\end{figure}
 
 \subsection{Modern Architectures}
 
