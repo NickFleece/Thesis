@@ -46,6 +46,10 @@ Human action recognition is a very difficult task that comes with many issues, s
 
 The problem of human action recognition is defined as taking a video of a person performing a particular action, and passing it through a model to determine the specified action the person is performing. Pose-based action recognition is the problem of performing this detection primarily using the skeleton data of the people in the frame.
 
+\section{Contributions}
+
+The primary contribution that this thesis provides is a novel intermediate representation that can be used in tandem with a simple CNN for use in the problem of human action recognition. This representation is designed such that it is invariant to; the global position of the person, the distance from the camera of the person, and any background information. This representation is designed specifically with these in mind, and only utilizes the skeleton data of the person, specifically the joint angles of a person and how they change from one frame to another.
+
 \section{Thesis Structure}
 
 This thesis will begin by exploring the research relevant to action recognition in chapter \ref{LiteratureReview}. Next, a new novel representation is proposed in chapter \ref{Methodology}, and the experiments and their results are detailed in chapter \ref{Experimentation}. Finally the conclusions and recommendations for future work are presented in chapter \ref{Conclusion}.

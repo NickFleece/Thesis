@@ -2,14 +2,14 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Example of how non-directional angle can result in incorrect rotation changes from one frame to another.\relax }}{29}{table.caption.64}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces All Joint connections used in our intermediate representations.\relax }}{31}{table.caption.70}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }}{33}{table.caption.77}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Example of how non-directional angle can result in incorrect rotation changes from one frame to another.\relax }}{31}{table.caption.67}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces All Joint connections used in our intermediate representations.\relax }}{33}{table.caption.73}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }}{35}{table.caption.80}%
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {4.1}{\ignorespaces Results on all 3 splits of the JHMDB dataset utilizing only our novel approach.\relax }}{35}{table.caption.82}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Comparison of results using only angle velocities vs the stacked representation.\relax }}{37}{table.caption.96}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Comparison of results using only angles vs the stacked representation.\relax }}{38}{table.caption.98}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Comparison of results using the alternating vs stacked representation.\relax }}{39}{table.caption.100}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces Comparison of results using the split model and representation against the single CNN stacked representation.\relax }}{39}{table.caption.102}%
-\contentsline {table}{\numberline {4.6}{\ignorespaces Model comparisons that do not contain very complex models and utilize mainly pose data. * - PA3D uses additional data in it's representation as well.\relax }}{40}{table.caption.104}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Results on all 3 splits of the JHMDB dataset utilizing only our novel approach.\relax }}{37}{table.caption.85}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Comparison of results using only angle velocities vs the stacked representation.\relax }}{39}{table.caption.99}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Comparison of results using only angles vs the stacked representation.\relax }}{40}{table.caption.101}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Comparison of results using the alternating vs stacked representation.\relax }}{41}{table.caption.103}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Comparison of results using the split model and representation against the single CNN stacked representation.\relax }}{41}{table.caption.105}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Model comparisons that do not contain very complex models and utilize mainly pose data. * - PA3D uses additional data in it's representation as well.\relax }}{42}{table.caption.107}%
 \addvspace {10\p@ }

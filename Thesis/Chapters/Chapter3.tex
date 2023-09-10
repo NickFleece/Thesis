@@ -79,15 +79,31 @@ The \textbf{convolutions} are the key part of how convolutional neural networks 
 \begin{figure}[ht]
 	\includegraphics[width=0.9\textwidth]{vgg16}
 	\centering
-	\caption{VGG-16 \cite{vgg16} architecture, with 16 convolutional layers, each block being separated by pooling layers, ending with three dense layers which provide output.}
+	\caption{VGG-16 \cite{vgg16} architecture, with 16 convolutional layers split into 5 blocks, each block being separated by pooling layers, ending with three dense layers which provide output.}
 	\label{fig:vgg16}
 \end{figure}
 
 \subsection{Modern Architectures}
 
-\textbf{ResNet}
+\textbf{ResNet} \cite{resnet} deviates from this base CNN structure, aiming to improve on how these complex CNN's process data. With the evolution of CNN's naturally becoming more complex, the simplest approach was to simply add more convolutional layers (as can be seen from the transition from simple networks such as AlexNet \cite{alexnet} to more complex networks such as VGG-16 \cite{vgg16}). ResNet notably takes issue with this, noting the problems of vanishing/exploding gradients becoming more prevalant and preventing the models from converging on proper solutions even if there is seemingly sufficient complexity present. They aim to mitigate this issue via a simple "Residual block" shown in figure \ref{fig:resnetresidual}.
 
-\textbf{Residual Attention Network}
+\begin{figure}[ht]
+	\includegraphics[width=0.5\textwidth]{resnetresidual}
+	\centering
+	\caption{The Residual Block utilized by the ResNet \cite{resnet} model. The input is added to the output of the convolutional block, resulting in an output that has both the output of the convolutions as well as the original input, which can then be fed into further blocks.}
+	\label{fig:resnetresidual}
+\end{figure}
+
+The function of the residual block is to make the model fundamentally easier to train. By separating the residual block into two parts $F(x)$ and $x$, the input to the next block will not have to rely on solely $F(x)$, rather it can use the original input to the previous block $x$ as well. This means that further convolutional blocks do not need to rely on the accuracy of $F(x)$, meaning that each block can focus on fitting individual patterns. This results in very complex networks that can still reliably find simple patterns, contrary to previous models where these simple details are lost to many stacked convolutions. This same method is employed in classic feed-forward neural networks as well using "shortcut connections", which functionally work in a very similar way to the residual blocks and has also proven to give performance increases.
+
+\textbf{Residual Attention Network for Image Classification} \cite{residualattentionnetwork} was another advanced technique to build off the existing CNN architecture that ResNet provided. This model aims to utilize attention modules, as shown in figure \ref{fig:residualattentionnetwork}, which help the model to highlight points in the image that are more relevant to the image, and filter out background data. Again, building upon previous works, this model utilized the residual blocks used in ResNet \cite{resnet}, making it so that the model is able to be very deep and very complex without falling prone to vanishing/exploding gradients as easily.
+
+\begin{figure}[ht]
+	\includegraphics[width=\textwidth]{residualattentionnetwork}
+	\centering
+	\caption{The model used in the \textbf{Residual Attention Network for Image Classification} \cite{residualattentionnetwork}, containing Attention Modules that are built from residual units as seen in the ResNet \cite{resnet} model.}
+	\label{fig:residualattentionnetwork}
+\end{figure}
 
 %----------------------------------------------------------------------------------------
 %	CNN Models

@@ -447,6 +447,110 @@
     \field{year}{2014}
   \endentry
 
+  \entry{resnet}{misc}{}
+    \name{author}{4}{}{%
+      {{hash=HK}{%
+         family={He},
+         familyi={H\bibinitperiod},
+         given={Kaiming},
+         giveni={K\bibinitperiod},
+      }}%
+      {{hash=ZX}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Xiangyu},
+         giveni={X\bibinitperiod},
+      }}%
+      {{hash=RS}{%
+         family={Ren},
+         familyi={R\bibinitperiod},
+         given={Shaoqing},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=SJ}{%
+         family={Sun},
+         familyi={S\bibinitperiod},
+         given={Jian},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{HKZXRS+1}
+    \strng{fullhash}{HKZXRSSJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1512.03385
+    \endverb
+    \field{title}{Deep Residual Learning for Image Recognition}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2015}
+  \endentry
+
+  \entry{residualattentionnetwork}{misc}{}
+    \name{author}{8}{}{%
+      {{hash=WF}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Fei},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=JM}{%
+         family={Jiang},
+         familyi={J\bibinitperiod},
+         given={Mengqing},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=QC}{%
+         family={Qian},
+         familyi={Q\bibinitperiod},
+         given={Chen},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=YS}{%
+         family={Yang},
+         familyi={Y\bibinitperiod},
+         given={Shuo},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=LC}{%
+         family={Li},
+         familyi={L\bibinitperiod},
+         given={Cheng},
+         giveni={C\bibinitperiod},
+      }}%
+      {{hash=ZH}{%
+         family={Zhang},
+         familyi={Z\bibinitperiod},
+         given={Honggang},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=WX}{%
+         family={Wang},
+         familyi={W\bibinitperiod},
+         given={Xiaogang},
+         giveni={X\bibinitperiod},
+      }}%
+      {{hash=TX}{%
+         family={Tang},
+         familyi={T\bibinitperiod},
+         given={Xiaoou},
+         giveni={X\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{WFJMQC+1}
+    \strng{fullhash}{WFJMQCYSLCZHWXTX1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1704.06904
+    \endverb
+    \field{title}{Residual Attention Network for Image Classification}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2017}
+  \endentry
+
   \entry{LRCNS}{article}{}
     \name{author}{7}{}{%
       {{hash=DJ}{%
