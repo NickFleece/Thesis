@@ -8,9 +8,10 @@
 
 \subsection{Compute Resources}
 
-The model was mainly trained on a single \textbf{NVIDIA GeForce 3090} GPU, which is currently one of the highest end graphics cards. However, this GPU is significantly more compute power than is needed in order to train the model. The GPU used to train this model has 24 GB memory, whereas the model typically only takes ~3.5 GB GPU memory at max. This would in theory mean the model could be trained on less current, and cheaper hardware such as the \textbf{NVIDIA GeForce GTX-1660}. The model is also almost certainly compact enough to be trained on purely CPU, however this would of course result in large training time increases.
+The model was mainly trained on a single \textbf{NVIDIA GeForce 3090} GPU, which is currently one of the highest end graphics cards. However, this GPU is significantly more compute power than is needed in order to train the model. The GPU used to train this model has 24 GB memory, whereas the model typically only takes ~3.5 GB GPU memory at max. This would in theory mean the model could be trained on less modern, cheaper hardware such as the \textbf{NVIDIA GeForce GTX-1660}. The model is also almost certainly compact enough to be trained on purely CPU, however this would of course result in large training time increases, so for the purposes of this thesis it was not considered.
 
 \section{JHMDB Results}
+\label{sec:JHMDBResults}
 
 The dataset that the model will be evaluated on will be the JHMDB dataset. As previously stated in section \ref{sec:datasets}, JHMDB is a good dataset to evaluate performance on pose-based models. The dataset contains 3 splits, each of which have a training and testing pair. Three independent models will be trained, one on each of the splits, without any previous pre-training, and with randomly initialized weights that will be seeded such that they're consistent from one run to another.
 
@@ -36,7 +37,7 @@ The dataset that the model will be evaluated on will be the JHMDB dataset. As pr
 
 Table \ref{tab:acc-results} contains the accuracy results of the previously discussed model and representation on the JHMDB dataset. As can be seen the model obtains on average a 58\% testing accuracy using only the novel approach presented. This is a sufficient accuracy to show that action recognition is possible with very lightweight representations that can then be processed via smaller models that can be run on less advanced hardware.
 
-These accurate results do not tell the complete story however. As can be seen from the individual class F1 scores in figure \ref{fig:detailed-f1}, some classes the model is fairly good at predicting classes that have very clear movements associated with them such as $golf$, $pullup$, or $swing\_baseball$. The significance of these classes is that the variance of the movement from one person to another is not very significant, so the model is able to learn the joint movements and apply that logic to other classes.
+These accurate results do not tell the complete story however. As can be seen from the individual class F1 scores in figure \ref{fig:detailed-f1}, some classes the model is fairly good at predicting classes that have very clear movements associated with them such as $golf$, $pullup$, or $swing\_baseball$. The significance of these classes is that the variance of the movement from one person to another is not very significant, so the model is able to learn the joint movements and apply that logic to other examples. Meaning the model is very good at recognizing these actions in any given environment.
 
 \begin{figure}[ht]
 	\includegraphics[width=10cm]{detailedF1}
@@ -45,7 +46,7 @@ These accurate results do not tell the complete story however. As can be seen fr
 	\label{fig:detailed-f1}
 \end{figure}
 
-The opposite factor is also something to consider. Figure \ref{fig:jump-comparison} shows an example of three different sets of frames from the $jump$ class. As can be seen from the frames, there are many different ways that a person may perform the $jump$ action. A good example is the final two frames from figure \ref{fig:jump-comparison-a}, where the person simply moves throughout the global position of the frame, rather than actually moving any of their joints. Comparing to figures \ref{fig:jump-comparison-b} or \ref{fig:jump-comparison-c}, where there are many joint movements throughout the frames, makes it difficult for the model to interpret them as the same and generalize to other examples of the same class. Figures \ref{fig:jump-comparison-b} and \ref{fig:jump-comparison-c} also demonstrate the variability in how these actions can be performed when they are general, where \ref{fig:jump-comparison-b} shows more of a twisting motion, \ref{fig:jump-comparison-c} is a more typical "jump".
+The opposite factor is also something to consider. Figure \ref{fig:jump-comparison} shows an example of three different sets of frames from the $jump$ class. As can be seen from the frames, there are many different ways that a person may perform the $jump$ action. A good example is the final two frames from figure \ref{fig:jump-comparison-a}, where the person simply moves throughout the global position of the frame, rather than actually moving any of their joints. Comparing to figures \ref{fig:jump-comparison-b} or \ref{fig:jump-comparison-c}, where there are many joint movements throughout the frames, makes it difficult for the model to interpret them as the same and generalize to other examples of the same class. Figures \ref{fig:jump-comparison-b} and \ref{fig:jump-comparison-c} also demonstrate the variability in how these actions can be performed when they are general, where \ref{fig:jump-comparison-b} shows more of a twisting motion, \ref{fig:jump-comparison-c} is a more typical "straight on" jump.
 
 \begin{figure}[ht]
 	\subfigure[]{
@@ -103,19 +104,23 @@ This low variability in the $golf$ class can also be demonstrated in a similar f
 	\label{fig:golf-comparison}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[H]
 	\subfigure[Precision]{
-		\includegraphics[width=0.6\textwidth]{detailedPrecision}
+		\includegraphics[width=0.45\textwidth]{detailedPrecision}
 	}
 	\subfigure[Recall]{
-		\includegraphics[width=0.6\textwidth]{detailedRecall}
+		\includegraphics[width=0.45\textwidth]{detailedRecall}
 	}
 	\centering
 	\caption{Detailed precision \& recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
 	\label{fig:detailed-recall-precision}
 \end{figure}
 
-The detailed precision and recall values broken down by class are shown in figures \ref{fig:detailed-recall-precision}, and in general reflect the same results as the F1 scores. The only notable difference is the model tends to have higher recall differences and precision tends to be closer from one class to another.
+The detailed precision and recall values broken down by class are shown in figure \ref{fig:detailed-recall-precision}, and in general reflect the same results as the F1 scores. The only notable difference is the model tends to have more volatile recall whereas precision tends to be closer from one class to another.
+
+\section{Failure Cases}
+
+There are some specific failure cases that are worth observing, similar to the example shown in figure \ref{fig:jump-comparison}.
 
 \section{Model Ablation Study}
 
@@ -170,7 +175,7 @@ The only angle velocity results show an average decrease in performance over all
 	\label{tab:acc-results-v-angle}
 \end{table}
 
-Similarly, the representation that uses only angles and ignores the angle velocities shows a decrease in performance. However this is much less pronounced, and is only around 1\%. This suggests that while the angle velocities do add value, it is not uniformly a large positive. However when considering how small the actual data still is in the stacked representation the small increase in accuracy is justified.
+Similarly, the representation that uses only angles and ignores the angle velocities shows a decrease in performance. However this is much less pronounced, and is only around 1\%. This suggests that while the angle velocities do add value, it is not uniformly a large positive. However when considering how small the added data is in the stacked representation the small increase in accuracy is justified.
 
 Another intermediate representation was also explored as is shown in figure \ref{fig:alternating-intermediate}, where rather than "stacking" the angles and velocities on top of one another, the rows alternate between the angles of corresponding joints and their velocities. The idea behind this representation being that the initial CNN filters would overlap between each individual joint angle and their corresponding velocity, meaning that the model may be able to learn these relationships a bit better.
 
@@ -208,7 +213,7 @@ With this knowledge that the model typically performs better with the different 
 \begin{figure}[ht]
 	\includegraphics[width=0.4\textwidth]{SplitStructure}
 	\centering
-	\caption{The split model architecture inspired by fusion models where the two different pose features are split and utilize their own CNN's.}
+	\caption{The split model architecture inspired by fusion models where the two different pose features are split and utilize independent CNN's.}
 	\label{fig:split-architecture}
 \end{figure}
 
@@ -218,7 +223,7 @@ As can be seen from the results in table \ref{tab:acc-results-v-split}, once aga
 	\centering
 	\begin{tabular}{||c c c||} 
 		\hline
-		\textbf{Split} & \textbf{Stacked} & \textbf{Split} \\ [0.5ex] 
+		\textbf{Split} & \textbf{Stacked} & \textbf{Split Representation} \\ [0.5ex] 
 		\hline\hline
 		1 & \textbf{58.209\%} & 46.269\% \\ 
 		\hline
@@ -234,6 +239,28 @@ As can be seen from the results in table \ref{tab:acc-results-v-split}, once aga
 	\label{tab:acc-results-v-split}
 \end{table}
 
+We can also examine utilizing deeper and shallower networks with this representation. A shallower model would allow us to further reduction in memory needed to both rain the model as well as a reduction in the hardware required to run the model in production scenarios. A larger model could potentially allow for an increase in performance while sacrificing some of the advantages described previously. Table \ref{tab:acc-results-v-shallow-deep} shows these results, the results from both shallow \& deep models are outperformed by our proposed model. An exception is split 3 of the shallow model which outperforms our proposed model, however the average between the three splits is significantly lower. This is most likely due to the smaller model having slightly more volatility when it comes to each of the splits and results therefore varying more than our proposed model from one split to another.
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{||c c c c||} 
+		\hline
+		\textbf{Split} & \textbf{Standard Model} & \textbf{Shallow Model} & \textbf{Deep Model} \\ [0.5ex] 
+		\hline\hline
+		1 & \textbf{58.209\%} & 55.597\% & 55.970\% \\ 
+		\hline
+		2 & \textbf{58.889\%} & 57.407\% & 58.519\% \\
+		\hline
+		3 & 58.113\% & \textbf{59.245\%} & 53.585\% \\
+		\hline
+		\hline
+		\textbf{Average} & \textbf{58.404\%} & 57.416\% & 56.025\% \\
+		\hline
+	\end{tabular}
+	\caption{Comparison of results using the final model compared to a shallower model using one less convoultional layer group, as well as a deeper model containing one additional convolutional layer group.}
+	\label{tab:acc-results-v-shallow-deep}
+\end{table}
+
 \section{Model Comparison}
 
 When comparing our model and representation to others that are similar, it is important to note the difference in expected performance of our model vs. complex state of the art models. For this purposes of this thesis, we compare our model to other pose-based models, not taking into account those complex models that take very large GPU's to train, as this would be an unfair comparison.
@@ -244,16 +271,16 @@ When comparing our model and representation to others that are similar, it is im
 		\hline
 		\textbf{Model} & \textbf{Average JHMDB Accuracy} \\
 		\hline\hline
-		PA3D* \cite{PA3D} & 69.5\% \\
-		P-CNN \cite{PCNN} & 61.1\% \\
-		Potion \cite{potion} & 57.0\% \\
-		EHPI \cite{simple_yet_efficient} & 60.5\% \\
-		STAR-Net \cite{star-net} & 64.3\% \\
-		DynaMotion \cite{dynamic-motion} & 60.2\% \\
-		SIP-Net \cite{sipnet} & 62.4\% \\
 		Chained \cite{Chained} & 56.8\% \\
+		Potion \cite{potion} & 57.0\% \\
+		DynaMotion \cite{dynamic-motion} & 60.2\% \\
+		EHPI \cite{simple_yet_efficient} & 60.5\% \\
+		P-CNN \cite{PCNN} & 61.1\% \\
+		SIP-Net \cite{sipnet} & 62.4\% \\
+		STAR-Net \cite{star-net} & 64.3\% \\
 		Pose \& Joint Aware \cite{poseandjointaware} & 68.55\% \\
-		Smaller, Faster, Better & \textbf{77.2\%} \\
+		PA3D* \cite{PA3D} & 69.5\% \\
+		Smaller, Faster, Better \cite{smaller_faster_better} & \textbf{77.2\%} \\
 		\hline\hline
 		\textbf{Ours} & 58.404\% \\
 		\hline
@@ -262,4 +289,4 @@ When comparing our model and representation to others that are similar, it is im
 	\label{tab:model-comparison}
 \end{table}
 
-As can be seen from the results in table \ref{tab:model-comparison}, our model is not aiming to be the current state-of-the-art in it's category, however the performance is similar to the other models that approach the problem in a similar pose-based way. It is also notable, that our model is one of the only models that is both global position-invariant and scale-invariant, which is a large advantage of our model, and as stated previously in this thesis is by design.
+As can be seen from the results in table \ref{tab:model-comparison}, our model is not aiming to be the current state-of-the-art in it's category, however the performance is similar to the other models that approach the problem in a similar pose-based way. It is also notable, that our model is one of the only models that is both global position-invariant and scale-invariant, which is a large advantage of our model, and is by design as stated previously in this thesis.

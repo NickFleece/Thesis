@@ -4,22 +4,26 @@
 
 \label{Methodology}
 
+\section{Dataset Selection}
+
+As has been stated previously in this thesis, the dataset that is used in the analysis of this model is JHMDB \cite{JHMDB}. This dataset was selected for one primary reason, consistency. As was discussed in section \ref{sec:pose-detection}, typical pose-based action recognition models utilize a two-step approach which involves first extracting pose data, then using that pose data in order to build intermediate representations. Usage of this dataset standardizes this first step since the pose data is included, rather than needing to be generated afterwards. This means that a more direct comparison can be drawn from other models since the input data is all the same. It is an understood fact throughout the remainder of this thesis that small gains may be able to be made through the addition of a more accurate pose model, however the scope of this thesis specifically focuses on the intermediate representation and corresponding models that process this representation.
+
 \section{Pose}
 
-The methodology throughout this section is dependent on pose information output from models that were described in section \ref{sec:pose-detection}. These pose models output several outputs used by similar models such as joint heatmaps, however the main focus of this paper is the pure positions of the joints. These joints can be connected by lines to form "bones" which are then all connected together to form a "skeleton". This skeleton is shown in figure \ref{fig:pose}, where each of the joints are connected to form a human-like figure that can easily be created form the x \& y coordinates of the joints.
+The methodology throughout this section is dependent on pose information output from models that were described in section \ref{sec:pose-detection}. These pose models have several outputs used by similar models such as joint heatmaps, however the main focus of this paper is the pure positions of the joints. These joints can be connected by lines to form "bones" which are then all connected together to form a "skeleton". This skeleton is shown in figure \ref{fig:pose}, where each of the joints are connected to form a human-like figure that can easily be created form the x \& y coordinates of the joints.
 
 \begin{figure}[ht]
 	\includegraphics[width=5cm]{pose}
 	\centering
-	\caption{Example of how joints are connected through bones in pose representations.}
+	\caption{Example of how joints are connected through bones in a typical pose representations.}
 	\label{fig:pose}
 \end{figure}
 
-Using the JHMDB dataset, we simply take the existing pose implementation, the representation and indexes being shown in figure \ref{fig:JHMDB}, where there are 15 total joints. Specifically in this thesis, we are concerned with bone-joint-bone connections, effectively representing the angle of the middle joint and how the bones around it move.
+Using the JHMDB dataset, we simply take the existing pose implementation, the representation and indexes being shown in figure \ref{fig:JHMDB}, with 15 total joints. Specifically in this thesis, we are concerned with bone-joint-bone connections, effectively representing the angle of the middle joint and how the bones around it move.
 
 \subsection{Joint Angles}
 
-The core of how the new representation will represent actions and movement have to do with the angle between two bones at any one given joint.
+The core of how the new representation will represent actions and movement has to do with the angle between two bones at any one given joint.
 
 \begin{figure}[ht]
 	\includegraphics[width=5cm]{JointAngles}
@@ -28,7 +32,7 @@ The core of how the new representation will represent actions and movement have 
 	\label{fig:joint-angles}
 \end{figure}
 
-The first step in calculating the directional angle between the two vectors is to center them at the origin. Throughout this chapter, we will be referring to these two vectors as $a$ and $b$. Which in figure \ref{fig:joint-angles}, "$a$" would be denoting the vector $B \rightarrow A$ and "$b$" the vector $B \rightarrow C$. This origin centering is simple and is done by the following equation \ref{eqn:angle-centering}, with each point representation as it was in figure \ref{fig:joint-angles} using the $B \rightarrow A$ bone as an example.
+The first step in calculating the directional angle between the two vectors is to center one of the joints at the origin. Throughout this chapter, we will be referring to these two vectors as $a$ and $b$. In figure \ref{fig:joint-angles}, "$a$" would be denoting the vector $B \rightarrow A$ and "$b$" the vector $B \rightarrow C$. In this example, "$B$" will be the origin. This origin centering is simple and is done by the following equation \ref{eqn:angle-centering}, with each point representation as it was in figure \ref{fig:joint-angles} using the $B \rightarrow A$ bone as an example.
 
 \begin{equation}
 	\label{eqn:angle-centering}
@@ -50,7 +54,7 @@ The angle is calculated in a particular direction because if it were simply to b
 	\centering
 	\begin{tabular}{||c c c c||} 
 		\hline
-		\textbf{a(x,y)} & \textbf{b(x,y)} & \textbf{Directional Diff} & \textbf{Non-Directional Diff} \\ [0.5ex] 
+		\textbf{a(x,y)} & \textbf{b(x,y)} & \textbf{Directional} & \textbf{Non-Directional} \\ [0.5ex] 
 		\hline\hline
 		$(1,0)$ & $(0,1)$ & $90^\circ$ & $90^\circ$ \\
 		\hline
@@ -77,7 +81,7 @@ Once the joint angles for each frame have been extracted, the next step before i
 
 \section{Novel Intermediate Representation}
 
-Using this logic, we can now construct the indermediate representation that will be used as input to our model. The model representation is very similar to that in the \textbf{Simple yet efficient real-time pose-based action recognition} \cite{simple_yet_efficient} as described in section \ref{sec:intermediate}, which involves constructing a 2 dimensional image that is easily fed into a simple model. This is represented in figure \ref{fig:intermediate-construction}, where one joint angle is taken from one frame of the video, and added to a column. This column consists of all of the data for one frame of the video, which is then added to the rest of the representation, eventually constructing the joint angles for each frame of the video.
+We can now construct the indermediate representation that will be used as input to our model. The model representation is very similar to that in the \textbf{Simple yet efficient real-time pose-based action recognition} \cite{simple_yet_efficient} as described in section \ref{sec:intermediate}, which involves constructing a 2 dimensional image that is easily fed into a simple model. This is represented in figure \ref{fig:intermediate-construction}, where one joint angle is taken from one frame of the video, and added to a column. This column consists of all of the data for one frame of the video, which is then added to the rest of the representation, eventually constructing the joint angles for each frame of the video.
 
 \begin{figure}[ht]
 	\includegraphics[width=8cm]{IntermediateConstruction}
@@ -86,7 +90,7 @@ Using this logic, we can now construct the indermediate representation that will
 	\label{fig:intermediate-construction}
 \end{figure}
 
-As described previously in section \ref{sec:joint-velocities}, a key point of our representation is the joint velocities portion. These values can simply be "stacked" on top of the angles to form the full intermediate representation. The logic is that for any given frame $i$, the column contains both the joint angles for the frame $i$, as well as their differences between frame $i$ \& $i+1$.
+As described previously in section \ref{sec:joint-velocities}, a key point of our representation is the joint velocities portion. These values can simply be "stacked" on top of the angles to form the full intermediate representation. The logic is that for any given frame $i$, the column contains both the joint angles for the frame $i$, as well as their differences between frame $i$ and $i+1$.
 
 \begin{figure}[ht]
 	\includegraphics[width=8cm]{IntermediateStacked}
@@ -95,7 +99,7 @@ As described previously in section \ref{sec:joint-velocities}, a key point of ou
 	\label{fig:intermediate-stacked}
 \end{figure}
 
-The specific joints that are represented in our intermediate representation are shown in table \ref{tab:joint-connections}. These joints were chosen as they are major joints that form the typical "skeleton" visualization similar to that shown in figure \ref{fig:pose} or figure \ref{fig:pose-joint-angles}.
+The specific joints that are represented in our intermediate representation are shown in table \ref{tab:joint-connections}. These joints were chosen as they are major joints that form the typical "skeleton" visualization similar to that shown in figure \ref{fig:pose} and \ref{fig:pose-joint-angles}.
 
 \begin{table}[ht]
 	\centering
@@ -126,15 +130,40 @@ The specific joints that are represented in our intermediate representation are 
 	\label{tab:joint-connections}
 \end{table}
 
+\subsection{Representation Features}
+
+The way the representation is constructed results in a representation that is:
+
+\begin{itemize}
+	\item Rotation Invariant
+	\item Scale Invariant
+	\item Global Position Invariant
+\end{itemize}
+
+\textbf{Rotation} does not affect the representation since the angle of a joint from one frame to another only relies on the two bones, the two bones can rotate globally, what matters is only the angle between the two given bones. This effect is shown in figure \ref{fig:rotation-invariant}, where the angle of interest does not change when another joint next to it is rotated, this can be generalized to any global rotation with the same logic.
+
+\begin{figure}[ht]
+	\includegraphics[width=0.8\textwidth]{RotationExample}
+	\centering
+	\caption{Example of the rotation invariance of our representation. The angle represented is $A-B-C$, and is unaffected by a rotation around $C-D-E$, remaining at $45^{\circ}$}.
+	\label{fig:rotation-invariant}
+\end{figure}
+
+\textbf{Scale} is avoided entirely as we do not take into account the length of the bones, rather only the angle of the joints. As was stated previously in this chapter, the bones are converted to vectors prior to computing the angle between them. This involves normalizing both bones to be length one, and this length data is not held for any part of the representation. Therefore, the person can move closer or farther from the camera during the action, and it will have no effect on the representation.
+
+\textbf{Global Position} is the final feature that the representation is invariant to. Similar to the previous features, the representation only cares about the angle of the specified joint, meaning that we can translate the person from one side of the frame to another with no change in the representation.
+
+These three features of the model aim to mitigate background interference that has been previously discussed in the model. Specifically, they aim to reduce interference from movement of the camera. A person can move to either side, closer or farther away, and rotate the camera  and there will be no effect on the representation.
+
 \subsection{Temporal Adjustments}
 
-It is not unreasonable to assume that moving from only one frame to the next would result in some actions not being represented as well as other actions. Due to this issue, we add a temporal adjustment to our representation in order to better represent some of these actions. This is done by adding more channels to the data, with each of the channels "skipping" frames. This would mean that rather than having the angle difference representation moving from frames $1 \rightarrow 2 \rightarrow 3$, in the first additional channel it would move from frames $1 \rightarrow 3 \rightarrow 5$. The representation is then padded out to fi the same shape and added as another channel to the data. This is more clearly shown in figure \ref{fig:intermediate-stacked-skip} where the actions become more "compressed" and movements over longer periods of time become easier to visualize and process.
+It is not unreasonable to assume that moving from only one frame to the next would result in some actions not being represented as well as other actions. Due to this issue, we add a temporal adjustment to our representation in order to better represent some of these actions. This is done by adding more channels to the data, with each of the channels "skipping" frames. This would mean that rather than having the angle difference representation moving from frames $1 \rightarrow 2 \rightarrow 3$, in the first additional channel it would move from frames $1 \rightarrow 3 \rightarrow 5$. The representation is then padded out to fit the same shape and added as another channel to the data. This is more clearly shown in figure \ref{fig:intermediate-stacked-skip} where the actions become more "compressed" and movements over longer periods of time become easier to visualize and process.
 
 \begin{figure}[ht]
 	\subfigure[N=1]{\includegraphics[width=8cm]{IntermediateSkip1}}
 	\subfigure[N=2]{\includegraphics[width=8cm]{IntermediateSkip2}}
 	\centering
-	\caption{Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a N value of 1 the representation will ignore every other frame, etc.}
+	\caption{Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a $N = 1$ the representation will ignore every other frame, $N = 2$ two frames, etc.}
 	\label{fig:intermediate-stacked-skip}
 \end{figure}
 
@@ -187,3 +216,5 @@ The goal of this intermediate representation is to be able to use a simple 2-dim
 	\caption{The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.}
 	\label{tab:detailed-model}
 \end{table}
+
+The model was trained using the SGD optimizer, with an initial learning rate of $0.01$, momentum of $0.9$, batch size $16$, and weight decay $0.005$. After each epoch, the learning rate was multiplied by $0.999$, reducing the learning rate gradually over the training period.

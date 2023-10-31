@@ -190,6 +190,7 @@ class CNN(nn.Module):
 cnn_net = CNN()
 if device != cpu:
     cnn_net = nn.DataParallel(cnn_net)
+    
 
 checkpoint = args.load_checkpoint
 if not checkpoint is None:

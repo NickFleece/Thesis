@@ -4,39 +4,43 @@
 \@writefile{lof}{\addvspace {10\p@ }}
 \@writefile{lot}{\addvspace {10\p@ }}
 \newlabel{Methodology}{{3}{29}{Methodology}{chapter.60}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.1}Pose}{29}{section.61}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Example of how joints are connected through bones in pose representations.\relax }}{29}{figure.caption.62}\protected@file@percent }
-\newlabel{fig:pose}{{3.1}{29}{Example of how joints are connected through bones in pose representations.\relax }{figure.caption.62}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.1}Joint Angles}{30}{subsection.63}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Two examples of three joints interconnected with two bones, and how the angle can change from one frame to another.\relax }}{30}{figure.caption.64}\protected@file@percent }
-\newlabel{fig:joint-angles}{{3.2}{30}{Two examples of three joints interconnected with two bones, and how the angle can change from one frame to another.\relax }{figure.caption.64}{}}
-\newlabel{eqn:angle-centering}{{3.1}{30}{Joint Angles}{equation.65}{}}
-\newlabel{eqn:angle-calculation}{{3.2}{30}{Joint Angles}{equation.66}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Example of how non-directional angle can result in incorrect rotation changes from one frame to another.\relax }}{31}{table.caption.67}\protected@file@percent }
-\newlabel{tab:directed-angle-example}{{3.1}{31}{Example of how non-directional angle can result in incorrect rotation changes from one frame to another.\relax }{table.caption.67}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces An example skeleton with JHMDB indices in each of the joints. In addition, angles have been shown as if they are being calculated in a clockwise direction, resulting in connections such as 5-4-8 having the angle on the "outside" of the person.\relax }}{31}{figure.caption.68}\protected@file@percent }
-\newlabel{fig:pose-joint-angles}{{3.3}{31}{An example skeleton with JHMDB indices in each of the joints. In addition, angles have been shown as if they are being calculated in a clockwise direction, resulting in connections such as 5-4-8 having the angle on the "outside" of the person.\relax }{figure.caption.68}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1.2}Joint Velocities}{31}{subsection.69}\protected@file@percent }
-\newlabel{sec:joint-velocities}{{3.1.2}{31}{Joint Velocities}{subsection.69}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.2}Novel Intermediate Representation}{32}{section.70}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Example of how the intermediate representation is constructed. At each frame, the angles of each joint are taken and added to a column, each column is then stacked next to one another to form a 2 dimensional image.\relax }}{32}{figure.caption.71}\protected@file@percent }
-\newlabel{fig:intermediate-construction}{{3.4}{32}{Example of how the intermediate representation is constructed. At each frame, the angles of each joint are taken and added to a column, each column is then stacked next to one another to form a 2 dimensional image.\relax }{figure.caption.71}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces The finished intermediate representation, the top half contains the changes in joint angle from one frame to another (also referred to as "velocity"), and the bottom half contains the joint angles themselves. This is referred to as the "stacked" representation.\relax }}{33}{figure.caption.72}\protected@file@percent }
-\newlabel{fig:intermediate-stacked}{{3.5}{33}{The finished intermediate representation, the top half contains the changes in joint angle from one frame to another (also referred to as "velocity"), and the bottom half contains the joint angles themselves. This is referred to as the "stacked" representation.\relax }{figure.caption.72}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces All Joint connections used in our intermediate representations.\relax }}{33}{table.caption.73}\protected@file@percent }
-\newlabel{tab:joint-connections}{{3.2}{33}{All Joint connections used in our intermediate representations.\relax }{table.caption.73}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Temporal Adjustments}{33}{subsection.74}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a N value of 1 the representation will ignore every other frame, etc.\relax }}{34}{figure.caption.75}\protected@file@percent }
-\newlabel{fig:intermediate-stacked-skip}{{3.6}{34}{Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a N value of 1 the representation will ignore every other frame, etc.\relax }{figure.caption.75}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {N=1}}}{34}{figure.caption.75}\protected@file@percent }
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {N=2}}}{34}{figure.caption.75}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Model Architecture}{34}{subsection.78}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces The basic model architecture used, very similar to that used in other models such as Potion \blx@tocontentsinit {0}\cite {potion}, it is a simple 2 dimensional CNN that contains one fully connected layer at the end for classification.\relax }}{35}{figure.caption.79}\protected@file@percent }
-\newlabel{fig:model-architecture}{{3.7}{35}{The basic model architecture used, very similar to that used in other models such as Potion \cite {potion}, it is a simple 2 dimensional CNN that contains one fully connected layer at the end for classification.\relax }{figure.caption.79}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.3}{\ignorespaces The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }}{35}{table.caption.80}\protected@file@percent }
-\newlabel{tab:detailed-model}{{3.3}{35}{The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }{table.caption.80}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Dataset Selection}{29}{section.61}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Pose}{29}{section.62}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Example of how joints are connected through bones in a typical pose representations.\relax }}{30}{figure.caption.63}\protected@file@percent }
+\newlabel{fig:pose}{{3.1}{30}{Example of how joints are connected through bones in a typical pose representations.\relax }{figure.caption.63}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Joint Angles}{30}{subsection.64}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Two examples of three joints interconnected with two bones, and how the angle can change from one frame to another.\relax }}{30}{figure.caption.65}\protected@file@percent }
+\newlabel{fig:joint-angles}{{3.2}{30}{Two examples of three joints interconnected with two bones, and how the angle can change from one frame to another.\relax }{figure.caption.65}{}}
+\newlabel{eqn:angle-centering}{{3.1}{30}{Joint Angles}{equation.66}{}}
+\newlabel{eqn:angle-calculation}{{3.2}{31}{Joint Angles}{equation.67}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Example of how non-directional angle can result in incorrect rotation changes from one frame to another.\relax }}{31}{table.caption.68}\protected@file@percent }
+\newlabel{tab:directed-angle-example}{{3.1}{31}{Example of how non-directional angle can result in incorrect rotation changes from one frame to another.\relax }{table.caption.68}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Joint Velocities}{31}{subsection.70}\protected@file@percent }
+\newlabel{sec:joint-velocities}{{3.2.2}{31}{Joint Velocities}{subsection.70}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.3}{\ignorespaces An example skeleton with JHMDB indices in each of the joints. In addition, angles have been shown as if they are being calculated in a clockwise direction, resulting in connections such as 5-4-8 having the angle on the "outside" of the person.\relax }}{32}{figure.caption.69}\protected@file@percent }
+\newlabel{fig:pose-joint-angles}{{3.3}{32}{An example skeleton with JHMDB indices in each of the joints. In addition, angles have been shown as if they are being calculated in a clockwise direction, resulting in connections such as 5-4-8 having the angle on the "outside" of the person.\relax }{figure.caption.69}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Novel Intermediate Representation}{32}{section.71}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.4}{\ignorespaces Example of how the intermediate representation is constructed. At each frame, the angles of each joint are taken and added to a column, each column is then stacked next to one another to form a 2 dimensional image.\relax }}{33}{figure.caption.72}\protected@file@percent }
+\newlabel{fig:intermediate-construction}{{3.4}{33}{Example of how the intermediate representation is constructed. At each frame, the angles of each joint are taken and added to a column, each column is then stacked next to one another to form a 2 dimensional image.\relax }{figure.caption.72}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.5}{\ignorespaces The finished intermediate representation, the top half contains the changes in joint angle from one frame to another (also referred to as "velocity"), and the bottom half contains the joint angles themselves. This is referred to as the "stacked" representation.\relax }}{33}{figure.caption.73}\protected@file@percent }
+\newlabel{fig:intermediate-stacked}{{3.5}{33}{The finished intermediate representation, the top half contains the changes in joint angle from one frame to another (also referred to as "velocity"), and the bottom half contains the joint angles themselves. This is referred to as the "stacked" representation.\relax }{figure.caption.73}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Representation Features}{33}{subsection.75}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.2}{\ignorespaces All Joint connections used in our intermediate representations.\relax }}{34}{table.caption.74}\protected@file@percent }
+\newlabel{tab:joint-connections}{{3.2}{34}{All Joint connections used in our intermediate representations.\relax }{table.caption.74}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Example of the rotation invariance of our representation. The angle represented is $A-B-C$, and is unaffected by a rotation around $C-D-E$, remaining at $45^{\circ }$\relax }}{34}{figure.caption.76}\protected@file@percent }
+\newlabel{fig:rotation-invariant}{{3.6}{34}{Example of the rotation invariance of our representation. The angle represented is $A-B-C$, and is unaffected by a rotation around $C-D-E$, remaining at $45^{\circ }$\relax }{figure.caption.76}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Temporal Adjustments}{35}{subsection.77}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Model Architecture}{35}{subsection.81}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a $N = 1$ the representation will ignore every other frame, $N = 2$ two frames, etc.\relax }}{36}{figure.caption.78}\protected@file@percent }
+\newlabel{fig:intermediate-stacked-skip}{{3.7}{36}{Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a $N = 1$ the representation will ignore every other frame, $N = 2$ two frames, etc.\relax }{figure.caption.78}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {N=1}}}{36}{figure.caption.78}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {N=2}}}{36}{figure.caption.78}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces The basic model architecture used, very similar to that used in other models such as Potion \blx@tocontentsinit {0}\cite {potion}, it is a simple 2 dimensional CNN that contains one fully connected layer at the end for classification.\relax }}{37}{figure.caption.82}\protected@file@percent }
+\newlabel{fig:model-architecture}{{3.8}{37}{The basic model architecture used, very similar to that used in other models such as Potion \cite {potion}, it is a simple 2 dimensional CNN that contains one fully connected layer at the end for classification.\relax }{figure.caption.82}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.3}{\ignorespaces The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }}{37}{table.caption.83}\protected@file@percent }
+\newlabel{tab:detailed-model}{{3.3}{37}{The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }{table.caption.83}{}}
 \@setckpt{Chapters/Chapter4}{
-\setcounter{page}{36}
+\setcounter{page}{38}
 \setcounter{equation}{2}
 \setcounter{enumi}{2}
 \setcounter{enumii}{0}
@@ -46,12 +50,12 @@
 \setcounter{mpfootnote}{0}
 \setcounter{part}{0}
 \setcounter{chapter}{3}
-\setcounter{section}{2}
-\setcounter{subsection}{2}
+\setcounter{section}{3}
+\setcounter{subsection}{3}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{7}
+\setcounter{figure}{8}
 \setcounter{table}{3}
 \setcounter{LT@tables}{1}
 \setcounter{LT@chunks}{1}
@@ -66,7 +70,7 @@
 \setcounter{citetotal}{0}
 \setcounter{multicitecount}{0}
 \setcounter{multicitetotal}{0}
-\setcounter{instcount}{135}
+\setcounter{instcount}{139}
 \setcounter{maxnames}{3}
 \setcounter{minnames}{3}
 \setcounter{maxitems}{3}
@@ -179,8 +183,9 @@
 \setcounter{lofdepth}{1}
 \setcounter{subtable}{0}
 \setcounter{lotdepth}{1}
+\setcounter{float@type}{4}
 \setcounter{section@level}{2}
 \setcounter{Item}{2}
 \setcounter{Hfootnote}{0}
-\setcounter{bookmark@seq@number}{32}
+\setcounter{bookmark@seq@number}{34}
 }
