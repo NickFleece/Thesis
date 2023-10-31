@@ -10,7 +10,7 @@
 \contentsline {table}{\numberline {4.2}{\ignorespaces Comparison of results using only angle velocities vs the stacked representation.\relax }}{42}{table.caption.103}%
 \contentsline {subtable}{\numberline {(a)}{\ignorespaces {Precision}}}{42}{table.caption.103}%
 \contentsline {subtable}{\numberline {(b)}{\ignorespaces {Recall}}}{42}{table.caption.103}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Comparison of results using only angles vs the stacked representation.\relax }}{42}{table.caption.105}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Comparison of results using only angles vs the stacked representation.\relax }}{43}{table.caption.105}%
 \contentsline {table}{\numberline {4.4}{\ignorespaces Comparison of results using the alternating vs stacked representation.\relax }}{44}{table.caption.107}%
 \contentsline {table}{\numberline {4.5}{\ignorespaces Comparison of results using the split model and representation against the single CNN stacked representation.\relax }}{45}{table.caption.109}%
 \contentsline {table}{\numberline {4.6}{\ignorespaces Comparison of results using the final model compared to a shallower model using one less convoultional layer group, as well as a deeper model containing one additional convolutional layer group.\relax }}{46}{table.caption.110}%

@@ -116,11 +116,19 @@ This low variability in the $golf$ class can also be demonstrated in a similar f
 	\label{fig:detailed-recall-precision}
 \end{figure}
 
-The detailed precision and recall values broken down by class are shown in figure \ref{fig:detailed-recall-precision}, and in general reflect the same results as the F1 scores. The only notable difference is the model tends to have more volatile recall whereas precision tends to be closer from one class to another.
+The detailed precision and recall values broken down by class are shown in figure \ref{fig:detailed-recall-precision}, and in general reflect the same results as the F1 scores. The only notable difference is the model tends to have more volatile recall whereas precision tends to be closer from one class to another. This can be seen more clearly in classes such as golf, pour, pullup, and push which have a very high recall compared to some other classes, but the precision is closer when compared to the other classes.
 
 \section{Failure Cases}
 
-There are some specific failure cases that are worth observing, similar to the example shown in figure \ref{fig:jump-comparison}.
+There are some specific failure cases that are worth observing, similar to the example shown in figure \ref{fig:jump-comparison}. These failure cases are important to understanding how the model uses the representation and further examining the types of actions that the model has difficulty with.
+
+\textbf{Catch} - no object data
+
+\textbf{Climb Stairs / Sit} - no global position
+
+\textbf{Run / Jump} - variability in movements
+
+\textbf{Pick} - camera angles and movement variability
 
 \section{Model Ablation Study}
 

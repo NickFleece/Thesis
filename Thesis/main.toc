@@ -39,7 +39,7 @@
 \contentsline {section}{\numberline {4.2}JHMDB Results}{38}{section.87}%
 \contentsline {section}{\numberline {4.3}Failure Cases}{42}{section.101}%
 \contentsline {section}{\numberline {4.4}Model Ablation Study}{42}{section.102}%
-\contentsline {section}{\numberline {4.5}Model Comparison}{45}{section.111}%
+\contentsline {section}{\numberline {4.5}Model Comparison}{46}{section.111}%
 \contentsline {chapter}{\numberline {5}Conclusion \& Future Work}{47}{chapter.113}%
 \contentsline {subsection}{\numberline {5.0.1}Future Work}{48}{subsection.114}%
 \contentsline {chapter}{Bibliography}{49}{appendix*.115}%
