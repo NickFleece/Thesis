@@ -53,6 +53,8 @@ headsepline, % Uncomment to get a line under the header
 
 \usepackage{float}
 
+\usepackage{afterpage}
+
 %----------------------------------------------------------------------------------------
 %	MARGIN SETTINGS
 %----------------------------------------------------------------------------------------
@@ -146,18 +148,21 @@ headsepline, % Uncomment to get a line under the header
 
 \begin{abstract}
 \addchaptertocentry{\abstractname} % Add the abstract to the table of contents
-The Thesis Abstract is written here (and usually kept to just this page). The page is kept centered vertically so can expand into the blank space above the title too\ldots
+Human action recognition is a difficult task and topic of discussion in the computer vision community. There are consistent breakthroughs by large research groups using sophisticated state-of-the-art computation hardware. These advancements allow for very accurate predictions on complex action recognition datasets that can be generalized to in-the-wild tasks. However, a key weakness is that in order to run these models, the computation required is significant.
+
+We explore these models, as well as some models that utilize intermediate representations. These representations focus on the movement of the person throughout the frame, specifically the 'pose' data. We propose a novel intermediate representation utilizing only the angles of the joints of a person from one frame to another. This allows for the representation constructed to be completely invariant to the global position of the person in the frame, providing insights into how these small and very efficient representations and models can be used with good effectiveness.
 \end{abstract}
 
 %----------------------------------------------------------------------------------------
 %	QUOTATION PAGE
 %----------------------------------------------------------------------------------------
 
+\newpage
 \vspace*{0.2\textheight}
 
-\noindent\enquote{\itshape Thanks to my solid academic training, today I can write hundreds of words on virtually any topic without possessing a shred of information, which is how I got a good job in journalism.}\bigbreak
+\noindent\enquote{\itshape Sometimes I’ll start a sentence, and I don’t even know where it’s going. I just hope I find it along the way.}\bigbreak
 
-\hfill Dave Barry
+\hfill Michael Scott
 
 %----------------------------------------------------------------------------------------
 %	ACKNOWLEDGEMENTS
@@ -165,7 +170,13 @@ The Thesis Abstract is written here (and usually kept to just this page). The pa
 
 \begin{acknowledgements}
 \addchaptertocentry{\acknowledgementname} % Add the acknowledgements to the table of contents
-The acknowledgments and the people to thank go here, don't forget to include your project advisor\ldots
+First and foremost, thank you to my supervisor Professor Robert Laganière, who answered my email when I was in search of a supervisor and has guided me through the process of writing and submitting this thesis. His knowledge was invaluable to me and I would not have been able to achieve this without him, providing me with endless opportunities that opened many doors that I would not have been able to open on my own.
+
+Thank you to my family, without whom I would not be able to pursue this thesis and whose continued support helped push me to finish. Their both moral and financial support was crucial in my completion of my thesis, and helped me to push through the difficult parts.
+
+Thank you to my partner, Monique, who helped through countless late nights of working, never complaining that I would always be running a model or writing paragraphs. Who read through pages of complex topics that she did not understand in order to  correct my grammar mistakes, and spent late nights with our puppy Mabel while I was isolating myself trying to finish the final copy.
+
+Working on my thesis during the pandemic has not been easy and there have been many points where I was questioning whether it was worth completing. I cannot name everyone who assisted me throughout the writing of this thesis and throughout my undergraduate degree prior to this. Herna Viktor, thank you for helping me with the application process to this masters, and for supporting me throughout my thesis with any questions I had, Lucia Moura, for helping me find a love for being a teaching assistant, and to all my professors who helped me develop my skills throughout my studies.
 \end{acknowledgements}
 
 %----------------------------------------------------------------------------------------
@@ -190,6 +201,7 @@ The acknowledgments and the people to thank go here, don't forget to include you
 \textbf{EHPI} & Encoded Human Pose Image\\
 \textbf{HMDB} & Human Motion DataBase\\
 \textbf{I3D} & Inflated 3D ConvNet\\
+\textbf{JCD} & Joint Collection Distances \\
 \textbf{JHMDB} & Joint-annotated Human Motion DataBase\\
 \textbf{LRCN} & Long-term Recurrent Convolutional Networks\\
 \textbf{LSTM} & Long Short-Term Memory\\

@@ -4,9 +4,7 @@
 
 \label{Experimentation} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
 
-\section{Model Hyperparameters}
-
-\subsection{Compute Resources}
+\section{Compute Resources}
 
 The model was mainly trained on a single \textbf{NVIDIA GeForce 3090} GPU, which is currently one of the highest end graphics cards. However, this GPU is significantly more compute power than is needed in order to train the model. The GPU used to train this model has 24 GB memory, whereas the model typically only takes ~3.5 GB GPU memory at max. This would in theory mean the model could be trained on less modern, cheaper hardware such as the \textbf{NVIDIA GeForce GTX-1660}. The model is also almost certainly compact enough to be trained on purely CPU, however this would of course result in large training time increases, so for the purposes of this thesis it was not considered.
 
@@ -106,10 +104,10 @@ This low variability in the $golf$ class can also be demonstrated in a similar f
 
 \begin{figure}[H]
 	\subfigure[Precision]{
-		\includegraphics[width=0.45\textwidth]{detailedPrecision}
+		\includegraphics[width=0.6\textwidth]{detailedPrecision}
 	}
 	\subfigure[Recall]{
-		\includegraphics[width=0.45\textwidth]{detailedRecall}
+		\includegraphics[width=0.6\textwidth]{detailedRecall}
 	}
 	\centering
 	\caption{Detailed precision \& recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
@@ -118,17 +116,75 @@ This low variability in the $golf$ class can also be demonstrated in a similar f
 
 The detailed precision and recall values broken down by class are shown in figure \ref{fig:detailed-recall-precision}, and in general reflect the same results as the F1 scores. The only notable difference is the model tends to have more volatile recall whereas precision tends to be closer from one class to another. This can be seen more clearly in classes such as golf, pour, pullup, and push which have a very high recall compared to some other classes, but the precision is closer when compared to the other classes.
 
+\afterpage{
+	\begin{figure}[H]
+		\subfigure[Split 1]{
+			\includegraphics[width=0.6\textwidth]{confmatrix1}
+		}
+		\subfigure[Split 2]{
+			\includegraphics[width=0.6\textwidth]{confmatrix2}
+		}
+		\subfigure[Split 3]{
+			\includegraphics[width=0.6\textwidth]{confmatrix3}
+		}
+		\centering
+		\caption{Confusion matrices for each of the 3 JHMDB splits.}
+		\label{fig:confusion-matrices}
+	\end{figure}
+}
+
+We can further explore the results as shown in figure \ref{fig:confusion-matrices}. These matrices for each split demonstrate that overall, the model predicts the correct class quite well. However it does tend to get confused in particular cases when the actions are similar, this will be further explained in when we study the failure cases in the next section.
+
 \section{Failure Cases}
+\label{sec:failure-cases}
 
-There are some specific failure cases that are worth observing, similar to the example shown in figure \ref{fig:jump-comparison}. These failure cases are important to understanding how the model uses the representation and further examining the types of actions that the model has difficulty with.
+There are some specific failure cases that are worth observing, similar to the example shown in figure \ref{fig:jump-comparison}. These failure cases are important to understanding how the model uses the representation and further examining the types of actions that the model has difficulty with outside of the previously discussed high variability in some actions.
 
-\textbf{Catch} - no object data
+\begin{figure}[ht]
+	\includegraphics[width=3cm]{FailureCases/Catch/00001.png}
+	\includegraphics[width=3cm]{FailureCases/Catch/00005.png}
+	\includegraphics[width=3cm]{FailureCases/Catch/00010.png}
+	\includegraphics[width=3cm]{FailureCases/Catch/00015.png}
+	\centering
+	\caption{An example of the \textbf{catch} action from the JHMDB dataset \cite{JHMDB}.}
+	\label{fig:catch-action}
+\end{figure}
 
-\textbf{Climb Stairs / Sit} - no global position
+Figure \ref{fig:catch-action} shows an example of the catch action. The primary issue is that throughout the four frames, there is very little movement by the main person who is performing the action of catching the ball. Due to the fact that the representation relies heavily on movement from one frame to another, this means that about 50\% of the representation is not used effectively because there is not very much movement. The underlying issue is that the model cannot see any person-object interactions. Other models that process the RGB frames or optical flow are able to pick up on the ball moving from one person to another, whereas our model cannot detect this object.
 
-\textbf{Run / Jump} - variability in movements
+\begin{figure}[ht]
+	\includegraphics[width=3cm]{FailureCases/Sit/00001.png}
+	\includegraphics[width=3cm]{FailureCases/Sit/00010.png}
+	\includegraphics[width=3cm]{FailureCases/Sit/00020.png}
+	\includegraphics[width=3cm]{FailureCases/Sit/00030.png}
+	\centering
+	\caption{An example of the \textbf{sit} action from the JHMDB dataset \cite{JHMDB}.}
+	\label{fig:sit-action}
+\end{figure}
 
-\textbf{Pick} - camera angles and movement variability
+Another problem class is the sit action shown in figure \ref{fig:sit-action}. Our representation is designed in a way such that global position is not considered, which is an intentional decision in order to add some more ability for the model to generalize. This however also has some other consequences, as can be seen by the given example. The person does not have very much movement in their upper body, only pivoting at the hip. The crucial note that they are performing a "sit" rather than another action is their movement down through the frame. This global position change is not detectable by our representation and results in the model performing poorly for this class.
+
+\begin{figure}[ht]
+	\subfigure[]{
+		\includegraphics[width=3cm]{FailureCases/Walk/00001.png}
+		\includegraphics[width=3cm]{FailureCases/Walk/00015.png}
+		\includegraphics[width=3cm]{FailureCases/Walk/00030.png}
+		\includegraphics[width=3cm]{FailureCases/Walk/00040.png}
+		\label{fig:run-action}
+	}
+	\subfigure[]{
+		\includegraphics[width=3cm]{FailureCases/ClimbStairs/00001.png}
+		\includegraphics[width=3cm]{FailureCases/ClimbStairs/00010.png}
+		\includegraphics[width=3cm]{FailureCases/ClimbStairs/00020.png}
+		\includegraphics[width=3cm]{FailureCases/ClimbStairs/00030.png}
+		\label{fig:climb-action}
+	}
+	\centering
+	\caption{Comparison between the \textbf{walk} (a) and \textbf{climb stairs} (b) actions from the JHMDB dataset \cite{JHMDB} showing similar movements.}
+	\label{fig:walk-climb-actions}
+\end{figure}
+
+While the variability of actions is generally considered good for accuracy, this can also be detrimental to the performance of the model if two actions have very similar movements. This is shown in figure \ref{fig:walk-climb-actions}, where the actions shown (walk and climb stairs) have very similar movements. They differ only in two aspects. First, the climb stairs action generally moves the person vertically through the frame throughout. Second is that there are context clues in the background such as a lack of staircase in the run action, whereas the climb stairs action always has a staircase. In both of these cases, our model is not able to take this information in, resulting in the run and climb stairs actions looking similar in our representation, and making it difficult to distinguish between the two, resulting in the poor performance for both classes. As stated previously, this effect can be seen more in detail in figure \ref{fig:confusion-matrices}, where it is shown that the model quite often confuses climb stairs and walk.
 
 \section{Model Ablation Study}
 

@@ -29,18 +29,27 @@
 \newlabel{tab:joint-connections}{{3.2}{34}{All Joint connections used in our intermediate representations.\relax }{table.caption.74}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3.6}{\ignorespaces Example of the rotation invariance of our representation. The angle represented is $A-B-C$, and is unaffected by a rotation around $C-D-E$, remaining at $45^{\circ }$\relax }}{34}{figure.caption.76}\protected@file@percent }
 \newlabel{fig:rotation-invariant}{{3.6}{34}{Example of the rotation invariance of our representation. The angle represented is $A-B-C$, and is unaffected by a rotation around $C-D-E$, remaining at $45^{\circ }$\relax }{figure.caption.76}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Temporal Adjustments}{35}{subsection.77}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Model Architecture}{35}{subsection.81}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a $N = 1$ the representation will ignore every other frame, $N = 2$ two frames, etc.\relax }}{36}{figure.caption.78}\protected@file@percent }
-\newlabel{fig:intermediate-stacked-skip}{{3.7}{36}{Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a $N = 1$ the representation will ignore every other frame, $N = 2$ two frames, etc.\relax }{figure.caption.78}{}}
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {N=1}}}{36}{figure.caption.78}\protected@file@percent }
-\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {N=2}}}{36}{figure.caption.78}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces The basic model architecture used, very similar to that used in other models such as Potion \blx@tocontentsinit {0}\cite {potion}, it is a simple 2 dimensional CNN that contains one fully connected layer at the end for classification.\relax }}{37}{figure.caption.82}\protected@file@percent }
-\newlabel{fig:model-architecture}{{3.8}{37}{The basic model architecture used, very similar to that used in other models such as Potion \cite {potion}, it is a simple 2 dimensional CNN that contains one fully connected layer at the end for classification.\relax }{figure.caption.82}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3.3}{\ignorespaces The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }}{37}{table.caption.83}\protected@file@percent }
-\newlabel{tab:detailed-model}{{3.3}{37}{The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }{table.caption.83}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Representation Comparison}{35}{subsection.77}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.7}{\ignorespaces Comparison of our representation (b) compared to \textbf  {Simple yet efficient real-time pose-based action recognition} \blx@tocontentsinit {0}\cite {simple_yet_efficient} (a), showing a similar representation construction.\relax }}{35}{figure.caption.78}\protected@file@percent }
+\newlabel{fig:simple-v-ours}{{3.7}{35}{Comparison of our representation (b) compared to \textbf {Simple yet efficient real-time pose-based action recognition} \cite {simple_yet_efficient} (a), showing a similar representation construction.\relax }{figure.caption.78}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{35}{figure.caption.78}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{35}{figure.caption.78}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.8}{\ignorespaces Similar representations of our novel representation (b) compared to that of \textbf  {Make Skeleton-based Action Recognition Model Smaller, Faster and Better} \blx@tocontentsinit {0}\cite {smaller_faster_better} (a).\relax }}{36}{figure.caption.81}\protected@file@percent }
+\newlabel{fig:smaller-v-ours}{{3.8}{36}{Similar representations of our novel representation (b) compared to that of \textbf {Make Skeleton-based Action Recognition Model Smaller, Faster and Better} \cite {smaller_faster_better} (a).\relax }{figure.caption.81}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{36}{figure.caption.81}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{36}{figure.caption.81}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Temporal Adjustments}{37}{subsection.84}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Model Architecture}{37}{subsection.88}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.9}{\ignorespaces Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a $N = 1$ the representation will ignore every other frame, $N = 2$ two frames, etc.\relax }}{38}{figure.caption.85}\protected@file@percent }
+\newlabel{fig:intermediate-stacked-skip}{{3.9}{38}{Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a $N = 1$ the representation will ignore every other frame, $N = 2$ two frames, etc.\relax }{figure.caption.85}{}}
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {N=1}}}{38}{figure.caption.85}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {N=2}}}{38}{figure.caption.85}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.10}{\ignorespaces The basic model architecture used, very similar to that used in other models such as Potion \blx@tocontentsinit {0}\cite {potion}, it is a simple 2 dimensional CNN that contains one fully connected layer at the end for classification.\relax }}{38}{figure.caption.89}\protected@file@percent }
+\newlabel{fig:model-architecture}{{3.10}{38}{The basic model architecture used, very similar to that used in other models such as Potion \cite {potion}, it is a simple 2 dimensional CNN that contains one fully connected layer at the end for classification.\relax }{figure.caption.89}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3.3}{\ignorespaces The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }}{39}{table.caption.90}\protected@file@percent }
+\newlabel{tab:detailed-model}{{3.3}{39}{The detailed breakdown of the model architecture, split into 3 convolutional blocks and one dense layer used for classification. All convolutional layers utilize 3x3 convolutions, including a 1 pixel padding across all sides. The 2D max pooling utilized a 2x2 kernel, halving the size of the images after each convolutional block.\relax }{table.caption.90}{}}
 \@setckpt{Chapters/Chapter4}{
-\setcounter{page}{38}
+\setcounter{page}{40}
 \setcounter{equation}{2}
 \setcounter{enumi}{2}
 \setcounter{enumii}{0}
@@ -51,15 +60,15 @@
 \setcounter{part}{0}
 \setcounter{chapter}{3}
 \setcounter{section}{3}
-\setcounter{subsection}{3}
+\setcounter{subsection}{4}
 \setcounter{subsubsection}{0}
 \setcounter{paragraph}{0}
 \setcounter{subparagraph}{0}
-\setcounter{figure}{8}
+\setcounter{figure}{10}
 \setcounter{table}{3}
 \setcounter{LT@tables}{1}
 \setcounter{LT@chunks}{1}
-\setcounter{caption@flags}{0}
+\setcounter{caption@flags}{2}
 \setcounter{continuedfloat}{0}
 \setcounter{tabx@nest}{0}
 \setcounter{listtotal}{0}
@@ -70,7 +79,7 @@
 \setcounter{citetotal}{0}
 \setcounter{multicitecount}{0}
 \setcounter{multicitetotal}{0}
-\setcounter{instcount}{139}
+\setcounter{instcount}{151}
 \setcounter{maxnames}{3}
 \setcounter{minnames}{3}
 \setcounter{maxitems}{3}
@@ -93,8 +102,6 @@
 \setcounter{maxparens}{3}
 \setcounter{parenlevel}{0}
 \setcounter{blx@maxsection}{0}
-\setcounter{blx@maxsegment@0}{0}
-\setcounter{blx@sectionciteorder@0}{139}
 \setcounter{mincomprange}{10}
 \setcounter{maxcomprange}{100000}
 \setcounter{mincompwidth}{1}
@@ -186,8 +193,8 @@
 \setcounter{subtable}{0}
 \setcounter{lotdepth}{1}
 \setcounter{float@type}{4}
+\setcounter{section@level}{2}
 \setcounter{Item}{2}
 \setcounter{Hfootnote}{0}
-\setcounter{bookmark@seq@number}{34}
-\setcounter{section@level}{2}
+\setcounter{bookmark@seq@number}{35}
 }

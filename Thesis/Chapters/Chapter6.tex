@@ -9,6 +9,7 @@ In this thesis, we have provided a novel representation for use in action recogn
 \begin{itemize}
 	\item Scale
 	\item Global Position
+	\item 2-D Rotation
 \end{itemize}
 
 We explore many different variations of this representation, concluding that the best representation contains both joint angle data and joint angle velocity data, however, only angle data also provides good results. It was also found that this data functions the best as a single image, with one data source stacked on top of another. This means that the combining of the angles and velocities can be learned by the convolutions slowly over the entire model, rather than typical fusion-like architectures that concatenate the different sources at the end.
