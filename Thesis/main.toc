@@ -16,7 +16,7 @@
 \contentsline {subsection}{\numberline {2.3.1}Structure}{7}{subsection.23}%
 \contentsline {subsection}{\numberline {2.3.2}Classic Architectures}{9}{subsection.26}%
 \contentsline {subsection}{\numberline {2.3.3}Modern Architectures}{10}{subsection.29}%
-\contentsline {section}{\numberline {2.4}CNN Based Models}{12}{section.32}%
+\contentsline {section}{\numberline {2.4}CNN Based Action Recognition Models}{12}{section.32}%
 \contentsline {subsection}{\numberline {2.4.1}CNN + LSTM Models}{12}{subsection.33}%
 \contentsline {subsection}{\numberline {2.4.2}3D CNN Models}{15}{subsection.38}%
 \contentsline {section}{\numberline {2.5}Model Evolution}{17}{section.41}%
@@ -34,13 +34,12 @@
 \contentsline {subsection}{\numberline {3.3.2}Representation Comparison}{35}{subsection.77}%
 \contentsline {subsection}{\numberline {3.3.3}Temporal Adjustments}{37}{subsection.84}%
 \contentsline {subsection}{\numberline {3.3.4}Model Architecture}{37}{subsection.88}%
-\contentsline {chapter}{\numberline {4}Experimentation}{40}{chapter.91}%
-\contentsline {section}{\numberline {4.1}Model Hyperparameters}{40}{section.92}%
-\contentsline {subsection}{\numberline {4.1.1}Compute Resources}{40}{subsection.93}%
-\contentsline {section}{\numberline {4.2}JHMDB Results}{40}{section.94}%
-\contentsline {section}{\numberline {4.3}Failure Cases}{46}{section.112}%
-\contentsline {section}{\numberline {4.4}Model Ablation Study}{48}{section.118}%
-\contentsline {section}{\numberline {4.5}Model Comparison}{52}{section.127}%
-\contentsline {chapter}{\numberline {5}Conclusion \& Future Work}{53}{chapter.129}%
-\contentsline {subsection}{\numberline {5.0.1}Future Work}{54}{subsection.130}%
-\contentsline {chapter}{Bibliography}{55}{appendix*.131}%
+\contentsline {chapter}{\numberline {4}Experimentation}{41}{chapter.95}%
+\contentsline {section}{\numberline {4.1}Compute Resources}{41}{section.96}%
+\contentsline {section}{\numberline {4.2}JHMDB Results}{41}{section.97}%
+\contentsline {section}{\numberline {4.3}Failure Cases}{47}{section.115}%
+\contentsline {section}{\numberline {4.4}Model Ablation Study}{49}{section.121}%
+\contentsline {section}{\numberline {4.5}Model Comparison}{53}{section.130}%
+\contentsline {chapter}{\numberline {5}Conclusion \& Future Work}{54}{chapter.132}%
+\contentsline {subsection}{\numberline {5.0.1}Future Work}{55}{subsection.133}%
+\contentsline {chapter}{Bibliography}{56}{appendix*.134}%

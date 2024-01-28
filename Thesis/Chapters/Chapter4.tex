@@ -178,10 +178,10 @@ The overall structure of the representation was largely inspired by \textbf{Simp
 It is not unreasonable to assume that moving from only one frame to the next would result in some actions not being represented as well as other actions. Due to this issue, we add a temporal adjustment to our representation in order to better represent some of these actions. This is done by adding more channels to the data, with each of the channels "skipping" frames. This would mean that rather than having the angle difference representation moving from frames $1 \rightarrow 2 \rightarrow 3$, in the first additional channel it would move from frames $1 \rightarrow 3 \rightarrow 5$. The representation is then padded out to fit the same shape and added as another channel to the data. This is more clearly shown in figure \ref{fig:intermediate-stacked-skip} where the actions become more "compressed" and movements over longer periods of time become easier to visualize and process.
 
 \begin{figure}[ht]
-	\subfigure[N=1]{\includegraphics[width=8cm]{IntermediateSkip1}}
-	\subfigure[N=2]{\includegraphics[width=8cm]{IntermediateSkip2}}
+	\subfigure[N=1]{\includegraphics[width=0.4\textwidth]{IntermediateSkip1}}
+	\subfigure[N=2]{\includegraphics[width=0.4\textwidth]{IntermediateSkip2}}
 	\centering
-	\caption{Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a $N = 1$ the representation will ignore every other frame, $N = 2$ two frames, etc.}
+	\caption{Two examples of temporal adjustment to the stacked representation. In both cases, the representation skips N frames in each step, meaning with a $N = 1$ the representation will ignore every other frame, $N = 2$ every two frames, etc.}
 	\label{fig:intermediate-stacked-skip}
 \end{figure}
 
@@ -194,7 +194,9 @@ It is not unreasonable to assume that moving from only one frame to the next wou
 	\label{fig:model-architecture}
 \end{figure}
 
-The goal of this intermediate representation is to be able to use a simple 2-dimensional CNN which is able to run on simpler and less expensive hardware. The simplified architecture diagram in figure \ref{fig:model-architecture} shows the simple CNN architecture that is to be used. The model consists of 3 convolutional layer groups, followed by global average pooling and the final classification layer. Each individual layer and a more detailed breakdown is shown in table \ref{tab:detailed-model}.
+The goal of this intermediate representation is to be able to use a simple 2-dimensional CNN which is able to run on simpler and less expensive hardware. The simplified architecture diagram in figure \ref{fig:model-architecture} shows the simple CNN architecture that is to be used. The model consists of 3 convolutional layer groups, followed by global average pooling and the final classification layer. Each individual layer and a more detailed breakdown is shown in table \ref{tab:detailed-model}. 
+
+This network is similar to the VGG-16 model previously discussed in section \ref{sec:CNNs} and seen in figure \ref{fig:vgg16}, which is a proven image classification model. Because of the nature of the created intermediate representation, the task can be shifted from processing video to a more classical task of image classification.
 
 \begin{table}[ht]
 	\centering
@@ -235,4 +237,23 @@ The goal of this intermediate representation is to be able to use a simple 2-dim
 	\label{tab:detailed-model}
 \end{table}
 
-The model was trained using the SGD optimizer, with an initial learning rate of $0.01$, momentum of $0.9$, batch size $16$, and weight decay $0.005$. After each epoch, the learning rate was multiplied by $0.999$, reducing the learning rate gradually over the training period.
+Figure \ref{fig:block-diagram} shows the overview of the model from RGB frames to output. This diagram demonstrates the full pipeline and the overall simplicity of our approach. As has been stated previously in this thesis, the pose estimation model is not fully explored in combination with our model, however when considering an in-the-wild approach it is an important part of the pipeline. This could be similar to the previously discussed OpenPose \cite{openpose} model as discussed in section \ref{sec:pose-detection}, or a much lighter model that can be run on less modern or mobile hardware.
+
+\begin{figure}[H]
+	\includegraphics[width=\textwidth]{blockdiagram}
+	\centering
+	\caption{Block diagram showing our intermediate representation from start to finish, including the pose estimation model that was not explored in this thesis.}
+	\label{fig:block-diagram}
+\end{figure}
+
+This model architecture is very similar to that used in similar papers that construct these intermediate representations. Figure \ref{fig:similar-models} shows two of these models, namely networks belonging to the Simple Yet Efficient \cite{simple_yet_efficient} and PoTion \cite{potion} architectures. These models have near identical structures to both each other and our proposed end model, with several convolutional layers, followed by a global average pooling, and finally dense layers. As has been stated before, this structure is a classical image classification architecture similar to that of VGG-16 \cite{vgg16}, which is a proven effective model in the image classification task. Our model differs slightly in that it contains many more filters than the similar models. While we explored models similar to that used in similar approaches, it was found that using significantly more filters in the convolutions lead to a very large increase in performance, so lower amounts of filters were abandoned in favour of the more complex model.
+
+\begin{figure}[ht]
+	\subfigure[Simple Yet Efficient network architecture \cite{simple_yet_efficient}]{\includegraphics[width=0.7\textwidth]{simpleyetefficientcnn}}
+	\subfigure[PoTion network architecture \cite{potion}]{\includegraphics[width=0.7\textwidth]{potioncnn}}
+	\centering
+	\caption{Similar network architectures to the one used in this thesis, both from papers which utilize intermediate representations as discussed further in section \ref{sec:intermediate}.}
+	\label{fig:similar-models}
+\end{figure}
+
+The model was trained using the SGD optimizer, with an initial learning rate of $0.01$, momentum of $0.9$, batch size $16$, and weight decay $0.005$. After each epoch, the learning rate was multiplied by $0.999$, reducing the learning rate gradually over the training period. As the dataset was well balanced with the training and testing datasets and the classes had an even number of examples, the only augmentation was a shuffle operation before each epoch.

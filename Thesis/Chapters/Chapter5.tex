@@ -6,7 +6,7 @@
 
 \section{Compute Resources}
 
-The model was mainly trained on a single \textbf{NVIDIA GeForce 3090} GPU, which is currently one of the highest end graphics cards. However, this GPU is significantly more compute power than is needed in order to train the model. The GPU used to train this model has 24 GB memory, whereas the model typically only takes ~3.5 GB GPU memory at max. This would in theory mean the model could be trained on less modern, cheaper hardware such as the \textbf{NVIDIA GeForce GTX-1660}. The model is also almost certainly compact enough to be trained on purely CPU, however this would of course result in large training time increases, so for the purposes of this thesis it was not considered.
+The model was mainly trained on a single \textbf{NVIDIA GeForce 3090} GPU, which as of writing is one of the highest end graphics cards. However, this GPU is significantly more compute power than is needed in order to train the model. The GPU used to train this model has 24 GB memory, whereas the model typically only takes ~3.5 GB GPU memory maximum at train time. This would in theory mean the model could be trained on less modern, cheaper hardware such as the \textbf{NVIDIA GeForce GTX-1660}. The model is also almost certainly compact enough to be trained on purely CPU, however this would of course result in large training time increases, so for the purposes of this thesis it was not explored.
 
 \section{JHMDB Results}
 \label{sec:JHMDBResults}
@@ -35,7 +35,7 @@ The dataset that the model will be evaluated on will be the JHMDB dataset. As pr
 
 Table \ref{tab:acc-results} contains the accuracy results of the previously discussed model and representation on the JHMDB dataset. As can be seen the model obtains on average a 58\% testing accuracy using only the novel approach presented. This is a sufficient accuracy to show that action recognition is possible with very lightweight representations that can then be processed via smaller models that can be run on less advanced hardware.
 
-These accurate results do not tell the complete story however. As can be seen from the individual class F1 scores in figure \ref{fig:detailed-f1}, some classes the model is fairly good at predicting classes that have very clear movements associated with them such as $golf$, $pullup$, or $swing\_baseball$. The significance of these classes is that the variance of the movement from one person to another is not very significant, so the model is able to learn the joint movements and apply that logic to other examples. Meaning the model is very good at recognizing these actions in any given environment.
+These accurate results do not tell the complete story however. As can be seen from the individual class F1 scores in figure \ref{fig:detailed-f1}, the model is fairly good at predicting classes that have very clear movements associated with them such as $golf$, $pullup$, or $swing\_baseball$. The significance of these classes is that the variance of the movement from one person to another is not very significant, so the model is able to learn the joint movements and apply that logic to other examples. Meaning the model is very good at recognizing these actions in any given environment.
 
 \begin{figure}[ht]
 	\includegraphics[width=10cm]{detailedF1}
@@ -44,7 +44,7 @@ These accurate results do not tell the complete story however. As can be seen fr
 	\label{fig:detailed-f1}
 \end{figure}
 
-The opposite factor is also something to consider. Figure \ref{fig:jump-comparison} shows an example of three different sets of frames from the $jump$ class. As can be seen from the frames, there are many different ways that a person may perform the $jump$ action. A good example is the final two frames from figure \ref{fig:jump-comparison-a}, where the person simply moves throughout the global position of the frame, rather than actually moving any of their joints. Comparing to figures \ref{fig:jump-comparison-b} or \ref{fig:jump-comparison-c}, where there are many joint movements throughout the frames, makes it difficult for the model to interpret them as the same and generalize to other examples of the same class. Figures \ref{fig:jump-comparison-b} and \ref{fig:jump-comparison-c} also demonstrate the variability in how these actions can be performed when they are general, where \ref{fig:jump-comparison-b} shows more of a twisting motion, \ref{fig:jump-comparison-c} is a more typical "straight on" jump.
+The opposite factor is also something to consider. Figure \ref{fig:jump-comparison} shows an example of three different sets of frames from the $jump$ class, which had an average F1 score of approximately $0.3$. As can be seen from the frames, there are many different ways that a person may perform the $jump$ action. A good example is the final two frames from figure \ref{fig:jump-comparison-a}, where the person simply moves throughout the global position of the frame, rather than actually moving any of their joints. Comparing to figures \ref{fig:jump-comparison-b} or \ref{fig:jump-comparison-c}, where there are many joint movements throughout the frames, makes it difficult for the model to interpret them as the same and generalize to other examples of the same class. Figures \ref{fig:jump-comparison-b} and \ref{fig:jump-comparison-c} also demonstrate the variability in how these actions can be performed, where \ref{fig:jump-comparison-b} shows more of a twisting motion, \ref{fig:jump-comparison-c} is a more typical "straight on" jump.
 
 \begin{figure}[ht]
 	\subfigure[]{
@@ -239,7 +239,7 @@ The only angle velocity results show an average decrease in performance over all
 	\label{tab:acc-results-v-angle}
 \end{table}
 
-Similarly, the representation that uses only angles and ignores the angle velocities shows a decrease in performance. However this is much less pronounced, and is only around 1\%. This suggests that while the angle velocities do add value, it is not uniformly a large positive. However when considering how small the added data is in the stacked representation the small increase in accuracy is justified.
+Similarly, the representation that uses only angles and ignores the angle velocities shows a decrease in performance, as seen in table \ref{tab:acc-results-v-angle}. This is much less pronounced, and is only around 1\%. This suggests that while the angle velocities do add value, it is not uniformly a large positive. However when considering how small the added data is in the stacked representation the small increase in accuracy is justified.
 
 Another intermediate representation was also explored as is shown in figure \ref{fig:alternating-intermediate}, where rather than "stacking" the angles and velocities on top of one another, the rows alternate between the angles of corresponding joints and their velocities. The idea behind this representation being that the initial CNN filters would overlap between each individual joint angle and their corresponding velocity, meaning that the model may be able to learn these relationships a bit better.
 
