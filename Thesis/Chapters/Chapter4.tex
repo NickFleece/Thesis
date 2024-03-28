@@ -26,7 +26,7 @@ Using the JHMDB dataset, we simply take the existing pose implementation, the re
 The core of how the new representation will represent actions and movement has to do with the angle between two bones at any one given joint.
 
 \begin{figure}[ht]
-	\includegraphics[width=5cm]{JointAngles}
+	\includegraphics[width=0.8\textwidth]{JointAngles}
 	\centering
 	\caption{Two examples of three joints interconnected with two bones, and how the angle can change from one frame to another.}
 	\label{fig:joint-angles}
@@ -37,7 +37,7 @@ The first step in calculating the directional angle between the two vectors is t
 \begin{equation}
 	\label{eqn:angle-centering}
 	\centering
-	VectorA(x,y) = (A.x - B.x, A.y - B.y)
+	a(x,y) = (A.x - B.x, A.y - B.y)
 \end{equation}
 
 After processing both bones through this equation, it produces two vectors beginning at the origin. The goal then becomes calculating the angle between two of these vectors. This can be easily done by leveraging arctan. Calculating the angle of a given vector '$a$' to the x-axis is simply done by using $\arctan(a.y/a.x)$. Once we have the angle of this vector to the x-axis, we can convert it to a positive value to ensure that the angle is being measured from a clockwise direction. Afterwards, we simply take the difference of the two vectors to determine the clockwise directional angle between two given vectors as denoted in equation \ref{eqn:angle-calculation}.
@@ -95,7 +95,7 @@ As described previously in section \ref{sec:joint-velocities}, a key point of ou
 \begin{figure}[ht]
 	\includegraphics[width=8cm]{IntermediateStacked}
 	\centering
-	\caption{The finished intermediate representation, the top half contains the changes in joint angle from one frame to another (also referred to as "velocity"), and the bottom half contains the joint angles themselves. This is referred to as the "stacked" representation.}
+	\caption{The finished intermediate representation, the top half contains the changes in joint angle from one frame to another (also referred to as "velocity"), and the bottom half contains the joint angles themselves. This is referred to as the "stacked" representation. In the representation, positive values are shown as red and negative values are shown as blue, with the higher values having more saturation.}
 	\label{fig:intermediate-stacked}
 \end{figure}
 

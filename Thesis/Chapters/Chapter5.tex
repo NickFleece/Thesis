@@ -33,9 +33,15 @@ The dataset that the model will be evaluated on will be the JHMDB dataset. As pr
 	\label{tab:acc-results}
 \end{table}
 
-Table \ref{tab:acc-results} contains the accuracy results of the previously discussed model and representation on the JHMDB dataset. As can be seen the model obtains on average a 58\% testing accuracy using only the novel approach presented. This is a sufficient accuracy to show that action recognition is possible with very lightweight representations that can then be processed via smaller models that can be run on less advanced hardware.
+Table \ref{tab:acc-results} contains the accuracy results of the previously discussed model and representation on the JHMDB dataset. As can be seen the model obtains on average a 58\% testing accuracy using only the novel approach presented. This is a sufficient accuracy to show that action recognition is possible with this lightweight representation that can then be processed via smaller models that can be run on less advanced hardware.
 
-These accurate results do not tell the complete story however. As can be seen from the individual class F1 scores in figure \ref{fig:detailed-f1}, the model is fairly good at predicting classes that have very clear movements associated with them such as $golf$, $pullup$, or $swing\_baseball$. The significance of these classes is that the variance of the movement from one person to another is not very significant, so the model is able to learn the joint movements and apply that logic to other examples. Meaning the model is very good at recognizing these actions in any given environment.
+\begin{equation}
+	\label{eqn:f1-score}
+	\centering
+	F1 = 2 \cdot \frac{precision \cdot recall}{precision + recall}
+\end{equation}
+
+These accurate results do not tell the complete story however. As can be seen from the individual class F1 scores in figure \ref{fig:detailed-f1} (the equation for calculating F1 score is shown in equation \ref{eqn:f1-score}, where precision is the percentage of predicted examples that are correct, and recall is the percentage of examples for any given class that are correctly predicted), the model is fairly good at predicting classes that have very clear movements associated with them such as $golf$, $pullup$, or $swing\_baseball$. The significance of these classes is that the variance of the movement from one person to another is not very significant, so the model is able to learn the joint movements and apply that logic to other examples. Meaning the model is very good at recognizing these actions in any given environment.
 
 \begin{figure}[ht]
 	\includegraphics[width=10cm]{detailedF1}
@@ -241,22 +247,22 @@ The only angle velocity results show an average decrease in performance over all
 
 Similarly, the representation that uses only angles and ignores the angle velocities shows a decrease in performance, as seen in table \ref{tab:acc-results-v-angle}. This is much less pronounced, and is only around 1\%. This suggests that while the angle velocities do add value, it is not uniformly a large positive. However when considering how small the added data is in the stacked representation the small increase in accuracy is justified.
 
-Another intermediate representation was also explored as is shown in figure \ref{fig:alternating-intermediate}, where rather than "stacking" the angles and velocities on top of one another, the rows alternate between the angles of corresponding joints and their velocities. The idea behind this representation being that the initial CNN filters would overlap between each individual joint angle and their corresponding velocity, meaning that the model may be able to learn these relationships a bit better.
+Another intermediate representation was also explored as is shown in figure \ref{fig:alternating-intermediate}, where rather than "stacking" the angles and velocities on top of one another, we "interlace" the joint angles and their corresponding velocities. The idea behind this representation being that the initial CNN filters would overlap between each individual joint angle and their corresponding velocity, meaning that the model may be able to learn these relationships a bit better.
 
 \begin{figure}[ht]
 	\includegraphics[width=0.5\textwidth]{IntermediateAlternatingFormat}
 	\centering
-	\caption{Alternative intermediate representation format where rows alternate between angles and velocities rather than one and then the other.}
+	\caption{Alternative intermediate representation format where angles and velocities are interlaced rather than stacked.}
 	\label{fig:alternating-intermediate}
 \end{figure}
 
-The results of this alternating representation are shown in table \ref{tab:acc-results-v-alternating}. The results show on average a 4\% decrease in performance when compared to the stacked model. This is almost certainly because the model benefits more from the convolutions being run on the angles and velocities independently and combining later in the model after pooling layers rather than on both the angles and velocities initially.
+The results of this interlaced representation are shown in table \ref{tab:acc-results-v-alternating}. The results show on average a 4\% decrease in performance when compared to the stacked model. This is almost certainly because the model benefits more from the convolutions being run on the angles and velocities independently and combining later in the model after pooling layers rather than on both the angles and velocities initially.
 
 \begin{table}[ht]
 	\centering
 	\begin{tabular}{||c c c||} 
 		\hline
-		\textbf{Split} & \textbf{Stacked} & \textbf{Alternating} \\ [0.5ex] 
+		\textbf{Split} & \textbf{Stacked} & \textbf{Interlacing} \\ [0.5ex] 
 		\hline\hline
 		1 & \textbf{58.209\%} & 54.850\% \\ 
 		\hline
@@ -268,7 +274,7 @@ The results of this alternating representation are shown in table \ref{tab:acc-r
 		\textbf{Average} & \textbf{58.404\%} & 54.412\% \\
 		\hline
 	\end{tabular}
-	\caption{Comparison of results using the alternating vs stacked representation.}
+	\caption{Comparison of results using the interlacing vs stacked representation.}
 	\label{tab:acc-results-v-alternating}
 \end{table}
 

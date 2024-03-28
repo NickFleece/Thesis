@@ -108,6 +108,21 @@ The function of the residual block is to make the model fundamentally easier to 
 	\label{fig:residualattentionnetwork}
 \end{figure}
 
+\section{Recurrent Neural Networks}
+
+\begin{figure}[ht]
+	\includegraphics[width=0.6\textwidth]{RNN}
+	\centering
+	\caption{The general RNN structure, similar to the fully connected networks, except it contains a recurrence value. This recurrence is stored as a 'hidden state', which can be fed back into the network at the next time step.}
+	\label{fig:rnn}
+\end{figure}
+
+A Recurrent Neural Network (RNN) are a variation on the classic fully connected layer structure. These networks through a 'recurrence' connection that connects the output layer back into a previous layer. This is shown in detail in figure \ref{fig:rnn}. This recurrence is stored as a 'hidden state', meaning that we can chain inputs from one example to another.
+
+The primary application for these kinds of networks is utilizing them for time series analysis. This is because for each step of the time series, we get a hidden state that we can then pass to the next step of the time series. This therefore means that the model is capable of analyzing the time series one step at a time while outputting at each corresponding step.
+
+A Long Short Term Memory Network (LSTM) is a variation of the RNN model. This network works in a very similar way, being constructed in a way that there is a 'hidden state' that can be passed to the next time step, however the previous hidden state and input data are combined with the recurrence value and create a new hidden state. The goal of this being that the model does not have a bias towards recent data, but instead retains some information from very early time steps.
+
 %----------------------------------------------------------------------------------------
 %	CNN Models
 %----------------------------------------------------------------------------------------
@@ -125,7 +140,7 @@ In very classic models, utilizing existing CNN architectures is a very simple pr
 Figure \ref{fig:cnn-lstm} shows the typical modern structure for this solution. After the features are extracted from each of the 2 dimensional CNN, they are passed through a LSTM. The goal of this LSTM module is to carry features from one frame to another and add some temporal element.
 
 \begin{figure}[ht]
-	\includegraphics[width=8cm]{CNN-LSTM.png}
+	\includegraphics[width=0.8\textwidth]{CNN-LSTM.png}
 	\centering
 	\caption{An example structure of a simple CNN-LSTM based model, each individual frame being individually fed into the CNN, and then passed to a LSTM.}
 	\label{fig:cnn-lstm}
@@ -136,7 +151,7 @@ The advantages of this model are that is is very lightweight and all of the indi
 The disadvantages of the model are also rooted in it's simplicity. The result of processing each image independently means that the interactions between frames is not very well represented. While the model is able to represent individual frame features very well, due to the fact that the feature maps are passed through the LSTM, classes that require specific movement from one frame to another are difficult to learn using this structure. Constructing these individual feature maps can also fall victim to background interference, meaning that a movement in the camera, or change in background could impact in a way that detracts from the main subject of the action more with this model than the other approaches discussed later in this chapter.
 
 \begin{figure}[ht]
-	\includegraphics[width=8cm]{LRCN-AR.png}
+	\includegraphics[width=0.8\textwidth]{LRCN-ARV2.jpg}
 	\centering
 	\caption{Action recognition structure for the LRCN model. \cite{LRCNS}}
 	\label{fig:lrcn-ar}
@@ -145,20 +160,13 @@ The disadvantages of the model are also rooted in it's simplicity. The result of
 \textbf{Long-term Recurrent Convolutional Networks} \cite{LRCNS}, is a model constructed using this methodology. In the paper, they use the notation that each frame, $x_{i}$, is fed into the CNN in order to construct a fixed-length feature representation, $\phi_{v}(x_{i})$. This is then passed into the recurrent sequence learning model. This is where the model differs from the previous example provided. In the LRCN model, the LSTM outputs at each frame are averaged to get the output class, rather than taking the last output. This removes any bias the model may have towards the later frames in long videos. In addition to RGB frames, this model uses the optical flow feature, which easily adapts to this structure, replacing the RGB frames in figure \ref{fig:lrcn-ar}. The LSTM structure is taken from \textbf{Learning to Execute} \cite{LSTM-2015}, which is a structure devised from the original LSTM model. The CNN, represented in the paper as $\phi$, is described as a hybrid of the CaffeNet \cite{caffenet} (a variant of the AlexNet \cite{alexnet} model discussed in section \ref{sec:classic-cnn}) and the Zeiler and Fergus \cite{zeilerfergus} models, which has been pre-trained on a large dataset.
 
 \begin{figure}[ht]
-	\includegraphics[width=10cm]{BeyondOverview.png}
+	\includegraphics[width=\textwidth]{BeyondOverviewV2.jpg}
 	\centering
 	\caption{Overview of the Beyond Short Snippets: Deep Networks for Video Classification model \cite{beyondshortsnippets}}
 	\label{fig:beyondoverview}
 \end{figure}
 
-\textbf{Beyond Short Snippets: Deep Networks for Video Classification} \cite{beyondshortsnippets}, is another approach to this structure, which explores a more complex deep-LSTM based module, as well as more classical feature pooling. The block diagram of this model shown in figure \ref{fig:beyondoverview}. Similarly to the previously discussed model, Long-term Recurrent Convolutional Networks \cite{LRCNS}, the model utilizes a combination of two popular CNN models, AlexNet \cite{alexnet} and GoogLeNet \cite{googlenet}. The paper did explore many more classical feature pooling architectures, and were proven to have good results, however these techniques were outperformed by the deep LSTM model. The paper utilized a deep LSTM architecture for the feature aggregation step, shown in figure \ref{fig:deeplstm}, which further adds to it's complexity, moving it above the CNN-LSTM architectures described previously. In this deep-LSTM module, the outputs of each frame are passed into a LSTM module as in the previous model, but the ouputs are then passed up through 4 more stacked layers of LSTM's, after reaching softmax layers which are averaged to get an output. These 4 additional layers of LSTM's mean it is more able to infer data moving from one frame to another. This model additionally explored the uses of optical flow and found that it adds a great deal to the accuracy of the model.
-
-\begin{figure}[ht]
-	\includegraphics[width=8cm]{deepLSTM.png}
-	\centering
-	\caption{Deep LSTM architecture utilized by \cite{beyondshortsnippets} in the feature aggregation step as shown in figure \ref{fig:beyondoverview}.}
-	\label{fig:deeplstm}
-\end{figure}
+\textbf{Beyond Short Snippets: Deep Networks for Video Classification} \cite{beyondshortsnippets}, is another approach to this structure, which explores a more complex deep-LSTM based module, as well as more classical feature pooling. The block diagram of this model shown in figure \ref{fig:beyondoverview}. Similarly to the previously discussed model, Long-term Recurrent Convolutional Networks \cite{LRCNS}, the model utilizes a combination of two popular CNN models, AlexNet \cite{alexnet} and GoogLeNet \cite{googlenet}. The paper did explore many more classical feature pooling architectures, and were proven to have good results, however these techniques were outperformed by the deep LSTM model. The paper utilized a deep LSTM architecture for the feature aggregation step which further adds to it's complexity, moving it above the CNN-LSTM architectures described previously. In this deep-LSTM module, the outputs of each frame are passed into a LSTM module as in the previous model, but the ouputs are then passed  through 4 more stacked layers of LSTM's, after reaching softmax layers which are averaged to get an output. These 4 additional layers of LSTM's mean it is more able to infer data moving from one frame to another. This model additionally explored the uses of optical flow and found that it adds a great deal to the accuracy of the model.
 
 %----------------------------------------------------------------------------------------
 %	3D CNN
@@ -229,12 +237,13 @@ There are many action recognition datasets, some of which fit more specific use 
 \textbf{JHMDB} \cite{JHMDB} is the primary dataset that will be used in this thesis. The JHMDB paper does not actually propose an entirely new dataset, rather it proposes a subset of the HMDB dataset \cite{hmdb}, with the addition of several features, primarily annotated poses. While the dataset does offer more than only annotated poses, the main appeal of the dataset when considering the method used in this thesis is that they are manually  annotated and adjusted poses to ensure that they are correct, meaning that the model can be independently be evaluated without having to consider the accuracy of the pose estimation model. Additionally, the dataset has been pruned such that the actions within the dataset only contain single person interactions, that lends itself very well to pose-based models, as generally only pose can be considered and the model can provide accurate results. Both of these features result in the dataset being highly popular with 2D-pose based models, and in particular models that create intermediate representations with these poses, as the data that is extracted from pose is both accurate and relevant to the action.
 
 \begin{figure}[ht]
-	\includegraphics[width=5cm]{JHMDB}
-	\includegraphics[width=6cm]{Pose JHMDB Indexes}
+	\includegraphics[width=0.8\textwidth]{Pose JHMDB Indexes}
 	\centering
-	\caption{\textbf{Left:} JHMDB Annotated pose, each dot denoting a joint. \textbf{Right:} Simplified representation of this pose that will be used later in this thesis. Notably the foot joints are missing as they are not reliably labelled and are not used by the model. The indexes correspond to JHMDB joint indexes as if the subject were facing the camera.}
+	\caption{Simplified representation of the JHMDB pose that will be used later in this thesis. Notably the foot joints are missing as they are not reliably labelled and are not used by the model. The indexes correspond to JHMDB joint indexes as if the subject were facing the camera.}
 	\label{fig:JHMDB}
 \end{figure}
+
+The JHMDB dataset contains a total of 928 video clips broken down into 21 classes.
 
 %----------------------------------------------------------------------------------------
 %	Pose Detection
@@ -242,7 +251,7 @@ There are many action recognition datasets, some of which fit more specific use 
 \section{Pose Detection}
 \label{sec:pose-detection}
 
-Throughout the majority of this thesis, and in some pose-based papers, the concept that there is some form of extracted pose from any given RGB frame is assumed to be accurate and complete. However the extracting of these pose features, especially in the wild, is a difficult task in and of itself. This means that when considering pose-based action recognition models (as will be done further in section \ref{sec:pose-based}) the accuracy of these techniques must be taken into account. Without an accurate pose model, it is impossible for these pose-based action recognition models to perform with any level of accuracy. It is also worth noting is that some training data can have manually annotated pose data, an example being the previously discussed JHMDB dataset \cite{JHMDB}. A very common model utilized by pose-based models is \textbf{OpenPose} \cite{openpose} (shown in figure \ref{fig:openpose}) is capable of detecting the poses of many people within the frame. In addition to what is shown in the figure, some models also utilize the joint heatmaps, which can also be easily generated by OpenPose. This is done through a modern technique using large CNN's and leveraging Part Affinity Fields, it also allows for very fast real-time pose estimation.
+Throughout the majority of this thesis, and in some pose-based papers, the concept that there is some form of extracted pose from any given RGB frame is assumed to be accurate and complete. However the extracting of these pose features, especially in the wild (an uncontrolled environment outside of pre-defined datasets), is a difficult task in and of itself. This means that when considering pose-based action recognition models (as will be done further in section \ref{sec:pose-based}) the accuracy of these techniques must be taken into account. Without an accurate pose model, it is impossible for these pose-based action recognition models to perform with any level of accuracy. It is also worth noting is that some training data can have manually annotated pose data, an example being the previously discussed JHMDB dataset \cite{JHMDB}. A very common model utilized by pose-based models is \textbf{OpenPose} \cite{openpose} (shown in figure \ref{fig:openpose}) is capable of detecting the poses of many people within the frame. In addition to what is shown in the figure, some models also utilize the joint heatmaps, which can also be easily generated by OpenPose. This is done through a modern technique using large CNN's and leveraging Part Affinity Fields, it also allows for very fast real-time pose estimation.
 
 \begin{figure}[ht]
 	\includegraphics[width=12cm]{OpenPose}
