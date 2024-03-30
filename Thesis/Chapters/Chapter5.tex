@@ -6,7 +6,7 @@
 
 \section{Compute Resources}
 
-The model was mainly trained on a single \textbf{NVIDIA GeForce 3090} GPU, which as of writing is one of the highest end graphics cards. However, this GPU is significantly more compute power than is needed in order to train the model. The GPU used to train this model has 24 GB memory, whereas the model typically only takes ~3.5 GB GPU memory maximum at train time. This would in theory mean the model could be trained on less modern, cheaper hardware such as the \textbf{NVIDIA GeForce GTX-1660}. The model is also almost certainly compact enough to be trained on purely CPU, however this would of course result in large training time increases, so for the purposes of this thesis it was not explored.
+The model was mainly trained on a single \textbf{NVIDIA GeForce 3090} GPU, which as of writing is one of the highest end graphics cards. However, this GPU is significantly more compute power than is needed in order to train the model. The GPU used to train this model has 24 GB memory, whereas the model typically only utilizes ~3.5 GB GPU memory maximum at train time. This would in theory mean the model could be trained on less modern, cheaper hardware such as the \textbf{NVIDIA GeForce GTX-1660}. The model is also almost certainly compact enough to be trained without GPU acceleration, however this would result in large training time increases, so for the purposes of this thesis it was not explored.
 
 \section{JHMDB Results}
 \label{sec:JHMDBResults}
@@ -33,7 +33,7 @@ The dataset that the model will be evaluated on will be the JHMDB dataset. As pr
 	\label{tab:acc-results}
 \end{table}
 
-Table \ref{tab:acc-results} contains the accuracy results of the previously discussed model and representation on the JHMDB dataset. As can be seen the model obtains on average a 58\% testing accuracy using only the novel approach presented. This is a sufficient accuracy to show that action recognition is possible with this lightweight representation that can then be processed via smaller models that can be run on less advanced hardware.
+Table \ref{tab:acc-results} contains the accuracy results of the previously discussed model and representation on the JHMDB dataset. As can be seen the model obtains on average a 58\% testing accuracy using only the novel approach presented. This accuracy alone is not quite sufficient to show that the model is capable of action recognition, however as will be shown further in this chapter, the model is much more capable when predicting some actions, showing some potential with this compact representation.
 
 \begin{equation}
 	\label{eqn:f1-score}

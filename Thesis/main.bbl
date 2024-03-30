@@ -102,6 +102,93 @@
     \field{year}{2021}
   \endentry
 
+  \entry{cifar100_modern1}{misc}{}
+    \name{author}{4}{}{%
+      {{hash=FP}{%
+         family={Foret},
+         familyi={F\bibinitperiod},
+         given={Pierre},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=KA}{%
+         family={Kleiner},
+         familyi={K\bibinitperiod},
+         given={Ariel},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=MH}{%
+         family={Mobahi},
+         familyi={M\bibinitperiod},
+         given={Hossein},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=NB}{%
+         family={Neyshabur},
+         familyi={N\bibinitperiod},
+         given={Behnam},
+         giveni={B\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{FPKAMH+1}
+    \strng{fullhash}{FPKAMHNB1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 2010.01412
+    \endverb
+    \field{title}{Sharpness-Aware Minimization for Efficiently Improving
+  Generalization}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.LG}
+    \field{year}{2021}
+  \endentry
+
+  \entry{cifar100_modern2}{misc}{}
+    \name{author}{5}{}{%
+      {{hash=RT}{%
+         family={Ridnik},
+         familyi={R\bibinitperiod},
+         given={Tal},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=SG}{%
+         family={Sharir},
+         familyi={S\bibinitperiod},
+         given={Gilad},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=BCA}{%
+         family={Ben-Cohen},
+         familyi={B\bibinithyphendelim C\bibinitperiod},
+         given={Avi},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=BBE}{%
+         family={Ben-Baruch},
+         familyi={B\bibinithyphendelim B\bibinitperiod},
+         given={Emanuel},
+         giveni={E\bibinitperiod},
+      }}%
+      {{hash=NA}{%
+         family={Noy},
+         familyi={N\bibinitperiod},
+         given={Asaf},
+         giveni={A\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{RTSGBCA+1}
+    \strng{fullhash}{RTSGBCABBENA1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 2111.12933
+    \endverb
+    \field{title}{ML-Decoder: Scalable and Versatile Classification Head}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2021}
+  \endentry
+
   \entry{i3d}{inproceedings}{}
     \name{author}{2}{}{%
       {{hash=CJ}{%
@@ -277,84 +364,6 @@
     \field{volume}{86}
     \field{journaltitle}{Proceedings of the IEEE}
     \field{year}{1998}
-  \endentry
-
-  \entry{2021cnnreview}{article}{}
-    \name{author}{10}{}{%
-      {{hash=AL}{%
-         family={Alzubaidi},
-         familyi={A\bibinitperiod},
-         given={Laith},
-         giveni={L\bibinitperiod},
-      }}%
-      {{hash=ZJ}{%
-         family={Zhang},
-         familyi={Z\bibinitperiod},
-         given={Jinglan},
-         giveni={J\bibinitperiod},
-      }}%
-      {{hash=HAJ}{%
-         family={Humaidi},
-         familyi={H\bibinitperiod},
-         given={Amjad\bibnamedelima J},
-         giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
-      }}%
-      {{hash=ADA}{%
-         family={Al-Dujaili},
-         familyi={A\bibinithyphendelim D\bibinitperiod},
-         given={Ayad},
-         giveni={A\bibinitperiod},
-      }}%
-      {{hash=DY}{%
-         family={Duan},
-         familyi={D\bibinitperiod},
-         given={Ye},
-         giveni={Y\bibinitperiod},
-      }}%
-      {{hash=ASO}{%
-         family={Al-Shamma},
-         familyi={A\bibinithyphendelim S\bibinitperiod},
-         given={Omran},
-         giveni={O\bibinitperiod},
-      }}%
-      {{hash=SJ}{%
-         family={Santamar{\'\i}a},
-         familyi={S\bibinitperiod},
-         given={Jos{\'e}},
-         giveni={J\bibinitperiod},
-      }}%
-      {{hash=FMA}{%
-         family={Fadhel},
-         familyi={F\bibinitperiod},
-         given={Mohammed\bibnamedelima A},
-         giveni={M\bibinitperiod\bibinitdelim A\bibinitperiod},
-      }}%
-      {{hash=AAM}{%
-         family={Al-Amidie},
-         familyi={A\bibinithyphendelim A\bibinitperiod},
-         given={Muthana},
-         giveni={M\bibinitperiod},
-      }}%
-      {{hash=FL}{%
-         family={Farhan},
-         familyi={F\bibinitperiod},
-         given={Laith},
-         giveni={L\bibinitperiod},
-      }}%
-    }
-    \list{publisher}{1}{%
-      {Springer}%
-    }
-    \strng{namehash}{ALZJHAJ+1}
-    \strng{fullhash}{ALZJHAJADADYASOSJFMAAAMFL1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{pages}{1\bibrangedash 74}
-    \field{title}{Review of deep learning: Concepts, CNN architectures,
-  challenges, applications, future directions}
-    \field{volume}{8}
-    \field{journaltitle}{Journal of big Data}
-    \field{year}{2021}
   \endentry
 
   \entry{alexnet}{inproceedings}{}
@@ -1729,41 +1738,6 @@
     \field{year}{2015}
   \endentry
 
-  \entry{WangPose}{inproceedings}{}
-    \name{author}{3}{}{%
-      {{hash=WC}{%
-         family={Wang},
-         familyi={W\bibinitperiod},
-         given={Chunyu},
-         giveni={C\bibinitperiod},
-      }}%
-      {{hash=WY}{%
-         family={Wang},
-         familyi={W\bibinitperiod},
-         given={Yizhou},
-         giveni={Y\bibinitperiod},
-      }}%
-      {{hash=YAL}{%
-         family={Yuille},
-         familyi={Y\bibinitperiod},
-         given={Alan\bibnamedelima L.},
-         giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{WCWYYAL1}
-    \strng{fullhash}{WCWYYAL1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \field{booktitle}{2013 IEEE Conference on Computer Vision and Pattern
-  Recognition}
-    \verb{doi}
-    \verb 10.1109/CVPR.2013.123
-    \endverb
-    \field{pages}{915\bibrangedash 922}
-    \field{title}{An Approach to Pose-Based Action Recognition}
-    \field{year}{2013}
-  \endentry
-
   \entry{PCNN}{inproceedings}{}
     \name{author}{3}{}{%
       {{hash=CG}{%
@@ -2071,41 +2045,6 @@
     \warn{\item Can't use 'location' + 'address'}
   \endentry
 
-  \entry{star-net}{misc}{}
-    \name{author}{3}{}{%
-      {{hash=MW}{%
-         family={McNally},
-         familyi={M\bibinitperiod},
-         given={William},
-         giveni={W\bibinitperiod},
-      }}%
-      {{hash=WA}{%
-         family={Wong},
-         familyi={W\bibinitperiod},
-         given={Alexander},
-         giveni={A\bibinitperiod},
-      }}%
-      {{hash=MJ}{%
-         family={McPhee},
-         familyi={M\bibinitperiod},
-         given={John},
-         giveni={J\bibinitperiod},
-      }}%
-    }
-    \strng{namehash}{MWWAMJ1}
-    \strng{fullhash}{MWWAMJ1}
-    \field{labelnamesource}{author}
-    \field{labeltitlesource}{title}
-    \verb{eprint}
-    \verb 1902.10024
-    \endverb
-    \field{title}{STAR-Net: Action Recognition using Spatio-Temporal Activation
-  Reprojection}
-    \field{eprinttype}{arXiv}
-    \field{eprintclass}{cs.CV}
-    \field{year}{2019}
-  \endentry
-
   \entry{dynamic-motion}{inproceedings}{}
     \name{author}{3}{}{%
       {{hash=AES}{%
@@ -2167,6 +2106,41 @@
     \field{eprinttype}{arXiv}
     \field{eprintclass}{cs.CV}
     \field{year}{2021}
+  \endentry
+
+  \entry{star-net}{misc}{}
+    \name{author}{3}{}{%
+      {{hash=MW}{%
+         family={McNally},
+         familyi={M\bibinitperiod},
+         given={William},
+         giveni={W\bibinitperiod},
+      }}%
+      {{hash=WA}{%
+         family={Wong},
+         familyi={W\bibinitperiod},
+         given={Alexander},
+         giveni={A\bibinitperiod},
+      }}%
+      {{hash=MJ}{%
+         family={McPhee},
+         familyi={M\bibinitperiod},
+         given={John},
+         giveni={J\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{MWWAMJ1}
+    \strng{fullhash}{MWWAMJ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{eprint}
+    \verb 1902.10024
+    \endverb
+    \field{title}{STAR-Net: Action Recognition using Spatio-Temporal Activation
+  Reprojection}
+    \field{eprinttype}{arXiv}
+    \field{eprintclass}{cs.CV}
+    \field{year}{2019}
   \endentry
 \enddatalist
 \endinput
