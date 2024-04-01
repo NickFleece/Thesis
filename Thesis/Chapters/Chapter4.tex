@@ -77,25 +77,25 @@ The resulting method means that some angles will be measured from the "outside" 
 \subsection{Joint Velocities}
 \label{sec:joint-velocities}
 
-Once the joint angles for each frame have been extracted, the next step before implementation into our representation is to determine the change of a joint angle from one frame to another to determine the "velocity" of said joint angle. Generally this is simply done by calculating $angle(b) - angle(a)$, however there is one exception where the angle change crosses over the positive x-axis. This would be an example such as the difference between $angle_1 = 5$ and $angle_2 = 350$. The correct description would be that the angle moved $-15^\circ$, however using that simple calculation would mean that the model would interpret this as a $345^\circ$ change. This is most likely incorrect, as the more likely scenario is that the person moved $-15^\circ$ rather than almost a complete rotation in the other direction. So we add logic such that if the difference between two angles is greater than $180^\circ$ or lower than $-180^\circ$, the most likely scenario is that it moved in the opposite direction for a shorter distance. So a change such as $270^\circ$ would become $-90^\circ$ and similarly a change of $-270^\circ$ would become $90^\circ$.
+Once the joint angles for each frame have been extracted, the next step before implementation into our representation is to determine the change of a joint angle from one frame to another to determine the "velocity" of said joint angle. Generally this is simply done by calculating $angle_2 - angle_1$, however there is one exception where the angle change crosses over the positive x-axis. This would be an example such as the difference between $angle_1 = 5$ and $angle_2 = 350$. The correct description would be that the angle moved $-15^\circ$, however using that simple calculation would mean that the model would interpret this as a $345^\circ$ change. This is most likely incorrect, as the more likely scenario is that the person moved $-15^\circ$ rather than almost a complete rotation in the other direction. So we add logic such that if the difference between two angles is greater than $180^\circ$ or lower than $-180^\circ$, the most likely scenario is that it moved in the opposite direction for a shorter distance. So a change such as $270^\circ$ would become $-90^\circ$ and similarly a change of $-270^\circ$ would become $90^\circ$.
 
 \section{Novel Intermediate Representation}
 
 We can now construct the indermediate representation that will be used as input to our model. The model representation is very similar to that in the \textbf{Simple yet efficient real-time pose-based action recognition} \cite{simple_yet_efficient} as described in section \ref{sec:intermediate}, which involves constructing a 2 dimensional image that is easily fed into a simple model. This is represented in figure \ref{fig:intermediate-construction}, where one joint angle is taken from one frame of the video, and added to a column. This column consists of all of the data for one frame of the video, which is then added to the rest of the representation, eventually constructing the joint angles for each frame of the video.
 
 \begin{figure}[ht]
-	\includegraphics[width=8cm]{IntermediateConstruction}
+	\includegraphics[width=\textwidth]{IntermediateConstruction}
 	\centering
 	\caption{Example of how the intermediate representation is constructed. At each frame, the angles of each joint are taken and added to a column, each column is then stacked next to one another to form a 2 dimensional image.}
 	\label{fig:intermediate-construction}
 \end{figure}
 
-As described previously in section \ref{sec:joint-velocities}, a key point of our representation is the joint velocities portion. These values can simply be "stacked" on top of the angles to form the full intermediate representation. The logic is that for any given frame $i$, the column contains both the joint angles for the frame $i$, as well as their differences between frame $i$ and $i+1$.
+As described previously in section \ref{sec:joint-velocities}, a key point of our representation is the joint velocities portion. These values can simply be "stacked" on top of the angles to form the full intermediate representation. The logic is that for any given frame $i$, the column contains both the joint angles for the frame $i$, as well as their differences between frame $i$ and $i+1$, the completed representation shown in figure \ref{fig:intermediate-stacked}.
 
 \begin{figure}[ht]
 	\includegraphics[width=8cm]{IntermediateStacked}
 	\centering
-	\caption{The finished intermediate representation, the top half contains the changes in joint angle from one frame to another (also referred to as "velocity"), and the bottom half contains the joint angles themselves. This is referred to as the "stacked" representation. In the representation, positive values are shown as red and negative values are shown as blue, with the higher values having more saturation.}
+	\caption{The completed intermediate representation, the top half contains the changes in joint angle from one frame to another (also referred to as "velocity"), and the bottom half contains the joint angles themselves. This is referred to as the "stacked" representation. In the representation, positive values are shown as red and negative values are shown as blue, with the higher values having more saturation.}
 	\label{fig:intermediate-stacked}
 \end{figure}
 
@@ -153,6 +153,8 @@ These three features of the model aim to mitigate background interference that h
 
 Comparing our representation to other intermediate representations, there are many similarities that can be observed.
 
+The overall structure of the representation was largely inspired by \textbf{Simple yet efficient real-time pose-based action recognition} \cite{simple_yet_efficient}, as shown in figure \ref{fig:simple-v-ours}. While the construction of this 2 dimensional grid was a very efficient way to construct the representation, their representation relied on the cartesian coordinates, resulting in a representation more susceptible to background interference. However, the general structure of the image was adapted for our use, simply using a different data source (joint angles + velocities).
+
 \begin{figure}[ht]
 	\subfigure[]{\includegraphics[width=0.6\textwidth]{EHPIv2}}
 	\subfigure[]{\includegraphics[width=0.6\textwidth]{IntermediateConstruction}}
@@ -160,8 +162,6 @@ Comparing our representation to other intermediate representations, there are ma
 	\caption{Comparison of our representation (b) compared to \textbf{Simple yet efficient real-time pose-based action recognition} \cite{simple_yet_efficient} (a), showing a similar representation construction.}
 	\label{fig:simple-v-ours}
 \end{figure}
-
-The overall structure of the representation was largely inspired by \textbf{Simple yet efficient real-time pose-based action recognition} \cite{simple_yet_efficient}, as shown in figure \ref{fig:simple-v-ours}. While the construction of this 2 dimensional grid was a very efficient way to construct the representation, their representation relied on the cartesian coordinates, resulting in a representation more susceptible to background interference. However, the general structure of the image was adapted for our use, simply using a different data source (joint angles + velocities).
 
 \iffalse
 \begin{figure}[ht]
@@ -174,10 +174,6 @@ The overall structure of the representation was largely inspired by \textbf{Simp
 \fi
 
 \textbf{Make Skeleton-based Action Recognition Model Smaller, Faster and Better} \cite{smaller_faster_better} also contains a similar representation to ours. Their representation is broken into two parts: a cartesian coordinate feature and a JCD (Joint Collection Distances) feature. The cartesian coordinate feature is no different to that proposed in other representations \cite{simple_yet_efficient}, suffering from the same background interference. Their JCD feature is similar to ours in that it is only using the pose data, and resistant to background interference. Our representation differs in that rather than using both global and pose data, we restrict to only the pose data to completely eliminate background interference.
-
-\subsection{Temporal Adjustments}
-
-It is not unreasonable to assume that moving from only one frame to the next would result in some actions not being represented as well as other actions (this is shown in figure \ref{fig:temporal-adjustment-example}). Due to this issue, we add a temporal adjustment to our representation in order to better represent some of these actions. This is done by adding more channels to the data, with each of the channels "skipping" frames. This would mean that rather than having the angle difference representation moving from frames $1 \rightarrow 2 \rightarrow 3$, in the first additional channel it would move from frames $1 \rightarrow 3 \rightarrow 5$. The representation is then padded out to fit the same shape and added as another channel to the data. This is more clearly shown in figure \ref{fig:intermediate-stacked-skip} where the actions become more "compressed" and movements over longer periods of time become easier to visualize and process.
 
 \begin{figure}[ht]
 	\subfigure[N=0]{
@@ -211,6 +207,10 @@ It is not unreasonable to assume that moving from only one frame to the next wou
 	\caption{An example of the temporal adjustment on the golf action, skipping N frames between each image. As can be seen in \textbf{(a)}, the movement is not as pronounced and the model may have difficulty determining the action because the velocity of the person is not very pronounced. When observing examples \textbf{(c)} and \textbf{(d)}, the full action from one frame to another is much more clear and the deciphering of the intermediate representation would be easier as the movement is more pronounced.}
 	\label{fig:temporal-adjustment-example}
 \end{figure}
+
+\subsection{Temporal Adjustments}
+
+It is not unreasonable to assume that moving from only one frame to the next would result in some actions not being represented as well as other actions (this is shown in figure \ref{fig:temporal-adjustment-example}). Due to this issue, we add a temporal adjustment to our representation in order to better represent some of these actions. This is done by adding more channels to the data, with each of the channels "skipping" frames. This would mean that rather than having the angle difference representation moving from frames $1 \rightarrow 2 \rightarrow 3$, in the first additional channel it would move from frames $1 \rightarrow 3 \rightarrow 5$. The representation is then padded out to fit the same shape and added as another channel to the data. This is more clearly shown in figure \ref{fig:intermediate-stacked-skip} where the actions become more "compressed" and movements over longer periods of time become easier to visualize and process.
 
 \begin{figure}[ht]
 	\subfigure[N=1]{\includegraphics[width=0.4\textwidth]{IntermediateSkip1}}
@@ -274,13 +274,13 @@ This network is similar to the VGG-16 model previously discussed in section \ref
 
 Figure \ref{fig:block-diagram} shows the overview of the model from RGB frames to output. This diagram demonstrates the full pipeline and the overall simplicity of our approach. As has been stated previously in this thesis, the pose estimation model is not fully explored in combination with our model, however when considering an in-the-wild approach it is an important part of the pipeline. This could be similar to the previously discussed OpenPose \cite{openpose} model as discussed in section \ref{sec:pose-detection}, or a much lighter model that can be run on less modern or mobile hardware.
 
-\begin{figure}[H]
+\begin{figure}[ht]
 	\includegraphics[width=\textwidth]{blockdiagramv2}
 	\centering
 	\caption{Block diagram showing our intermediate representation from start to finish, including the pose estimation model that was not explored in this thesis.}
 	\label{fig:block-diagram}
 \end{figure}
 
-This model architecture is very similar to that used in similar papers that construct these intermediate representations. These models have near identical structures to both each other and our proposed end model, with several convolutional layers, followed by a global average pooling, and finally dense layers. As has been stated before, this structure is a classical image classification architecture similar to that of VGG-16 \cite{vgg16}, which is a proven effective model in the image classification task. Our model differs slightly in that it contains many more filters than the similar models. While we explored models similar to that used in similar approaches, it was found that using significantly more filters in the convolutions lead to a very large increase in performance, so lower amounts of filters were abandoned in favour of the more complex model.
+This model architecture is very similar to that used in similar papers that construct these intermediate representations. These models have near identical structures to both each other and our proposed end model, with several convolutional layers, followed by a global average pooling, and finally dense layers. As has been stated before, this structure is a classical image classification architecture similar to that of VGG-16 \cite{vgg16}, which is a proven effective model in the image classification task. Our model differs slightly in that it contains more filters than the similar models. While we explored models similar to that used in similar approaches, it was found that using significantly more filters in the convolutions lead to a very large increase in performance, so lower amounts of filters were abandoned in favour of the more complex model.
 
 The model was trained using the stochastic gradient descent (SGD) optimizer, with an initial learning rate of $0.01$, momentum of $0.9$, batch size $16$, and weight decay $0.005$. After each epoch, the learning rate was multiplied by $0.999$, reducing the learning rate gradually over the training period. As the dataset was well balanced with the training and testing datasets and the classes had an even number of examples, the only augmentation was a shuffle operation before each epoch.

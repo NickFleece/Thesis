@@ -35,20 +35,20 @@ The dataset that the model will be evaluated on will be the JHMDB dataset. As pr
 
 Table \ref{tab:acc-results} contains the accuracy results of the previously discussed model and representation on the JHMDB dataset. As can be seen the model obtains on average a 58\% testing accuracy using only the novel approach presented. This accuracy alone is not quite sufficient to show that the model is capable of action recognition, however as will be shown further in this chapter, the model is much more capable when predicting some actions, showing some potential with this compact representation.
 
-\begin{equation}
-	\label{eqn:f1-score}
-	\centering
-	F1 = 2 \cdot \frac{precision \cdot recall}{precision + recall}
-\end{equation}
-
-These accurate results do not tell the complete story however. As can be seen from the individual class F1 scores in figure \ref{fig:detailed-f1} (the equation for calculating F1 score is shown in equation \ref{eqn:f1-score}, where precision is the percentage of predicted examples that are correct, and recall is the percentage of examples for any given class that are correctly predicted), the model is fairly good at predicting classes that have very clear movements associated with them such as $golf$, $pullup$, or $swing\_baseball$. The significance of these classes is that the variance of the movement from one person to another is not very significant, so the model is able to learn the joint movements and apply that logic to other examples. Meaning the model is very good at recognizing these actions in any given environment.
-
 \begin{figure}[ht]
 	\includegraphics[width=10cm]{detailedF1}
 	\centering
 	\caption{Detailed F1 score results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
 	\label{fig:detailed-f1}
 \end{figure}
+
+These accurate results do not tell the complete story. As can be seen from the individual class F1 scores in figure \ref{fig:detailed-f1} (the equation for calculating F1 score is shown in equation \ref{eqn:f1-score}, where precision is the percentage of predicted examples that are correct, and recall is the percentage of examples for any given class that are correctly predicted), the model is fairly good at predicting classes that have very clear movements associated with them such as $golf$, $pullup$, or $swing\_baseball$. The significance of these classes is that the variance of the movement from one person to another is not very significant, so the model is able to learn the joint movements and apply that logic to other examples. Meaning the model is very good at recognizing these actions in any given environment.
+
+\begin{equation}
+	\label{eqn:f1-score}
+	\centering
+	F1 = 2 \cdot \frac{precision \cdot recall}{precision + recall}
+\end{equation}
 
 The opposite factor is also something to consider. Figure \ref{fig:jump-comparison} shows an example of three different sets of frames from the $jump$ class, which had an average F1 score of approximately $0.3$. As can be seen from the frames, there are many different ways that a person may perform the $jump$ action. A good example is the final two frames from figure \ref{fig:jump-comparison-a}, where the person simply moves throughout the global position of the frame, rather than actually moving any of their joints. Comparing to figures \ref{fig:jump-comparison-b} or \ref{fig:jump-comparison-c}, where there are many joint movements throughout the frames, makes it difficult for the model to interpret them as the same and generalize to other examples of the same class. Figures \ref{fig:jump-comparison-b} and \ref{fig:jump-comparison-c} also demonstrate the variability in how these actions can be performed, where \ref{fig:jump-comparison-b} shows more of a twisting motion, \ref{fig:jump-comparison-c} is a more typical "straight on" jump.
 
@@ -108,21 +108,17 @@ This low variability in the $golf$ class can also be demonstrated in a similar f
 	\label{fig:golf-comparison}
 \end{figure}
 
-\begin{figure}[ht]
-	\includegraphics[width=0.8\textwidth]{detailedPrecision}
-	\centering
-	\caption{Detailed precision results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
-	\label{fig:detailed-precision}
-\end{figure}
 
-\begin{figure}[ht]
-	\includegraphics[width=0.8\textwidth]{detailedRecall}
-	\centering
-	\caption{Detailed recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
-	\label{fig:detailed-recall}
-\end{figure}
 
-The detailed precision and recall values broken down by class are shown in figures \ref{fig:detailed-precision} and \ref{fig:detailed-recall}, and in general reflect the same results as the F1 scores. The only notable difference is the model tends to have more volatile recall whereas precision tends to be closer from one class to another. This can be seen more clearly in classes such as golf, pour, pullup, and push which have a very high recall compared to some other classes, but the precision is closer when compared to the other classes.
+The detailed precision and recall values broken down by class are shown in figure \ref{fig:detailed-precision-recall}, and in general reflect the same results as the F1 scores. The only notable difference is the model tends to have more volatile recall whereas precision tends to be closer from one class to another. This can be seen more clearly in classes such as golf, pour, pullup, and push which have a very high recall compared to some other classes, but the precision is closer when compared to the other classes.
+
+\begin{figure}[p]
+	\subfigure[Precision]{\includegraphics[width=0.8\textwidth]{detailedPrecision}}
+	\subfigure[Recall]{\includegraphics[width=0.8\textwidth]{detailedRecall}}
+	\centering
+	\caption{Detailed precision and recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.}
+	\label{fig:detailed-precision-recall}
+\end{figure}
 
 \begin{figure}[p]
 	\subfigure[Split 1]{
@@ -139,12 +135,16 @@ The detailed precision and recall values broken down by class are shown in figur
 	\label{fig:confusion-matrices}
 \end{figure}
 
-We can further explore the results as shown in figure \ref{fig:confusion-matrices}. These matrices for each split demonstrate that overall, the model predicts the correct class quite well. However it does tend to get confused in particular cases when the actions are similar, this will be further explained in when we study the failure cases in the next section.
+\pagebreak
+
+We can further explore the confusion matrices for each split as shown in figure \ref{fig:confusion-matrices}. These matrices for each split demonstrate that overall, the model predicts the correct class quite well. However it does tend to get confused in particular cases when the actions are similar, this will be further explained in when we study the failure cases in the next section.
 
 \section{Failure Cases}
 \label{sec:failure-cases}
 
 There are some specific failure cases that are worth observing, similar to the example shown in figure \ref{fig:jump-comparison}. These failure cases are important to understanding how the model uses the representation and further examining the types of actions that the model has difficulty with outside of the previously discussed high variability in some actions.
+
+Figure \ref{fig:catch-action} shows an example of the catch action. The primary issue is that throughout the four frames, there is very little movement by the main person who is performing the action of catching the ball. Due to the fact that the representation relies heavily on movement from one frame to another, this means that about 50\% of the representation is not used effectively because there is not very much movement. The underlying issue is that the model cannot see any person-object interactions. Other models that process the RGB frames or optical flow are able to pick up on the ball moving from one person to another, whereas our model cannot detect this object.
 
 \begin{figure}[ht]
 	\includegraphics[width=3cm]{FailureCases/Catch/00001.png}
@@ -156,7 +156,7 @@ There are some specific failure cases that are worth observing, similar to the e
 	\label{fig:catch-action}
 \end{figure}
 
-Figure \ref{fig:catch-action} shows an example of the catch action. The primary issue is that throughout the four frames, there is very little movement by the main person who is performing the action of catching the ball. Due to the fact that the representation relies heavily on movement from one frame to another, this means that about 50\% of the representation is not used effectively because there is not very much movement. The underlying issue is that the model cannot see any person-object interactions. Other models that process the RGB frames or optical flow are able to pick up on the ball moving from one person to another, whereas our model cannot detect this object.
+Another problem class is the sit action shown in figure \ref{fig:sit-action}. Our representation is designed in a way such that global position is not considered, which is an intentional decision in order to add some more ability for the model to generalize. This however also has some other consequences, as can be seen by the given example. The person does not have very much movement in their upper body, only pivoting at the hip. The crucial note that they are performing a "sit" rather than another action is their movement down through the frame. This global position change is not detectable by our representation and results in the model performing poorly for this class.
 
 \begin{figure}[ht]
 	\includegraphics[width=3cm]{FailureCases/Sit/00001.png}
@@ -168,7 +168,7 @@ Figure \ref{fig:catch-action} shows an example of the catch action. The primary 
 	\label{fig:sit-action}
 \end{figure}
 
-Another problem class is the sit action shown in figure \ref{fig:sit-action}. Our representation is designed in a way such that global position is not considered, which is an intentional decision in order to add some more ability for the model to generalize. This however also has some other consequences, as can be seen by the given example. The person does not have very much movement in their upper body, only pivoting at the hip. The crucial note that they are performing a "sit" rather than another action is their movement down through the frame. This global position change is not detectable by our representation and results in the model performing poorly for this class.
+While the variability of actions is generally considered good for accuracy, this can also be detrimental to the performance of the model if two actions have very similar movements. This is shown in figure \ref{fig:walk-climb-actions}, where the actions shown (walk and climb stairs) have very similar movements. They differ only in two aspects. First, the climb stairs action generally moves the person vertically through the frame throughout. Second is that there are context clues in the background such as a lack of staircase in the run action, whereas the climb stairs action always has a staircase. In both of these cases, our model is not able to take this information in, resulting in the run and climb stairs actions looking similar in our representation, and making it difficult to distinguish between the two, resulting in the poor performance for both classes. As stated previously, this effect can be seen more in detail in figure \ref{fig:confusion-matrices}, where it is shown that the model quite often confuses climb stairs and walk.
 
 \begin{figure}[ht]
 	\subfigure[]{
@@ -189,8 +189,6 @@ Another problem class is the sit action shown in figure \ref{fig:sit-action}. Ou
 	\caption{Comparison between the \textbf{walk} (a) and \textbf{climb stairs} (b) actions from the JHMDB dataset \cite{JHMDB} showing similar movements.}
 	\label{fig:walk-climb-actions}
 \end{figure}
-
-While the variability of actions is generally considered good for accuracy, this can also be detrimental to the performance of the model if two actions have very similar movements. This is shown in figure \ref{fig:walk-climb-actions}, where the actions shown (walk and climb stairs) have very similar movements. They differ only in two aspects. First, the climb stairs action generally moves the person vertically through the frame throughout. Second is that there are context clues in the background such as a lack of staircase in the run action, whereas the climb stairs action always has a staircase. In both of these cases, our model is not able to take this information in, resulting in the run and climb stairs actions looking similar in our representation, and making it difficult to distinguish between the two, resulting in the poor performance for both classes. As stated previously, this effect can be seen more in detail in figure \ref{fig:confusion-matrices}, where it is shown that the model quite often confuses climb stairs and walk.
 
 \section{Model Ablation Study}
 
@@ -359,4 +357,4 @@ When comparing our model and representation to others that are similar, it is im
 	\label{tab:model-comparison}
 \end{table}
 
-As can be seen from the results in table \ref{tab:model-comparison}, our model is not aiming to be the current state-of-the-art in it's category, however the performance is similar to the other models that approach the problem in a similar pose-based way. It is also notable, that our model is one of the only models that is both global position-invariant and scale-invariant, which is a large advantage of our model, and is by design as stated previously in this thesis.
+As can be seen from the results in table \ref{tab:model-comparison}, our model is not aiming to be the current state-of-the-art in it's category, however the performance is similar to some of the other models that approach the problem in a similar pose-based way. It is also notable, that our model is one of the only models that is both global position-invariant and scale-invariant, which is a large advantage of our model, and is by design as stated previously in this thesis.
