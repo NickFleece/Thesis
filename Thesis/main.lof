@@ -61,23 +61,22 @@
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{47}{figure.caption.109}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{47}{figure.caption.109}%
 \contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{47}{figure.caption.109}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Detailed precision \& recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{47}{figure.caption.117}%
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Three examples of the $Golf$ class from the JHMDB dataset. The frames selected were four frames roughly evenly spaced out through the video.\relax }}{48}{figure.caption.113}%
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{48}{figure.caption.113}%
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{48}{figure.caption.113}%
 \contentsline {subfigure}{\numberline {(c)}{\ignorespaces {}}}{48}{figure.caption.113}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces An example of the \textbf {catch} action from the JHMDB dataset \blx@tocontentsinit {0}\cite {JHMDB}.\relax }}{50}{figure.caption.121}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Precision}}}{50}{figure.caption.121}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Recall}}}{50}{figure.caption.121}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Confusion matrices for each of the 3 JHMDB splits.\relax }}{50}{figure.caption.122}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces An example of the \textbf {sit} action from the JHMDB dataset \blx@tocontentsinit {0}\cite {JHMDB}.\relax }}{51}{figure.caption.126}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Split 1}}}{51}{figure.caption.126}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Split 2}}}{51}{figure.caption.126}%
-\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Split 3}}}{51}{figure.caption.126}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Comparison between the \textbf {walk} (a) and \textbf {climb stairs} (b) actions from the JHMDB dataset \blx@tocontentsinit {0}\cite {JHMDB} showing similar movements.\relax }}{52}{figure.caption.127}%
-\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{52}{figure.caption.127}%
-\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{52}{figure.caption.127}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Detailed F1 score results on the JHMDB dataset using only the angle velocities from one frame to another.\relax }}{53}{figure.caption.132}%
-\contentsline {figure}{\numberline {4.10}{\ignorespaces Alternative intermediate representation format where angles and velocities are interlaced rather than stacked.\relax }}{54}{figure.caption.134}%
-\contentsline {figure}{\numberline {4.11}{\ignorespaces The split model architecture inspired by fusion models where the two different pose features are split and utilize independent CNN's.\relax }}{55}{figure.caption.136}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Detailed precision results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{49}{figure.caption.117}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Detailed recall results on the JHMDB dataset, averaged over the 3 testing splits. Black bars show the corresponding maximum \& minimum values attained in one of the splits.\relax }}{50}{figure.caption.118}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Confusion matrices for each of the 3 JHMDB splits.\relax }}{51}{figure.caption.119}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Split 1}}}{51}{figure.caption.119}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Split 2}}}{51}{figure.caption.119}%
+\contentsline {subfigure}{\numberline {(c)}{\ignorespaces {Split 3}}}{51}{figure.caption.119}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces An example of the \textbf {catch} action from the JHMDB dataset \blx@tocontentsinit {0}\cite {JHMDB}.\relax }}{52}{figure.caption.124}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces An example of the \textbf {sit} action from the JHMDB dataset \blx@tocontentsinit {0}\cite {JHMDB}.\relax }}{52}{figure.caption.125}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Comparison between the \textbf {walk} (a) and \textbf {climb stairs} (b) actions from the JHMDB dataset \blx@tocontentsinit {0}\cite {JHMDB} showing similar movements.\relax }}{53}{figure.caption.126}%
+\contentsline {subfigure}{\numberline {(a)}{\ignorespaces {}}}{53}{figure.caption.126}%
+\contentsline {subfigure}{\numberline {(b)}{\ignorespaces {}}}{53}{figure.caption.126}%
+\contentsline {figure}{\numberline {4.10}{\ignorespaces Detailed F1 score results on the JHMDB dataset using only the angle velocities from one frame to another.\relax }}{54}{figure.caption.131}%
+\contentsline {figure}{\numberline {4.11}{\ignorespaces Alternative intermediate representation format where angles and velocities are interlaced rather than stacked.\relax }}{55}{figure.caption.133}%
+\contentsline {figure}{\numberline {4.12}{\ignorespaces The split model architecture inspired by fusion models where the two different pose features are split and utilize independent CNN's.\relax }}{55}{figure.caption.135}%
 \addvspace {10\p@ }
